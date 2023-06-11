@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:description" content="Tadow 的博客">
+    <meta property="og:type" content="website">
+    <meta name="description" content="Tadow 的博客">
+    <meta name="keyword"  content="Tadow, Resolmi, imlgw, 半岛铁盒, 算法, Java, Golang">
+    <link rel="shortcut icon" href="https://fav.farm/💭">
+
+    <title>
+        
+        Java 多线程之设计模式 - Tadow 碎碎念
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_28hi1hpxx24.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Tadow 碎碎念" type="application/atom+xml">
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> Keep It Simple, Stupid </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar radius">
+            <img src="https://static.imlgw.top/blog/20220821160037.png" />
+        </div>
+        <div class="name">
+            <i>Tadow</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <!-- <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li> -->
+            <li >
+                <a href="/categories">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>分类</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            
+            <li >
+                <a href="/selfhosted">
+                    <i class="iconfont icon-guidang1"></i>
+                    <span>自建</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/collect/">
+                    <i class="iconfont icon-shoucang1"></i>
+                    <span>收藏</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F"><span class="toc-text">观察者模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%BB%E5%86%99%E9%94%81%E5%88%86%E7%A6%BB%E6%A8%A1%E5%BC%8F"><span class="toc-text">读写锁分离模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8D%E5%8F%AF%E5%8F%98%E5%AF%B9%E8%B1%A1%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F"><span class="toc-text">不可变对象设计模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Future-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%EF%BC%88%E5%BC%82%E6%AD%A5%EF%BC%89"><span class="toc-text">Future 设计模式（异步）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Guarded-Suspension-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F"><span class="toc-text">Guarded Suspension 设计模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ThreadLocal"><span class="toc-text">ThreadLocal</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Balking-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F"><span class="toc-text">Balking 设计模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CountDown-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F"><span class="toc-text">CountDown 设计模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F"><span class="toc-text">单例模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Double-check"><span class="toc-text">Double check</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#InstanceHolder"><span class="toc-text">InstanceHolder</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Enum"><span class="toc-text">Enum</span></a></li></ol></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-bg" id="search-bg"></div>
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i> Keep It Simple, Stupid </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        Java 多线程之设计模式
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2019-04-09 00:00:00</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#多线程" title="多线程">多线程</a>
+        <span>/</span>
+        
+        <a class="tag" href="/tags/#设计模式" title="设计模式">设计模式</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <h2 id="观察者模式"><a href="#观察者模式" class="headerlink" title="观察者模式"></a>观察者模式</h2><blockquote>
+<p> 观察者订阅被观察者的状态，当被观察者状态改变的时候会通知所有订阅的观察者的过程</p>
+</blockquote>
+<p><strong>观察者接口</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span>  <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">Observer</span> &#123;</span><br><span class="line">    <span class="keyword">protected</span> Subject subject;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Observer</span><span class="params">(Subject subject)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.subject=subject;</span><br><span class="line">        subject.attach(<span class="built_in">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span>  <span class="keyword">abstract</span>  <span class="keyword">void</span> <span class="title function_">update</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>观察者 1</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BinaryObserver</span> <span class="keyword">extends</span> <span class="title class_">Observer</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">BinaryObserver</span><span class="params">(Subject subject)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(subject);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">update</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Binarry String :&quot;</span>+ Integer.toBinaryString(subject.getState()));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>观察者 2</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">OctalOberver</span> <span class="keyword">extends</span> <span class="title class_">Observer</span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">OctalOberver</span><span class="params">(Subject subject)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(subject);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">update</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Octal String:&quot;</span>+Integer.toOctalString(subject.getState()));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>被观察者</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Subject</span> &#123;</span><br><span class="line">    <span class="comment">//观察者们</span></span><br><span class="line">    <span class="keyword">private</span>  List&lt;Observer&gt; observers = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> state;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getState</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>.state;</span><br><span class="line">    &#125;</span><br><span class="line">	</span><br><span class="line">    <span class="comment">//注册观察者</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">attach</span><span class="params">(Observer observer)</span>&#123;</span><br><span class="line">        observers.add(observer);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setState</span><span class="params">(<span class="type">int</span> state)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(state==<span class="built_in">this</span>.state)&#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">this</span>.state=state;</span><br><span class="line">        notifyAllObserver();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//通知所有观察者线程</span></span><br><span class="line">    <span class="keyword">private</span>  <span class="keyword">void</span>  <span class="title function_">notifyAllObserver</span><span class="params">()</span>&#123;</span><br><span class="line">        observers.stream().forEach(Observer::update);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>测试</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ObserverCLi</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="keyword">final</span> Subject subject=<span class="keyword">new</span> <span class="title class_">Subject</span>();</span><br><span class="line">        BinaryObserver binary=<span class="keyword">new</span> <span class="title class_">BinaryObserver</span>(subject);</span><br><span class="line">        <span class="type">OctalOberver</span> <span class="variable">octalOberver</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">OctalOberver</span>(subject);</span><br><span class="line">        System.out.println(<span class="string">&quot;==================&quot;</span>);</span><br><span class="line">        subject.setState(<span class="number">10</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;==================&quot;</span>);</span><br><span class="line">        subject.setState(<span class="number">12</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="读写锁分离模式"><a href="#读写锁分离模式" class="headerlink" title="读写锁分离模式"></a>读写锁分离模式</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ReadWriteLock</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> <span class="variable">readingR</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> <span class="variable">waitingR</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> <span class="variable">writingW</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> <span class="variable">waitingW</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title function_">readLock</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException&#123;</span><br><span class="line">        <span class="built_in">this</span>.waitingR++;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">//如果有线程在写就不能读</span></span><br><span class="line">            <span class="keyword">while</span> (writingW &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="built_in">this</span>.wait();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="built_in">this</span>.readingR++;</span><br><span class="line">        &#125;<span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="built_in">this</span>.waitingR--;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title function_">readUnlock</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException&#123;</span><br><span class="line">        <span class="built_in">this</span>.readingR--;</span><br><span class="line">        notifyAll();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title function_">writeLock</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException&#123;</span><br><span class="line">        <span class="built_in">this</span>.waitingW++;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">while</span> (readingR&gt;<span class="number">0</span>||writingW&gt;<span class="number">0</span>)&#123;</span><br><span class="line">                <span class="built_in">this</span>.wait();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="built_in">this</span>.writingW++;</span><br><span class="line">        &#125;<span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="built_in">this</span>.waitingW--;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title function_">writeUnlock</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException&#123;</span><br><span class="line">        <span class="built_in">this</span>.writingW--;</span><br><span class="line">        notifyAll();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>只有读的时候不加锁，其他的时候加锁，在读的操作多于写的操作时，效率提升明显。</p>
+<h2 id="不可变对象设计模式"><a href="#不可变对象设计模式" class="headerlink" title="不可变对象设计模式"></a>不可变对象设计模式</h2><p>这个设计模式还是很重要也很常见的，<code>不可变</code>顾名思义，一个对象在被创建后对象所有的状态和属性都在其生命周期内都不会发生任何变化。</p>
+<blockquote>
+<p>不可变对象一定是线程安全的（里面的任何属性或者应用类型的都不能被修改），可变对象不一定是线程安全的 (SrtingBuffer)。J2EE 里面，Servlet 就不是线程安全的，struts1 的 Action 也不是线程安全的。</p>
+</blockquote>
+<p>通常来说，创建不可变类原则有以下几条：</p>
+<p>① 所有成员变量必须是<code>private</code></p>
+<p>② 最好同时用<code>final</code>修饰（非必须）</p>
+<p>③ 不提供能够修改原有对象状态的方法</p>
+<ul>
+<li><p>最常见的方式是不提供 setter 方法</p>
+</li>
+<li><p>如果提供修改方法，需要新创建一个对象，并在新创建的对象上进行修改</p>
+</li>
+</ul>
+<p>④ 通过构造器初始化所有成员变量，引用类型的成员变量必须进行深拷贝 (deep copy)</p>
+<p>⑤ getter 方法不能对外泄露 this 引用以及成员变量的引用</p>
+<p>⑥ 最好不允许类被继承（非必须）</p>
+<p>　　JDK 中提供了一系列方法方便我们创建不可变集合，如：</p>
+<p><code>Collections.unmodifiableList(List&lt;? extends T&gt; list)</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="comment">//定义成 final</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String address;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Person</span><span class="params">(<span class="keyword">final</span> String name,<span class="keyword">final</span> String address)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.name = name;</span><br><span class="line">        <span class="built_in">this</span>.address = address;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getAddress</span><span class="params">()</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> address;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getName</span><span class="params">()</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">toString</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Person&#123;&quot;</span> +</span><br><span class="line">                <span class="string">&quot;name=&#x27;&quot;</span> + name + <span class="string">&#x27;\&#x27;&#x27;</span> +</span><br><span class="line">                <span class="string">&quot;, address=&#x27;&quot;</span> + address + <span class="string">&#x27;\&#x27;&#x27;</span> +</span><br><span class="line">                <span class="string">&#x27;&#125;&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>虽然说是不可变对象，但是其实通过反射等方法还是可以改变的。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">StringTest</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> NoSuchFieldException, IllegalAccessException &#123;</span><br><span class="line">        <span class="comment">/*String s=&quot;Hello&quot;;</span></span><br><span class="line"><span class="comment">        String s1=s.replace(&quot;l&quot;,&quot;K&quot;);</span></span><br><span class="line"><span class="comment">        System.out.println(s.hashCode());</span></span><br><span class="line"><span class="comment">        System.out.println(s1.hashCode());*/</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">s</span> <span class="operator">=</span> <span class="string">&quot;Hello World&quot;</span>;</span><br><span class="line">        System.out.println(<span class="string">&quot;s = &quot;</span> + s);<span class="comment">//Hello World</span></span><br><span class="line">		<span class="comment">//String 类里面的 char[]</span></span><br><span class="line">        <span class="type">Field</span> <span class="variable">valueFieldOfString</span> <span class="operator">=</span> String.class.getDeclaredField(<span class="string">&quot;value&quot;</span>);</span><br><span class="line">        valueFieldOfString.setAccessible(<span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line">        <span class="type">char</span>[] value = (<span class="type">char</span>[]) valueFieldOfString.get(s);</span><br><span class="line">        value[<span class="number">5</span>] = <span class="string">&#x27;_&#x27;</span>;</span><br><span class="line">        System.out.println(<span class="string">&quot;s = &quot;</span> + s); <span class="comment">//Hello_World</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Future-设计模式（异步）"><a href="#Future-设计模式（异步）" class="headerlink" title="Future 设计模式（异步）"></a>Future 设计模式（异步）</h2><p><code>Future</code>接口</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Future</span>&lt;T&gt; &#123;</span><br><span class="line">    T <span class="title function_">get</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><code>FutureTask</code>接口</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">FutureTask</span>&lt;T&gt; &#123;</span><br><span class="line">    T <span class="title function_">call</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>AsynFuture</code>异步</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">AsynFuture</span>&lt;T&gt; <span class="keyword">implements</span> <span class="title class_">Future</span>&lt;T&gt; &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="type">boolean</span> <span class="variable">done</span> <span class="operator">=</span> <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> T result;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">done</span><span class="params">(T result)</span> &#123;</span><br><span class="line">        <span class="keyword">synchronized</span> (<span class="built_in">this</span>) &#123;</span><br><span class="line">            <span class="built_in">this</span>.result = result;</span><br><span class="line">            <span class="built_in">this</span>.done = <span class="literal">true</span>;</span><br><span class="line">            <span class="comment">//完成任务通知调用者</span></span><br><span class="line">            <span class="built_in">this</span>.notifyAll();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> T <span class="title function_">get</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException &#123;</span><br><span class="line">        <span class="keyword">synchronized</span> (<span class="built_in">this</span>) &#123;</span><br><span class="line">            <span class="keyword">while</span> (!done) &#123;</span><br><span class="line">                <span class="built_in">this</span>.wait();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>FutureService</code>连接<code>Future</code>和<code>FutureTask</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">FutureService</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> &lt;T&gt; Future&lt;T&gt; <span class="title function_">submit</span><span class="params">(<span class="keyword">final</span> FutureTask&lt;T&gt; task)</span> &#123;</span><br><span class="line">        AsynFuture&lt;T&gt; asynFuture = <span class="keyword">new</span> <span class="title class_">AsynFuture</span>&lt;&gt;();</span><br><span class="line">        <span class="keyword">new</span> <span class="title class_">Thread</span>(() -&gt; &#123;</span><br><span class="line">            <span class="type">T</span> <span class="variable">result</span> <span class="operator">=</span> task.call();</span><br><span class="line">            asynFuture.done(result);</span><br><span class="line">        &#125;).start();</span><br><span class="line">        <span class="keyword">return</span> asynFuture;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//java8 回调 callback</span></span><br><span class="line">    <span class="keyword">public</span> &lt;T&gt; Future&lt;T&gt; <span class="title function_">submit</span><span class="params">(<span class="keyword">final</span> FutureTask&lt;T&gt; task, <span class="keyword">final</span> Consumer&lt;T&gt; consumer)</span> &#123;</span><br><span class="line">        AsynFuture&lt;T&gt; asynFuture = <span class="keyword">new</span> <span class="title class_">AsynFuture</span>&lt;&gt;();</span><br><span class="line">        <span class="keyword">new</span> <span class="title class_">Thread</span>(() -&gt; &#123;</span><br><span class="line">            <span class="type">T</span> <span class="variable">result</span> <span class="operator">=</span> task.call();</span><br><span class="line">            asynFuture.done(result);</span><br><span class="line">            consumer.accept(result);</span><br><span class="line">        &#125;).start();</span><br><span class="line">        <span class="keyword">return</span> asynFuture;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>测试<code>Future</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SyncInvoker</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException &#123;</span><br><span class="line"></span><br><span class="line">        <span class="type">FutureService</span> <span class="variable">futureService</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FutureService</span>();</span><br><span class="line">        Future&lt;String&gt; submit = futureService.submit(() -&gt; &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                Thread.sleep(<span class="number">10000l</span>);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;FINISH&quot;</span>;</span><br><span class="line">        &#125;,System.out::println);</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">&quot;===========&quot;</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot; do other thing.&quot;</span>);</span><br><span class="line">        Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;===========&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> String <span class="title function_">get</span><span class="params">()</span></span><br><span class="line">            <span class="keyword">throws</span> InterruptedException &#123;</span><br><span class="line">        Thread.sleep(<span class="number">10000l</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;FINISH&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Future   -&gt;未来的票据</p>
+<p>FutureTask   -&gt;实际执行的任务</p>
+<p>FutureService  -&gt;桥接 Future 和 FutureTask</p>
+</blockquote>
+<h2 id="Guarded-Suspension-设计模式"><a href="#Guarded-Suspension-设计模式" class="headerlink" title="Guarded Suspension 设计模式"></a>Guarded Suspension 设计模式</h2><p><code>保护性暂挂模式</code></p>
+<p>Guarded 是被守护的意思。Suspension 是暂停的意思，Guarded Suspension 模式通过让线程等待来保证实例的安全性。</p>
+<blockquote>
+<p>核心思想：如果某个线程执行特定的操作前需要满足一定的条件，则在该条件未满足时将线程暂停运行（即暂挂线程，使其处于等待（waiting）状态，直到该条件满足时才继续运行）</p>
+</blockquote>
+<p><strong>Request 对象</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Request</span> &#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">private</span> String value;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Request</span><span class="params">(String value)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.value = value;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getValue</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> value;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>RequestQueue</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RequestQueue</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> LinkedList&lt;Request&gt; queue = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> Request <span class="title function_">getRequest</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">synchronized</span> (queue) &#123;</span><br><span class="line">            <span class="keyword">while</span> (queue.size() &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    <span class="comment">//队列为空等一下</span></span><br><span class="line">                    queue.wait();</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="type">Request</span> <span class="variable">request</span> <span class="operator">=</span> queue.removeFirst();</span><br><span class="line">            <span class="keyword">return</span> request;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">putRequest</span><span class="params">(Request request)</span> &#123;</span><br><span class="line">        <span class="keyword">synchronized</span> (queue) &#123;</span><br><span class="line">            queue.addLast(request);</span><br><span class="line">            queue.notifyAll();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Server</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ServerThread</span> <span class="keyword">extends</span> <span class="title class_">Thread</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> RequestQueue queue;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Random random;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="type">boolean</span> <span class="variable">closed</span> <span class="operator">=</span> <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">ServerThread</span><span class="params">(RequestQueue queue)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.queue = queue;</span><br><span class="line">        random = <span class="keyword">new</span> <span class="title class_">Random</span>(System.currentTimeMillis());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">while</span> (!closed) &#123;</span><br><span class="line">            <span class="type">Request</span> <span class="variable">request</span> <span class="operator">=</span> queue.getRequest();</span><br><span class="line">            <span class="comment">//get 可能会返回 null</span></span><br><span class="line">            <span class="keyword">if</span> (<span class="literal">null</span> == request) &#123;</span><br><span class="line">                System.out.println(<span class="string">&quot;Received the empty request.&quot;</span>);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            System.out.println(<span class="string">&quot;Server -&gt;&quot;</span> + request.getValue());</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                Thread.sleep(random.nextInt(<span class="number">1000</span>));</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                <span class="comment">//打断后直接 return</span></span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">close</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.closed = <span class="literal">true</span>;</span><br><span class="line">        <span class="built_in">this</span>.interrupt();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Client</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ClientThread</span> <span class="keyword">extends</span> <span class="title class_">Thread</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> RequestQueue queue;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Random random;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String sendValue;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">ClientThread</span><span class="params">(RequestQueue queue, String sendValue)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.queue = queue;</span><br><span class="line">        <span class="built_in">this</span>.sendValue = sendValue;</span><br><span class="line">        random = <span class="keyword">new</span> <span class="title class_">Random</span>(System.currentTimeMillis());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;Client -&gt; request &quot;</span> + sendValue);</span><br><span class="line">            <span class="comment">//客户端发送请求</span></span><br><span class="line">            queue.putRequest(<span class="keyword">new</span> <span class="title class_">Request</span>(sendValue));</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                Thread.sleep(random.nextInt(<span class="number">1000</span>));</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>测试</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SuspensionClient</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException &#123;</span><br><span class="line">        <span class="keyword">final</span> <span class="type">RequestQueue</span> <span class="variable">queue</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">RequestQueue</span>();</span><br><span class="line">        <span class="keyword">new</span> <span class="title class_">ClientThread</span>(queue, <span class="string">&quot;Shaw&quot;</span>).start();</span><br><span class="line">        <span class="type">ServerThread</span> <span class="variable">serverThread</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ServerThread</span>(queue);</span><br><span class="line">        serverThread.start();</span><br><span class="line">        <span class="comment">//serverThread.join(); join 住了后面还咋 close？？？</span></span><br><span class="line">        Thread.sleep(<span class="number">10000</span>);</span><br><span class="line">        serverThread.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="ThreadLocal"><a href="#ThreadLocal" class="headerlink" title="ThreadLocal"></a>ThreadLocal</h2><p>线程局部变量，线程保险箱，以<code>Thread</code>作为<code>key</code></p>
+<blockquote>
+<p>This class provides <code>thread-local variables</code>. These variables differ from their normal counterparts in that each thread that accesses one (via its <code>get</code> or <code>set</code> method) has its own, independently initialized copy of the variable.</p>
+</blockquote>
+<p>模拟<code>ThreadLocal</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ThreadLocalSimulator</span>&lt;T&gt; &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Map&lt;Thread,T&gt; threadMap=<span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">set</span><span class="params">(T t)</span>&#123;</span><br><span class="line">        Thread currentThread=Thread.currentThread();</span><br><span class="line">        <span class="keyword">synchronized</span> (threadMap)&#123;</span><br><span class="line">            threadMap.put(currentThread,t);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> T <span class="title function_">get</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="type">Thread</span> <span class="variable">currentThread</span> <span class="operator">=</span>Thread.currentThread();</span><br><span class="line">        <span class="keyword">if</span>(threadMap.get(currentThread)==<span class="literal">null</span>)&#123;</span><br><span class="line">             threadMap.put(currentThread,initVal());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> threadMap.get(currentThread);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">protected</span> T <span class="title function_">initVal</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Balking-设计模式"><a href="#Balking-设计模式" class="headerlink" title="Balking 设计模式"></a>Balking 设计模式</h2><blockquote>
+<p>核心思想：当不再适合或者没有必要进行这个操作时，就直接放弃进行这个操作而直接返回，不需要就算了</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BalkingData</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String fileName;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String content;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">boolean</span> changed;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">BalkingData</span><span class="params">(String fileName, String content, <span class="type">boolean</span> changed)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.fileName = fileName;</span><br><span class="line">        <span class="built_in">this</span>.content = content;</span><br><span class="line">        <span class="built_in">this</span>.changed = changed;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title function_">change</span><span class="params">(String newContent)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.content = newContent;</span><br><span class="line">        <span class="built_in">this</span>.changed = <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title function_">save</span><span class="params">()</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">        <span class="keyword">if</span> (!changed) &#123;</span><br><span class="line">            <span class="comment">//顾客没有服务请求，那么放弃提供服务操作，直接返回。</span></span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        doSave();</span><br><span class="line">        <span class="built_in">this</span>.changed = <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">doSave</span><span class="params">()</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">        System.out.println(Thread.currentThread().getName() + <span class="string">&quot; call  do save content&quot;</span>);</span><br><span class="line">        <span class="keyword">try</span>(<span class="type">Writer</span> <span class="variable">writer</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileWriter</span>(fileName, <span class="literal">true</span>)) &#123;</span><br><span class="line">            writer.write(content);</span><br><span class="line">            writer.write(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">            writer.flush();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>CustomerThread</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CustomerThread</span> <span class="keyword">extends</span> <span class="title class_">Thread</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> BalkingData balkingData;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">Random</span> <span class="variable">random</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Random</span>(System.currentTimeMillis());</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">CustomerThread</span><span class="params">(BalkingData balkingData)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(<span class="string">&quot;Customer&quot;</span>);</span><br><span class="line">        <span class="built_in">this</span>.balkingData = balkingData;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            balkingData.save();</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">20</span>; i++) &#123;</span><br><span class="line">                balkingData.change(<span class="string">&quot;No.&quot;</span> + i);</span><br><span class="line">                Thread.sleep(random.nextInt(<span class="number">1000</span>));</span><br><span class="line">                balkingData.save();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>WaiterThread</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">WaiterThread</span> <span class="keyword">extends</span> <span class="title class_">Thread</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> BalkingData balkingData;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">WaiterThread</span><span class="params">(BalkingData balkingData)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(<span class="string">&quot;Waiter&quot;</span>);</span><br><span class="line">        <span class="built_in">this</span>.balkingData = balkingData;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">200</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                balkingData.save();</span><br><span class="line">                Thread.sleep(<span class="number">1_000L</span>);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="CountDown-设计模式"><a href="#CountDown-设计模式" class="headerlink" title="CountDown 设计模式"></a>CountDown 设计模式</h2><p><strong>CountDown</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CountDown</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">int</span> total;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//计数器</span></span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> counter;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">CountDown</span><span class="params">(<span class="type">int</span> total)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.total = total;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">down</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">synchronized</span> (<span class="built_in">this</span>)&#123;</span><br><span class="line">            <span class="built_in">this</span>.counter++;</span><br><span class="line">            <span class="built_in">this</span>.notifyAll();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">await</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException &#123;</span><br><span class="line">        <span class="keyword">synchronized</span> (<span class="built_in">this</span>)&#123;</span><br><span class="line">            <span class="keyword">while</span> (counter!=total)&#123;</span><br><span class="line">                <span class="built_in">this</span>.wait();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>测试</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">JDKCountDown</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Random</span> <span class="variable">random</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Random</span>(System.currentTimeMillis());</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException &#123;</span><br><span class="line">        <span class="comment">//JDK 的 CountDown</span></span><br><span class="line">        <span class="comment">//final CountDownLatch latch=new CountDownLatch(5);</span></span><br><span class="line">        <span class="keyword">final</span> CountDown latch=<span class="keyword">new</span> <span class="title class_">CountDown</span>(<span class="number">5</span>);</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">&quot;准备多线程处理任务&quot;</span>);</span><br><span class="line">        <span class="comment">//the first phase</span></span><br><span class="line">        IntStream.range(<span class="number">0</span>,<span class="number">5</span>).forEach(i-&gt;&#123;</span><br><span class="line">            <span class="keyword">new</span> <span class="title class_">Thread</span>(()-&gt;&#123;</span><br><span class="line">                System.out.println(Thread.currentThread().getName()+<span class="string">&quot; is working&quot;</span>);</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    Thread.sleep(<span class="number">5000</span>);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">                latch.down();</span><br><span class="line">            &#125;,String.valueOf(i)).start();</span><br><span class="line">        &#125;);</span><br><span class="line">        latch.await();</span><br><span class="line">        <span class="comment">//the second phase</span></span><br><span class="line">        System.out.println(<span class="string">&quot;多线程任务全部结束，准备第二阶段任务&quot;</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;........&quot;</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;Finish&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h2><h3 id="Double-check"><a href="#Double-check" class="headerlink" title="Double check"></a>Double check</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SingletonObjectPlus</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">volatile</span>  <span class="type">SingletonObjectPlus</span> <span class="variable">singletonObjectPlus</span> <span class="operator">=</span><span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> SingletonObjectPlus <span class="title function_">getSingletonObject3</span><span class="params">()</span>&#123;</span><br><span class="line">    	<span class="keyword">if</span>(singletonObjectPlus==<span class="literal">null</span>)&#123;</span><br><span class="line">        	<span class="keyword">synchronized</span>(SingletonObject.class)&#123;</span><br><span class="line">            	<span class="keyword">if</span>(singletonObjectPlus==<span class="literal">null</span>)&#123;</span><br><span class="line">                	singletonObjectPlus= <span class="keyword">new</span> <span class="title class_">SingletonObjectPlus</span>();</span><br><span class="line">            	&#125;</span><br><span class="line">        	&#125;</span><br><span class="line">    	&#125;</span><br><span class="line">     	<span class="keyword">return</span> singletonObjectPlus;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>这种方式在实例对象上要加上 <code>volatile</code>，避免实例对象没有初始化完成就返回</p>
+</blockquote>
+<h3 id="InstanceHolder"><a href="#InstanceHolder" class="headerlink" title="InstanceHolder"></a>InstanceHolder</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SingleGraceful</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">SingleGraceful</span><span class="params">()</span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//private 静态内部类</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">InstanceHolder</span>&#123;</span><br><span class="line">        <span class="comment">//只会被初始化一次</span></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> SingleGraceful instance=<span class="keyword">new</span> <span class="title class_">SingleGraceful</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> SingleGraceful <span class="title function_">getInstance</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> SingleGraceful.InstanceHolder.instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>JVM 只会为 static 变量分配一次内存，也就是只会初始化一次，而内部类不会在其外部类被加载的同时被加载，所以这也是一种很简洁很优秀的单例</p>
+<h3 id="Enum"><a href="#Enum" class="headerlink" title="Enum"></a>Enum</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SingleGraceful2</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">SingleGraceful2</span><span class="params">()</span> &#123;&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">enum</span> <span class="title class_">Singleton</span> &#123;</span><br><span class="line">        INSTANCE;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> SingleGraceful2 instance;</span><br><span class="line"></span><br><span class="line">        Singleton() &#123;</span><br><span class="line">            instance = <span class="keyword">new</span> <span class="title class_">SingleGraceful2</span>();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> SingleGraceful2 <span class="title function_">getInstance</span><span class="params">()</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> instance;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> SingleGraceful2 <span class="title function_">getInstance</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> Singleton.INSTANCE.getInstance();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>枚举类构造函数是<code>private</code>类型的</li>
+<li>枚举类的域 (field)(<code>INSTANCE</code>) 其实是相应的 enum 类型 (<code>Singleton</code>) 的一个静态实例对象，所以只会被初始化一次，构造器也只会被调用一次</li>
+<li>枚举单例可以防止<code>反序列化</code> ，<code>反射</code>，<code>克隆</code>对单例的破坏，所以是一种极其优秀的单例实现。</li>
+</ul>
+<blockquote>
+<p>这里其实还有很多没有介绍出来，设计模式这些东西没有实际的场景去用确实难以体会到它的精髓，需要慢慢的积累经验才行。</p>
+</blockquote>
+
+        
+            <div class="donate-container">
+    <div class="donate-button">
+        <button id="donate-button">赞赏</button>
+    </div>
+    <div class="donate-img-container hide" id="donate-img-container">
+        <img id="donate-img" src="" data-src="">
+        <p> 感谢鼓励 </p>
+    </div>
+</div>
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+        <div id="lv-container"></div>
+        <div class="giscus"></div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/imlgw">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://imlgw.top">Tadow</a></span>
+        <span>/</span>
+        
+        <span><a target="_blank" rel="noopener" href="http://beian.miit.gov.cn/publish/query/indexFirst.action">鄂ICP备18011208号</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>  Theme <a target="_blank" rel="noopener" href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/live2d-widget@3.x/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"https://cdn.jsdelivr.net/npm/live2d-widget-model-hijiki@1.0.5/assets/hijiki.model.json"},"display":{"superSample":2,"width":160,"height":320,"position":"right","hOffset":0,"vOffset":-70},"mobile":{"show":false,"scale":0.2},"log":false});</script></body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://giscus.app/client.js"
+  data-repo="imlgw/imlgw.github.io"
+  data-repo-id="MDEwOlJlcG9zaXRvcnkxMzMyMDY4NDg="
+  data-category="Announcements"
+  data-category-id="DIC_kwDOB_CTQM4CQ7v8"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="top"
+  data-theme="light"
+  data-lang="zh-CN"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+
+
+</html>

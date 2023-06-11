@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:description" content="Tadow 的博客">
+    <meta property="og:type" content="website">
+    <meta name="description" content="Tadow 的博客">
+    <meta name="keyword"  content="Tadow, Resolmi, imlgw, 半岛铁盒, 算法, Java, Golang">
+    <link rel="shortcut icon" href="https://fav.farm/💭">
+
+    <title>
+        
+        算法分类导航 - Tadow 碎碎念
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_28hi1hpxx24.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Tadow 碎碎念" type="application/atom+xml">
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> Keep It Simple, Stupid </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar radius">
+            <img src="https://static.imlgw.top/blog/20220821160037.png" />
+        </div>
+        <div class="name">
+            <i>Tadow</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <!-- <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li> -->
+            <li >
+                <a href="/categories">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>分类</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            
+            <li >
+                <a href="/selfhosted">
+                    <i class="iconfont icon-guidang1"></i>
+                    <span>自建</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/collect/">
+                    <i class="iconfont icon-shoucang1"></i>
+                    <span>收藏</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#LeetCode"><span class="toc-text">LeetCode</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Competition-algorithm"><span class="toc-text">Competition-algorithm</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AF%94%E8%B5%9B"><span class="toc-text">比赛</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#AtCoder"><span class="toc-text">AtCoder</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LeetCode-1"><span class="toc-text">LeetCode</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92"><span class="toc-text">动态规划</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B4%AA%E5%BF%83"><span class="toc-text">贪心</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%90%9C%E7%B4%A2"><span class="toc-text">搜索</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%BE%E8%AE%BA"><span class="toc-text">图论</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%AB%98%E7%BA%A7%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-text">高级数据结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E5%AD%A6%E7%9F%A5%E8%AF%86"><span class="toc-text">数学知识</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95"><span class="toc-text">基础算法</span></a></li></ol></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-bg" id="search-bg"></div>
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i> Keep It Simple, Stupid </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        算法分类导航
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2021-07-20 00:00:00</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#算法" title="算法">算法</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <blockquote>
+<p>博客文章链接生成方式改变，之前的链接都失效。重新整理下，文章置顶作为导航页面，后续有新文章有更新也会同步更新该页面</p>
+</blockquote>
+<h1 id="LeetCode"><a href="#LeetCode" class="headerlink" title="LeetCode"></a>LeetCode</h1><table>
+<thead>
+<tr>
+<th>类别</th>
+<th>地址</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="https://imlgw.top/2019/02/27/bef97aa3//">链表</a></td>
+<td><a href="https://imlgw.top/2019/02/27/bef97aa3/">https://imlgw.top/2019/02/27/bef97aa3/</a></td>
+</tr>
+<tr>
+<td><a href="https://imlgw.top/2019/05/04/a9999be0/">数组</a></td>
+<td><a href="https://imlgw.top/2019/05/04/a9999be0/">https://imlgw.top/2019/05/04/a9999be0/</a></td>
+</tr>
+<tr>
+<td><a href="https://imlgw.top/2019/10/01/627d9e22/">栈 &amp; 队列</a></td>
+<td><a href="https://imlgw.top/2019/10/01/627d9e22/">https://imlgw.top/2019/10/01/627d9e22/</a></td>
+</tr>
+<tr>
+<td><a href="https://imlgw.top/2019/09/15/ae50c318/">查找</a></td>
+<td><a href="https://imlgw.top/2019/09/15/ae50c318/">https://imlgw.top/2019/09/15/ae50c318/</a></td>
+</tr>
+<tr>
+<td><a href="https://imlgw.top/2019/07/20/41e491de/">滑动窗口</a></td>
+<td><a href="https://imlgw.top/2019/07/20/41e491de/">https://imlgw.top/2019/07/20/41e491de/</a></td>
+</tr>
+<tr>
+<td><a href="https://imlgw.top/2019/09/01/ece53aaa/">动态规划</a></td>
+<td><a href="https://imlgw.top/2019/09/01/ece53aaa/">https://imlgw.top/2019/09/01/ece53aaa/</a></td>
+</tr>
+<tr>
+<td><a href="https://imlgw.top/2019/12/06/ac033e1a/">二分查找</a></td>
+<td><a href="https://imlgw.top/2019/12/06/ac033e1a/">https://imlgw.top/2019/12/06/ac033e1a/</a></td>
+</tr>
+<tr>
+<td><a href="https://imlgw.top/2019/11/06/43c532c9/">二叉树</a></td>
+<td><a href="https://imlgw.top/2019/11/06/43c532c9/">https://imlgw.top/2019/11/06/43c532c9/</a></td>
+</tr>
+<tr>
+<td><a href="https://imlgw.top/2019/11/29/f68a53d9/">背包问题</a></td>
+<td><a href="https://imlgw.top/2019/11/29/f68a53d9/">https://imlgw.top/2019/11/29/f68a53d9/</a></td>
+</tr>
+<tr>
+<td><a href="https://imlgw.top/2019/10/10/26679fc/">回溯</a></td>
+<td><a href="https://imlgw.top/2019/10/10/26679fc/">https://imlgw.top/2019/10/10/26679fc/</a></td>
+</tr>
+<tr>
+<td><a href="https://imlgw.top/2020/01/21/a91acf16/">贪心</a></td>
+<td><a href="https://imlgw.top/2020/01/21/a91acf16/">https://imlgw.top/2020/01/21/a91acf16/</a></td>
+</tr>
+<tr>
+<td><a href="https://imlgw.top/2020/07/03/a9fb61a5/">位运算</a></td>
+<td><a href="https://imlgw.top/2020/07/03/a9fb61a5/">https://imlgw.top/2020/07/03/a9fb61a5/</a></td>
+</tr>
+<tr>
+<td><a href="https://imlgw.top/2020/08/28/bdc9d1de/">单调栈</a></td>
+<td><a href="https://imlgw.top/2020/08/28/bdc9d1de/">https://imlgw.top/2020/08/28/bdc9d1de/</a></td>
+</tr>
+<tr>
+<td><a href="https://imlgw.top/2020/02/02/c517589e/">并查集</a></td>
+<td><a href="https://imlgw.top/2020/02/02/c517589e/">https://imlgw.top/2020/02/02/c517589e/</a></td>
+</tr>
+<tr>
+<td><a href="https://imlgw.top/2020/07/01/194514a9/">Rabin-Karp 算法</a></td>
+<td><a href="https://imlgw.top/2020/07/01/194514a9/">https://imlgw.top/2020/07/01/194514a9/</a></td>
+</tr>
+<tr>
+<td><a href="https://imlgw.top/2020/05/13/2da0528d/">KMP</a></td>
+<td><a href="https://imlgw.top/2020/05/13/2da0528d/">https://imlgw.top/2020/05/13/2da0528d/</a></td>
+</tr>
+<tr>
+<td><a href="https://imlgw.top/2018/12/11/83535e94/">排序</a></td>
+<td><a href="https://imlgw.top/2018/12/11/83535e94/">https://imlgw.top/2018/12/11/83535e94/</a></td>
+</tr>
+</tbody></table>
+<h1 id="Competition-algorithm"><a href="#Competition-algorithm" class="headerlink" title="Competition-algorithm"></a>Competition-algorithm</h1><p>一些竞赛性质的算法学习，题目大多来源于 yxc 的 <a target="_blank" rel="noopener" href="https://www.acwing.com/activity/content/16/">算法提高课</a>，同时也有一些自己的理解和额外整理</p>
+<h2 id="比赛"><a href="#比赛" class="headerlink" title="比赛"></a>比赛</h2><h3 id="AtCoder"><a href="#AtCoder" class="headerlink" title="AtCoder"></a>AtCoder</h3><ul>
+<li><a href="https://imlgw.top/2021/02/04/891c3448/">ABC190</a></li>
+<li><a href="https://imlgw.top/2021/01/28/e9dbbdad/">ABC189</a></li>
+<li><a href="https://imlgw.top/2021/01/21/9edc8d3b/">ABC188</a></li>
+<li><a href="https://imlgw.top/2022/07/24/7bc5a648/">ABC261</a></li>
+</ul>
+<h3 id="LeetCode-1"><a href="#LeetCode-1" class="headerlink" title="LeetCode"></a>LeetCode</h3><ul>
+<li><a href="https://imlgw.top/2021/01/06/f0b3824b/">42th 双周赛</a></li>
+<li><a href="https://imlgw.top/2020/12/29/8e50a4df/">220th 周赛</a></li>
+<li><a href="https://imlgw.top/2022/06/01/1cbd408/">295th 周赛</a></li>
+</ul>
+<h2 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h2><ul>
+<li><a href="https://imlgw.top/2020/11/09/22c967e1/">数字三角形模型</a></li>
+<li><a href="https://imlgw.top/2020/11/14/f00d00a3/">最长上升子序列模型</a></li>
+<li><a href="https://imlgw.top/2021/03/02/e60f310b/">背包模型</a></li>
+<li><a href="https://imlgw.top/2021/04/09/b34c4165/">计数 DP</a></li>
+<li><a href="https://imlgw.top/2022/01/01/2fc471b9/">状态机模型</a></li>
+<li>状态压缩 DP</li>
+<li>区间 DP</li>
+<li>树形 DP</li>
+<li>数位 DP</li>
+<li>单调队列优化 DP</li>
+<li>斜率优化 DP</li>
+</ul>
+<h2 id="贪心"><a href="#贪心" class="headerlink" title="贪心"></a>贪心</h2><ul>
+<li><a href="https://imlgw.top/2021/01/10/6134a4bc/">绝对值不等式</a></li>
+<li>排序不等式</li>
+<li>区间问题</li>
+</ul>
+<h2 id="搜索"><a href="#搜索" class="headerlink" title="搜索"></a>搜索</h2><ul>
+<li><a href="https://imlgw.top/2021/03/25/89c67f8e/">Flood Fill</a></li>
+<li>最短路模型</li>
+<li>多源 BFS</li>
+<li>最小步数模型</li>
+<li><a href="https://imlgw.top/2021/08/21/91f9d060/">双端队列广搜</a></li>
+<li><a href="https://imlgw.top/2021/09/19/b9d77e2c/">双向广搜</a></li>
+<li>A*</li>
+<li>DFS 之连通性模型</li>
+<li>DFS 之搜索顺序</li>
+<li>DFS 之剪枝与优化</li>
+<li>迭代加深</li>
+<li>双向 DFS</li>
+<li>IDA*</li>
+</ul>
+<h2 id="图论"><a href="#图论" class="headerlink" title="图论"></a>图论</h2><ul>
+<li><a href="https://imlgw.top/2021/03/17/c163e5c9/">常见最短路模板</a></li>
+<li><a href="https://imlgw.top/2021/03/28/8e9b2c41/">单源最短路的建图方式</a></li>
+<li><a href="https://imlgw.top/2022/05/20/d2494640/">单源最短路的综合应用</a></li>
+<li><a href="https://imlgw.top/2022/05/20/d2494640/">单源最短路的扩展应用</a></li>
+<li>Floyd 算法</li>
+<li>最小生成树</li>
+<li>最小生成树的扩展应用</li>
+<li>负环</li>
+<li>差分约束</li>
+<li>最近公共祖先</li>
+<li>有向图的强连通分量</li>
+<li>无向图的双连通分量</li>
+<li>二分图</li>
+<li>欧拉回路和欧拉路径</li>
+<li>拓扑排序</li>
+</ul>
+<h2 id="高级数据结构"><a href="#高级数据结构" class="headerlink" title="高级数据结构"></a>高级数据结构</h2><ul>
+<li><a href="https://imlgw.top/2020/02/02/c517589e/">并查集</a></li>
+<li>树状数组</li>
+<li>线段树</li>
+<li>可持久化数据结构</li>
+<li>平衡树</li>
+<li>AC 自动机</li>
+</ul>
+<h2 id="数学知识"><a href="#数学知识" class="headerlink" title="数学知识"></a>数学知识</h2><p>…</p>
+<h2 id="基础算法"><a href="#基础算法" class="headerlink" title="基础算法"></a>基础算法</h2><p>…</p>
+
+        
+            <div class="donate-container">
+    <div class="donate-button">
+        <button id="donate-button">赞赏</button>
+    </div>
+    <div class="donate-img-container hide" id="donate-img-container">
+        <img id="donate-img" src="" data-src="">
+        <p> 感谢鼓励 </p>
+    </div>
+</div>
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+        <div id="lv-container"></div>
+        <div class="giscus"></div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/imlgw">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://imlgw.top">Tadow</a></span>
+        <span>/</span>
+        
+        <span><a target="_blank" rel="noopener" href="http://beian.miit.gov.cn/publish/query/indexFirst.action">鄂ICP备18011208号</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>  Theme <a target="_blank" rel="noopener" href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/live2d-widget@3.x/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"https://cdn.jsdelivr.net/npm/live2d-widget-model-hijiki@1.0.5/assets/hijiki.model.json"},"display":{"superSample":2,"width":160,"height":320,"position":"right","hOffset":0,"vOffset":-70},"mobile":{"show":false,"scale":0.2},"log":false});</script></body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://giscus.app/client.js"
+  data-repo="imlgw/imlgw.github.io"
+  data-repo-id="MDEwOlJlcG9zaXRvcnkxMzMyMDY4NDg="
+  data-category="Announcements"
+  data-category-id="DIC_kwDOB_CTQM4CQ7v8"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="top"
+  data-theme="light"
+  data-lang="zh-CN"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+
+
+</html>

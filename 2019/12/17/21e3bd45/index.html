@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:description" content="Tadow 的博客">
+    <meta property="og:type" content="website">
+    <meta name="description" content="Tadow 的博客">
+    <meta name="keyword"  content="Tadow, Resolmi, imlgw, 半岛铁盒, 算法, Java, Golang">
+    <link rel="shortcut icon" href="https://fav.farm/💭">
+
+    <title>
+        
+        字典树初探 - Tadow 碎碎念
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_28hi1hpxx24.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Tadow 碎碎念" type="application/atom+xml">
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> Keep It Simple, Stupid </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar radius">
+            <img src="https://static.imlgw.top/blog/20220821160037.png" />
+        </div>
+        <div class="name">
+            <i>Tadow</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <!-- <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li> -->
+            <li >
+                <a href="/categories">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>分类</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            
+            <li >
+                <a href="/selfhosted">
+                    <i class="iconfont icon-guidang1"></i>
+                    <span>自建</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/collect/">
+                    <i class="iconfont icon-shoucang1"></i>
+                    <span>收藏</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%97%E5%85%B8%E6%A0%91"><span class="toc-text">字典树</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%A7%E8%B4%A8"><span class="toc-text">性质</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0"><span class="toc-text">实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-TreeMap-%E5%AE%9E%E7%8E%B0"><span class="toc-text">使用 TreeMap 实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LeetCode-%E7%BB%83%E6%89%8B%E4%BE%8B%E9%A2%98"><span class="toc-text">LeetCode 练手例题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#208-%E5%AE%9E%E7%8E%B0-Trie-%EF%BC%88%E5%89%8D%E7%BC%80%E6%A0%91%EF%BC%89"><span class="toc-text">208. 实现 Trie （前缀树）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#211-%E6%B7%BB%E5%8A%A0%E4%B8%8E%E6%90%9C%E7%B4%A2%E5%8D%95%E8%AF%8D-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E8%AE%BE%E8%AE%A1"><span class="toc-text">211. 添加与搜索单词 - 数据结构设计</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#677-%E9%94%AE%E5%80%BC%E6%98%A0%E5%B0%84"><span class="toc-text">677. 键值映射</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#820-%E5%8D%95%E8%AF%8D%E7%9A%84%E5%8E%8B%E7%BC%A9%E7%BC%96%E7%A0%81"><span class="toc-text">820. 单词的压缩编码</span></a></li></ol></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-bg" id="search-bg"></div>
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i> Keep It Simple, Stupid </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        字典树初探
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2019-12-17 00:00:00</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#数据结构" title="数据结构">数据结构</a>
+        <span>/</span>
+        
+        <a class="tag" href="/tags/#树" title="树">树</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <h2 id="字典树"><a href="#字典树" class="headerlink" title="字典树"></a>字典树</h2><p>在计算机科学中，<strong>trie</strong>，又称<strong>前缀树</strong>或<strong>字典树</strong>，字典树设计的核心思想是空间换时间，所以数据结构本身比较消耗空间。但它利用了字符串的<strong>共同前缀（Common Prefix）</strong>作为存储依据，以此来节省存储空间，并加速搜索时间。Trie 的字符串搜索时间复杂度为 **O(m)**，m 为最长的字符串的长度，其查询性能与集合中的字符串的数量无关。其在搜索字符串时表现出的高效，使得特别适用于构建文本搜索和词频统计等应用</p>
+<h3 id="性质"><a href="#性质" class="headerlink" title="性质"></a>性质</h3><p>与二分搜索树不同，<strong>键不是直接保存在节点中，而是由节点在树中的位置决定</strong>。一个节点的所有子孙都有相同的前缀，也就是这个节点对应的字符串，而根节点对应空字符串。一般情况下，不是所有的节点都有对应的值，只有<strong>叶子节点</strong>和部分内部节点所对应的键才有相关的值</p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><h3 id="使用-TreeMap-实现"><a href="#使用-TreeMap-实现" class="headerlink" title="使用 TreeMap 实现"></a>使用 TreeMap 实现</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.*;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Trie</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">class</span> <span class="title class_">Node</span>&#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="type">boolean</span> isWord; <span class="comment">//是否是一个完整单词</span></span><br><span class="line">        <span class="keyword">public</span> TreeMap&lt;Character,Node&gt; next;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="title function_">Node</span><span class="params">(<span class="type">boolean</span> isWord)</span>&#123;</span><br><span class="line">            <span class="built_in">this</span>.isWord = isWord;</span><br><span class="line">            next = <span class="keyword">new</span> <span class="title class_">TreeMap</span>&lt;&gt;();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="title function_">Node</span><span class="params">()</span>&#123;</span><br><span class="line">            <span class="built_in">this</span>(<span class="literal">false</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Node root;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> size;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Trie</span><span class="params">()</span>&#123;</span><br><span class="line">        root=<span class="keyword">new</span> <span class="title class_">Node</span>();</span><br><span class="line">        size=<span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getSize</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> size;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//向 Trie 中添加 word</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addLoop</span><span class="params">(String word)</span>&#123;</span><br><span class="line">        Node cur=root;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i=<span class="number">0</span>;i&lt;word.length();i++) &#123;</span><br><span class="line">            <span class="type">char</span> c=word.charAt(i);</span><br><span class="line">            <span class="keyword">if</span> (cur.next.get(c)==<span class="literal">null</span>) &#123;</span><br><span class="line">                cur.next.put(c,<span class="keyword">new</span> <span class="title class_">Node</span>());</span><br><span class="line">            &#125;</span><br><span class="line">            cur=cur.next.get(c);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (!cur.isWord) &#123;</span><br><span class="line">            size++;</span><br><span class="line">            cur.isWord=<span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//递归的添加</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">add</span><span class="params">(String word)</span>&#123;</span><br><span class="line">        add(root,word,<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">add</span><span class="params">(Node cur,String word,<span class="type">int</span> index)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (index==word.length()) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!cur.isWord) &#123;</span><br><span class="line">                size++;</span><br><span class="line">                cur.isWord=<span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">char</span> c=word.charAt(index);</span><br><span class="line">        <span class="keyword">if</span> (cur.next.get(c)==<span class="literal">null</span>) &#123;</span><br><span class="line">            cur.next.put(c,<span class="keyword">new</span> <span class="title class_">Node</span>());</span><br><span class="line">        &#125;</span><br><span class="line">        add(cur.next.get(c),word,index+<span class="number">1</span>); <span class="comment">//尾递归</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//查询 word 是否在 Trie 中</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">contains</span><span class="params">(String word)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> contains(root,word,<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">contains</span><span class="params">(Node cur,String word,<span class="type">int</span> index)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (index==word.length()) &#123;</span><br><span class="line">            <span class="keyword">return</span> cur.isWord;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">char</span> c=word.charAt(index);</span><br><span class="line">        <span class="keyword">return</span> cur.next.containsKey(c) &amp;&amp; contains(cur.next.get(c),word,index+<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//循环</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">containsLoop</span><span class="params">(String word)</span>&#123;</span><br><span class="line">        Node cur=root;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i=<span class="number">0</span>;i&lt;word.length();i++) &#123;</span><br><span class="line">            Character c=word.charAt(i);</span><br><span class="line">            <span class="keyword">if</span> (!cur.next.containsKey(c)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;   </span><br><span class="line">            &#125;</span><br><span class="line">            cur=cur.next.get(c);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> cur.isWord;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//是否有某个前缀</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">hasPerfix</span><span class="params">(String perfix)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> hasPerfix(root,perfix,<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">hasPerfix</span><span class="params">(Node cur,String perfix,<span class="type">int</span> index)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (index==perfix.length()) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">char</span> c=perfix.charAt(index);</span><br><span class="line">        <span class="keyword">return</span> cur.next.containsKey(c) &amp;&amp; hasPerfix(cur.next.get(c),perfix,index+<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//懒得写循环了。</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>整体上来说其实很简单，这里用的是 TreeMap 来存储当前节点的下一层节点，可以看到，在 Node 中并没有直接存储某个字符，而是对应了 TreeMap 的 Key，但是由于 TreeMap 底层是红黑树，其实在数据量比较小的时候并没有优势，所以在某些情况下，我们也可以直接使用数组来存储节点，比如下面这道题</p>
+<h2 id="LeetCode-练手例题"><a href="#LeetCode-练手例题" class="headerlink" title="LeetCode 练手例题"></a>LeetCode 练手例题</h2><h3 id="208-实现-Trie-（前缀树）"><a href="#208-实现-Trie-（前缀树）" class="headerlink" title="208. 实现 Trie （前缀树）"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/implement-trie-prefix-tree/">208. 实现 Trie （前缀树）</a></h3><p>实现一个 Trie （前缀树），包含 insert, search, 和 startsWith 这三个操作。</p>
+<p><strong>示例：</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">Trie</span> <span class="variable">trie</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Trie</span>();</span><br><span class="line"></span><br><span class="line">trie.insert(<span class="string">&quot;apple&quot;</span>);</span><br><span class="line">trie.search(<span class="string">&quot;apple&quot;</span>);   <span class="comment">// 返回 true</span></span><br><span class="line">trie.search(<span class="string">&quot;app&quot;</span>);     <span class="comment">// 返回 false</span></span><br><span class="line">trie.startsWith(<span class="string">&quot;app&quot;</span>); <span class="comment">// 返回 true</span></span><br><span class="line">trie.insert(<span class="string">&quot;app&quot;</span>);   </span><br><span class="line">trie.search(<span class="string">&quot;app&quot;</span>);     <span class="comment">// 返回 true</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>说明：</strong></p>
+<ul>
+<li>你可以假设所有的输入都是由小写字母 a-z 构成的。</li>
+<li>保证所有输入均为非空字符串</li>
+</ul>
+<p><strong>解法一</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Trie</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">class</span> <span class="title class_">Node</span>&#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="type">boolean</span> isWord; <span class="comment">//是否是一个完整单词</span></span><br><span class="line">        <span class="keyword">public</span> Node[] next;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="title function_">Node</span><span class="params">(<span class="type">boolean</span> isWord)</span>&#123;</span><br><span class="line">            <span class="built_in">this</span>.isWord = isWord;</span><br><span class="line">            next = <span class="keyword">new</span> <span class="title class_">Node</span>[<span class="number">26</span>];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="title function_">Node</span><span class="params">()</span>&#123;</span><br><span class="line">            <span class="built_in">this</span>(<span class="literal">false</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Node root;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/** Initialize your data structure here. */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Trie</span><span class="params">()</span> &#123;</span><br><span class="line">        root=<span class="keyword">new</span> <span class="title class_">Node</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/** Inserts a word into the trie. */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">insert</span><span class="params">(String word)</span> &#123;</span><br><span class="line">        insert(root,word,<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">insert</span><span class="params">(Node cur,String word,<span class="type">int</span> index)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (index==word.length()) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!cur.isWord) &#123;</span><br><span class="line">                cur.isWord=<span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">char</span> c=word.charAt(index);</span><br><span class="line">        <span class="keyword">if</span> (cur.next[c-<span class="string">&#x27;a&#x27;</span>]==<span class="literal">null</span>) &#123;</span><br><span class="line">            cur.next[c-<span class="string">&#x27;a&#x27;</span>]=<span class="keyword">new</span> <span class="title class_">Node</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        insert(cur.next[c-<span class="string">&#x27;a&#x27;</span>],word,index+<span class="number">1</span>); <span class="comment">//尾递归</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/** Returns if the word is in the trie. */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">search</span><span class="params">(String word)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> search(root,word,<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">search</span><span class="params">(Node cur,String word,<span class="type">int</span> index)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (index==word.length()) &#123;</span><br><span class="line">            <span class="keyword">return</span> cur.isWord;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">char</span> c=word.charAt(index);</span><br><span class="line">        <span class="keyword">return</span> cur.next[c-<span class="string">&#x27;a&#x27;</span>]!=<span class="literal">null</span>&amp;&amp; search(cur.next[c-<span class="string">&#x27;a&#x27;</span>],word,index+<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/** Returns if there is any word in the trie that starts with the given prefix. */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">startsWith</span><span class="params">(String prefix)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> startsWith(root,prefix,<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">startsWith</span><span class="params">(Node cur,String prefix,<span class="type">int</span> index)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (index==prefix.length()) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">char</span> c=prefix.charAt(index);</span><br><span class="line">        <span class="keyword">return</span> cur.next[c-<span class="string">&#x27;a&#x27;</span>]!=<span class="literal">null</span> &amp;&amp; startsWith(cur.next[c-<span class="string">&#x27;a&#x27;</span>],prefix,index+<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Your Trie object will be instantiated and called as such:</span></span><br><span class="line"><span class="comment"> * Trie obj = new Trie();</span></span><br><span class="line"><span class="comment"> * obj.insert(word);</span></span><br><span class="line"><span class="comment"> * boolean param_2 = obj.search(word);</span></span><br><span class="line"><span class="comment"> * boolean param_3 = obj.startsWith(prefix);</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
+
+<p>这里题目说明了所有的输入都是小写字符，所以可以直接使用固定大小的 Node 数组来实现，相比于上面的 TreeMap 时间空间上都会有很大的提升</p>
+<h3 id="211-添加与搜索单词-数据结构设计"><a href="#211-添加与搜索单词-数据结构设计" class="headerlink" title="211. 添加与搜索单词 - 数据结构设计"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/add-and-search-word-data-structure-design/">211. 添加与搜索单词 - 数据结构设计</a></h3><p>设计一个支持以下两种操作的数据结构：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">void</span> <span class="title function_">addWord</span><span class="params">(word)</span></span><br><span class="line">bool <span class="title function_">search</span><span class="params">(word)</span></span><br></pre></td></tr></table></figure>
+
+<p><code>search(word)</code> 可以搜索文字或正则表达式字符串，字符串只包含字母 . 或 a-z 。 <code>.</code> 可以表示任何一个字母。</p>
+<p><strong>示例：</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">addWord(<span class="string">&quot;bad&quot;</span>)</span><br><span class="line">addWord(<span class="string">&quot;dad&quot;</span>)</span><br><span class="line">addWord(<span class="string">&quot;mad&quot;</span>)</span><br><span class="line">search(<span class="string">&quot;pad&quot;</span>) -&gt; <span class="literal">false</span></span><br><span class="line"><span class="title function_">search</span><span class="params">(<span class="string">&quot;bad&quot;</span>)</span> -&gt; <span class="literal">true</span></span><br><span class="line"><span class="title function_">search</span><span class="params">(<span class="string">&quot;.ad&quot;</span>)</span> -&gt; <span class="literal">true</span></span><br><span class="line"><span class="title function_">search</span><span class="params">(<span class="string">&quot;b..&quot;</span>)</span> -&gt; <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>说明：</strong></p>
+<p>你可以假设所有单词都是由小写字母 <code>a-z</code> 组成的。</p>
+<p><strong>解法一</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">class</span> <span class="title class_">Node</span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> isWord; <span class="comment">//是否找到了一个单词</span></span><br><span class="line">    <span class="keyword">public</span> Node[] next;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Node</span><span class="params">(<span class="type">boolean</span> isWord)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.isWord = isWord;</span><br><span class="line">        next = <span class="keyword">new</span> <span class="title class_">Node</span>[<span class="number">26</span>];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Node</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>(<span class="literal">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> Node root;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** Initialize your data structure here. */</span></span><br><span class="line"><span class="keyword">public</span> <span class="title function_">WordDictionary</span><span class="params">()</span> &#123;</span><br><span class="line">    root=<span class="keyword">new</span> <span class="title class_">Node</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** Adds a word into the data structure. */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addWord</span><span class="params">(String word)</span> &#123;</span><br><span class="line">    addWord(root,word,<span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addWord</span><span class="params">(Node cur,String word,<span class="type">int</span> index)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (index == word.length()) &#123;</span><br><span class="line">        cur.isWord=<span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">char</span> c=word.charAt(index);</span><br><span class="line">    <span class="keyword">if</span> (cur.next[c-<span class="string">&#x27;a&#x27;</span>]==<span class="literal">null</span>) &#123;</span><br><span class="line">        cur.next[c-<span class="string">&#x27;a&#x27;</span>]= <span class="keyword">new</span> <span class="title class_">Node</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    addWord(cur.next[c-<span class="string">&#x27;a&#x27;</span>],word,index+<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** Returns if the word is in the data structure. A word could contain the dot character &#x27;.&#x27; to represent any one letter. */</span></span><br><span class="line"><span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">search</span><span class="params">(String word)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> search(root,word,<span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">search</span><span class="params">(Node cur,String word,<span class="type">int</span> index)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (index == word.length()) &#123;</span><br><span class="line">        <span class="keyword">return</span> cur.isWord;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">char</span> c=word.charAt(index);</span><br><span class="line">    <span class="keyword">if</span> (c==<span class="string">&#x27;.&#x27;</span>) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i=<span class="number">0</span>;i&lt;cur.next.length;i++) &#123;</span><br><span class="line">            <span class="keyword">if</span>(cur.next[i]!=<span class="literal">null</span> &amp;&amp; search(cur.next[i],word,index+<span class="number">1</span>))&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> cur.next[c-<span class="string">&#x27;a&#x27;</span>]!=<span class="literal">null</span> &amp;&amp; search(cur.next[c-<span class="string">&#x27;a&#x27;</span>],word,index+<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>没啥好说的，遇到点就循环判断每个子节点就 ok</p>
+<h3 id="677-键值映射"><a href="#677-键值映射" class="headerlink" title="677. 键值映射"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/map-sum-pairs/">677. 键值映射</a></h3><p>实现一个 MapSum 类里的两个方法，<code>insert</code> 和 <code>sum</code>。</p>
+<p>对于方法 <code>insert</code>，你将得到一对（字符串，整数）的键值对。字符串表示键，整数表示值。如果键已经存在，那么原来的键值对将被替代成新的键值对。</p>
+<p>对于方法 sum，你将得到一个表示前缀的字符串，你需要返回所有以该前缀开头的键的值的总和。</p>
+<p><strong>示例 1:</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：insert(<span class="string">&quot;apple&quot;</span>, <span class="number">3</span>), 输出：Null</span><br><span class="line">输入：sum(<span class="string">&quot;ap&quot;</span>), 输出：<span class="number">3</span></span><br><span class="line">输入：insert(<span class="string">&quot;app&quot;</span>, <span class="number">2</span>), 输出：Null</span><br><span class="line">输入：sum(<span class="string">&quot;ap&quot;</span>), 输出：<span class="number">5</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>解法一</strong></p>
+<p>有了前面的铺垫，其实这个也很简单</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MapSum</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">class</span> <span class="title class_">Node</span>&#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="type">boolean</span> isWord; <span class="comment">//是否找到了一个单词</span></span><br><span class="line">        <span class="keyword">public</span> Node[] next;</span><br><span class="line">        <span class="keyword">public</span> <span class="type">int</span> value;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="title function_">Node</span><span class="params">(<span class="type">boolean</span> isWord,<span class="type">int</span> value)</span>&#123;</span><br><span class="line">            <span class="built_in">this</span>.isWord = isWord;</span><br><span class="line">            <span class="built_in">this</span>.value=value;</span><br><span class="line">            next = <span class="keyword">new</span> <span class="title class_">Node</span>[<span class="number">26</span>];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="title function_">Node</span><span class="params">(<span class="type">int</span> value)</span>&#123;</span><br><span class="line">            <span class="built_in">this</span>(<span class="literal">false</span>,value);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> Node root;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">MapSum</span><span class="params">()</span> &#123;</span><br><span class="line">        root=<span class="keyword">new</span> <span class="title class_">Node</span>(<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">insert</span><span class="params">(String key, <span class="type">int</span> val)</span> &#123;</span><br><span class="line">        insert(root,key,val,<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//a p p l e</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">insert</span><span class="params">(Node cur,String key, <span class="type">int</span> val,<span class="type">int</span> index)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (index==key.length()) &#123;</span><br><span class="line">            cur.isWord=<span class="literal">true</span>;</span><br><span class="line">            cur.value=val;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">char</span> c=key.charAt(index);</span><br><span class="line">        <span class="keyword">if</span> (cur.next[c-<span class="string">&#x27;a&#x27;</span>]==<span class="literal">null</span>) &#123;</span><br><span class="line">            cur.next[c-<span class="string">&#x27;a&#x27;</span>]=<span class="keyword">new</span> <span class="title class_">Node</span>(<span class="number">0</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        insert(cur.next[c-<span class="string">&#x27;a&#x27;</span>],key,val,index+<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">sum</span><span class="params">(String prefix)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> sum(root,prefix,<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">sum</span><span class="params">(Node cur,String prefix,<span class="type">int</span> index)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (index == prefix.length()) &#123;</span><br><span class="line">            <span class="keyword">return</span> tireSum(cur);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">char</span> c=prefix.charAt(index);</span><br><span class="line">        <span class="keyword">if</span> (cur.next[c-<span class="string">&#x27;a&#x27;</span>]==<span class="literal">null</span>) &#123;</span><br><span class="line">        	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sum(cur.next[c-<span class="string">&#x27;a&#x27;</span>],prefix,index+<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">tireSum</span><span class="params">(Node cur)</span>&#123;</span><br><span class="line">    	<span class="type">int</span> sum=<span class="number">0</span>;</span><br><span class="line">    	<span class="keyword">if</span> (cur.isWord) &#123;</span><br><span class="line">    		sum+=cur.value;</span><br><span class="line">    	&#125;</span><br><span class="line">    	<span class="keyword">for</span> (<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">26</span>;i++) &#123;</span><br><span class="line">    		sum+=cur.next[i]!=<span class="literal">null</span>?tireSum(cur.next[i]):<span class="number">0</span>;</span><br><span class="line">    	&#125;</span><br><span class="line">    	<span class="keyword">return</span> sum;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>还是和上面一样，利用前缀树，不过要在上面的基础上做一些改动添加一个 value 字段用来保存值，先在树中找到要求的前缀的最后一个单词所在的节点，然后就直接求这个节点所有的子节点中 isWord 的单词的 value 累加和就 ok 了，我上面的实现并不好，都是写的递归，而且是尾递归，很鸡肋其实</p>
+<h3 id="820-单词的压缩编码"><a href="#820-单词的压缩编码" class="headerlink" title="820. 单词的压缩编码"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/short-encoding-of-words/">820. 单词的压缩编码</a></h3><p>给定一个单词列表，我们将这个列表编码成一个索引字符串 S 与一个索引列表 A。</p>
+<p>例如，如果这个列表是 <code>[&quot;time&quot;, &quot;me&quot;, &quot;bell&quot;]</code>，我们就可以将其表示为 S = <code>&quot;time#bell#&quot;</code> 和 <code>indexes = [0, 2, 5]</code>。</p>
+<p>对于每一个索引，我们可以通过从字符串 S 中索引的位置开始读取字符串，直到 “#” 结束，来恢复我们之前的单词列表。</p>
+<p>那么成功对给定单词列表进行编码的最小字符串长度是多少呢？</p>
+<p><strong>示例：</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：words = [<span class="string">&quot;time&quot;</span>, <span class="string">&quot;me&quot;</span>, <span class="string">&quot;bell&quot;</span>]</span><br><span class="line">输出：<span class="number">10</span></span><br><span class="line">说明：S = <span class="string">&quot;time#bell#&quot;</span> ， indexes = [<span class="number">0</span>, <span class="number">2</span>, <span class="number">5</span>] 。</span><br></pre></td></tr></table></figure>
+
+<p><strong>提示：</strong></p>
+<ul>
+<li><code>1 &lt;= words.length &lt;= 2000</code></li>
+<li><code>1 &lt;= words[i].length &lt;= 7</code></li>
+<li>每个单词都是小写字母 。</li>
+</ul>
+<p><strong>解法一</strong></p>
+<p><code>2020.3.28</code> 打卡题，简单写了个 Trie，纠结了半天要不要排序</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span> res=<span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> Node root;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">minimumLengthEncoding</span><span class="params">(String[] words)</span> &#123;</span><br><span class="line">    root=<span class="keyword">new</span> <span class="title class_">Node</span>();</span><br><span class="line">    <span class="comment">//纠结了半天要不要排序</span></span><br><span class="line">    Arrays.sort(words,(a,b)-&gt;b.length()-a.length());</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i=<span class="number">0</span>;i&lt;words.length;i++) &#123;</span><br><span class="line">        <span class="keyword">if</span>(!hasPrefix(words[i]))&#123;</span><br><span class="line">            add(words[i]);</span><br><span class="line">            res+=(words[i].length()+<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">class</span> <span class="title class_">Node</span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> Node[] next;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Node</span><span class="params">()</span>&#123;</span><br><span class="line">        next = <span class="keyword">new</span> <span class="title class_">Node</span>[<span class="number">26</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//递归的添加</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">add</span><span class="params">(String word)</span>&#123;</span><br><span class="line">    <span class="comment">//后缀树</span></span><br><span class="line">    add(root,word,word.length()-<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">add</span><span class="params">(Node cur,String word,<span class="type">int</span> index)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (index==-<span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">char</span> c=word.charAt(index);</span><br><span class="line">    <span class="keyword">if</span> (cur.next[c-<span class="string">&#x27;a&#x27;</span>]==<span class="literal">null</span>) &#123;</span><br><span class="line">        cur.next[c-<span class="string">&#x27;a&#x27;</span>]=<span class="keyword">new</span> <span class="title class_">Node</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    add(cur.next[c-<span class="string">&#x27;a&#x27;</span>],word,index-<span class="number">1</span>); <span class="comment">//尾递归</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">hasPrefix</span><span class="params">(String word)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> hasPrefix(root,word,word.length()-<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">hasPrefix</span><span class="params">(Node cur,String word,<span class="type">int</span> index)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(index==-<span class="number">1</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">char</span> c=word.charAt(index);</span><br><span class="line">    <span class="keyword">return</span> cur.next[c-<span class="string">&#x27;a&#x27;</span>]!=<span class="literal">null</span> &amp;&amp; hasPrefix(cur.next[c-<span class="string">&#x27;a&#x27;</span>],word,index-<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>解法二</strong></p>
+<p>直接<strong>逆序</strong>后按<strong>字典序</strong>排序，这样单词的前缀包含关系就排好了，比如 time , me, bell, 最后就会变为 em emit lleb</p>
+<p>然后遍历所有单词，如果前面的单词是后面的前缀，就把前面的单词丢掉，否则就需要加上当前字符长度，代码后面有时间再补</p>
+
+        
+            <div class="donate-container">
+    <div class="donate-button">
+        <button id="donate-button">赞赏</button>
+    </div>
+    <div class="donate-img-container hide" id="donate-img-container">
+        <img id="donate-img" src="" data-src="">
+        <p> 感谢鼓励 </p>
+    </div>
+</div>
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+        <div id="lv-container"></div>
+        <div class="giscus"></div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/imlgw">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://imlgw.top">Tadow</a></span>
+        <span>/</span>
+        
+        <span><a target="_blank" rel="noopener" href="http://beian.miit.gov.cn/publish/query/indexFirst.action">鄂ICP备18011208号</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>  Theme <a target="_blank" rel="noopener" href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/live2d-widget@3.x/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"https://cdn.jsdelivr.net/npm/live2d-widget-model-hijiki@1.0.5/assets/hijiki.model.json"},"display":{"superSample":2,"width":160,"height":320,"position":"right","hOffset":0,"vOffset":-70},"mobile":{"show":false,"scale":0.2},"log":false});</script></body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://giscus.app/client.js"
+  data-repo="imlgw/imlgw.github.io"
+  data-repo-id="MDEwOlJlcG9zaXRvcnkxMzMyMDY4NDg="
+  data-category="Announcements"
+  data-category-id="DIC_kwDOB_CTQM4CQ7v8"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="top"
+  data-theme="light"
+  data-lang="zh-CN"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+
+
+</html>

@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:description" content="Tadow 的博客">
+    <meta property="og:type" content="website">
+    <meta name="description" content="Tadow 的博客">
+    <meta name="keyword"  content="Tadow, Resolmi, imlgw, 半岛铁盒, 算法, Java, Golang">
+    <link rel="shortcut icon" href="https://fav.farm/💭">
+
+    <title>
+        
+        Gacache 分布式缓存 - Tadow 碎碎念
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_28hi1hpxx24.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Tadow 碎碎念" type="application/atom+xml">
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> Keep It Simple, Stupid </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar radius">
+            <img src="https://static.imlgw.top/blog/20220821160037.png" />
+        </div>
+        <div class="name">
+            <i>Tadow</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <!-- <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li> -->
+            <li >
+                <a href="/categories">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>分类</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            
+            <li >
+                <a href="/selfhosted">
+                    <i class="iconfont icon-guidang1"></i>
+                    <span>自建</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/collect/">
+                    <i class="iconfont icon-shoucang1"></i>
+                    <span>收藏</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#TOC"><span class="toc-text">TOC</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B4%E4%BD%93%E6%B5%81%E7%A8%8B"><span class="toc-text">整体流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LRU-%E9%98%9F%E5%88%97"><span class="toc-text">LRU 队列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B9%B6%E5%8F%91%E6%8E%A7%E5%88%B6"><span class="toc-text">并发控制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E8%87%B4%E6%80%A7-Hash"><span class="toc-text">一致性 Hash</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0"><span class="toc-text">实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E8%8A%82%E7%82%B9%E9%80%9A%E4%BF%A1"><span class="toc-text">分布式节点通信</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Client-%E7%AB%AF"><span class="toc-text">Client 端</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Server-%E7%AB%AF"><span class="toc-text">Server 端</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF"><span class="toc-text">缓存击穿</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E7%8E%B0"><span class="toc-text">复现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-text">解决方案</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95"><span class="toc-text">测试</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%83%AD%E7%82%B9%E4%BA%92%E5%A4%87"><span class="toc-text">热点互备</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF"><span class="toc-text">思路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95-1"><span class="toc-text">测试</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F"><span class="toc-text">缓存穿透</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E7%8E%B0-1"><span class="toc-text">复现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88-1"><span class="toc-text">解决方案</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TODO"><span class="toc-text">TODO</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-bg" id="search-bg"></div>
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i> Keep It Simple, Stupid </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        Gacache 分布式缓存
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2020-06-02 00:00:00</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#开源项目" title="开源项目">开源项目</a>
+        <span>/</span>
+        
+        <a class="tag" href="/tags/#Gacache" title="Gacache">Gacache</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <h2 id="TOC"><a href="#TOC" class="headerlink" title="TOC"></a>TOC</h2><ul>
+<li><a href="#toc">TOC</a></li>
+<li><a href="#%E7%AE%80%E4%BB%8B">简介</a></li>
+<li><a href="#%E6%95%B4%E4%BD%93%E6%B5%81%E7%A8%8B">整体流程</a></li>
+<li><a href="#lru-%E9%98%9F%E5%88%97">LRU 队列</a></li>
+<li><a href="#%E5%B9%B6%E5%8F%91%E6%8E%A7%E5%88%B6">并发控制</a></li>
+<li><a href="#%E4%B8%80%E8%87%B4%E6%80%A7-hash">一致性 Hash</a><ul>
+<li><a href="#%E5%AE%9E%E7%8E%B0">实现</a></li>
+</ul>
+</li>
+<li><a href="#%E5%88%86%E5%B8%83%E5%BC%8F%E8%8A%82%E7%82%B9%E9%80%9A%E4%BF%A1">分布式节点通信</a><ul>
+<li><a href="#client-%E7%AB%AF">Client 端</a></li>
+<li><a href="#server-%E7%AB%AF">Server 端</a></li>
+</ul>
+</li>
+<li><a href="#%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF">缓存击穿</a><ul>
+<li><a href="#%E5%A4%8D%E7%8E%B0">复现</a></li>
+<li><a href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88">解决方案</a></li>
+<li><a href="#%E6%B5%8B%E8%AF%95">测试</a></li>
+</ul>
+</li>
+<li><a href="#%E7%83%AD%E7%82%B9%E4%BA%92%E5%A4%87">热点互备</a><ul>
+<li><a href="#%E6%80%9D%E8%B7%AF">思路</a></li>
+<li><a href="#%E6%B5%8B%E8%AF%95-1">测试</a></li>
+</ul>
+</li>
+<li><a href="#%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F">缓存穿透</a><ul>
+<li><a href="#%E5%A4%8D%E7%8E%B0-1">复现</a></li>
+<li><a href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88-1">解决方案</a></li>
+</ul>
+</li>
+<li><a href="#todo">TODO</a></li>
+</ul>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>本项目是模仿 <a target="_blank" rel="noopener" href="https://github.com/golang/groupcache">groupcache</a> 实现的一个分布式缓存库，其可以作为单独服务部署，亦可以作为一个<code>lib</code>来用，使用一致性 Hash 进行节点的选取和数据的分片，节点之间采用 http 协议进行通信，使用 <a target="_blank" rel="noopener" href="https://github.com/protocolbuffers/protobuf">Protobuf</a> 序列化数据进行传输，提高传输效率，节点之间支持热点数据互备，减少网络开销，同时还实现了并发访问控制机制，防止缓存击穿，相比于原项目，对热点互备的功能进行了增强</p>
+<blockquote>
+<p>本项目为练手项目，不可用于生产</p>
+</blockquote>
+<h2 id="整体流程"><a href="#整体流程" class="headerlink" title="整体流程"></a>整体流程</h2><p><img src="http://static.imlgw.top/blog/20200602/Glc7aMrySiqF.png?imageslim" alt="mark"></p>
+<h2 id="LRU-队列"><a href="#LRU-队列" class="headerlink" title="LRU 队列"></a>LRU 队列</h2><p>因为缓存的数据都是在内存中的，内存资源是有限的，所以我们需要选择一种合适的策略，在内存快要满的时候剔除部分数据，这里选择了较为平衡且实现简单的方案 LRU（最近最少使用）可以参考我之前的一篇博文 <a href="http://imlgw.top/2019/11/16/lrucache/">LRU 队列的实现（Java）</a> 这里为了方便，以及避免重复造轮子，直接使用<code>container</code> 包中的<code>List</code>双向链表和<code>map</code>来实现，具体代码见 <a target="_blank" rel="noopener" href="https://github.com/imlgw/gacache/blob/master/gacache/lru/lru.go">gacache/lru/lru.go</a></p>
+<h2 id="并发控制"><a href="#并发控制" class="headerlink" title="并发控制"></a>并发控制</h2><p>golang 中的 map 并不是并发安全的容器，并发的访问可能会出现错误，所以我们需要加锁来控制并发的读写</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> cache <span class="keyword">struct</span> &#123;</span><br><span class="line">    mu         sync.Mutex <span class="comment">//互斥锁</span></span><br><span class="line">    lru        *lru.Cache</span><br><span class="line">    cacheBytes <span class="type">int64</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *cache)</span></span> put(key <span class="type">string</span>, value ByteView) &#123;</span><br><span class="line">    c.mu.Lock()</span><br><span class="line">    <span class="keyword">defer</span> c.mu.Unlock()</span><br><span class="line">    <span class="keyword">if</span> c.lru == <span class="literal">nil</span> &#123; <span class="comment">//尚未初始化，lazyinit</span></span><br><span class="line">        c.lru = lru.New(c.cacheBytes, <span class="literal">nil</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    c.lru.Put(key, value)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *cache)</span></span> get(key <span class="type">string</span>) (value ByteView, ok <span class="type">bool</span>) &#123;</span><br><span class="line">    c.mu.Lock()</span><br><span class="line">    <span class="keyword">defer</span> c.mu.Unlock()</span><br><span class="line">    <span class="keyword">if</span> c.lru == <span class="literal">nil</span> &#123;</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> v, ok := c.lru.Get(key); ok &#123;</span><br><span class="line">        <span class="keyword">return</span> v.(ByteView), ok</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="一致性-Hash"><a href="#一致性-Hash" class="headerlink" title="一致性 Hash"></a>一致性 Hash</h2><p>对于一个<strong>分布式缓存</strong>来讲，客户端在向某一个节点请求数据的时候，该节点应该如何去获取数据呢？是自己拿，还是去其他节点拿？如果这里不做处理，让当前节点自己去数据源取数据，那么最终可能每个节点都会缓存一份数据源的数据，这样不仅效率低下（需要和 DB 交互），而且浪费了很多空间，严格来说这就称不上是<strong>分布式缓存</strong>了，只能称之为<strong>缓存集群</strong></p>
+<p>所以我们需要一个方案能够将<code>key</code>和节点对应起来，有一种比较简单的方案就是将<code>key</code>哈希后对节点数量取余，这样每次请求都会打到同一个节点，但是这样的方案扩展性和容错性比较差，如果节点的数量发生变化可能会导致大量缓存的迁移，一瞬间大量缓存都失效了，这就可能导致缓存雪崩，所以这里我采用<strong>一致性 Hash 算法</strong></p>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><ul>
+<li>构造一个 <code>0 ~ 2^32-1</code> 大小的环</li>
+<li>服务节点经过 hash 之后将定位到环中</li>
+<li>将<code>key</code>哈希之后也定位到这个环中</li>
+<li>顺时针找到离<code>hash(key)</code>最近的一个节点，也就是最终选择的缓存节点</li>
+<li>考虑到服务节点的个数以及 hash 算法的问题导致环中的数据分布不均匀时引入了虚拟节点</li>
+</ul>
+<p><strong>一致性 Hash 的 Map</strong></p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> Map <span class="keyword">struct</span> &#123;</span><br><span class="line">    hash     Hash           <span class="comment">//hash 函数</span></span><br><span class="line">    replicas <span class="type">int</span>            <span class="comment">//虚拟节点倍数</span></span><br><span class="line">    keys     []<span class="type">int</span>          <span class="comment">//节点的地址，完整的协议/ip/port [eg. http://localhost:8001]</span></span><br><span class="line">    hashMap  <span class="keyword">map</span>[<span class="type">int</span>]<span class="type">string</span> <span class="comment">//虚拟节点和真实节点映射关系</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>添加机器/节点的方法</strong></p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">//添加机器/节点</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(m *Map)</span></span> Add(keys ...<span class="type">string</span>) &#123;</span><br><span class="line">    <span class="comment">//hashMap := make(map[string][]int, len(keys))</span></span><br><span class="line">    <span class="keyword">for</span> _, key := <span class="keyword">range</span> keys &#123;</span><br><span class="line">        <span class="comment">//每台机器 copy 指定倍数的虚拟节点</span></span><br><span class="line">        <span class="keyword">for</span> i := <span class="number">0</span>; i &lt; m.replicas; i++ &#123;</span><br><span class="line">            <span class="comment">//计算虚拟节点的 hash 值</span></span><br><span class="line">            hash := <span class="type">int</span>(m.hash([]<span class="type">byte</span>(strconv.Itoa(i) + key)))</span><br><span class="line">            <span class="comment">//添加到环上</span></span><br><span class="line">            m.keys = <span class="built_in">append</span>(m.keys, hash)</span><br><span class="line">            <span class="comment">//hashMap[key] = append(hashMap[key], hash)</span></span><br><span class="line">            <span class="comment">//记录映射关系</span></span><br><span class="line">            m.hashMap[hash] = key</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//fmt.Println(hashMap)</span></span><br><span class="line">    <span class="comment">//环上 hash 值进行排序</span></span><br><span class="line">    sort.Ints(m.keys)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Get 获取节点</strong></p>
+<p>因为整个环是有序的，所以可以直接通过二分去找第一个大于等于<code>hash(key)</code>的节点</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(m *Map)</span></span> Get(key <span class="type">string</span>) <span class="type">string</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(m.keys) == <span class="number">0</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">    hash := <span class="type">int</span>(m.hash([]<span class="type">byte</span>(key)))</span><br><span class="line">    <span class="comment">//二分找第一个大于等于 hash 的节点 idx</span></span><br><span class="line">    idx := sort.Search(<span class="built_in">len</span>(m.keys), <span class="function"><span class="keyword">func</span><span class="params">(i <span class="type">int</span>)</span></span> <span class="type">bool</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> m.keys[i] &gt;= hash</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">return</span> m.hashMap[m.keys[idx%<span class="built_in">len</span>(m.keys)]]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="分布式节点通信"><a href="#分布式节点通信" class="headerlink" title="分布式节点通信"></a>分布式节点通信</h2><p>集群之间的通信通过 Http 协议，同时采用 <a target="_blank" rel="noopener" href="https://github.com/protocolbuffers/protobuf">Protobuf</a> 序列化数据提高传输效率</p>
+<h3 id="Client-端"><a href="#Client-端" class="headerlink" title="Client 端"></a>Client 端</h3><p>通过节点地址和<code>groupName</code>以及<code>key</code>构成的地址请求数据，通过<code>protobuf</code>解码数据</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(h *httpGetter)</span></span> Get(in *pb.Request, out *pb.Response) <span class="type">error</span> &#123;</span><br><span class="line">    u := fmt.Sprintf(</span><br><span class="line">        <span class="string">&quot;%v%v/%v&quot;</span>,</span><br><span class="line">        h.baseURL,</span><br><span class="line">        url.QueryEscape(in.GetGroup()),</span><br><span class="line">        url.QueryEscape(in.GetKey()),</span><br><span class="line">    )</span><br><span class="line">    <span class="comment">//通过 http 请求远程节点的数据</span></span><br><span class="line">    res, err := http.Get(u)</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> err</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">defer</span> res.Body.Close()</span><br><span class="line">    <span class="keyword">if</span> res.StatusCode != http.StatusOK &#123;</span><br><span class="line">        <span class="keyword">return</span> fmt.Errorf(<span class="string">&quot;server returned: %v&quot;</span>, res.Status)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//转换成 []byte</span></span><br><span class="line">    bytes, err := ioutil.ReadAll(res.Body)</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> fmt.Errorf(<span class="string">&quot;reading response body: %v&quot;</span>, err)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//解码 proto 并将结果存到 out 中</span></span><br><span class="line">    <span class="keyword">if</span> err != proto.Unmarshal(bytes, out) &#123;</span><br><span class="line">        <span class="keyword">return</span> fmt.Errorf(<span class="string">&quot;decoding response body : %v&quot;</span>, err)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Server-端"><a href="#Server-端" class="headerlink" title="Server 端"></a>Server 端</h3><p>实现<code>http.Handler</code>接口，对缓存中其他节点暴露地址，提供服务</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(p *HTTPPool)</span></span> ServeHTTP(w http.ResponseWriter, req *http.Request) &#123;</span><br><span class="line">    <span class="keyword">if</span> !strings.HasPrefix(req.URL.Path, p.basePath) &#123;</span><br><span class="line">        <span class="built_in">panic</span>(<span class="string">&quot;HTTPPool serving unexpect path&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    p.Log(<span class="string">&quot;%s %s&quot;</span>, req.Method, req.URL.Path)</span><br><span class="line">    <span class="comment">// basePath/groupName/key</span></span><br><span class="line">    <span class="comment">// 以‘/’为界限将 groupName 和 key 划分为 2 个 part</span></span><br><span class="line">    parts := strings.SplitN(req.URL.Path[<span class="built_in">len</span>(p.basePath):], <span class="string">&quot;/&quot;</span>, <span class="number">2</span>)</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(parts) != <span class="number">2</span> &#123;</span><br><span class="line">        http.Error(w, <span class="string">&quot;bad request&quot;</span>, http.StatusBadRequest)</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    &#125;</span><br><span class="line">    groupName := parts[<span class="number">0</span>]</span><br><span class="line">    key := parts[<span class="number">1</span>]</span><br><span class="line">    group := GetGroup(groupName)</span><br><span class="line">    <span class="keyword">if</span> group == <span class="literal">nil</span> &#123;</span><br><span class="line">        http.Error(w, <span class="string">&quot;no such group: &quot;</span>+groupName, http.StatusNotFound)</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    &#125;</span><br><span class="line">    view, err := group.Get(key)</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        http.Error(w, err.Error(), http.StatusInternalServerError)</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//使用 proto 编码 Http 响应</span></span><br><span class="line">    body, err := proto.Marshal(&amp;pb.Response&#123;Value: view.ByteSlice()&#125;)</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        http.Error(w, err.Error(), http.StatusInternalServerError)</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    &#125;</span><br><span class="line">    w.Header().Set(<span class="string">&quot;Content-Type&quot;</span>, <span class="string">&quot;application/octet-stream&quot;</span>)</span><br><span class="line">    w.Write(body)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="缓存击穿"><a href="#缓存击穿" class="headerlink" title="缓存击穿"></a>缓存击穿</h2><p>一个存在的<code>key</code>突然失效，在失效的同时有大量的请求来请求这个<code>key</code>，这个时候大量请求就会直接打到 DB，导致 DB 压力变大，甚至宕机</p>
+<h3 id="复现"><a href="#复现" class="headerlink" title="复现"></a>复现</h3><p>这里简单的演示缓存击穿的效果，我们用下面的脚本启动 4 个<code>cache server</code> 并且在端口号为<code>8004</code>的<code>server</code>上启动一个前端服务，用于和客户端交互</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">start go run .  -port=8001</span><br><span class="line">start go run .  -port=8002</span><br><span class="line">start go run .  -port=8003</span><br><span class="line">start go run .  -port=8004 -api=1</span><br></pre></td></tr></table></figure>
+
+<p>(windows 平台的 bat，其他平台可以用这个 <a target="_blank" rel="noopener" href="https://github.com/imlgw/gacache/blob/master/test.sh">test.sh</a>)</p>
+<p>尝试了用 window 的批处理写并发访问的脚本，但是效果不是很好，所以直接用<code>go</code>写了个小脚本测试并发请求</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">5</span>; i++ &#123;</span><br><span class="line">        wg.Add(<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">go</span> curl(<span class="string">&quot;resolmi&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    wg.Wait()</span><br><span class="line">    fmt.Println(<span class="string">&quot;Done!&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">curl</span><span class="params">(key <span class="type">string</span>)</span></span> &#123;</span><br><span class="line">    res, _ := http.Get(<span class="string">&quot;http://localhost:9999/api?key=&quot;</span> + key)</span><br><span class="line">    bytes, _ := ioutil.ReadAll(res.Body)</span><br><span class="line">    fmt.Println(<span class="type">string</span>(bytes))</span><br><span class="line">    wg.Done()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>开启 5 个<code>goroutine</code>，并发的去请求<code>resolmi</code>，此时<code>cache</code>肯定是没有这个 key 的，所以需要到 DB 中去取</p>
+<p>然后就可以看到如下的情况：</p>
+<p><img src="http://static.imlgw.top/blog/20200529/pU2omvLdDqyQ.png?imageslim" alt="mark"></p>
+<p>前台<code>Server</code>收到了 Get “resolmi”请求，通过一致性 Hash 选择了远程节点<code>port:8003</code></p>
+<p><img src="http://static.imlgw.top/blog/20200529/uovtpKufQME4.png?imageslim" alt="mark"></p>
+<p>可以看到，5 次请求全部打到了<code>SlowDB</code>中！！这就说明发生了缓存穿透！请求穿过了缓存层，打到 DB</p>
+<blockquote>
+<p>这里如果效果不明显可以尝试在<code>load</code>函数执行前加上一个<code>time.Sleep</code>，这样并发缓存击穿效果会更明显</p>
+</blockquote>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>其实常见的方案就两种：</p>
+<p><strong>1. 缓存永不过期</strong></p>
+<p>缓存值不设置<code>ttl</code>，而是在<code>value</code>中添加一个逻辑的过期时间，这样请求就不会直接穿透到 DB，同时我们可以通过当前时间判断该 key 是否过期，如果过期了就启动一个异步线程去更新缓存，这种方式用户延迟是最低的，但是可能会造成缓存的不一致</p>
+<p><strong>2. 互斥锁</strong></p>
+<p>在第一个请求获取数据的时候设置一个<code>mutex</code>互斥锁，让其他请求阻塞，当前第一个请求请求到数据返回之后释放<code>mutex</code>锁，其他请求停止阻塞，然后直接从缓存中获取数据</p>
+<p>因为我们的项目本身是不支持<code>ttl</code>和删除操作的，所以第一种方案不太适合，所以采用第二种互斥锁的方案，实现了一个<code>singleflight</code>结构来处理缓存击穿</p>
+<p><strong>封装请求 call</strong></p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">//封装每个请求/调用</span></span><br><span class="line"><span class="keyword">type</span> call <span class="keyword">struct</span> &#123;</span><br><span class="line">    wg  sync.WaitGroup</span><br><span class="line">    val <span class="keyword">interface</span>&#123;&#125; <span class="comment">//请求的值</span></span><br><span class="line">    err <span class="type">error</span>       <span class="comment">//err</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//singleflight 核心结构</span></span><br><span class="line"><span class="keyword">type</span> Group <span class="keyword">struct</span> &#123;</span><br><span class="line">    mu sync.Mutex</span><br><span class="line">    m  <span class="keyword">map</span>[<span class="type">string</span>]*call <span class="comment">//key 与 call 的映射</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>并发控制核心代码</strong></p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">//并发请求控制</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(g *Group)</span></span> Do(key <span class="type">string</span>, fn <span class="function"><span class="keyword">func</span><span class="params">()</span></span> (<span class="keyword">interface</span>&#123;&#125;, <span class="type">error</span>)) (<span class="keyword">interface</span>&#123;&#125;, <span class="type">error</span>) &#123;</span><br><span class="line">    g.mu.Lock()</span><br><span class="line">    <span class="keyword">if</span> g.m == <span class="literal">nil</span> &#123;</span><br><span class="line">        g.m = <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="type">string</span>]*call)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> c, ok := g.m[key]; ok &#123;</span><br><span class="line">        g.mu.Unlock() <span class="comment">//释放锁，按顺序进来</span></span><br><span class="line">        c.wg.Wait()   <span class="comment">//等着，等第一个请求完成</span></span><br><span class="line">        <span class="keyword">return</span> c.val, c.err</span><br><span class="line">    &#125;</span><br><span class="line">    c := <span class="built_in">new</span>(call)</span><br><span class="line">    c.wg.Add(<span class="number">1</span>)</span><br><span class="line">    g.m[key] = c</span><br><span class="line">    g.mu.Unlock()       <span class="comment">//这里释放锁，让其他请求进入上面的分支中 wait（其实只有并发量大的时候才会进入上面的分支）</span></span><br><span class="line">    c.val, c.err = fn() <span class="comment">//请求数据</span></span><br><span class="line">    c.wg.Done()         <span class="comment">//获取到值，第一个请求结束，其他请求可以获取到值了</span></span><br><span class="line">    <span class="comment">//删除 m 中的 key, 避免 key 发生变化，而取到的还是旧值</span></span><br><span class="line">    g.mu.Lock()</span><br><span class="line">    <span class="built_in">delete</span>(g.m, key)</span><br><span class="line">    g.mu.Unlock()</span><br><span class="line">    <span class="keyword">return</span> c.val, c.err</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当多个并发的请求来请求同一个<code>key</code>的时候，只有<strong>第一个请求</strong>能拿到锁去 DB 中取数据，其他的请求就只能在方法外阻塞，当第一个请求构造好<code>call</code>就释放锁，这个时候其他并发的请求获取锁，进入阻塞的分支释放锁，然后再次阻塞，等待<strong>第一个请求</strong>获取到数据并封装进与<code>key</code>对应的<code>call</code>中，然后直接返回，不再向数据库请求，从而避免了缓存击穿</p>
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p>用<code>singleFlight</code>包装一下我们的<code>load</code>方法</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">view, err := g.loader.Do(key, <span class="function"><span class="keyword">func</span><span class="params">()</span></span> (<span class="keyword">interface</span>&#123;&#125;, <span class="type">error</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> g.peers != <span class="literal">nil</span> &#123;</span><br><span class="line">        <span class="comment">//根据一致性 Hash 选择节点 Peer</span></span><br><span class="line">        <span class="keyword">if</span> peer, ok := g.peers.PickPeer(key); ok &#123;</span><br><span class="line">            <span class="comment">//从上面的 Peer 中获取数据</span></span><br><span class="line">            <span class="keyword">if</span> value, err = g.getFromPeer(peer, key); err == <span class="literal">nil</span> &#123;</span><br><span class="line">                <span class="keyword">return</span> value, <span class="literal">nil</span></span><br><span class="line">            &#125;</span><br><span class="line">            log.Println(<span class="string">&quot;[Gacache] Fail to get from remote peer!!!&quot;</span>, err)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> g.getLocally(key)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>再次使用上面同样的脚本进行测试</p>
+<p><img src="http://static.imlgw.top/blog/20200530/OThgxtFJrFIG.png?imageslim" alt="mark"></p>
+<p>可以看到 5 个请求都成功了，我们再看看<code>log</code></p>
+<p><img src="http://static.imlgw.top/blog/20200530/fsgxPPXNeVoo.png?imageslim" alt="mark"></p>
+<p>可以看到，我请求了 5 次，但是实际上<code>getFromPeer</code>从远程节点取数据只执行了一次</p>
+<p><img src="http://static.imlgw.top/blog/20200530/ChE0FxjwlYbl.png?imageslim" alt="mark"></p>
+<p>从<code>SlowDB</code>的查询也只执行了一次，说明我们的<code>singleFlight</code>并发控制生效了！</p>
+<h2 id="热点互备"><a href="#热点互备" class="headerlink" title="热点互备"></a>热点互备</h2><p>热点互备也是<code>groupcache</code>的特点之一，在源码注释中写到</p>
+<blockquote>
+<p>hotCache contains keys/values for which this peer is not authoritative (otherwise they would be in <strong>mainCache</strong>), but are popular enough to warrant mirroring in this process to avoid going over the network to fetch from a peer.  Having a hotCache avoids network hotspotting, where a peer’s network card could become the bottleneck on a popular key. This cache is used sparingly to maximize the total number of key/value pairs that can be stored globally.</p>
+</blockquote>
+<p>大致意思就是，<code>hotCache</code>中存储的主要是该节点没有的键值对（否则就在<code>mainCache</code>中了），但是这些键值对请求的非常频繁，所以需要保证在此过程中进行热点备份，避免通过网络从远程节点去获取，<code>hotCache</code>避免了网络热点，使节点的网卡成为热点<code>key</code>的瓶颈</p>
+<p>但是在<code>groupcache</code>中对<code>hotCache</code>的处理只是随机的存储，每次从远程节点获取数据的时候有 1/10 的概率存储到<code>hotCache</code>中（<a target="_blank" rel="noopener" href="https://github.com/golang/groupcache/blob/master/groupcache.go#L318">code</a>）</p>
+<p><img src="http://static.imlgw.top/blog/20200601/A0oPStJGqht3.png?imageslim" alt="mark"></p>
+<p>可以看到这是一个 TODO，注释中也提到了可以使用 QPS 来判断是否是热点<code>key</code>，所以我按照这个想法写了一个简单的统计</p>
+<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>首先我们需要添加一个<code>hotCache</code>的结构，这个 cache 和<code>mainCache</code>一样，都是并发安全的<code>lru</code>队列，然后我们在向某个节点请求数据的时候就可以先从<code>mainCache</code>中请求如果没有就从<code>hotCache</code>中请求 ，如下</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(g *Group)</span></span> Get(key <span class="type">string</span>) (ByteView, <span class="type">error</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> key == <span class="string">&quot;&quot;</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> ByteView&#123;&#125;, fmt.Errorf(<span class="string">&quot;key nil&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> v, ok := g.mainCache.get(key); ok &#123;</span><br><span class="line">        log.Printf(<span class="string">&quot;[GaCache (mainCache)] hit&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> v, <span class="literal">nil</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//add: hotCache</span></span><br><span class="line">    <span class="keyword">if</span> v, ok := g.hotCache.get(key); ok &#123;</span><br><span class="line">        log.Printf(<span class="string">&quot;[GaCache (hotCache)] hit&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> v, <span class="literal">nil</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//当前节点没有数据，去其他地方加载</span></span><br><span class="line">    <span class="keyword">return</span> g.load(key)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后封装了一个<code>KeyStats</code>的结构，用于统计<code>key</code>的请求信息</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Key 的统计信息</span></span><br><span class="line"><span class="keyword">type</span> KeyStats <span class="keyword">struct</span> &#123;</span><br><span class="line">    firstGetTime time.Time <span class="comment">//第一次请求的时间</span></span><br><span class="line">    remoteCnt    AtomicInt <span class="comment">//请求的次数（利用 atomic 包封装的原子类）</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>除此之外，还需要将<code>key</code>和<code>KeyStats</code>对应，所以需要在 cache 的核心结构<code>Group</code>中加入映射关系</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> Group <span class="keyword">struct</span> &#123;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">    keys <span class="keyword">map</span>[<span class="type">string</span>]*KeyStats</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后在节点请求远程节点的时候统计请求的信息，也就是<code>getFromPeer</code>函数中</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="comment">//从远程节点获取数据</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(g *Group)</span></span> getFromPeer(peer PeerGetter, key <span class="type">string</span>) (ByteView, <span class="type">error</span>) &#123;</span><br><span class="line">    <span class="comment">//构建 proto 的 message</span></span><br><span class="line">    req := &amp;pb.Request&#123;</span><br><span class="line">        Group: g.name,</span><br><span class="line">        Key:   key,</span><br><span class="line">    &#125;</span><br><span class="line">    res := &amp;pb.Response&#123;&#125;</span><br><span class="line">    err := peer.Get(req, res)</span><br><span class="line"></span><br><span class="line">    fmt.Println(<span class="string">&quot;getFromPeer&quot;</span>, key)</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> ByteView&#123;&#125;, err</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//远程获取 cnt++</span></span><br><span class="line">    <span class="keyword">if</span> stat, ok := g.keys[key]; ok &#123;</span><br><span class="line">        stat.remoteCnt.Add(<span class="number">1</span>)</span><br><span class="line">        <span class="comment">//计算 QPS</span></span><br><span class="line">        interval := <span class="type">float64</span>(time.Now().Unix()-stat.firstGetTime.Unix()) / <span class="number">60</span></span><br><span class="line">        qps := stat.remoteCnt.Get() / <span class="type">int64</span>(math.Max(<span class="number">1</span>, math.Round(interval)))</span><br><span class="line">        <span class="keyword">if</span> qps &gt;= maxMinuteRemoteQPS &#123;</span><br><span class="line">            <span class="comment">//存入 hotCache</span></span><br><span class="line">            g.populateCache(key, ByteView&#123;b: res.Value&#125;, &amp;g.hotCache)</span><br><span class="line">            <span class="comment">//删除映射关系，节省内存</span></span><br><span class="line">            mu.Lock()</span><br><span class="line">            <span class="built_in">delete</span>(g.keys, key)</span><br><span class="line">            mu.Unlock()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">//第一次获取</span></span><br><span class="line">        g.keys[key] = &amp;KeyStats&#123;</span><br><span class="line">            firstGetTime: time.Now(),</span><br><span class="line">            remoteCnt:    <span class="number">1</span>,</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ByteView&#123;b: res.Value&#125;, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>maxMinuteRemoteQPS</code>是一个常量，每个 key 每分钟远程请求最大的 QPS，每次向远程节点请求数据的时候计算当前<code>key</code>第一次获取的时间到目前为止的 QPS，如果大于阈值<code>maxMinuteRemoteQPS</code>，就会将其存入<code>hotCache</code>中，之后就可以直接从<code>hotCache</code>中获取数据，而不用在通过网络去获取</p>
+<h3 id="测试-1"><a href="#测试-1" class="headerlink" title="测试"></a>测试</h3><p>同样使用前面的 go 脚本来测试</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">20</span>; i++ &#123;</span><br><span class="line">        wg.Add(<span class="number">1</span>)</span><br><span class="line">        <span class="comment">//go curl(&quot;resolmi&quot;)</span></span><br><span class="line">        <span class="comment">//i not exist</span></span><br><span class="line">        <span class="comment">//go curl(strconv.Itoa(i))</span></span><br><span class="line">        time.Sleep(<span class="number">500</span> * time.Millisecond)</span><br><span class="line">        curl(<span class="string">&quot;resolmi&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    wg.Wait()</span><br><span class="line">    fmt.Println(<span class="string">&quot;Done!&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">curl</span><span class="params">(key <span class="type">string</span>)</span></span> &#123;</span><br><span class="line">    res, _ := http.Get(<span class="string">&quot;http://localhost:9999/api?key=&quot;</span> + key)</span><br><span class="line">    bytes, _ := ioutil.ReadAll(res.Body)</span><br><span class="line">    fmt.Println(<span class="type">string</span>(bytes))</span><br><span class="line">    wg.Done()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意这里请求不要请求太快，如果一个 key 请求的太快会被<code>singleFlight</code>并发控制组件拦截，多数请求不会走网络（这个组件作用还是挺大的），所以并没有使用<code>goroutine</code>，而是正常的调用，并且中间停顿 0.5s</p>
+</blockquote>
+<p>这里为了方便模拟，我设置了 <code>maxMinuteRemoteQPS = 10</code> ，上面的脚本一分钟之内会请求<code>“resolmi”</code> 20 次，这个<code>key</code>的分片已知是远程节点（8003）的，所以会在第 10 次的时候触发<code>hotCache</code>，将数据存入当前节点（8004）的<code>hotCache</code>中，后续的请求就会直接从<code>hotCache</code>中取，如下图所演示</p>
+<p><img src="http://static.imlgw.top/blog/20200602/hKH8u6E1gpcA.gif" alt="mark"></p>
+<p>可以看到效果确实达到了，但是这样做有一个比较大的缺点就是内存耗费会比原来大，需要额外维护一个 map，不过这部分信息并不大，仅仅需要存储<code>key</code>和对应<code>keyStats</code> ，key 的长度一般不会很长，<code>keyStats</code> 的长度是固定的，一个<code>time</code>和一个<code>int64</code>，所以一定程度上还是可行的。</p>
+<blockquote>
+<p>这种方案只是我能想到的一种比较简单的处理方法，肯定会有更好的处理方式。但是截至目前（2020.6.2）<code>groupcache</code>中没有对这里进行改进，如果以后有更新可以再学习下</p>
+</blockquote>
+<h2 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h2><p>查询一个不存在的数据，因为不存在则不会写到缓存中，所以每次都会去请求 DB，如果瞬间流量过大，穿透到 DB 就会导致宕机</p>
+<h3 id="复现-1"><a href="#复现-1" class="headerlink" title="复现"></a>复现</h3><p>使用上面的脚本再次启动<code>Cache Server</code>，然后用下面的 go 代码测试</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">5</span>; i++ &#123;</span><br><span class="line">        wg.Add(<span class="number">1</span>)</span><br><span class="line">        <span class="comment">//go curl(&quot;resolmi&quot;)</span></span><br><span class="line">        <span class="comment">//i not exist</span></span><br><span class="line">        <span class="keyword">go</span>  curl(strconv.Itoa(i))</span><br><span class="line">    &#125;</span><br><span class="line">    wg.Wait()</span><br><span class="line">    fmt.Println(<span class="string">&quot;Done!&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">curl</span><span class="params">(key <span class="type">string</span>)</span></span> &#123;</span><br><span class="line">    res, _ := http.Get(<span class="string">&quot;http://localhost:9999/api?key=&quot;</span> + key)</span><br><span class="line">    bytes, _ := ioutil.ReadAll(res.Body)</span><br><span class="line">    fmt.Println(<span class="type">string</span>(bytes))</span><br><span class="line">    wg.Done()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意这里需要构造不同的 key，相同的 key 会被前面的<code>singleFlight</code>组件拦截</p>
+</blockquote>
+<p>结果如下：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">[ <span class="string">`go run .`</span> | done: <span class="number">1.8734423</span>s ]</span><br><span class="line">  <span class="number">1</span> not exist</span><br><span class="line">  <span class="number">2</span> not exist</span><br><span class="line">  <span class="number">0</span> not exist</span><br><span class="line">  <span class="number">4</span> not exist</span><br><span class="line">  <span class="number">3</span> not exist</span><br><span class="line">  Done!</span><br></pre></td></tr></table></figure>
+
+<p>然后我们看看<code>Server</code>的情况</p>
+<p><img src="http://static.imlgw.top/blog/20200531/kV5ojfIeddm4.png?imageslim" alt="mark"></p>
+<p>可以看到，5 个<code>key</code>通过一致性 Hash 分散到不同的节点，但是由于<code>DB</code>中根本就没有这些数据，所以这些数据并不会缓存，每次查询都会到<code>DB</code>中去重新查询，如果短时间内有大量请求查询这些根本不存在的数据，那么这些请求都会直接打到 DB 层，将 DB 层压垮！</p>
+<h3 id="解决方案-1"><a href="#解决方案-1" class="headerlink" title="解决方案"></a>解决方案</h3><p><strong>1. 缓存空对象</strong></p>
+<p>之所以发生缓存穿透，是因为缓存中没有存储这些空数据的 key，导致这些请求全都打到数据库上。那么，我们可以稍微修改一下业务层的代码，将数据库查询结果为空的 key 也存储在缓存中。当后续又出现该 key 的查询请求时，缓存直接返回 null，而无需查询数据库。</p>
+<p><strong>2. 布隆过滤器</strong></p>
+<p>当业务层有查询请求的时候，首先去<code>BloomFilter</code>中查询该 key 是否存在。若不存在，则说明数据库中也不存在该数据，因此缓存都不要查了，直接返回 null。若存在，则继续执行后续的流程，先前往缓存中查询，缓存中没有的话再前往数据库中的查询。</p>
+<p>这里第一个种方案可以直接排除，一方面因为我们这个 cache 是不能删除数据的，只能被动的淘汰数据，缓存大量的空对象且得不到及时的删除会浪费大量内存，另一方面，缓存空对象的做法，如果每次查询的不存在的<code>key</code>都不一样，那么这种方案也就起不到作用了</p>
+<p>至于第二种方案，可行，但是不应该在缓存层来做，应该在业务层处理，也就是在上层处理，因为这是一个分布式的缓存组件，每个节点的数据都是不一样的，用布隆过滤器你只能判断在<strong>当前节点</strong>有没有，无法判断<strong>远程节点</strong>有没有，所以一开始就要将所有数据预热到布隆过滤器中，但是这样每一个节点都会需要一个布隆过滤器，这样做没有任何意义，所以缓存穿透的问题应该放到应用层去处理</p>
+<h2 id="TODO"><a href="#TODO" class="headerlink" title="TODO"></a>TODO</h2><ul>
+<li><input checked="" disabled="" type="checkbox"> 分布式节点通信</li>
+<li><input checked="" disabled="" type="checkbox"> 一致性 Hash</li>
+<li><input checked="" disabled="" type="checkbox"> 缓存击穿</li>
+<li><input checked="" disabled="" type="checkbox"> 热点互备</li>
+<li><input disabled="" type="checkbox"> 配置解耦</li>
+<li><input disabled="" type="checkbox"> 集群管理</li>
+</ul>
+
+        
+            <div class="donate-container">
+    <div class="donate-button">
+        <button id="donate-button">赞赏</button>
+    </div>
+    <div class="donate-img-container hide" id="donate-img-container">
+        <img id="donate-img" src="" data-src="">
+        <p> 感谢鼓励 </p>
+    </div>
+</div>
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+        <div id="lv-container"></div>
+        <div class="giscus"></div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/imlgw">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://imlgw.top">Tadow</a></span>
+        <span>/</span>
+        
+        <span><a target="_blank" rel="noopener" href="http://beian.miit.gov.cn/publish/query/indexFirst.action">鄂ICP备18011208号</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>  Theme <a target="_blank" rel="noopener" href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/live2d-widget@3.x/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"https://cdn.jsdelivr.net/npm/live2d-widget-model-hijiki@1.0.5/assets/hijiki.model.json"},"display":{"superSample":2,"width":160,"height":320,"position":"right","hOffset":0,"vOffset":-70},"mobile":{"show":false,"scale":0.2},"log":false});</script></body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://giscus.app/client.js"
+  data-repo="imlgw/imlgw.github.io"
+  data-repo-id="MDEwOlJlcG9zaXRvcnkxMzMyMDY4NDg="
+  data-category="Announcements"
+  data-category-id="DIC_kwDOB_CTQM4CQ7v8"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="top"
+  data-theme="light"
+  data-lang="zh-CN"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+
+
+</html>

@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:description" content="Tadow 的博客">
+    <meta property="og:type" content="website">
+    <meta name="description" content="Tadow 的博客">
+    <meta name="keyword"  content="Tadow, Resolmi, imlgw, 半岛铁盒, 算法, Java, Golang">
+    <link rel="shortcut icon" href="https://fav.farm/💭">
+
+    <title>
+        
+        Go runtime 调度 - Tadow 碎碎念
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_28hi1hpxx24.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Tadow 碎碎念" type="application/atom+xml">
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> Keep It Simple, Stupid </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar radius">
+            <img src="https://static.imlgw.top/blog/20220821160037.png" />
+        </div>
+        <div class="name">
+            <i>Tadow</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <!-- <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li> -->
+            <li >
+                <a href="/categories">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>分类</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            
+            <li >
+                <a href="/selfhosted">
+                    <i class="iconfont icon-guidang1"></i>
+                    <span>自建</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/collect/">
+                    <i class="iconfont icon-shoucang1"></i>
+                    <span>收藏</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Linux-%E8%BF%9B%E7%A8%8B-amp-%E7%BA%BF%E7%A8%8B"><span class="toc-text">Linux 进程 &amp; 线程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B%E6%A8%A1%E5%9E%8B"><span class="toc-text">线程模型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E7%BA%A7%E7%BA%BF%E7%A8%8B%E6%A8%A1%E5%9E%8B"><span class="toc-text">用户级线程模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%85%E6%A0%B8%E7%BA%A7%E7%BA%BF%E7%A8%8B%E6%A8%A1%E5%9E%8B"><span class="toc-text">内核级线程模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%A4%E7%BA%A7%EF%BC%88%E6%B7%B7%E5%90%88%EF%BC%89%E7%BA%BF%E7%A8%8B%E6%A8%A1%E5%9E%8B"><span class="toc-text">两级（混合）线程模型</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#G-P-M-%E6%A8%A1%E5%9E%8B"><span class="toc-text">G-P-M 模型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#GPM-%E7%BB%93%E6%9E%84"><span class="toc-text">GPM 结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#G%EF%BC%88goroutine%EF%BC%89"><span class="toc-text">G（goroutine）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#P%EF%BC%88Processor%EF%BC%89"><span class="toc-text">P（Processor）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#M%EF%BC%88Machine%EF%BC%89"><span class="toc-text">M（Machine）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#G0-%E5%92%8C-M0"><span class="toc-text">G0 和 M0</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Runtime-%E6%BA%90%E7%A0%81%E6%B3%A8%E9%87%8A"><span class="toc-text">Runtime 源码注释</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-text">参考资料</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-bg" id="search-bg"></div>
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i> Keep It Simple, Stupid </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        Go runtime 调度
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2022-04-21 00:00:00</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#golang" title="golang">golang</a>
+        <span>/</span>
+        
+        <a class="tag" href="/tags/#并发" title="并发">并发</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <h1 id="Linux-进程-amp-线程"><a href="#Linux-进程-amp-线程" class="headerlink" title="Linux 进程 &amp; 线程"></a>Linux 进程 &amp; 线程</h1><blockquote>
+<p>在讲解详细的线程模型前，先整理一下概念</p>
+</blockquote>
+<p>Linux 内核在 2.0.x 版本实现了<strong>轻量级进程</strong>（普遍意义上的线程），应用程序可以通过一个统一的<code>clone()</code>系统调用接口，用不同的<code>flag</code>参数指定创建<strong>轻量级进程</strong>（线程）还是普通进程。当<code>flag</code>参数设置了共享相关标识时，创建<strong>线程</strong>，否则创建的就是进程，二者的边界实际上很模糊。</p>
+<p>从 Linux 内核角度来看，实际上也并没有对「进程」和「线程」进行严格的区分。无论是进程还是线程，都通过 <a target="_blank" rel="noopener" href="https://github.com/torvalds/linux/blob/master/include/linux/sched.h#L728">struct task_struct</a> 来表示，结构体中也并没有对进程和线程的标识位。</p>
+<p>所以在 Linux 中，线程本质还是进程，只是它会和其他进程共享地址空间和系统资源等，如此便<strong>将进程和其占用的资源分离</strong>，相比与传统进程就显得更加”轻量级“。</p>
+<p>进而我们可以将进程理解为<strong>资源的容器</strong>，其中包含一个或者多个线程，同一个进程下各个线程共享资源（地址空间，文件描述符等）。而线程则作为<strong>内核调度的基本单位</strong>，各个线程有各自的寄存器，线程栈，程序计数器等。</p>
+<h1 id="线程模型"><a href="#线程模型" class="headerlink" title="线程模型"></a>线程模型</h1><h2 id="用户级线程模型"><a href="#用户级线程模型" class="headerlink" title="用户级线程模型"></a>用户级线程模型</h2><p>早期操作系统并没有提供对线程的支持，所以线程以<strong>用户级线程</strong>的形式存在。多线程的调度都由用户自己的<strong>线程/协程库</strong>（比如 py 的 gevent，jdk 早期的 Green Threads）来完成，包括线程的创建，调度，销毁，同步等都由库函数在用户空间完成，不需要内核的支持。只在运行时将进程中所有的线程和内核的一个调度实体动态的绑定，即 N:1 的模型。这种模型下内核对用户线程没有任何感知，仍然以进程为单位调度。</p>
+<p><img src="https://static.imlgw.top/blog/20220413181645.png" alt="Modern Operating Systems"></p>
+<p>这种模型好处显而易见：</p>
+<ol>
+<li>调度过程在用户态实现，不需要内核切换，消耗很小。</li>
+<li>创建成本低，可支持创建的线程数量很多</li>
+<li>可以为线程定制调度算法，比如 gc 线程，我们就可以定制调度算法，不让其随便 stop</li>
+</ol>
+<p>但是用户级线程也存在一些问题：</p>
+<ol>
+<li>线程<strong>阻塞调用</strong>（如 I/O 操作）会导致进程下所有线程阻塞，因为用户线程都是挂靠在<strong>同一个</strong>内核进程/线程上的，在内核角度就是一个进程阻塞了，此时用户调度线程也无法再进行调度切换。一种不太优雅的解决方案就是重写系统调用库中一些阻塞的方法，将其封装为非阻塞调用，在即将阻塞的地方让出 cpu，将执行权交给其他线程，等系统准备好了不会再阻塞了再进行调用（py 的 gevent 库就是这样做的，使用的 select/epoll）</li>
+<li>无法利用多核资源，多个线程最终还是挂靠在单个内核进程上，做不到真正的并发</li>
+<li>不适合 CPU 密集型任务，如果用户线程是 cpu 密集型任务，没有阻塞操作，那么它就不会主动释放 CPU，其他线程就得不到执行机会，就会出现线程饥饿现象。</li>
+</ol>
+<h2 id="内核级线程模型"><a href="#内核级线程模型" class="headerlink" title="内核级线程模型"></a>内核级线程模型</h2><p>关于「内核线程」上面也有提到，实际上内核线程就是直接由操作系统内核支持的线程（Kernel Levvel Thread，KLT）。我们的应用程序一般不会直接去使用内核线程，而是通过创建我们前文中说到的<strong>轻量级进程（LWP）</strong>，进而去使用内核线程。LWP 和内核线程是一一对应的，是一个 1:1 的映射模型。这样就将线程的创建，调度，销毁等都交给内核去完成（主流 jdk 的 Thread 库就是这种模型）</p>
+<p><img src="https://static.imlgw.top/blog/20220414075456.png" alt="深入理解 Java 虚拟机"></p>
+<p>这种模型的优点很明显：</p>
+<ol>
+<li>内核可以感知到线程（LWP）的存在。</li>
+<li>实现简单，每个线程都是一个独立的调度单元，直接使用内核提供的调度器，由内核去处理线程阻塞，线程切换等问题，用户不干预调度过程，只能提供调度建议。</li>
+<li>真正做到了并行处理，充分利用了多核处理器的优势</li>
+</ol>
+<p>缺点也同样明显：</p>
+<ol>
+<li>每一个用户线程都要对应到一个内核线程，而内核资源有限，所以能支持的线程数量也有限</li>
+<li>线程创建，销毁，多线程之间上下文切换调度，都需要进行系统调用，需要在用户态和内核态之间进行切换，开销比较大，影响性能。</li>
+</ol>
+<h2 id="两级（混合）线程模型"><a href="#两级（混合）线程模型" class="headerlink" title="两级（混合）线程模型"></a>两级（混合）线程模型</h2><p>「两级线程模型」就是结合了用户线程模型以及内核线程模型后的产物，<strong>用户线程</strong>和 <strong>LWP</strong> 是 M：N 的映射关系。此时用户线程还是完全建立在用户空间中，由程序的 Runtime 来负责调度，因此用户线程的创建，销毁，调度等操作仍然很廉价。并且也可以支持大规模的线程并发。</p>
+<p>这种模式下，用户线程不再唯一的绑定一个内核线程，当某个用户线程阻塞时，其他的线程可以重新与其他的内核线程绑定运行，避免了用户线程模型中整个进程被阻塞的问题。</p>
+<p>这种模型之所以被称为两级线程模型，是因为该模型中线程既不是完全靠自己调度，也不是完全靠内核去调度，而是二者协调调度。<br>用户 Runtime 负责调度用户线程到内核线程的调度，而内核负责内核线程到 CPU 上的调度，故称为二级线程模型。Go 语言采用的就是这种模型。</p>
+<h1 id="G-P-M-模型"><a href="#G-P-M-模型" class="headerlink" title="G-P-M 模型"></a>G-P-M 模型</h1><h2 id="GPM-结构"><a href="#GPM-结构" class="headerlink" title="GPM 结构"></a>GPM 结构</h2><h3 id="G（goroutine）"><a href="#G（goroutine）" class="headerlink" title="G（goroutine）"></a>G（goroutine）</h3><p>表示 goroutine，参与调度的最小单位。每个 Goroutine 对应一个 G 结构体，G 存储 goroutine 的运行堆栈、状态以及任务函数，因为 goroutine 在执行过程中可能因为各种原因被暂停，这时需要保存 PC 和堆栈信息，以便恢复后时继续执行。每个 G 需要绑定到 P 才能被调度执行。</p>
+<p>在函数前加 go 关键字创建一个协程，其实是调用 <a target="_blank" rel="noopener" href="https://github.com/golang/go/blob/master/src/runtime/proc.go#L4071">newproc</a> 函数，fn 就是 go 关键字后面函数地址</p>
+<figure class="highlight golang"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> g <span class="keyword">struct</span> &#123;</span><br><span class="line">    goid           <span class="type">int64</span>   <span class="comment">// goroutine id</span></span><br><span class="line">    atomicstatus   <span class="type">uint32</span>  <span class="comment">// 当前状态</span></span><br><span class="line">    stack          stack   <span class="comment">// g 栈区间</span></span><br><span class="line">    m         *m      <span class="comment">// 当前 m</span></span><br><span class="line">    sched          gobuf   <span class="comment">// 运行时信息，包含 PC 以及运行时的堆栈信息</span></span><br><span class="line">    stackguard0    <span class="type">uintptr</span> <span class="comment">// stackguard0 = stack.lo + StackGuard，如果要抢占当前 g 会把字段值设为 stackPreempt</span></span><br><span class="line">    preempt       <span class="type">bool</span> <span class="comment">// preemption signal, duplicates stackguard0 = stackpreempt</span></span><br><span class="line">    <span class="comment">// ... 省略部分字段。..</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">type</span> stack <span class="keyword">struct</span> &#123; <span class="comment">//栈从高地址往低地址增长</span></span><br><span class="line">    lo <span class="type">uintptr</span></span><br><span class="line">    hi <span class="type">uintptr</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">type</span> gobuf <span class="keyword">struct</span> &#123;</span><br><span class="line">    sp   <span class="type">uintptr</span> <span class="comment">// 堆栈指针</span></span><br><span class="line">    pc   <span class="type">uintptr</span> <span class="comment">// 计数器指针</span></span><br><span class="line">    g    guintptr</span><br><span class="line">    ctxt unsafe.Pointer</span><br><span class="line">    ret  <span class="type">uintptr</span></span><br><span class="line">    lr   <span class="type">uintptr</span></span><br><span class="line">    bp   <span class="type">uintptr</span> <span class="comment">// for framepointer-enabled architectures</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>G 的状态</p>
+<figure class="highlight golang"><table><tr><td class="code"><pre><span class="line">_Gidle  <span class="comment">// 刚被创建，还没初始化</span></span><br><span class="line">_Grunnable <span class="comment">// 在运行队列中，还没被执行，也没分配栈 </span></span><br><span class="line">_Grunning <span class="comment">// 运行中</span></span><br><span class="line">_Gsyscall <span class="comment">// 系统调用</span></span><br><span class="line">_Gwaiting <span class="comment">// 阻塞状态，比如：等待 channel、i/o 操作被 gopark</span></span><br><span class="line">_Gdead <span class="comment">// goroutine 执行结束，进入 freelist 中</span></span><br><span class="line">_Gpreempted <span class="comment">// g 被通过信号方式抢占，此状态不能直接 goready</span></span><br></pre></td></tr></table></figure>
+<h3 id="P（Processor）"><a href="#P（Processor）" class="headerlink" title="P（Processor）"></a>P（Processor）</h3><p>逻辑处理器，对于 G 来说，只有 G 绑定到 P（进入 P 的任务队列中），才能被调度。对于 M 来说，P 提供了相关的执行环境（Context 上下文），内存分配状态，任务队列等。P 的初始化在 <a target="_blank" rel="noopener" href="https://github.com/golang/go/blob/master/src/runtime/proc.go#L658">schedinit</a> 中</p>
+<blockquote>
+<p>Go1.0 时期并没有 P，所以所有的 G 的创建和调度都需要加全局的锁，性能损耗很大，所以早期 Go 并发性能并不好 </p>
+</blockquote>
+<figure class="highlight golang"><table><tr><td class="code"><pre><span class="line"><span class="comment">// go1.18 darwin/amd64 runtime/runtime2.go</span></span><br><span class="line"><span class="keyword">type</span> p <span class="keyword">struct</span> &#123;</span><br><span class="line">    id          <span class="type">int32</span> <span class="comment">//P 的 id</span></span><br><span class="line">    status      <span class="type">uint32</span> <span class="comment">//当前状态</span></span><br><span class="line">    mcache      *mcache <span class="comment">//内存分配器</span></span><br><span class="line">    runqhead <span class="type">uint32</span> <span class="comment">// 队列头</span></span><br><span class="line">    runqtail <span class="type">uint32</span> <span class="comment">// 队列尾</span></span><br><span class="line">    runq     [<span class="number">256</span>]guintptr <span class="comment">//等执行的 goroutine 队列，访问时不需要加锁</span></span><br><span class="line">    m           muintptr <span class="comment">//P 绑定的 m</span></span><br><span class="line">    <span class="comment">// Available G&#x27;s (status == Gdead)</span></span><br><span class="line">    gFree <span class="keyword">struct</span> &#123; <span class="comment">//当 G 运行结束后，清除数据放入列表以便复用</span></span><br><span class="line">        gList</span><br><span class="line">        n <span class="type">int32</span></span><br><span class="line">    &#125;</span><br><span class="line">    runnext guintptr <span class="comment">//下个运行的 g，如果不为 nil, 则当前 g 执行完后，优先执行它</span></span><br><span class="line">    <span class="comment">// ... 省略部分字段。..</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>P 的状态</p>
+<figure class="highlight golang"><table><tr><td class="code"><pre><span class="line">_Pidle <span class="comment">//当 M 没有 G 可执行时，P 进入空闲列表</span></span><br><span class="line">_Prunning <span class="comment">//P 和 M 绑定，正在执行 G 或在寻找可执行的 G</span></span><br><span class="line">_Psyscall <span class="comment">//与之关联中的 M 进入系统调用</span></span><br><span class="line">_Pgcstop <span class="comment">//GC STW</span></span><br><span class="line">_Pdead <span class="comment">//调小 GOMAXPROCS 数量后多余的 p 置为此状态</span></span><br></pre></td></tr></table></figure>
+<h3 id="M（Machine）"><a href="#M（Machine）" class="headerlink" title="M（Machine）"></a>M（Machine）</h3><p>系统线程抽象，代表着真正执行计算的资源。M 会从 P 的队列（或者 Global 队列）中取 G 来执行，切换到 G 的执行栈上并执行 G 的函数，调用 goexit 做清理工作并回到 M，当 G 被暂停 M 会把上下文信息写回 G，并取下一个 G 继续执行。M 并不保留 G 状态，这也是 G 可以跨 M 调度的核心。</p>
+<p>新建 M 是通过 newm 来创建的，最终是通过 <a target="_blank" rel="noopener" href="https://github.com/golang/go/blob/master/src/runtime/os_linux.go#L166">newosproc</a> 函数来实现的新建线程，不通平台的 newosproc 有不同的具体实现， 比如 linux 平台下，是调用 clone 系统调用来实现创建线程，mac 平台下，是调用 pthread_create 创建线程。M 最多 10000 个，在 shedinit 中定义了 <code>sched.maxmcount</code></p>
+<figure class="highlight golang"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> m <span class="keyword">struct</span> &#123;</span><br><span class="line">    id            <span class="type">int64</span></span><br><span class="line">    g0      *g     <span class="comment">// 用于执行调度任务的 g，使用系统栈，不受 gc 影响</span></span><br><span class="line">    tls           [<span class="number">6</span>]<span class="type">uintptr</span>   <span class="comment">// 线程本地存储空间</span></span><br><span class="line">    curg          *g       <span class="comment">// 当前正在被执行的 goroutine</span></span><br><span class="line">    nextp         puintptr <span class="comment">// M 被唤醒需要立即绑定的 P</span></span><br><span class="line">    p             puintptr <span class="comment">// 与 M 绑定的 P</span></span><br><span class="line">    spinning      <span class="type">bool</span> <span class="comment">// true 表示 M 处于自旋转状态（当前没有 g 执行，正在寻找可执行的 g)</span></span><br><span class="line">    mcache        *mcache <span class="comment">//当 M 与 P 绑定后，跟 P 的 mcache 指向同一个内存分配器</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="G0-和-M0"><a href="#G0-和-M0" class="headerlink" title="G0 和 M0"></a>G0 和 M0</h3><ul>
+<li><p><strong>m0</strong>: 表示进程启动的第一个线程，也叫主线程。它和其他的 m 没有什么区别，要说区别的话，它是进程启动通过汇编直接复制给 m0 的，m0 是个全局变量，而其他的 m 都是 runtime 内自己创建的。 一个 go 进程只有一个 m0。</p>
+</li>
+<li><p><strong>g0</strong>: 每个 m 都有一个 g0，因为每个线程有一个系统堆栈，g0 虽然也是 g 的结构，但和普通的 g 还是有差别的，最重要的差别就是栈的差别。g0 上的栈是系统分配的栈，在 linux 上栈大小默认固定 8MB，不能扩展，也不能缩小。 而普通 g 一开始只有 2KB 大小，可扩展。在 g0 上也没有任何任务函数，也没有任何状态，并且它不能被调度程序抢占，因为调度就是在 g0 上跑的（参考 <a target="_blank" rel="noopener" href="https://github.com/golang/go/blob/master/src/runtime/proc.go#L1712">allocm</a>）。</p>
+<blockquote>
+<p>runtime 通常使用 systemstack、mcall 或 asmcgocall 临时切换到系统堆栈，以执行必须不被抢占的任务、不得增加用户堆栈的任务或切换用户 goroutines。在系统堆栈上运行的代码隐式不可抢占，垃圾收集器不扫描系统堆栈。在系统堆栈上运行时，不会使用当前用户堆栈执行</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="Runtime-源码注释"><a href="#Runtime-源码注释" class="headerlink" title="Runtime 源码注释"></a>Runtime 源码注释</h2><p>proc.go 的注释中写到：</p>
+<blockquote>
+<p>The bootstrap sequence is:</p>
+<ol>
+<li>call osinit</li>
+<li>call schedinit</li>
+<li>make &amp; queue new G</li>
+<li>call runtime·mstart</li>
+</ol>
+<p>（从对应的汇编也可以看出这个过程，我这里对应的是 runtime/asm_amd64.s）</p>
+</blockquote>
+<figure class="highlight golang"><table><tr><td class="code"><pre><span class="line"><span class="comment">//1. osinit 初始化 cpu 数量和页大小</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">osinit</span><span class="params">()</span></span> &#123;</span><br><span class="line">    ncpu = getproccount()</span><br><span class="line">    physHugePageSize = getHugePageSize()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2. call schedinit</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">schedinit</span><span class="params">()</span></span> &#123;</span><br><span class="line">    sched.maxmcount = <span class="number">10000</span> <span class="comment">//m 的最大数量</span></span><br><span class="line">    mallocinit() <span class="comment">//内存分配相关</span></span><br><span class="line">    <span class="comment">//根据环境变量，创建 GOMAXPROCS 个 G</span></span><br><span class="line">    sched.lastpoll = <span class="type">uint64</span>(nanotime())</span><br><span class="line">    procs := ncpu</span><br><span class="line">    <span class="keyword">if</span> n, ok := atoi32(gogetenv(<span class="string">&quot;GOMAXPROCS&quot;</span>)); ok &amp;&amp; n &gt; <span class="number">0</span> &#123;</span><br><span class="line">        procs = n</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> procresize(procs) != <span class="literal">nil</span> &#123;</span><br><span class="line">        throw(<span class="string">&quot;unknown runnable goroutine during bootstrap&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 3. 启动 main goroutine</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    g := getg()</span><br><span class="line">    <span class="comment">// 标记 main 已经启动</span></span><br><span class="line">    mainStarted = <span class="literal">true</span></span><br><span class="line">    <span class="comment">//在系统栈上（也就是通过 g0) 创建 m，并执行 sysmon，所以 symon 是在单独的 m 上运行，不受 gc 影响</span></span><br><span class="line">    <span class="keyword">if</span> GOARCH != <span class="string">&quot;wasm&quot;</span> &#123;</span><br><span class="line">        systemstack(<span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">            newm(sysmon, <span class="literal">nil</span>)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//如果 main goroutine 不在 m0 上运行，肯定 bug 了</span></span><br><span class="line">    <span class="keyword">if</span> g.m != &amp;m0 &#123;</span><br><span class="line">        throw(<span class="string">&quot;runtime.main not on m0&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//执行 runtime 的 init 和用户包中 init 函数</span></span><br><span class="line">    doInit(&amp;runtime_inittask)</span><br><span class="line">    doInit(&amp;main_inittask)</span><br><span class="line">    <span class="comment">//调用用户自定义的 main 函数</span></span><br><span class="line">    <span class="comment">//从这里可以看出在 golang 中，init 函数先于 main 函数执行</span></span><br><span class="line">    fn := main_main</span><br><span class="line">    fn()</span><br><span class="line">    <span class="comment">//退出主进程</span></span><br><span class="line">    exit(<span class="number">0</span>)</span><br><span class="line">    <span class="keyword">for</span> &#123;</span><br><span class="line">        <span class="keyword">var</span> x *<span class="type">int32</span></span><br><span class="line">        *x = <span class="number">0</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//4. call runtime·mstart（m0 启动）</span></span><br><span class="line"><span class="comment">//M0 在这里调用的 https://github.com/golang/go/blob/master/src/runtime/asm_amd64.s#L225</span></span><br><span class="line"><span class="comment">// mstart 是一个新 M 的入口函数。</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">mstart</span><span class="params">()</span></span> &#123;</span><br><span class="line">    _g_ := getg()</span><br><span class="line">    osStack := _g_.stack.lo == <span class="number">0</span></span><br><span class="line">    <span class="keyword">if</span> osStack &#123;</span><br><span class="line">        <span class="comment">// 初始化 g0 栈大小</span></span><br><span class="line">        size := _g_.stack.hi</span><br><span class="line">        <span class="keyword">if</span> size == <span class="number">0</span> &#123;</span><br><span class="line">            size = <span class="number">8192</span> * sys.StackGuardMultiplier</span><br><span class="line">        &#125;</span><br><span class="line">        _g_.stack.hi = <span class="type">uintptr</span>(noescape(unsafe.Pointer(&amp;size)))</span><br><span class="line">        _g_.stack.lo = _g_.stack.hi - size + <span class="number">1024</span></span><br><span class="line">    &#125;</span><br><span class="line">    _g_.stackguard0 = _g_.stack.lo + _StackGuard</span><br><span class="line">    _g_.stackguard1 = _g_.stackguard0</span><br><span class="line">    mstart1()</span><br><span class="line">    <span class="keyword">if</span> GOOS == <span class="string">&quot;windows&quot;</span> || GOOS == <span class="string">&quot;solaris&quot;</span> || GOOS == <span class="string">&quot;illumos&quot;</span> || GOOS == <span class="string">&quot;plan9&quot;</span> || GOOS == <span class="string">&quot;darwin&quot;</span> || GOOS == <span class="string">&quot;aix&quot;</span> &#123;</span><br><span class="line">        osStack = <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// m 退出</span></span><br><span class="line">    mexit(osStack)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">mstart1</span><span class="params">()</span></span> &#123;</span><br><span class="line">    _g_ := getg()</span><br><span class="line">    <span class="keyword">if</span> _g_ != _g_.m.g0 &#123;<span class="comment">//调用这个函数只，m 上只可能有 g0</span></span><br><span class="line">        throw(<span class="string">&quot;bad runtime·mstart&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//初始化 m</span></span><br><span class="line">    asminit()</span><br><span class="line">    minit()</span><br><span class="line">    <span class="comment">//执行 mspinning、sysmon 等</span></span><br><span class="line">    <span class="keyword">if</span> fn := _g_.m.mstartfn; fn != <span class="literal">nil</span> &#123;</span><br><span class="line">        fn()</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//_g_所在的 m 不是 m0, 则关联 p 和 m</span></span><br><span class="line">    <span class="keyword">if</span> _g_.m != &amp;m0 &#123;</span><br><span class="line">        acquirep(_g_.m.nextp.ptr())</span><br><span class="line">        _g_.m.nextp = <span class="number">0</span></span><br><span class="line">    &#125;</span><br><span class="line">    schedule()<span class="comment">//开始调度</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p> M 启动后进入 schedule() 方法，进入调度，调度的本质其实就是查找可以运行的 G，然后去运行 G 上面的任务函数</p>
+<figure class="highlight golang"><table><tr><td class="code"><pre><span class="line"><span class="comment">//需要注意的是：schedule 函数及子函数中调用的 getg() 返回的都是 g0，因为 schedule 是运行在 g0 上的</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">schedule</span><span class="params">()</span></span> &#123;</span><br><span class="line">    _g_ := getg() <span class="comment">//获取当前 g</span></span><br><span class="line">    <span class="keyword">var</span> gp *g</span><br><span class="line">    <span class="keyword">var</span> inheritTime <span class="type">bool</span></span><br><span class="line">    <span class="comment">// .....</span></span><br><span class="line">    <span class="keyword">if</span> gp == <span class="literal">nil</span> &#123;</span><br><span class="line">        <span class="comment">// 为了保证公平调度，schedule 每执行 61 次就会去全局队列拿一批 g 到 p 的本地队列，避免全局队列中的 g 饥饿</span></span><br><span class="line">        <span class="comment">// 否则可能出现 2 个 g 永久占用本地队列（因为被暂停的 goroutine 唤醒后优先放入本地队列）</span></span><br><span class="line">        <span class="keyword">if</span> _g_.m.p.ptr().schedtick%<span class="number">61</span> == <span class="number">0</span> &amp;&amp; sched.runqsize &gt; <span class="number">0</span> &#123;</span><br><span class="line">            lock(&amp;sched.lock)</span><br><span class="line">            gp = globrunqget(_g_.m.p.ptr(), <span class="number">1</span>)</span><br><span class="line">            unlock(&amp;sched.lock)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// .....</span></span><br><span class="line">    <span class="keyword">if</span> gp == <span class="literal">nil</span> &#123;</span><br><span class="line">        <span class="comment">//从本地队列中取 g</span></span><br><span class="line">        gp, inheritTime = runqget(_g_.m.p.ptr())</span><br><span class="line">        <span class="keyword">if</span> gp != <span class="literal">nil</span> &amp;&amp; _g_.m.spinning &#123;</span><br><span class="line">            throw(<span class="string">&quot;schedule: spinning with local work&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//如果本地队列中没有可执行的 g，则调用 findrunnable 直到有可运行的 g 为止</span></span><br><span class="line">    <span class="keyword">if</span> gp == <span class="literal">nil</span> &#123;</span><br><span class="line">        gp, inheritTime = findrunnable()</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 到这里，说明已经找到可运行的 g，如果 m 还处于自旋转状态，则置回正常状态</span></span><br><span class="line">    <span class="comment">// 并唤醒 p 与之绑定</span></span><br><span class="line">    <span class="keyword">if</span> _g_.m.spinning &#123;</span><br><span class="line">        resetspinning()</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//直接在当前 m 上执行 g</span></span><br><span class="line">    execute(gp, inheritTime)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>findrunnable 查找可运行的 G</p>
+<figure class="highlight golang"><table><tr><td class="code"><pre><span class="line"><span class="comment">//阻塞获取可执行的 G，findrunnable 会从全局队列、其它 P 队列、netpoll 中去轮询</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">findrunnable</span><span class="params">()</span></span> (gp *g, inheritTime <span class="type">bool</span>) &#123;</span><br><span class="line">    _g_ := getg()</span><br><span class="line">top:</span><br><span class="line">    _p_ := _g_.m.p.ptr()</span><br><span class="line">    <span class="comment">// 本地队列中有 g，则直接返回</span></span><br><span class="line">    <span class="keyword">if</span> gp, inheritTime := runqget(_p_); gp != <span class="literal">nil</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> gp, inheritTime</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 全局队列中如果有 g, 则从全局队列中取一批到本地队列</span></span><br><span class="line">    <span class="keyword">if</span> sched.runqsize != <span class="number">0</span> &#123;</span><br><span class="line">        lock(&amp;sched.lock)</span><br><span class="line">        gp := globrunqget(_p_, <span class="number">0</span>)</span><br><span class="line">        unlock(&amp;sched.lock)</span><br><span class="line">        <span class="keyword">if</span> gp != <span class="literal">nil</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> gp, <span class="literal">false</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 从 netpoll 中获取 g（非阻塞轮询已经完成的网络 io)</span></span><br><span class="line">    <span class="keyword">if</span> netpollinited() &amp;&amp; atomic.Load(&amp;netpollWaiters) &gt; <span class="number">0</span> &amp;&amp; atomic.Load64(&amp;sched.lastpoll) != <span class="number">0</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> list := netpoll(<span class="literal">false</span>); !list.empty() &#123; <span class="comment">//从 netpoll 中取出 i/o 读写完成的 g 列表</span></span><br><span class="line">            gp := list.pop()   <span class="comment">//先取出一个让当前 m 执行，这样能提高响应速度</span></span><br><span class="line">            injectglist(&amp;list) <span class="comment">//再把剩余的 g 列表放入队列</span></span><br><span class="line">            casgstatus(gp, _Gwaiting, _Grunnable)</span><br><span class="line">            <span class="keyword">return</span> gp, <span class="literal">false</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 检查是否可以从其它 p 中偷一部分 g</span></span><br><span class="line">    procs := <span class="type">uint32</span>(gomaxprocs)</span><br><span class="line">    <span class="keyword">if</span> atomic.Load(&amp;sched.npidle) == procs<span class="number">-1</span> &#123;</span><br><span class="line">        <span class="comment">//如果其它 p 全部都是 idle 的，那肯定没地方偷</span></span><br><span class="line">        <span class="keyword">goto</span> stop</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//如果当前 m 没有处于自旋转且自旋转中的 p 数量 &lt; running 中的 p 数量/2, 则让当前 m 进入自旋转</span></span><br><span class="line">    <span class="keyword">if</span> !_g_.m.spinning &amp;&amp; <span class="number">2</span>*atomic.Load(&amp;sched.nmspinning) &gt;= procs-atomic.Load(&amp;sched.npidle) &#123;</span><br><span class="line">        <span class="keyword">goto</span> stop</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> !_g_.m.spinning &#123;</span><br><span class="line">        _g_.m.spinning = <span class="literal">true</span></span><br><span class="line">        atomic.Xadd(&amp;sched.nmspinning, <span class="number">1</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//随机从一个 p 中偷，最多偿试 4 次</span></span><br><span class="line">    <span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">4</span>; i++ &#123;</span><br><span class="line">        <span class="keyword">for</span> enum := stealOrder.start(fastrand()); !enum.done(); enum.next() &#123;</span><br><span class="line">            <span class="keyword">if</span> sched.gcwaiting != <span class="number">0</span> &#123;</span><br><span class="line">                <span class="keyword">goto</span> top</span><br><span class="line">            &#125;</span><br><span class="line">            stealRunNextG := i &gt; <span class="number">2</span></span><br><span class="line">            <span class="keyword">if</span> gp := runqsteal(_p_, allp[enum.position()], stealRunNextG); gp != <span class="literal">nil</span> &#123;</span><br><span class="line">                <span class="keyword">return</span> gp, <span class="literal">false</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">stop:</span><br><span class="line">    allpSnapshot := allp</span><br><span class="line">    <span class="comment">//再次检查全局队列，如果有 g，则取出执行，否则把 p 与当前 m 解绑</span></span><br><span class="line">    <span class="keyword">if</span> sched.runqsize != <span class="number">0</span> &#123;</span><br><span class="line">        gp := globrunqget(_p_, <span class="number">0</span>)</span><br><span class="line">        unlock(&amp;sched.lock)</span><br><span class="line">        <span class="keyword">return</span> gp, <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> releasep() != _p_ &#123; <span class="comment">//p 与当前 m 解绑</span></span><br><span class="line">        throw(<span class="string">&quot;findrunnable: wrong p&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    pidleput(_p_) <span class="comment">//解绑的 p 放入 idle 队列</span></span><br><span class="line">    unlock(&amp;sched.lock)</span><br><span class="line"></span><br><span class="line">    wasSpinning := _g_.m.spinning</span><br><span class="line">    <span class="keyword">if</span> _g_.m.spinning &#123; <span class="comment">//如果当前 m 还处于自旋转状态，则取消，sched.nmspinning -1</span></span><br><span class="line">        _g_.m.spinning = <span class="literal">false</span></span><br><span class="line">        <span class="keyword">if</span> <span class="type">int32</span>(atomic.Xadd(&amp;sched.nmspinning, <span class="number">-1</span>)) &lt; <span class="number">0</span> &#123;</span><br><span class="line">            throw(<span class="string">&quot;findrunnable: negative nmspinning&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 再次检查所有 p 的队列</span></span><br><span class="line">    <span class="keyword">for</span> _, _p_ := <span class="keyword">range</span> allpSnapshot &#123;</span><br><span class="line">        <span class="keyword">if</span> !runqempty(_p_) &#123;</span><br><span class="line">            lock(&amp;sched.lock)</span><br><span class="line">            _p_ = pidleget() <span class="comment">//如果某个 p 的队列不为空，则从 idle 列表中取出一个 p</span></span><br><span class="line">            unlock(&amp;sched.lock)</span><br><span class="line">            <span class="keyword">if</span> _p_ != <span class="literal">nil</span> &#123;</span><br><span class="line">                acquirep(_p_)</span><br><span class="line">                <span class="keyword">if</span> wasSpinning &#123; <span class="comment">//如果解绑以前 m 是自旋转的，则还是让它保持自旋转</span></span><br><span class="line">                    _g_.m.spinning = <span class="literal">true</span></span><br><span class="line">                    atomic.Xadd(&amp;sched.nmspinning, <span class="number">1</span>)</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">goto</span> top</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 再次从 netpoll 中阻塞的取 g</span></span><br><span class="line">    <span class="keyword">if</span> netpollinited() &amp;&amp; atomic.Load(&amp;netpollWaiters) &gt; <span class="number">0</span> &amp;&amp; atomic.Xchg64(&amp;sched.lastpoll, <span class="number">0</span>) != <span class="number">0</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> _g_.m.p != <span class="number">0</span> &#123;</span><br><span class="line">            throw(<span class="string">&quot;findrunnable: netpoll with p&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> _g_.m.spinning &#123;</span><br><span class="line">            throw(<span class="string">&quot;findrunnable: netpoll with spinning&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        list := netpoll(<span class="literal">true</span>)</span><br><span class="line">        atomic.Store64(&amp;sched.lastpoll, <span class="type">uint64</span>(nanotime()))</span><br><span class="line">        <span class="keyword">if</span> !list.empty() &#123;</span><br><span class="line">            lock(&amp;sched.lock)</span><br><span class="line">            _p_ = pidleget()</span><br><span class="line">            unlock(&amp;sched.lock)</span><br><span class="line">            <span class="keyword">if</span> _p_ != <span class="literal">nil</span> &#123;</span><br><span class="line">                acquirep(_p_)</span><br><span class="line">                gp := list.pop()</span><br><span class="line">                injectglist(&amp;list)</span><br><span class="line">                casgstatus(gp, _Gwaiting, _Grunnable)</span><br><span class="line">                <span class="keyword">if</span> trace.enabled &#123;</span><br><span class="line">                    traceGoUnpark(gp, <span class="number">0</span>)</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span> gp, <span class="literal">false</span></span><br><span class="line">            &#125;</span><br><span class="line">            injectglist(&amp;list)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//如果始终找到不，就让 m 停止</span></span><br><span class="line">    stopm()</span><br><span class="line">    <span class="keyword">goto</span> top</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//把 g 列表放入全局队列，调用 startm 检测是否有 idle 的 p，将 idle 的 m 与之绑定或 new 一个 m</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">injectglist</span><span class="params">(glist *gList)</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> glist.empty() &#123;</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> trace.enabled &#123;</span><br><span class="line">        <span class="keyword">for</span> gp := glist.head.ptr(); gp != <span class="literal">nil</span>; gp = gp.schedlink.ptr() &#123;</span><br><span class="line">            traceGoUnpark(gp, <span class="number">0</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    lock(&amp;sched.lock)</span><br><span class="line">    <span class="keyword">var</span> n <span class="type">int</span></span><br><span class="line">    <span class="keyword">for</span> n = <span class="number">0</span>; !glist.empty(); n++ &#123;</span><br><span class="line">        gp := glist.pop()</span><br><span class="line">        <span class="comment">//队列中的 g 状态必须为_Grunnable</span></span><br><span class="line">        casgstatus(gp, _Gwaiting, _Grunnable)</span><br><span class="line">        globrunqput(gp)</span><br><span class="line">    &#125;</span><br><span class="line">    unlock(&amp;sched.lock)</span><br><span class="line">    <span class="keyword">for</span> ; n != <span class="number">0</span> &amp;&amp; sched.npidle != <span class="number">0</span>; n-- &#123;</span><br><span class="line">        startm(<span class="literal">nil</span>, <span class="literal">false</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    *glist = gList&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//重置自旋转状态</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">resetspinning</span><span class="params">()</span></span> &#123;</span><br><span class="line">    _g_ := getg()</span><br><span class="line">    <span class="keyword">if</span> !_g_.m.spinning &#123;</span><br><span class="line">        throw(<span class="string">&quot;resetspinning: not a spinning m&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    _g_.m.spinning = <span class="literal">false</span></span><br><span class="line">    nmspinning := atomic.Xadd(&amp;sched.nmspinning, <span class="number">-1</span>)</span><br><span class="line">    <span class="keyword">if</span> <span class="type">int32</span>(nmspinning) &lt; <span class="number">0</span> &#123;</span><br><span class="line">        throw(<span class="string">&quot;findrunnable: negative nmspinning&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//除当前 m 外没有其它 m 处于自旋转状态且还有 p 处于 idle，则唤醒一个 p，这样能让等执行的 g 尽量早的被处理。</span></span><br><span class="line">    <span class="keyword">if</span> nmspinning == <span class="number">0</span> &amp;&amp; atomic.Load(&amp;sched.npidle) &gt; <span class="number">0</span> &#123;</span><br><span class="line">        wakep()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">wakep</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="comment">// 如果已有 m 处于自旋转状态，则直接返回 (g 一定会被处于自旋转状态的 m 执行 [结合 findrunable 函数看])</span></span><br><span class="line">    <span class="keyword">if</span> !atomic.Cas(&amp;sched.nmspinning, <span class="number">0</span>, <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    &#125;</span><br><span class="line">    startm(<span class="literal">nil</span>, <span class="literal">true</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//startm 检测是否有 idle 的 p, 并将 idle 的 m 与 p 绑定或 new 一个 m</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">startm</span><span class="params">(_p_ *p, spinning <span class="type">bool</span>)</span></span> &#123;</span><br><span class="line">    lock(&amp;sched.lock)</span><br><span class="line">    <span class="keyword">if</span> _p_ == <span class="literal">nil</span> &#123;</span><br><span class="line">        _p_ = pidleget() <span class="comment">//获取一个 idle 的 p</span></span><br><span class="line">        <span class="keyword">if</span> _p_ == <span class="literal">nil</span> &#123;</span><br><span class="line">            unlock(&amp;sched.lock)</span><br><span class="line">            <span class="keyword">if</span> spinning &#123;</span><br><span class="line">                <span class="comment">// spinning 为 true 说明 startm 的调用方对 nmspinning 加了 1，但是没发现 idle 的 p，所以要回滚 nmspinning</span></span><br><span class="line">                <span class="keyword">if</span> <span class="type">int32</span>(atomic.Xadd(&amp;sched.nmspinning, <span class="number">-1</span>)) &lt; <span class="number">0</span> &#123;</span><br><span class="line">                    throw(<span class="string">&quot;startm: negative nmspinning&quot;</span>)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//成功获取到 p, 再获取 idle 的 m</span></span><br><span class="line">    mp := mget()</span><br><span class="line">    unlock(&amp;sched.lock)</span><br><span class="line">    <span class="keyword">if</span> mp == <span class="literal">nil</span> &#123; <span class="comment">//获取 idle 的 m 失败，则创建一个 m</span></span><br><span class="line">        <span class="keyword">var</span> fn <span class="function"><span class="keyword">func</span><span class="params">()</span></span></span><br><span class="line">        <span class="keyword">if</span> spinning &#123;</span><br><span class="line">            <span class="comment">// 如果 spinning 为 true, 则标记新创建的 m 为 spinning</span></span><br><span class="line">            fn = mspinning</span><br><span class="line">        &#125;</span><br><span class="line">        newm(fn, _p_) <span class="comment">//创建新 m</span></span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    &#125;</span><br><span class="line">    mp.spinning = spinning</span><br><span class="line">    mp.nextp.set(_p_) <span class="comment">// 把 p 设置为即将与 m 绑定的 p</span></span><br><span class="line">    notewakeup(&amp;mp.park)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">newm</span><span class="params">(fn <span class="keyword">func</span>()</span></span>, _p_ *p) &#123;</span><br><span class="line">    mp := allocm(_p_, fn) <span class="comment">//new 一个 m 结构，并初始化</span></span><br><span class="line">    mp.nextp.set(_p_)     <span class="comment">//把 p 设置为即将与 m 绑定的 p</span></span><br><span class="line">    mp.sigmask = initSigmask</span><br><span class="line">    newm1(mp)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">newm1</span><span class="params">(mp *m)</span></span> &#123;</span><br><span class="line">    execLock.rlock()</span><br><span class="line">    newosproc(mp)</span><br><span class="line">    execLock.runlock()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//newosproc 创建 OS 线程，不同的 OS 接口不一样，linux 用的 clone, windows 为_CreateThread</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">newosproc</span><span class="params">(mp *m)</span></span> &#123;</span><br><span class="line">    stk := unsafe.Pointer(mp.g0.stack.hi)</span><br><span class="line">    <span class="comment">// clone 期间禁用信号，clone 完成再启用</span></span><br><span class="line">    <span class="keyword">var</span> oset sigset</span><br><span class="line">    sigprocmask(_SIG_SETMASK, &amp;sigset_all, &amp;oset)</span><br><span class="line">    <span class="comment">//调用 clone 创建 os 线程， mstart 为线程起始函数</span></span><br><span class="line">    ret := clone(cloneFlags, stk, unsafe.Pointer(mp), unsafe.Pointer(mp.g0), unsafe.Pointer(funcPC(mstart)))</span><br><span class="line">    sigprocmask(_SIG_SETMASK, &amp;oset, <span class="literal">nil</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://csc-knu.github.io/sys-prog/books/Andrew%20S.%20Tanenbaum%20-%20Modern%20Operating%20Systems.pdf">《Modern Operating Systems》</a></li>
+<li>《深入理解 Java 虚拟机》</li>
+<li> <a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_28351465/article/details/88950311">https://blog.csdn.net/qq_28351465/article/details/88950311</a></li>
+<li> <a target="_blank" rel="noopener" href="https://www.cnblogs.com/chenny7/p/14060906.html">https://www.cnblogs.com/chenny7/p/14060906.html</a></li>
+<li> <a target="_blank" rel="noopener" href="https://strikefreedom.top/high-performance-implementation-of-goroutine-pool">https://strikefreedom.top/high-performance-implementation-of-goroutine-pool</a></li>
+<li> <a target="_blank" rel="noopener" href="https://lifan.tech/2020/06/01/golang/runtime/">https://lifan.tech/2020/06/01/golang/runtime/</a></li>
+<li> <a target="_blank" rel="noopener" href="https://zboya.github.io/post/go_scheduler/">https://zboya.github.io/post/go_scheduler/</a></li>
+<li> <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/65738076">https://zhuanlan.zhihu.com/p/65738076</a></li>
+</ul>
+
+        
+            <div class="donate-container">
+    <div class="donate-button">
+        <button id="donate-button">赞赏</button>
+    </div>
+    <div class="donate-img-container hide" id="donate-img-container">
+        <img id="donate-img" src="" data-src="">
+        <p> 感谢鼓励 </p>
+    </div>
+</div>
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+        <div id="lv-container"></div>
+        <div class="giscus"></div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/imlgw">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://imlgw.top">Tadow</a></span>
+        <span>/</span>
+        
+        <span><a target="_blank" rel="noopener" href="http://beian.miit.gov.cn/publish/query/indexFirst.action">鄂ICP备18011208号</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>  Theme <a target="_blank" rel="noopener" href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/live2d-widget@3.x/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"https://cdn.jsdelivr.net/npm/live2d-widget-model-hijiki@1.0.5/assets/hijiki.model.json"},"display":{"superSample":2,"width":160,"height":320,"position":"right","hOffset":0,"vOffset":-70},"mobile":{"show":false,"scale":0.2},"log":false});</script></body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://giscus.app/client.js"
+  data-repo="imlgw/imlgw.github.io"
+  data-repo-id="MDEwOlJlcG9zaXRvcnkxMzMyMDY4NDg="
+  data-category="Announcements"
+  data-category-id="DIC_kwDOB_CTQM4CQ7v8"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="top"
+  data-theme="light"
+  data-lang="zh-CN"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+
+
+</html>

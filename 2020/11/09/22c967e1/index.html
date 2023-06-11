@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:description" content="Tadow 的博客">
+    <meta property="og:type" content="website">
+    <meta name="description" content="Tadow 的博客">
+    <meta name="keyword"  content="Tadow, Resolmi, imlgw, 半岛铁盒, 算法, Java, Golang">
+    <link rel="shortcut icon" href="https://fav.farm/💭">
+
+    <title>
+        
+        DP：数字三角形模型 - Tadow 碎碎念
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_28hi1hpxx24.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.2"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style><link rel="alternate" href="/atom.xml" title="Tadow 碎碎念" type="application/atom+xml">
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> Keep It Simple, Stupid </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar radius">
+            <img src="https://static.imlgw.top/blog/20220821160037.png" />
+        </div>
+        <div class="name">
+            <i>Tadow</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <!-- <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li> -->
+            <li >
+                <a href="/categories">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>分类</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            
+            <li >
+                <a href="/selfhosted">
+                    <i class="iconfont icon-guidang1"></i>
+                    <span>自建</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/collect/">
+                    <i class="iconfont icon-shoucang1"></i>
+                    <span>收藏</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E5%AD%97%E4%B8%89%E8%A7%92%E5%BD%A2%E6%A8%A1%E5%9E%8B"><span class="toc-text">数字三角形模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1027-%E6%96%B9%E6%A0%BC%E5%8F%96%E6%95%B0"><span class="toc-text">1027. 方格取数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E6%B3%95%E4%B8%80"><span class="toc-text">解法一</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E6%B3%95%E4%BA%8C"><span class="toc-text">解法二</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#275-%E4%BC%A0%E7%BA%B8%E6%9D%A1"><span class="toc-text">275. 传纸条</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E6%B3%95%E4%B8%80-1"><span class="toc-text">解法一</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1463-%E6%91%98%E6%A8%B1%E6%A1%83-II"><span class="toc-text">1463. 摘樱桃 II</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E6%B3%95%E4%B8%80-2"><span class="toc-text">解法一</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E6%B3%95%E4%BA%8C-1"><span class="toc-text">解法二</span></a></li></ol></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-bg" id="search-bg"></div>
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i> Keep It Simple, Stupid </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        DP：数字三角形模型
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2020-11-09 00:00:00</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#算法" title="算法">算法</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <blockquote>
+<p>现在打算写一些短点的文章了，LeetCode 系列不会再 append 了，如果写 lc 题会单独开一篇文章，然后写题解</p>
+</blockquote>
+<h2 id="数字三角形模型"><a href="#数字三角形模型" class="headerlink" title="数字三角形模型"></a>数字三角形模型</h2><p><a href="http://imlgw.top/2019/09/01/leetcode-dong-tai-gui-hua/#120-%E4%B8%89%E8%A7%92%E5%BD%A2%E6%9C%80%E5%B0%8F%E8%B7%AF%E5%BE%84%E5%92%8C">120. 三角形最小路径和</a></p>
+<p><a href="http://imlgw.top/2019/09/01/leetcode-dong-tai-gui-hua/#64-%E6%9C%80%E5%B0%8F%E8%B7%AF%E5%BE%84%E5%92%8C">64. 最小路径和</a></p>
+<p><a href="http://imlgw.top/2019/09/01/leetcode-dong-tai-gui-hua/#Path-sum-three-ways">Path sum: three ways</a></p>
+<p>之前写过题解的就不重复写了，还有很多类似的题就不一一列举出来了，详见 <a href="http://imlgw.top/2019/09/01/leetcode-dong-tai-gui-hua/">LeetCode 动态规划</a></p>
+<blockquote>
+<p>后续如果还有类似的题会 append 进来</p>
+</blockquote>
+<h2 id="1027-方格取数"><a href="#1027-方格取数" class="headerlink" title="1027. 方格取数"></a><a target="_blank" rel="noopener" href="https://www.acwing.com/problem/content/1029/">1027. 方格取数</a></h2><p>设有 N×N 的方格图，我们在其中的某些方格中填入正整数，而其它的方格中则放入数字 0。如下图所示：</p>
+<p><img src="https://files.catbox.moe/hhonhx.png"></p>
+<p>某人从图中的左上角 A 出发，可以向下行走，也可以向右行走，直到到达右下角的 B 点。</p>
+<p>在走过的路上，他可以取走方格中的数（取走后的方格中将变为数字 0）。</p>
+<p>此人从 A 点到 B 点共走了两次，试找出两条这样的路径，使得取得的数字和为最大。</p>
+<p><strong>输入格式</strong></p>
+<p>第一行为一个整数 N，表示 N×N 的方格图。</p>
+<p>接下来的每行有三个整数，第一个为行号数，第二个为列号数，第三个为在该行、该列上所放的数。</p>
+<p>行和列编号从 1 开始。</p>
+<p>一行“0 0 0”表示结束。</p>
+<p><strong>输出格式</strong></p>
+<p>输出一个整数，表示两条路径上取得的最大的和。</p>
+<p><strong>数据范围</strong></p>
+<p>N≤10</p>
+<p><strong>输入样例：</strong></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="number">8</span></span><br><span class="line"><span class="number">2</span> <span class="number">3</span> <span class="number">13</span></span><br><span class="line"><span class="number">2</span> <span class="number">6</span> <span class="number">6</span></span><br><span class="line"><span class="number">3</span> <span class="number">5</span> <span class="number">7</span></span><br><span class="line"><span class="number">4</span> <span class="number">4</span> <span class="number">14</span></span><br><span class="line"><span class="number">5</span> <span class="number">2</span> <span class="number">21</span></span><br><span class="line"><span class="number">5</span> <span class="number">6</span> <span class="number">4</span></span><br><span class="line"><span class="number">6</span> <span class="number">3</span> <span class="number">15</span></span><br><span class="line"><span class="number">7</span> <span class="number">2</span> <span class="number">14</span></span><br><span class="line"><span class="number">0</span> <span class="number">0</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
+<p><strong>输出样例：</strong></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="number">67</span></span><br></pre></td></tr></table></figure>
+<p><strong>难度：</strong> 简单</p>
+<p><strong>来源：</strong>《信息学奥赛一本通》 , NOIP2000 提高组</p>
+<h3 id="解法一"><a href="#解法一" class="headerlink" title="解法一"></a>解法一</h3><p>一开始确实没想出来，主要是看着范围好小，然后不确定复杂度，以为可以搜索的，看了 y 总讲解了一点，然后想过来了，自己写了一个 N^4 的解法</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//input output 省略</span></span><br><span class="line"><span class="comment">//N^4 dp</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">slove</span><span class="params">(<span class="type">int</span>[][] w, <span class="type">int</span> N)</span> {</span><br><span class="line">    <span class="type">int</span>[][][][] dp = <span class="keyword">new</span> <span class="title class_">int</span>[N+<span class="number">1</span>][N+<span class="number">1</span>][N+<span class="number">1</span>][N+<span class="number">1</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i1</span> <span class="operator">=</span> <span class="number">1</span>; i1 &lt;= N; i1++) {</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j1</span> <span class="operator">=</span> <span class="number">1</span>; j1 &lt;= N; j1++) {</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i2</span> <span class="operator">=</span> <span class="number">1</span>; i2 &lt;= N; i2++) {</span><br><span class="line">                <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j2</span> <span class="operator">=</span> <span class="number">1</span>; j2 &lt;= N; j2++) {</span><br><span class="line">                    <span class="type">int</span> <span class="variable">temp</span> <span class="operator">=</span> dp[i1][j1][i2][j2];</span><br><span class="line">                    temp = Math.max(temp, dp[i1-<span class="number">1</span>][j1][i2-<span class="number">1</span>][j2]);</span><br><span class="line">                    temp = Math.max(temp, dp[i1-<span class="number">1</span>][j1][i2][j2-<span class="number">1</span>]);</span><br><span class="line">                    temp = Math.max(temp, dp[i1][j1-<span class="number">1</span>][i2-<span class="number">1</span>][j2]);</span><br><span class="line">                    temp = Math.max(temp, dp[i1][j1-<span class="number">1</span>][i2][j2-<span class="number">1</span>]);</span><br><span class="line">                    dp[i1][j1][i2][j2] = temp + ((i1==i2&amp;&amp;j1==j2) ? w[i1-<span class="number">1</span>][j1-<span class="number">1</span>] : (w[i1-<span class="number">1</span>][j1-<span class="number">1</span>] + w[i2-<span class="number">1</span>][j2-<span class="number">1</span>])); </span><br><span class="line">                }</span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">return</span> dp[N][N][N][N];</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<p>其实如果是只有一条路径就很简单，线性 DP 就行了，<code>dp[i][j] = Max(dp[i-1][j], dp[i][j-1])</code>，但是这题涉及到了两条路径，所以我们可以将状态定义为<code>dp[i1][j1][i2][j2]</code>，含义为从（1，1）到（i1，j1）,(i2，j2) 这两个点的最大和，到每个点有两种走法，2*2 一共 4 种子状态，取 Max 就行了</p>
+<p>但是这里会有一个问题，某个点的 val 被取走之后就不能再被取了。也就是说，这两条路径可能会有交点，这种情况需要额外处理，而相交的情况实际上也就是<code>i1==i2 &amp;&amp; j1 == j2</code>的时候，这种情况交点的值就只能算一次</p>
+<h3 id="解法二"><a href="#解法二" class="headerlink" title="解法二"></a>解法二</h3><p>y 总讲的解法，优化了一维状态，N^3 的解法，非常的巧妙，因为只能向下和向右走，所以从（1，1）到（N-1，N-1），走的总步数一定是<code>2*N</code>，那么我们就可以通过步数 K 计算出另一个坐标，从而省去一维状态</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//N^3 优化，根据走的总步数计算另一个坐标位置</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">slove2</span><span class="params">(<span class="type">int</span>[][] w, <span class="type">int</span> N)</span> {</span><br><span class="line">    <span class="type">int</span>[][][] dp = <span class="keyword">new</span> <span class="title class_">int</span>[<span class="number">2</span>*N+<span class="number">1</span>][N+<span class="number">1</span>][N+<span class="number">1</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">k</span> <span class="operator">=</span> <span class="number">2</span>; k &lt;= <span class="number">2</span>*N; k++) {</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i1</span> <span class="operator">=</span> <span class="number">1</span>; i1 &lt;= N; i1++) {</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i2</span> <span class="operator">=</span> <span class="number">1</span>; i2 &lt;= N; i2++) {</span><br><span class="line">                <span class="type">int</span> <span class="variable">j1</span> <span class="operator">=</span> k-i1, j2 = k-i2;</span><br><span class="line">                <span class="keyword">if</span> (<span class="number">1</span> &lt;= j1 &amp;&amp; j1 &lt;= N &amp;&amp; <span class="number">1</span> &lt;= j2 &amp;&amp; j2 &lt;= N) {</span><br><span class="line">                    <span class="type">int</span> <span class="variable">temp</span> <span class="operator">=</span> dp[k][i1][i2]; </span><br><span class="line">                    temp = Math.max(temp, dp[k-<span class="number">1</span>][i1-<span class="number">1</span>][i2-<span class="number">1</span>]);</span><br><span class="line">                    temp = Math.max(temp, dp[k-<span class="number">1</span>][i1-<span class="number">1</span>][i2]);</span><br><span class="line">                    temp = Math.max(temp, dp[k-<span class="number">1</span>][i1][i2-<span class="number">1</span>]);</span><br><span class="line">                    temp = Math.max(temp, dp[k-<span class="number">1</span>][i1][i2]);</span><br><span class="line">                    dp[k][i1][i2] = temp + ((i1==i2&amp;&amp;j1==j2) ? w[i1-<span class="number">1</span>][j1-<span class="number">1</span>] : (w[i1-<span class="number">1</span>][j1-<span class="number">1</span>] + w[i2-<span class="number">1</span>][j2-<span class="number">1</span>]));     </span><br><span class="line">                }</span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">return</span> dp[<span class="number">2</span>*N][N][N];</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<h2 id="275-传纸条"><a href="#275-传纸条" class="headerlink" title="275. 传纸条"></a><a target="_blank" rel="noopener" href="https://www.acwing.com/problem/content/277/">275. 传纸条</a></h2><p>小渊和小轩是好朋友也是同班同学，他们在一起总有谈不完的话题。</p>
+<p>一次素质拓展活动中，班上同学安排坐成一个 m 行 n 列的矩阵，而小渊和小轩被安排在矩阵对角线的两端，因此，他们就无法直接交谈了。</p>
+<p>幸运的是，他们可以通过传纸条来进行交流。</p>
+<p>纸条要经由许多同学传到对方手里，小渊坐在矩阵的左上角，坐标 (1,1)，小轩坐在矩阵的右下角，坐标 (m,n)。</p>
+<p>从小渊传到小轩的纸条只可以向下或者向右传递，从小轩传给小渊的纸条只可以向上或者向左传递。 </p>
+<p>在活动进行中，小渊希望给小轩传递一张纸条，同时希望小轩给他回复。</p>
+<p>班里每个同学都可以帮他们传递，但只会帮他们一次，也就是说如果此人在小渊递给小轩纸条的时候帮忙，那么在小轩递给小渊的时候就不会再帮忙，反之亦然。 </p>
+<p>还有一件事情需要注意，全班每个同学愿意帮忙的好感度有高有低（注意：小渊和小轩的好心程度没有定义，输入时用 0 表示），可以用一个 0-100 的自然数来表示，数越大表示越好心。</p>
+<p>小渊和小轩希望尽可能找好心程度高的同学来帮忙传纸条，即找到来回两条传递路径，使得这两条路径上同学的好心程度之和最大。</p>
+<p>现在，请你帮助小渊和小轩找到这样的两条路径。</p>
+<p><strong>输入格式</strong></p>
+<p>第一行有 2 个用空格隔开的整数 m 和 n，表示学生矩阵有 m 行 n 列。</p>
+<p>接下来的 m 行是一个 m∗n 的矩阵，矩阵中第 i 行 j 列的整数表示坐在第 i 行 j 列的学生的好心程度，每行的 n 个整数之间用空格隔开。</p>
+<p><strong>输出格式</strong></p>
+<p>输出一个整数，表示来回两条路上参与传递纸条的学生的好心程度之和的最大值。</p>
+<p><strong>数据范围：</strong></p>
+<p>1≤n,m≤50</p>
+<p><strong>输入样例：</strong></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="number">3</span> <span class="number">3</span></span><br><span class="line"><span class="number">0</span> <span class="number">3</span> <span class="number">9</span></span><br><span class="line"><span class="number">2</span> <span class="number">8</span> <span class="number">5</span></span><br><span class="line"><span class="number">5</span> <span class="number">7</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
+<p><strong>输出样例：</strong></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="number">34</span></span><br></pre></td></tr></table></figure>
+<h3 id="解法一-1"><a href="#解法一-1" class="headerlink" title="解法一"></a>解法一</h3><p>和上面一题一样，虽然题目说的是一个从左上向右下，一个是从右下到左上，但是实际上依然是要求两条路径连接左上到右下，使得和最大，所以实际上直接照搬上面的代码就 ok 了</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//N^3</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">solve</span><span class="params">(<span class="type">int</span>[][] w, <span class="type">int</span> m, <span class="type">int</span> n)</span>{</span><br><span class="line">    <span class="type">int</span>[][][] dp = <span class="keyword">new</span> <span class="title class_">int</span>[m+n+<span class="number">1</span>][m+<span class="number">1</span>][m+<span class="number">1</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">k</span> <span class="operator">=</span> <span class="number">2</span>; k &lt;= m+n; k++) {</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i1</span> <span class="operator">=</span> <span class="number">1</span>; i1 &lt;= m; i1++) {</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i2</span> <span class="operator">=</span> <span class="number">1</span>; i2 &lt;= m; i2++) {</span><br><span class="line">                <span class="type">int</span> <span class="variable">j1</span> <span class="operator">=</span> k - i1, j2 = k - i2;</span><br><span class="line">                <span class="keyword">if</span> (j1 &lt; <span class="number">1</span> || j1 &gt; n || j2 &lt; <span class="number">1</span> || j2 &gt; n) <span class="keyword">continue</span>;</span><br><span class="line">                <span class="type">int</span> <span class="variable">temp</span> <span class="operator">=</span> dp[k][i1][i2]; </span><br><span class="line">                temp = Math.max(temp, dp[k-<span class="number">1</span>][i1-<span class="number">1</span>][i2]);</span><br><span class="line">                temp = Math.max(temp, dp[k-<span class="number">1</span>][i1][i2-<span class="number">1</span>]);</span><br><span class="line">                temp = Math.max(temp, dp[k-<span class="number">1</span>][i1][i2]);</span><br><span class="line">                temp = Math.max(temp, dp[k-<span class="number">1</span>][i1-<span class="number">1</span>][i2-<span class="number">1</span>]);</span><br><span class="line">                dp[k][i1][i2] = temp + (i1==i2 ? w[i1-<span class="number">1</span>][j1-<span class="number">1</span>] : (w[i1-<span class="number">1</span>][j1-<span class="number">1</span>] + w[i2-<span class="number">1</span>][j2-<span class="number">1</span>]));</span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">return</span> dp[m+n][m][m];</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+
+<h2 id="1463-摘樱桃-II"><a href="#1463-摘樱桃-II" class="headerlink" title="1463. 摘樱桃 II"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/cherry-pickup-ii/">1463. 摘樱桃 II</a></h2><p>Difficulty: <strong>困难</strong></p>
+<p>给你一个 <code>rows x cols</code> 的矩阵 <code>grid</code> 来表示一块樱桃地。 <code>grid</code> 中每个格子的数字表示你能获得的樱桃数目。</p>
+<p>你有两个机器人帮你收集樱桃，机器人 1 从左上角格子 <code>(0,0)</code> 出发，机器人 2 从右上角格子 <code>(0, cols-1)</code> 出发。</p>
+<p>请你按照如下规则，返回两个机器人能收集的最多樱桃数目：</p>
+<ul>
+<li>  从格子 <code>(i,j)</code> 出发，机器人可以移动到格子 <code>(i+1, j-1)</code>，<code>(i+1, j)</code> 或者 <code>(i+1, j+1)</code> 。</li>
+<li>  当一个机器人经过某个格子时，它会把该格子内所有的樱桃都摘走，然后这个位置会变成空格子，即没有樱桃的格子。</li>
+<li>  当两个机器人同时到达同一个格子时，它们中只有一个可以摘到樱桃。</li>
+<li>  两个机器人在任意时刻都不能移动到 <code>grid</code> 外面。</li>
+<li>  两个机器人最后都要到达 <code>grid</code> 最底下一行。</li>
+</ul>
+<p>给你一个 rows x cols 的矩阵 grid 来表示一块樱桃地。 grid 中每个格子的数字表示你能获得的樱桃数目。</p>
+<p>你有两个机器人帮你收集樱桃，机器人 1 从左上角格子 (0,0) 出发，机器人 2 从右上角格子 (0, cols-1) 出发。</p>
+<p>请你按照如下规则，返回两个机器人能收集的最多樱桃数目：</p>
+<p><strong>示例 1：</strong></p>
+<p><img src="https://files.catbox.moe/da5rxh.png"></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：grid = [[<span class="number">3</span>,<span class="number">1</span>,<span class="number">1</span>],[<span class="number">2</span>,<span class="number">5</span>,<span class="number">1</span>],[<span class="number">1</span>,<span class="number">5</span>,<span class="number">5</span>],[<span class="number">2</span>,<span class="number">1</span>,<span class="number">1</span>]]</span><br><span class="line">输出：<span class="number">24</span></span><br><span class="line">解释：机器人 <span class="number">1</span> 和机器人 <span class="number">2</span> 的路径在上图中分别用绿色和蓝色表示。</span><br><span class="line">机器人 <span class="number">1</span> 摘的樱桃数目为 (<span class="number">3</span> + <span class="number">2</span> + <span class="number">5</span> + <span class="number">2</span>) = <span class="number">12</span> 。</span><br><span class="line">机器人 <span class="number">2</span> 摘的樱桃数目为 (<span class="number">1</span> + <span class="number">5</span> + <span class="number">5</span> + <span class="number">1</span>) = <span class="number">12</span> 。</span><br><span class="line">樱桃总数为： <span class="number">12</span> + <span class="number">12</span> = <span class="number">24</span> 。</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 2：</strong></p>
+<p><img src="https://i.loli.net/2020/11/10/aSykAceXPH1snjM.png"></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：grid = [[<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>],[<span class="number">2</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">3</span>,<span class="number">0</span>],[<span class="number">2</span>,<span class="number">0</span>,<span class="number">9</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>],[<span class="number">0</span>,<span class="number">3</span>,<span class="number">0</span>,<span class="number">5</span>,<span class="number">4</span>,<span class="number">0</span>,<span class="number">0</span>],[<span class="number">1</span>,<span class="number">0</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">6</span>]]</span><br><span class="line">输出：<span class="number">28</span></span><br><span class="line">解释：机器人 <span class="number">1</span> 和机器人 <span class="number">2</span> 的路径在上图中分别用绿色和蓝色表示。</span><br><span class="line">机器人 <span class="number">1</span> 摘的樱桃数目为 (<span class="number">1</span> + <span class="number">9</span> + <span class="number">5</span> + <span class="number">2</span>) = <span class="number">17</span> 。</span><br><span class="line">机器人 <span class="number">2</span> 摘的樱桃数目为 (<span class="number">1</span> + <span class="number">3</span> + <span class="number">4</span> + <span class="number">3</span>) = <span class="number">11</span> 。</span><br><span class="line">樱桃总数为： <span class="number">17</span> + <span class="number">11</span> = <span class="number">28</span> 。</span><br></pre></td></tr></table></figure>
+<p><strong>示例 3：</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：grid = [[<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">3</span>],[<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">3</span>],[<span class="number">0</span>,<span class="number">0</span>,<span class="number">3</span>,<span class="number">3</span>],[<span class="number">9</span>,<span class="number">0</span>,<span class="number">3</span>,<span class="number">3</span>]]</span><br><span class="line">输出：<span class="number">22</span></span><br></pre></td></tr></table></figure>
+<p><strong>示例 4：</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：grid = [[<span class="number">1</span>,<span class="number">1</span>],[<span class="number">1</span>,<span class="number">1</span>]]</span><br><span class="line">输出：<span class="number">4</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>提示：</strong></p>
+<ul>
+<li>rows == grid.length</li>
+<li>cols == grid[i].length</li>
+<li>2 &lt;= rows, cols &lt;= 70</li>
+<li>0 &lt;= grid[i][j] &lt;= 100 </li>
+</ul>
+<h3 id="解法一-2"><a href="#解法一-2" class="headerlink" title="解法一"></a>解法一</h3><p>本来只写了前两题就打算 push 的，y 总也只讲了这几道题，但是突然想起来很久之前的一道周赛题（27th 双周赛 T4），大概半年前了，没想到居然能想起来😄，看了下，和上面两题是一样的，随手写了下，一开始写的有 bug，调试了好一会儿，最后把状态打出来手推了下，发现有些状态没有初始化好，导致递推的时候使用了非法的状态</p>
+<p>先上暴力 N^4 的解法，这题范围不大，N^4 勉强能扛过去</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//暴力 N^4 解法</span></span><br><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">cherryPickup2</span><span class="params">(<span class="type">int</span>[][] grid)</span> {</span><br><span class="line">    <span class="type">int</span> <span class="variable">m</span> <span class="operator">=</span> grid.length, n = grid[<span class="number">0</span>].length;</span><br><span class="line">    <span class="type">int</span>[][][][] dp = <span class="keyword">new</span> <span class="title class_">int</span>[m+<span class="number">1</span>][n+<span class="number">2</span>][m+<span class="number">1</span>][n+<span class="number">2</span>];</span><br><span class="line">    <span class="type">int</span> <span class="variable">INF</span> <span class="operator">=</span> -<span class="number">0x3f3f3f3f</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i1</span> <span class="operator">=</span> <span class="number">0</span>; i1 &lt;= m; i1++) {</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j1</span> <span class="operator">=</span> <span class="number">0</span>; j1 &lt;= n+<span class="number">1</span>; j1++) {</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i2</span> <span class="operator">=</span> <span class="number">0</span>; i2 &lt;= m; i2++) {</span><br><span class="line">                Arrays.fill(dp[i1][j1][i2], INF);</span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">    dp[<span class="number">1</span>][<span class="number">1</span>][<span class="number">1</span>][n] = grid[<span class="number">0</span>][<span class="number">0</span>]+grid[<span class="number">0</span>][n-<span class="number">1</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i1</span> <span class="operator">=</span> <span class="number">2</span>; i1 &lt;= m; i1++) {</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j1</span> <span class="operator">=</span> <span class="number">1</span>; j1 &lt;= n; j1++) {</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i2</span> <span class="operator">=</span> <span class="number">2</span>; i2 &lt;= m; i2++) {</span><br><span class="line">                <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j2</span> <span class="operator">=</span> <span class="number">1</span>; j2 &lt;= n; j2++) {</span><br><span class="line">                    <span class="type">int</span> <span class="variable">temp</span> <span class="operator">=</span> INF;</span><br><span class="line">                    temp = Math.max(temp, dp[i1-<span class="number">1</span>][j1][i2-<span class="number">1</span>][j2]);</span><br><span class="line">                    temp = Math.max(temp, dp[i1-<span class="number">1</span>][j1][i2-<span class="number">1</span>][j2+<span class="number">1</span>]);</span><br><span class="line">                    temp = Math.max(temp, dp[i1-<span class="number">1</span>][j1][i2-<span class="number">1</span>][j2-<span class="number">1</span>]);</span><br><span class="line">                    </span><br><span class="line">                    temp = Math.max(temp, dp[i1-<span class="number">1</span>][j1+<span class="number">1</span>][i2-<span class="number">1</span>][j2]);</span><br><span class="line">                    temp = Math.max(temp, dp[i1-<span class="number">1</span>][j1+<span class="number">1</span>][i2-<span class="number">1</span>][j2+<span class="number">1</span>]);</span><br><span class="line">                    temp = Math.max(temp, dp[i1-<span class="number">1</span>][j1+<span class="number">1</span>][i2-<span class="number">1</span>][j2-<span class="number">1</span>]);   </span><br><span class="line">                    </span><br><span class="line">                    temp = Math.max(temp, dp[i1-<span class="number">1</span>][j1-<span class="number">1</span>][i2-<span class="number">1</span>][j2]);</span><br><span class="line">                    temp = Math.max(temp, dp[i1-<span class="number">1</span>][j1-<span class="number">1</span>][i2-<span class="number">1</span>][j2+<span class="number">1</span>]);   </span><br><span class="line">                    temp = Math.max(temp, dp[i1-<span class="number">1</span>][j1-<span class="number">1</span>][i2-<span class="number">1</span>][j2-<span class="number">1</span>]);</span><br><span class="line">                    dp[i1][j1][i2][j2] = temp + ((i1==i2&amp;&amp;j1==j2) ? grid[i1-<span class="number">1</span>][j1-<span class="number">1</span>] : (grid[i1-<span class="number">1</span>][j1-<span class="number">1</span>] + grid[i2-<span class="number">1</span>][j2-<span class="number">1</span>]));</span><br><span class="line">                }</span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">    <span class="type">int</span> <span class="variable">res</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j1</span> <span class="operator">=</span> <span class="number">0</span>; j1 &lt;= n; j1++) {</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j2</span> <span class="operator">=</span> <span class="number">0</span>; j2 &lt;= n; j2++) {</span><br><span class="line">            res = Math.max(res, dp[m][j1][m][j2]);   </span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+
+<h3 id="解法二-1"><a href="#解法二-1" class="headerlink" title="解法二"></a>解法二</h3><p>和上面两题一样，两个机器人走的层数是固定的，都是 m 层，所以可以优化掉一维的状态，同时上面的写法看起来也很 ugly，可以用方向变量简化写法</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//N^3 解法，优化代码写法，简化代码</span></span><br><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">cherryPickup</span><span class="params">(<span class="type">int</span>[][] grid)</span> {</span><br><span class="line">    <span class="type">int</span>[] dir = {<span class="number">1</span>, -<span class="number">1</span>, <span class="number">0</span>};</span><br><span class="line">    <span class="type">int</span> <span class="variable">m</span> <span class="operator">=</span> grid.length, n = grid[<span class="number">0</span>].length;</span><br><span class="line">    <span class="comment">//这题求最大值，在 dp 数组上边和左右两边各加一行作为边界</span></span><br><span class="line">    <span class="comment">//这里也可以用滚动数组优化下空间</span></span><br><span class="line">    <span class="type">int</span>[][][] dp = <span class="keyword">new</span> <span class="title class_">int</span>[m+<span class="number">1</span>][n+<span class="number">2</span>][n+<span class="number">2</span>];</span><br><span class="line">    <span class="type">int</span> <span class="variable">INF</span> <span class="operator">=</span> -<span class="number">0x3f3f3f3f</span>;</span><br><span class="line">    <span class="comment">//全部初始化为 INF（实际上初始化两边和最上面的就 ok 了）</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">r</span> <span class="operator">=</span> <span class="number">0</span>; r &lt;= m; r++) {</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j1</span> <span class="operator">=</span> <span class="number">0</span>; j1 &lt;= n+<span class="number">1</span>; j1++) {</span><br><span class="line">            Arrays.fill(dp[r][j1], INF);</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">    dp[<span class="number">1</span>][<span class="number">1</span>][n] = grid[<span class="number">0</span>][<span class="number">0</span>] + grid[<span class="number">0</span>][n-<span class="number">1</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">r</span> <span class="operator">=</span> <span class="number">2</span>; r &lt;= m; r++) {</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j1</span> <span class="operator">=</span> <span class="number">1</span>; j1 &lt;= n; j1++) {</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j2</span> <span class="operator">=</span> <span class="number">1</span>; j2 &lt;= n; j2++) {</span><br><span class="line">                <span class="comment">//方向向量，简化写法</span></span><br><span class="line">                <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">d1</span> <span class="operator">=</span> <span class="number">0</span>; d1 &lt; <span class="number">3</span>; d1++) {</span><br><span class="line">                    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">d2</span> <span class="operator">=</span> <span class="number">0</span>; d2 &lt; <span class="number">3</span>; d2++) {</span><br><span class="line">                        dp[r][j1][j2] = Math.max(dp[r][j1][j2], dp[r-<span class="number">1</span>][j1+dir[d1]][j2+dir[d2]]);</span><br><span class="line">                    }</span><br><span class="line">                }</span><br><span class="line">                dp[r][j1][j2] += (j1==j2 ? grid[r-<span class="number">1</span>][j1-<span class="number">1</span>] : (grid[r-<span class="number">1</span>][j1-<span class="number">1</span>] + grid[r-<span class="number">1</span>][j2-<span class="number">1</span>]));</span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">    <span class="type">int</span> <span class="variable">res</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j1</span> <span class="operator">=</span> <span class="number">0</span>; j1 &lt;= n; j1++) {</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j2</span> <span class="operator">=</span> <span class="number">0</span>; j2 &lt;= n; j2++) {</span><br><span class="line">            res = Math.max(res, dp[m][j1][j2]);   </span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+        
+            <div class="donate-container">
+    <div class="donate-button">
+        <button id="donate-button">赞赏</button>
+    </div>
+    <div class="donate-img-container hide" id="donate-img-container">
+        <img id="donate-img" src="" data-src="">
+        <p> 感谢鼓励 </p>
+    </div>
+</div>
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+        <div id="lv-container"></div>
+        <div class="giscus"></div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/imlgw">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://imlgw.top">Tadow</a></span>
+        <span>/</span>
+        
+        <span><a target="_blank" rel="noopener" href="http://beian.miit.gov.cn/publish/query/indexFirst.action">鄂ICP备18011208号</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>  Theme <a target="_blank" rel="noopener" href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/live2d-widget@3.x/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"https://cdn.jsdelivr.net/npm/live2d-widget-model-hijiki@1.0.5/assets/hijiki.model.json"},"display":{"superSample":2,"width":160,"height":320,"position":"right","hOffset":0,"vOffset":-70},"mobile":{"show":false,"scale":0.2},"log":false});</script></body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://giscus.app/client.js"
+  data-repo="imlgw/imlgw.github.io"
+  data-repo-id="MDEwOlJlcG9zaXRvcnkxMzMyMDY4NDg="
+  data-category="Announcements"
+  data-category-id="DIC_kwDOB_CTQM4CQ7v8"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="top"
+  data-theme="light"
+  data-lang="zh-CN"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+
+
+</html>

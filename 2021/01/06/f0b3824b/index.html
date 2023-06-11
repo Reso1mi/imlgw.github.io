@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:description" content="Tadow 的博客">
+    <meta property="og:type" content="website">
+    <meta name="description" content="Tadow 的博客">
+    <meta name="keyword"  content="Tadow, Resolmi, imlgw, 半岛铁盒, 算法, Java, Golang">
+    <link rel="shortcut icon" href="https://fav.farm/💭">
+
+    <title>
+        
+        力扣 42th 双周赛 - Tadow 碎碎念
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_28hi1hpxx24.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Tadow 碎碎念" type="application/atom+xml">
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> Keep It Simple, Stupid </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar radius">
+            <img src="https://static.imlgw.top/blog/20220821160037.png" />
+        </div>
+        <div class="name">
+            <i>Tadow</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <!-- <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li> -->
+            <li >
+                <a href="/categories">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>分类</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            
+            <li >
+                <a href="/selfhosted">
+                    <i class="iconfont icon-guidang1"></i>
+                    <span>自建</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/collect/">
+                    <i class="iconfont icon-shoucang1"></i>
+                    <span>收藏</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1702-%E4%BF%AE%E6%94%B9%E5%90%8E%E7%9A%84%E6%9C%80%E5%A4%A7%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="toc-text">1702. 修改后的最大二进制字符串</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E6%B3%95%E4%B8%80"><span class="toc-text">解法一</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1703-%E5%BE%97%E5%88%B0%E8%BF%9E%E7%BB%AD-K-%E4%B8%AA-1-%E7%9A%84%E6%9C%80%E5%B0%91%E7%9B%B8%E9%82%BB%E4%BA%A4%E6%8D%A2%E6%AC%A1%E6%95%B0"><span class="toc-text">1703. 得到连续 K 个 1 的最少相邻交换次数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E6%B3%95%E4%B8%80-1"><span class="toc-text">解法一</span></a></li></ol></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-bg" id="search-bg"></div>
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i> Keep It Simple, Stupid </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        力扣 42th 双周赛
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2021-01-06 00:00:00</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#动态规划" title="动态规划">动态规划</a>
+        <span>/</span>
+        
+        <a class="tag" href="/tags/#LeetCode" title="LeetCode">LeetCode</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <h2 id="1702-修改后的最大二进制字符串"><a href="#1702-修改后的最大二进制字符串" class="headerlink" title="1702. 修改后的最大二进制字符串"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/maximum-binary-string-after-change/">1702. 修改后的最大二进制字符串</a></h2><p>Difficulty: <strong>中等</strong></p>
+<p>给你一个二进制字符串 <code>binary</code> ，它仅有 <code>0</code> 或者 <code>1</code> 组成。你可以使用下面的操作任意次对它进行修改：</p>
+<ul>
+<li>操作 1 ：如果二进制串包含子字符串 “00” ，你可以用 “10” 将其替换。<ul>
+<li>  比方说， “00010” -&gt; “10010”</li>
+</ul>
+</li>
+<li>操作 2 ：如果二进制串包含子字符串 “10” ，你可以用 “01” 将其替换。<ul>
+<li>  比方说， “00010” -&gt; “00001”</li>
+</ul>
+</li>
+</ul>
+<p>请你返回执行上述操作任意次以后能得到的 <strong>最大二进制字符串</strong> 。如果二进制字符串 <code>x</code> 对应的十进制数字大于二进制字符串 <code>y</code> 对应的十进制数字，那么我们称二进制字符串<code>x</code>大于二进制字符串<code>y</code>。</p>
+<p><strong>示例 1：</strong></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">输入：binary = <span class="string">&quot;000110&quot;</span></span><br><span class="line">输出：<span class="string">&quot;111011&quot;</span></span><br><span class="line">解释：一个可行的转换为：</span><br><span class="line"><span class="string">&quot;000110&quot;</span> -&gt; <span class="string">&quot;000101&quot;</span> </span><br><span class="line"><span class="string">&quot;000101&quot;</span> -&gt; <span class="string">&quot;100101&quot;</span> </span><br><span class="line"><span class="string">&quot;100101&quot;</span> -&gt; <span class="string">&quot;110101&quot;</span> </span><br><span class="line"><span class="string">&quot;110101&quot;</span> -&gt; <span class="string">&quot;110011&quot;</span> </span><br><span class="line"><span class="string">&quot;110011&quot;</span> -&gt; <span class="string">&quot;111011&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 2：</strong></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">输入：binary = <span class="string">&quot;01&quot;</span></span><br><span class="line">输出：<span class="string">&quot;01&quot;</span></span><br><span class="line">解释：<span class="string">&quot;01&quot;</span> 没办法进行任何转换。</span><br></pre></td></tr></table></figure>
+
+<p><strong>提示：</strong></p>
+<ul>
+<li>  1 &lt;= binary.length &lt;= 10<sup>5</sup></li>
+<li>  <code>binary</code> 仅包含 ‘0’ 和 ‘1’ 。</li>
+</ul>
+<h3 id="解法一"><a href="#解法一" class="headerlink" title="解法一"></a>解法一</h3><p>因为是补题，之前在群里有看见讨论，大致的提到了一些，所以这里很快就想到了贪心的思路。首先 01 是无法继续变化的，10 是可以变成 01 的，而开头连续的 1 肯定是不需要再变化的，变化只会使得结果变小，所以我们可以将除了开头连续的 1 以外的所有的 1 都转换到最后（一定是可以的，因为 10 可以变成 01），然后再将中间的 00 都转换成 10 最后剩下的就只有中间的一个 0，这样就使得结果最大了。最终的结果就是 1111…0…111 类似的形式</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">​<span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MaximumBinaryString</span> &#123;</span><br><span class="line">    <span class="comment">//100101100 --&gt; 100000111 --&gt; 111110111</span></span><br><span class="line"><span class="number">1</span>   <span class="comment">//1100 --&gt; 1110</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">maximumBinaryString</span><span class="params">(String binary)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> binary.length();</span><br><span class="line">        <span class="type">int</span> <span class="variable">cnt</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (i &lt; n &amp;&amp; binary.charAt(i) == <span class="string">&#x27;1&#x27;</span>) i++;</span><br><span class="line">        <span class="keyword">if</span> (i==n) <span class="keyword">return</span> binary;</span><br><span class="line">        <span class="keyword">while</span> (i &lt; n) &#123;</span><br><span class="line">            <span class="keyword">if</span> (binary.charAt(i) == <span class="string">&#x27;1&#x27;</span>) cnt++;</span><br><span class="line">            i++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">StringBuilder</span> <span class="variable">sb</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuilder</span>();</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; n-cnt-<span class="number">1</span>; j++) &#123;</span><br><span class="line">            sb.append(<span class="string">&quot;1&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        sb.append(<span class="string">&quot;0&quot;</span>);</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; cnt; j++) &#123;</span><br><span class="line">            sb.append(<span class="string">&quot;1&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sb.toString();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="1703-得到连续-K-个-1-的最少相邻交换次数"><a href="#1703-得到连续-K-个-1-的最少相邻交换次数" class="headerlink" title="1703. 得到连续 K 个 1 的最少相邻交换次数"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/minimum-adjacent-swaps-for-k-consecutive-ones/">1703. 得到连续 K 个 1 的最少相邻交换次数</a></h2><p>Difficulty: <strong>困难</strong></p>
+<p>给你一个整数数组 <code>nums</code> 和一个整数 <code>k</code> 。 <code>nums</code> 仅包含 <code>0</code> 和 <code>1</code> 。每一次移动，你可以选择 <strong>相邻</strong> 两个数字并将它们交换。</p>
+<p>请你返回使 <code>nums</code> 中包含 <code>k</code> 个连续 <code>1</code> 的最少交换次数。</p>
+<p><strong>示例 1：</strong></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">输入：nums = [<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>], k = <span class="number">2</span></span><br><span class="line">输出：<span class="number">1</span></span><br><span class="line">解释：在第一次操作时，nums 可以变成 [<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">1</span>] 得到连续两个 <span class="number">1</span> 。</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 2：</strong></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">输入：nums = [<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">1</span>], k = <span class="number">3</span></span><br><span class="line">输出：<span class="number">5</span></span><br><span class="line">解释：通过 <span class="number">5</span> 次操作，最左边的 <span class="number">1</span> 可以移到右边直到 nums 变为 [<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>] 。</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 3：</strong></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">输入：nums = [<span class="number">1</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>], k = <span class="number">2</span></span><br><span class="line">输出：<span class="number">0</span></span><br><span class="line">解释：nums 已经有连续 <span class="number">2</span> 个 <span class="number">1</span> 了。</span><br></pre></td></tr></table></figure>
+
+<p><strong>提示：</strong></p>
+<ul>
+<li>  1 &lt;= nums.length &lt;= 10<sup>5</sup></li>
+<li>  <code>nums[i]</code> 要么是 <code>0</code> ，要么是 <code>1</code> 。</li>
+<li>  1 &lt;= k &lt;= sum(nums)</li>
+</ul>
+<h3 id="解法一-1"><a href="#解法一-1" class="headerlink" title="解法一"></a>解法一</h3><p>单独写了一篇文章整理类似的题，<a href="https://imlgw.top/2021/01/10/6134a4bc/#1703-%E5%BE%97%E5%88%B0%E8%BF%9E%E7%BB%ADK%E4%B8%AA1%E7%9A%84%E6%9C%80%E5%B0%91%E7%9B%B8%E9%82%BB%E4%BA%A4%E6%8D%A2%E6%AC%A1%E6%95%B0">详见</a></p>
+
+        
+            <div class="donate-container">
+    <div class="donate-button">
+        <button id="donate-button">赞赏</button>
+    </div>
+    <div class="donate-img-container hide" id="donate-img-container">
+        <img id="donate-img" src="" data-src="">
+        <p> 感谢鼓励 </p>
+    </div>
+</div>
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+        <div id="lv-container"></div>
+        <div class="giscus"></div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/imlgw">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://imlgw.top">Tadow</a></span>
+        <span>/</span>
+        
+        <span><a target="_blank" rel="noopener" href="http://beian.miit.gov.cn/publish/query/indexFirst.action">鄂ICP备18011208号</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>  Theme <a target="_blank" rel="noopener" href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/live2d-widget@3.x/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"https://cdn.jsdelivr.net/npm/live2d-widget-model-hijiki@1.0.5/assets/hijiki.model.json"},"display":{"superSample":2,"width":160,"height":320,"position":"right","hOffset":0,"vOffset":-70},"mobile":{"show":false,"scale":0.2},"log":false});</script></body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://giscus.app/client.js"
+  data-repo="imlgw/imlgw.github.io"
+  data-repo-id="MDEwOlJlcG9zaXRvcnkxMzMyMDY4NDg="
+  data-category="Announcements"
+  data-category-id="DIC_kwDOB_CTQM4CQ7v8"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="top"
+  data-theme="light"
+  data-lang="zh-CN"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+
+
+</html>

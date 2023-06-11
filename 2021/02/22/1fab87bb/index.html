@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:description" content="Tadow 的博客">
+    <meta property="og:type" content="website">
+    <meta name="description" content="Tadow 的博客">
+    <meta name="keyword"  content="Tadow, Resolmi, imlgw, 半岛铁盒, 算法, Java, Golang">
+    <link rel="shortcut icon" href="https://fav.farm/💭">
+
+    <title>
+        
+        七牛云免费额度开启 HTTPS 代理 - Tadow 碎碎念
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_28hi1hpxx24.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Tadow 碎碎念" type="application/atom+xml">
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> Keep It Simple, Stupid </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar radius">
+            <img src="https://static.imlgw.top/blog/20220821160037.png" />
+        </div>
+        <div class="name">
+            <i>Tadow</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <!-- <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li> -->
+            <li >
+                <a href="/categories">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>分类</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            
+            <li >
+                <a href="/selfhosted">
+                    <i class="iconfont icon-guidang1"></i>
+                    <span>自建</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/collect/">
+                    <i class="iconfont icon-shoucang1"></i>
+                    <span>收藏</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B5%B7%E5%9B%A0"><span class="toc-text">起因</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-text">解决方案</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E9%98%B6"><span class="toc-text">进阶</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E8%AF%AD"><span class="toc-text">结语</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-bg" id="search-bg"></div>
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i> Keep It Simple, Stupid </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        七牛云免费额度开启 HTTPS 代理
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2021-02-22 00:00:00</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#Nginx" title="Nginx">Nginx</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>最近给自己的博客上了 https，而图床一直用的七牛云的免费额度，但是七牛云的免费额度是不支持 HTTPS 流量的，<del>作为资深白嫖怪当然首先是考虑如何白嫖了</del></p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>因为要上全站 https，所以我们站点是不允许发送 http 请求的，http 的外链资源都无法加载。其实解决方案也很简单，我们再套一层 https 的代理就行了。</p>
+<p>我们七牛云的 cdn 加速域名是 <a href="">static.imlgw.top</a>，我们再申请一个子域名 <a href="">qiniu.imlgw.top</a>，然后给这个子域名添加一条 A 记录指向我们的服务器，然后再给这个域名申请一套 ssl 证书上传到服务器上，然后就是对 Nginx 的配置了</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 配置 https 代理</span></span><br><span class="line">server &#123;</span><br><span class="line">    listen        443 ssl;</span><br><span class="line">    <span class="comment"># https 跳板</span></span><br><span class="line">    server_name  qiniu.imlgw.top;</span><br><span class="line">    <span class="comment"># 证书</span></span><br><span class="line">    ssl_certificate  /usr/local/cert/qiniu.imlgw.top.pem;</span><br><span class="line">    ssl_certificate_key  /usr/local/cert/qiniu.imlgw.top.key;</span><br><span class="line">    location / &#123;</span><br><span class="line">        <span class="comment"># 七牛云 CDN 域名</span></span><br><span class="line">        proxy_pass http://static.imlgw.top;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后我们就可以通过 <a target="_blank" rel="noopener" href="https://qiniu.imlgw.top/abc.jpg">https://qiniu.imlgw.top/abc.jpg</a><br> 代理访问 <a target="_blank" rel="noopener" href="http://static.imlgw.top/abc.jpg">http://static.imlgw.top/abc.jpg</a>，进而继续白嫖七牛云的免费额度🤣</p>
+<h2 id="进阶"><a href="#进阶" class="headerlink" title="进阶"></a>进阶</h2><p>实际上这种方案我弄好了后并没有采用，主要原因如下：</p>
+<ol>
+<li>这样代理之后图片都会通过我的服务器中转，七牛云 cdn 加速其实就没用了，而我的服务器是个 1Mbps 的小水管，图片的加载速度会变慢</li>
+<li><code>MPic</code>上传图片获取链接后还需要手动的去修改链接为 qiniu…，事情变复杂了，没有那么方便了</li>
+<li>这样代理之后，之前所有的文章图片都需要将链接替换成<code>qiniu.imlgw.top</code>，虽然文章也不多，写个脚本一下就替换了，但是终归是有点麻烦</li>
+</ol>
+<p>其实这种方案有一个更好的用途：可以做到<strong>无缝换源</strong> 。我们可以<strong>同步</strong>我们的多个对象存储源，当我们其中一个发生故障的时候（欠费）我们可以修改 Nginx 的配置，将其代理到另一个源这样我们文章的外链不需要做任何修改依然可以正常访问</p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>最终还是选择了付费，其实本来是打算采用阿里云 OSS 做付费图床的，但是阿里云的计费规则我实在是有点摸不透，空间很便宜 9 元 40G/Year，但是流量的计算有点复杂，而且要做图床替换也是个麻烦事，得写个通用脚本出来，用七牛云的话只要升级了 https，然后开启强制 https，文章中的链接都不需要修改就可以直接访问（我这里最新的 Chrome 会自动把 https 站点的 http 请求替换成 https，但是其他的浏览器就不知道了，所以我们直接开启强制 https 就行了）</p>
+<p>七牛云的我大概看了下，计费规则还是很清晰的，免费的额度是：10G 空间，10G 的 CDN-HTTP 流量。使用了 CDN 加速后就不计算外网流出的流量费用。所以我需要做的就是将 http 的 cdn 流量升级成 https，价格如下<br><img src="https://i.loli.net/2021/02/23/HDhXPIkGSvmRuK4.png"> 我充了一点点钱，先按量付费用着看，看看一年能不能把我冲的这点钱花完😂（立个 flag 一年后再来看），毕竟是个人博客，除了自己也没啥人会看，如果流量大了可以考虑卖资源包，有打折，会便宜一点。</p>
+
+        
+            <div class="donate-container">
+    <div class="donate-button">
+        <button id="donate-button">赞赏</button>
+    </div>
+    <div class="donate-img-container hide" id="donate-img-container">
+        <img id="donate-img" src="" data-src="">
+        <p> 感谢鼓励 </p>
+    </div>
+</div>
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+        <div id="lv-container"></div>
+        <div class="giscus"></div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/imlgw">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://imlgw.top">Tadow</a></span>
+        <span>/</span>
+        
+        <span><a target="_blank" rel="noopener" href="http://beian.miit.gov.cn/publish/query/indexFirst.action">鄂ICP备18011208号</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>  Theme <a target="_blank" rel="noopener" href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/live2d-widget@3.x/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"https://cdn.jsdelivr.net/npm/live2d-widget-model-hijiki@1.0.5/assets/hijiki.model.json"},"display":{"superSample":2,"width":160,"height":320,"position":"right","hOffset":0,"vOffset":-70},"mobile":{"show":false,"scale":0.2},"log":false});</script></body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://giscus.app/client.js"
+  data-repo="imlgw/imlgw.github.io"
+  data-repo-id="MDEwOlJlcG9zaXRvcnkxMzMyMDY4NDg="
+  data-category="Announcements"
+  data-category-id="DIC_kwDOB_CTQM4CQ7v8"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="top"
+  data-theme="light"
+  data-lang="zh-CN"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+
+
+</html>

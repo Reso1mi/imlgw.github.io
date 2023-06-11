@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:description" content="Tadow 的博客">
+    <meta property="og:type" content="website">
+    <meta name="description" content="Tadow 的博客">
+    <meta name="keyword"  content="Tadow, Resolmi, imlgw, 半岛铁盒, 算法, Java, Golang">
+    <link rel="shortcut icon" href="https://fav.farm/💭">
+
+    <title>
+        
+        二分搜索树 - Tadow 碎碎念
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_28hi1hpxx24.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Tadow 碎碎念" type="application/atom+xml">
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> Keep It Simple, Stupid </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar radius">
+            <img src="https://static.imlgw.top/blog/20220821160037.png" />
+        </div>
+        <div class="name">
+            <i>Tadow</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <!-- <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li> -->
+            <li >
+                <a href="/categories">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>分类</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            
+            <li >
+                <a href="/selfhosted">
+                    <i class="iconfont icon-guidang1"></i>
+                    <span>自建</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/collect/">
+                    <i class="iconfont icon-shoucang1"></i>
+                    <span>收藏</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E5%88%86%E6%90%9C%E7%B4%A2%E6%A0%91"><span class="toc-text">二分搜索树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84"><span class="toc-text">基本结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0"><span class="toc-text">添加</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E6%89%BE"><span class="toc-text">查找</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%81%8D%E5%8E%86"><span class="toc-text">遍历</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E5%BA%8F%E9%81%8D%E5%8E%86"><span class="toc-text">前序遍历</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%92%E5%BD%92%E5%86%99%E6%B3%95"><span class="toc-text">递归写法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9D%9E%E9%80%92%E5%BD%92%E5%86%99%E6%B3%95"><span class="toc-text">非递归写法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86"><span class="toc-text">中序遍历</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%92%E5%BD%92%E5%86%99%E6%B3%95-1"><span class="toc-text">递归写法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9D%9E%E9%80%92%E5%BD%92%E5%86%99%E6%B3%95-1"><span class="toc-text">非递归写法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%8E%E5%BA%8F%E9%81%8D%E5%8E%86"><span class="toc-text">后序遍历</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%92%E5%BD%92%E5%86%99%E6%B3%95-2"><span class="toc-text">递归写法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9D%9E%E9%80%92%E5%BD%92%E5%86%99%E6%B3%95-2"><span class="toc-text">非递归写法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B1%82%E6%AC%A1%E9%81%8D%E5%8E%86"><span class="toc-text">层次遍历</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%92%E5%BD%92%E5%86%99%E6%B3%95-3"><span class="toc-text">递归写法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9D%9E%E9%80%92%E5%BD%92%E5%86%99%E6%B3%95-3"><span class="toc-text">非递归写法</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%96%E6%95%B4"><span class="toc-text">取整</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%91%E4%B8%8B%E5%8F%96%E6%95%B4%EF%BC%88floor%EF%BC%89"><span class="toc-text">向下取整（floor）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%91%E4%B8%8A%E5%8F%96%E6%95%B4%EF%BC%88ceiling%EF%BC%89"><span class="toc-text">向上取整（ceiling）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E7%AC%AC-K-%E5%A4%A7"><span class="toc-text">获取第 K 大</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Rank"><span class="toc-text">Rank()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Max-amp-Min"><span class="toc-text">Max&amp;Min</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A0%E9%99%A4"><span class="toc-text">删除</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E6%9C%80%E5%80%BC"><span class="toc-text">删除最值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E4%BB%BB%E6%84%8F%E5%80%BC"><span class="toc-text">删除任意值</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%9C%B0%E5%9D%80"><span class="toc-text">代码地址</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-bg" id="search-bg"></div>
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i> Keep It Simple, Stupid </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        二分搜索树
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2019-11-08 00:00:00</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#数据结构" title="数据结构">数据结构</a>
+        <span>/</span>
+        
+        <a class="tag" href="/tags/#树" title="树">树</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <h2 id="二分搜索树"><a href="#二分搜索树" class="headerlink" title="二分搜索树"></a>二分搜索树</h2><p><strong>二叉查找树</strong>（英语：Binary Search Tree），也称为<strong>二分搜索树</strong>，<strong>二叉搜索树</strong>、<strong>有序二叉树</strong>（ordered binary tree）或<strong>排序二叉树</strong>（sorted binary tree）也可以简写为 <code>BST</code>，是指一棵空树或者具有下列性质的 <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E4%BA%8C%E5%8F%89%E6%A0%91">二叉树</a>：</p>
+<ol>
+<li>若任意节点的左子树不空，则左子树上所有节点的值均小于它的根节点的值；</li>
+<li>若任意节点的右子树不空，则右子树上所有节点的值均大于它的根节点的值；</li>
+<li>任意节点的左、右子树也分别为二叉查找树；</li>
+<li>没有键值相等的节点。</li>
+</ol>
+<p>二叉查找树相比于其他数据结构的优势在于查找、插入的 <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6">时间复杂度</a> 较低。为<code>O(logN)</code>。二叉查找树是基础性数据结构，用于构建更为抽象的数据结构，如集合，映射等</p>
+<h2 id="基本结构"><a href="#基本结构" class="headerlink" title="基本结构"></a>基本结构</h2><p>先搭一个基本的架子出来，后面再来慢慢的完善功能</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BST</span>&lt;E <span class="keyword">extends</span> <span class="title class_">Comparable</span>&lt;E&gt;&gt;&#123;</span><br><span class="line">    <span class="comment">//TreeNode</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">class</span> <span class="title class_">Node</span>&#123;</span><br><span class="line">        <span class="keyword">public</span> E e;</span><br><span class="line">        <span class="keyword">public</span> Node left;</span><br><span class="line">        <span class="keyword">public</span> Node right;</span><br><span class="line">        <span class="keyword">public</span> <span class="title function_">Node</span><span class="params">(E e)</span>&#123;</span><br><span class="line">            <span class="built_in">this</span>.e=e;</span><br><span class="line">            left=<span class="literal">null</span>;</span><br><span class="line">            right=<span class="literal">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Node root;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> size;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">BST</span><span class="params">()</span>&#123;</span><br><span class="line">        root=<span class="literal">null</span>;</span><br><span class="line">        size=<span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">size</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> size;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">isEmpty</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> size==<span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">add</span><span class="params">(E e)</span>&#123;</span><br><span class="line">        <span class="comment">//...</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">contains</span><span class="params">(E e)</span>&#123;</span><br><span class="line">        <span class="comment">//...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="添加"><a href="#添加" class="headerlink" title="添加"></a>添加</h2><p>添加函数，时间复杂度<code>O(logN)</code>，只要抓住了它的性质就很好写，画个图描述下这个过程</p>
+<p><img src="http://static.imlgw.top/blog/20191113/P39b50Ikv4sV.png?imageslim" alt="mark"></p>
+<p>① 首先和 root 节点 8 比较，比 8 小，所以肯定再 8 的左子树中</p>
+<p>② 再和 root 的左子树根节点 5 比较，比 5 大，所以最后肯定插入 5 的右子树中</p>
+<p>③ 再和 5 节点的右子树根节点 6 比较，比 6 大，所以最后插入 6 的右子树中</p>
+<p>④ 右子树为空，直接插入到 6 的右边</p>
+<p>根据上面的流程我们很容易写出代码</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addLoop</span><span class="params">(E e)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (root==<span class="literal">null</span>) &#123;</span><br><span class="line">        size++;</span><br><span class="line">        root=<span class="keyword">new</span> <span class="title class_">Node</span>(e);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    Node temp=root;</span><br><span class="line">    <span class="keyword">while</span>(temp!=<span class="literal">null</span>)&#123;</span><br><span class="line">        <span class="keyword">if</span> (e.compareTo(temp.e)&gt;<span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (temp.right==<span class="literal">null</span>) &#123;</span><br><span class="line">                temp.right=<span class="keyword">new</span> <span class="title class_">Node</span>(e);</span><br><span class="line">                size++;</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            temp=temp.right;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span> (e.compareTo(temp.e)&lt;<span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (temp.left==<span class="literal">null</span>) &#123;</span><br><span class="line">                temp.left=<span class="keyword">new</span> <span class="title class_">Node</span>(e);</span><br><span class="line">                size++;</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            temp=temp.left;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">return</span>; <span class="comment">//不能有相等元素</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里既然是树结构，用循环似乎有的显得不够优雅😂</p>
+<p>所以我们尝试把这个改成递归</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">add2</span><span class="params">(E e)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(root == <span class="literal">null</span>)&#123;</span><br><span class="line">        root = <span class="keyword">new</span> <span class="title class_">Node</span>(e);</span><br><span class="line">        size ++;</span><br><span class="line">    &#125;<span class="keyword">else</span> add(root, e);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 向以 node 为根的二分搜索树中插入元素 e, 略显繁琐</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">add2</span><span class="params">(Node node, E e)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(e.equals(node.e)) <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">if</span>(e.compareTo(node.e) &lt; <span class="number">0</span> &amp;&amp; node.left == <span class="literal">null</span>)&#123;</span><br><span class="line">        node.left = <span class="keyword">new</span> <span class="title class_">Node</span>(e);</span><br><span class="line">        size ++;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(e.compareTo(node.e) &gt; <span class="number">0</span> &amp;&amp; node.right == <span class="literal">null</span>)&#123;</span><br><span class="line">        node.right = <span class="keyword">new</span> <span class="title class_">Node</span>(e);</span><br><span class="line">        size ++;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(e.compareTo(node.e) &lt; <span class="number">0</span>)</span><br><span class="line">        add(node.left, e);</span><br><span class="line">    <span class="keyword">else</span> <span class="comment">//e.compareTo(node.e) &gt; 0</span></span><br><span class="line">    	add(node.right, e);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个递归？？？咋感觉比循环还繁琐🙄 </p>
+<p>确实，上面这个递归的终止条件太繁琐了，<code>compareTo</code>一共比较了 4 次，有很多重复代码，所以我们还得改改😋</p>
+<p>我们让这个<code>add</code>函数有返回值，返回插入后的根节点，这样我们的函数 <code>add(Node node,E e)</code> 定义就变成了 <strong>插入元素<code>e</code>到 以 <code>node</code> 为根节点的 BST 中，并且返回根节点</strong> ，清楚了递归函数的定义，我们再来写方法就会容易很多</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">add</span><span class="params">(E e)</span>&#123;</span><br><span class="line">    root=add(root,e);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//插入元素`e`到 以 `node` 为根节点的 BST 中，并且返回根节点</span></span><br><span class="line"><span class="keyword">private</span> Node <span class="title function_">add</span><span class="params">(Node node, E e)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (node == <span class="literal">null</span>) &#123;</span><br><span class="line">        size++;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Node</span>(e);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(e.compareTo(node.e) &lt; <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="comment">//插入左子树中，并返回根节点，然后接在 node.left</span></span><br><span class="line">        node.left=add(node.left, e);</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span> (e.compareTo(node.e) &gt; <span class="number">0</span>) &#123; <span class="comment">//注意不要写 else, 前面没有对相等的元素做判断</span></span><br><span class="line">        <span class="comment">//插入右子树中，并返回根节点，然后接在 node.right</span></span><br><span class="line">        node.right=add(node.right, e);   </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> node;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>还是那句话，写递归函数，不要纠结于函数的每一步是如何去进行，如何去得到结果的，从全局出发，只要搞清楚递归函数的定义，按照函数的定义来写代码，最后思考一下边界，最后的代码就一定是正确的！</p>
+<p>这个边界的思考，其实也很简单，就比如上面的这个结束条件，我们不用去考虑一步步直到递归终结时是什么情况，我们思考一下极端的边界情况（其实这就是终结的情况），root 为 null，还没有初始化，BST 还是空的，这个时候 add 元素，其实想都不用想，肯定是直接把这个 e 作为根节点返回就 ok 了，所以很自然的就写出了终止条件</p>
+<h2 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h2><p>查找相比于上面的添加，会简单很多，可以很容易的写出代码</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//查询操作</span></span><br><span class="line"><span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">contains</span><span class="params">(E e)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (e==<span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> contains(e,root);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="type">boolean</span> <span class="title function_">contains</span><span class="params">(E e,Node root)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (root==<span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (e.compareTo(root.e)==<span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> e.compareTo(root.e)&lt;<span class="number">0</span>?contains(e,root.left):contains(e,root.right);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里我为了简洁写了三目，不熟悉的可以改成 if，整体时间复杂度依然是<code>O(logN)</code> ，比线性表的查找会快很多！</p>
+<h2 id="遍历"><a href="#遍历" class="headerlink" title="遍历"></a>遍历</h2><p>老生常谈的话题，这个在我之前的 <a href="http://imlgw.top/2019/11/06/leetcode-er-cha-shu-di-gui/">LeetCode-二叉树</a> 里面也做过了，这里再翻出来看看，其实重点是想把后序遍历给搞清楚了，之前一直挺迷糊的</p>
+<h3 id="前序遍历"><a href="#前序遍历" class="headerlink" title="前序遍历"></a>前序遍历</h3><h4 id="递归写法"><a href="#递归写法" class="headerlink" title="递归写法"></a>递归写法</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//前序遍历，递归</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">preorderTravelRecur</span><span class="params">()</span>&#123;</span><br><span class="line">    preorderTravel(root);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">preorderTravel</span><span class="params">(Node root)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (root==<span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    System.out.print(root.e+<span class="string">&quot; &quot;</span>);</span><br><span class="line">    preorderTravel(root.left);</span><br><span class="line">    preorderTravel(root.right);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="非递归写法"><a href="#非递归写法" class="headerlink" title="非递归写法"></a>非递归写法</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//前序遍历，非递归实现</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">preorderTravelNoRecur</span><span class="params">()</span>&#123;</span><br><span class="line">    Stack&lt;Node&gt; stack=<span class="keyword">new</span> <span class="title class_">Stack</span>&lt;&gt;();</span><br><span class="line">    Node cur=root;</span><br><span class="line">    <span class="keyword">while</span>( cur!=<span class="literal">null</span> || !stack.isEmpty())&#123;</span><br><span class="line">        <span class="keyword">while</span>(cur!=<span class="literal">null</span>)&#123;</span><br><span class="line">            System.out.print(cur.e+<span class="string">&quot; &quot;</span>);</span><br><span class="line">            stack.push(cur);</span><br><span class="line">            cur=cur.left;</span><br><span class="line">        &#125;</span><br><span class="line">        cur=stack.pop();</span><br><span class="line">        cur=cur.right;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意这里并不是经典的前序遍历方式，是按照 “模板” 来的，首先我们考虑栈里面存的是什么，这里的栈里面存的实际上是 <code>左子树的左边</code> 的集合，这里我不知道咋描述，画个图吧</p>
+<p><img src="http://static.imlgw.top/blog/20191113/BF0cCcWcy3zP.png?imageslim" alt="mark"></p>
+<p>图中绿色部分就是我所说的<strong>左子树的左边的集合</strong>，整个栈的入栈顺序就是从左往右，从上到下，依次的将这些“左边” 入栈，并且在没有左子树，也就是遍历到叶子节点的时候开始出栈，然后切换成<code>当前出栈的节点</code>的右子树，将右子树的<code>左子树的左边</code>重复前面的过程继续入栈出栈，我们要考虑的就是在什么时候访问节点！</p>
+<p>细心的同学肯定已经发现了，其实这里进栈顺序和出栈顺序，分别对应的就是这颗树前序遍历和中序遍历！！！所以我们就只需要在进栈和出栈的时候，进行访问节点的操作，就可以完成前序和后序遍历</p>
+<h3 id="中序遍历"><a href="#中序遍历" class="headerlink" title="中序遍历"></a>中序遍历</h3><h4 id="递归写法-1"><a href="#递归写法-1" class="headerlink" title="递归写法"></a>递归写法</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//中序遍历，递归</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">inorderTravelRecur</span><span class="params">()</span>&#123;</span><br><span class="line">    inorderTravel(root);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">inorderTravel</span><span class="params">(Node root)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (root==<span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    inorderTravel(root.left);</span><br><span class="line">    System.out.print(root.e+<span class="string">&quot; &quot;</span>);</span><br><span class="line">    inorderTravel(root.right);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="非递归写法-1"><a href="#非递归写法-1" class="headerlink" title="非递归写法"></a>非递归写法</h4><p>结合上面的分析，我们也可以很容易的得出非递归的中序遍历的写法</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//中序遍历，非递归</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">inorderTravelNoRecur</span><span class="params">()</span>&#123;</span><br><span class="line">    Stack&lt;Node&gt; stack=<span class="keyword">new</span> <span class="title class_">Stack</span>&lt;&gt;();</span><br><span class="line">    Node cur=root;</span><br><span class="line">    <span class="keyword">while</span>( cur!=<span class="literal">null</span> || !stack.isEmpty())&#123;</span><br><span class="line">        <span class="keyword">while</span>(cur!=<span class="literal">null</span>)&#123;</span><br><span class="line">            stack.push(cur);</span><br><span class="line">            cur=cur.left;</span><br><span class="line">        &#125;</span><br><span class="line">        cur=stack.pop();</span><br><span class="line">        System.out.print(cur.e+<span class="string">&quot; &quot;</span>);</span><br><span class="line">        cur=cur.right;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="后序遍历"><a href="#后序遍历" class="headerlink" title="后序遍历"></a>后序遍历</h3><h4 id="递归写法-2"><a href="#递归写法-2" class="headerlink" title="递归写法"></a>递归写法</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//后序遍历，递归</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">postorderTravelRecur</span><span class="params">()</span>&#123;</span><br><span class="line">    postorderTravel(root);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">postorderTravel</span><span class="params">(Node root)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (root==<span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    postorderTravel(root.left);</span><br><span class="line">    postorderTravel(root.right);</span><br><span class="line">    System.out.print(root.e+<span class="string">&quot; &quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="非递归写法-2"><a href="#非递归写法-2" class="headerlink" title="非递归写法"></a>非递归写法</h4><p>这里的非递归写法就不一样了，比前两种要复杂</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//后序遍历，非递归</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">postorderTravelNoRecur</span><span class="params">()</span>&#123;</span><br><span class="line">    Stack&lt;Node&gt; stack=<span class="keyword">new</span> <span class="title class_">Stack</span>&lt;&gt;();</span><br><span class="line">    Node cur=root,lastNode=<span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">while</span>(cur!=<span class="literal">null</span> || !stack.isEmpty())&#123;</span><br><span class="line">        <span class="keyword">while</span>(cur!=<span class="literal">null</span>)&#123;</span><br><span class="line">            stack.push(cur);</span><br><span class="line">            cur=cur.left;</span><br><span class="line">        &#125;</span><br><span class="line">        cur=stack.peek();<span class="comment">//查看栈顶元素</span></span><br><span class="line">        <span class="comment">//如果右子树为空或者右节点已经访问过，则当前节点出栈，并记录 lastNode</span></span><br><span class="line">        <span class="keyword">if</span> (cur.right==<span class="literal">null</span> || lastNode==cur.right) &#123; </span><br><span class="line">            System.out.print(cur.e+<span class="string">&quot; &quot;</span>);</span><br><span class="line">            stack.pop();</span><br><span class="line">            lastNode=cur;</span><br><span class="line">            <span class="comment">//为了下一次能直接查看栈顶元素</span></span><br><span class="line">            <span class="comment">//cur 的使命其实已经结束了，cur 和它的孩子都已经访问了，下一次直接从栈顶取，不然就死循环了</span></span><br><span class="line">            cur=<span class="literal">null</span>; </span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            cur=cur.right;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="http://static.imlgw.top/blog/20191113/zM80igBy0RDX.png?imageslim" alt="mark"></p>
+<p>其实不管是什么遍历，对于这个模板来说，<strong>栈的轨迹都是一样的</strong>，只不过访问节点的时机有所不同，蓝色线条代表审查的顺序，红色辅助的代表出栈部分，右边对应的就是遍历过程中栈的变化，和对应结果的变化，对照这个图再分析下就很清楚了。</p>
+<p>如果觉得实在是不好理解也可以换用下面的方式</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">postorderTravelNoRecur2</span><span class="params">()</span> &#123;</span><br><span class="line">    Stack&lt;Node&gt; stack=<span class="keyword">new</span> <span class="title class_">Stack</span>&lt;&gt;();</span><br><span class="line">    stack.push(root);</span><br><span class="line">    Node lastNode=<span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">while</span>(!stack.isEmpty())&#123;</span><br><span class="line">        <span class="comment">//取栈顶元素</span></span><br><span class="line">        Node cur=stack.peek();</span><br><span class="line">        <span class="comment">//左右子树都为空，或者上一个访问的节点是当前节点的子节点就输出该节点</span></span><br><span class="line">        <span class="keyword">if</span> ( (cur.left==<span class="literal">null</span> &amp;&amp; cur.right ==<span class="literal">null</span>) || </span><br><span class="line">             (lastNode!=<span class="literal">null</span> &amp;&amp;(cur.left==lastNode || cur.right==lastNode)))&#123;</span><br><span class="line">            stack.pop();</span><br><span class="line">            System.out.print(cur.e+<span class="string">&quot; &quot;</span>);</span><br><span class="line">            lastNode=cur;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (cur.right!=<span class="literal">null</span>) &#123;</span><br><span class="line">                stack.push(cur.right);</span><br><span class="line">            &#125; <span class="keyword">if</span> (cur.left!=<span class="literal">null</span>) &#123;</span><br><span class="line">                stack.push(cur.left);</span><br><span class="line">            &#125;  </span><br><span class="line">        &#125; </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这种方式相比上面就好理解多了，左右子树都为空，或者上一个访问的节点是当前节点的子节点，就可以输出该节点了，注意添加的时候是逆序添加的，这样就可以保证先访问左节点，再访问右节点，最后访问根节点</p>
+<h3 id="层次遍历"><a href="#层次遍历" class="headerlink" title="层次遍历"></a>层次遍历</h3><h4 id="递归写法-3"><a href="#递归写法-3" class="headerlink" title="递归写法"></a>递归写法</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> List&lt;List&lt;Integer&gt;&gt; <span class="title function_">levelOrder</span><span class="params">(TreeNode root)</span> &#123;</span><br><span class="line">    List&lt;List&lt;Integer&gt;&gt; res = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">    helper(res, root, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">helper</span><span class="params">(List&lt;List&lt;Integer&gt;&gt; res, TreeNode root, <span class="type">int</span> depth)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (root == <span class="literal">null</span>) <span class="keyword">return</span>;</span><br><span class="line">    <span class="comment">//需要增加一层</span></span><br><span class="line">    <span class="keyword">if</span> (res.size() == depth) res.add(<span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;&gt;());</span><br><span class="line">    res.get(depth).add(root.val);</span><br><span class="line">    helper(res, root.left, depth + <span class="number">1</span>);</span><br><span class="line">    helper(res, root.right, depth + <span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="非递归写法-3"><a href="#非递归写法-3" class="headerlink" title="非递归写法"></a>非递归写法</h4><p>经典的 BFS</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//层次遍历</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">levelorderTravel</span><span class="params">()</span>&#123;</span><br><span class="line">    Queue&lt;Node&gt; queue=<span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;&gt;();</span><br><span class="line">    queue.add(root);</span><br><span class="line">    <span class="keyword">while</span>(!queue.isEmpty())&#123;</span><br><span class="line">        <span class="type">int</span> count=queue.size();</span><br><span class="line">        <span class="keyword">while</span>(count&gt;<span class="number">0</span>)&#123;</span><br><span class="line">            Node node=queue.poll();</span><br><span class="line">            System.out.print(node.e+<span class="string">&quot; &quot;</span>);</span><br><span class="line">            <span class="keyword">if</span> (node.left!=<span class="literal">null</span>) &#123;</span><br><span class="line">                queue.add(node.left);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (node.right!=<span class="literal">null</span>) &#123;</span><br><span class="line">                queue.add(node.right);</span><br><span class="line">            &#125;</span><br><span class="line">            count--;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>其实关于前中后序的遍历方式，还有很多，我这里主要记录的是<code>模板</code>的思路，其实还有一种很🐂🍺的做法，模拟系统栈的方式，具体可以参考我之前的  <a href="http://imlgw.top/2019/11/06/leetcode-er-cha-shu-di-gui/#144-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%89%8D%E5%BA%8F%E9%81%8D%E5%8E%86">LeetCode 二叉树</a> 这里就不多解释了</p>
+</blockquote>
+<h2 id="取整"><a href="#取整" class="headerlink" title="取整"></a>取整</h2><h3 id="向下取整（floor）"><a href="#向下取整（floor）" class="headerlink" title="向下取整（floor）"></a>向下取整（floor）</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> E <span class="title function_">floor</span><span class="params">(E e)</span>&#123;</span><br><span class="line">    Node node=floor(root,e);</span><br><span class="line">    <span class="keyword">return</span> node!=<span class="literal">null</span>?node.e:<span class="literal">null</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> Node <span class="title function_">floor</span><span class="params">(Node root,E e)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (root==<span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> temp=e.compareTo(root.e);</span><br><span class="line">    <span class="keyword">if</span> (temp==<span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> root;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (temp&lt;<span class="number">0</span>) &#123; <span class="comment">//root.e &gt; e, 求小于 e 的值，一定在左边</span></span><br><span class="line">        <span class="keyword">return</span> floor(root.left,e);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//tmep&gt;0 e&gt;root.e</span></span><br><span class="line">    Node node=floor(root.right,e);</span><br><span class="line">    <span class="keyword">return</span> node!=<span class="literal">null</span>?node:root;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="向上取整（ceiling）"><a href="#向上取整（ceiling）" class="headerlink" title="向上取整（ceiling）"></a>向上取整（ceiling）</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> E <span class="title function_">ceiling</span><span class="params">(E e)</span>&#123;</span><br><span class="line">    Node node=ceiling(root,e);</span><br><span class="line">    <span class="keyword">return</span> node!=<span class="literal">null</span>?node.e:<span class="literal">null</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> Node <span class="title function_">ceiling</span><span class="params">(Node root,E e)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (root==<span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> temp=e.compareTo(root.e);</span><br><span class="line">    <span class="keyword">if</span> (temp==<span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> root;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (temp&gt;<span class="number">0</span>) &#123; <span class="comment">//root.e&lt;e, 求的是最后大于 root.e 的元素，一定在右边</span></span><br><span class="line">        <span class="keyword">return</span> ceiling(root.right,e);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//tmep&lt;0 e&lt;root.e</span></span><br><span class="line">    Node node=ceiling(root.left,e);</span><br><span class="line">    <span class="keyword">return</span> node!=<span class="literal">null</span>?node:root;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这两个函数还是挺有用的，比如这个题 <a href="http://imlgw.top/2019/09/15/leetcode-cha-zhao/#220-%E5%AD%98%E5%9C%A8%E9%87%8D%E5%A4%8D%E5%85%83%E7%B4%A0-III">220-存在重复元素-III </a> 通过率只有 25%的 mid 题。</p>
+<h2 id="获取第-K-大"><a href="#获取第-K-大" class="headerlink" title="获取第 K 大"></a>获取第 K 大</h2><p>获取第 k 大（从 0 开始）的元素，如果左子树节点数小于<code>k</code>，则第 k 大的元素肯定在右子树，同时我们可以直接排除<code>size(left)+1</code> 个元素（加上根节点） 。</p>
+<p>然后直接在 右子树中继续搜索 <code>getKth(root.right,k-size(left)-1)</code>  ，只有当左子树刚好 k 个元素的时候，根节点就是我们要找的<code>Kth</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> E <span class="title function_">getKth</span><span class="params">(<span class="type">int</span> k)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (k&gt;=size || k&lt;<span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> getKth(root,k).e;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> Node <span class="title function_">getKth</span><span class="params">(Node root,<span class="type">int</span> k)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (root==<span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> root;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> <span class="variable">temp</span> <span class="operator">=</span> childSize(root.left);</span><br><span class="line">    <span class="keyword">if</span> (temp&gt;k) &#123;</span><br><span class="line">        <span class="keyword">return</span> getKth(root.left,k);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (temp&lt;k) &#123;</span><br><span class="line">        <span class="keyword">return</span> getKth(root.right,k-temp-<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> root;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这里其实我的实现是有问题的，我的时间复杂度是<code>O(NlogN)</code>！！！！主要是<code>childSize()</code>时间复杂度是 O(N) 不是 O(1)，在《算法 4》中这个实现的时间复杂度就是 O(1)，书上在定义的 Node 的时候给 Node 加了一个 count 属性，用来记录每个节点的子节点数（包括自己），在每次 add 和 delete 的时候动态的维护这个 count，这样最后求子节点数的操作时间复杂度就是 O(1) 的了，那个版本的我也实现了一下，但是我没有在这篇文章中这样写（主要是懒得改），而且这也不是重点，感兴趣可以去看看 <a target="_blank" rel="noopener" href="https://github.com/imlgw/LeetCode/blob/master/tree/BSTWithCount.java">BSTWithCount</a> 主要就是要<strong>注意操作 count 的时机</strong></p>
+</blockquote>
+<p>这里既然没有 count 数组，那么其实就不应该这样求，应该直接中序遍历，求第 K 大，时间复杂度 O(N)</p>
+<h2 id="Rank"><a href="#Rank" class="headerlink" title="Rank()"></a>Rank()</h2><p>其实是上面的逆过程，如果根节点等于 key，那么直接返回左子树的键总数；如果 key 小于根节点，就继续去左子树中递归找，如果大于根节点，返回<code>size(left)+1</code>加上它在右子树中的<code>rank()</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getRank</span><span class="params">(E e)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> getRank(root,e);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getRank</span><span class="params">(Node root,E e)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (e.compareTo(root.e)&lt;<span class="number">0</span>) &#123; <span class="comment">//e&lt;root.e</span></span><br><span class="line">        <span class="keyword">return</span> getRank(root.left,e);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (e.compareTo(root.e)&gt;<span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> getRank(root.right,e)+childSize(root.left)+<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> childSize(root.left);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Max-amp-Min"><a href="#Max-amp-Min" class="headerlink" title="Max&amp;Min"></a>Max&amp;Min</h2><p>没啥好说的</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//求最大值，递归比较优雅</span></span><br><span class="line"><span class="keyword">public</span> E <span class="title function_">getMax</span><span class="params">()</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> getMax(root).e;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> Node <span class="title function_">getMax</span><span class="params">(Node root)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (root.right==<span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> root;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> getMax(root.right);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//求最小值</span></span><br><span class="line"><span class="keyword">public</span> E <span class="title function_">getMin</span><span class="params">()</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> getMin(root).e;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> Node <span class="title function_">getMin</span><span class="params">(Node root)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (root.left==<span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> root;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> getMin(root.left);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h2><p>删除应该来说是 BST 中里面比较复杂的一个操作了，我们先从简单的开始</p>
+<h3 id="删除最值"><a href="#删除最值" class="headerlink" title="删除最值"></a>删除最值</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//删除最小的键</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">deleteMin</span><span class="params">()</span>&#123;</span><br><span class="line">    root=deleteMin(root);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//删除 node 为头节点的树中的最小值，并返回头节点</span></span><br><span class="line"><span class="keyword">private</span> Node <span class="title function_">deleteMin</span><span class="params">(Node node)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (node.left==<span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> node.right;</span><br><span class="line">    &#125;</span><br><span class="line">    node.left=deleteMin(node.left);</span><br><span class="line">    <span class="keyword">return</span> node;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//删除最大的键</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">deleteMax</span><span class="params">()</span>&#123;</span><br><span class="line">    root=deleteMax(root);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> Node <span class="title function_">deleteMax</span><span class="params">(Node node)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (node.right==<span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> node.left;</span><br><span class="line">    &#125;</span><br><span class="line">    node.right=deleteMax(node.right);</span><br><span class="line">    <span class="keyword">return</span> node;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>递归函数定义为<strong>删除 node 为头节点的树中的最小值，并返回头节点</strong>，删除最小值实际上就是删除二叉树最左边的节点，所以我们递归的删除 node.left 就 ok，当 node.left 为空的时候返回 node.right，这样前面节点的 left 就接在了 node.right 上，就达到了删除的作用</p>
+<h3 id="删除任意值"><a href="#删除任意值" class="headerlink" title="删除任意值"></a>删除任意值</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//删除任意的键</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">delete</span><span class="params">(E e)</span>&#123;</span><br><span class="line">    root=delete(root,e);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//删除以 node 为首的 BST 中，值为 e 的节点并且返回根节点</span></span><br><span class="line"><span class="keyword">private</span> Node <span class="title function_">delete</span><span class="params">(Node node,E e)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (node==<span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (e.compareTo(node.e)&gt;<span class="number">0</span>) &#123; <span class="comment">//e&gt;root.e</span></span><br><span class="line">        node.right=delete(node.right,e);</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span> (e.compareTo(node.e)&lt;<span class="number">0</span>) &#123;</span><br><span class="line">        node.left=delete(node.left,e);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123; <span class="comment">//e==root.e</span></span><br><span class="line">        <span class="keyword">if</span> (node.left==<span class="literal">null</span>) &#123; <span class="comment">//如果没有左子树就返回右子树</span></span><br><span class="line">            <span class="keyword">return</span> node.right;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (node.right==<span class="literal">null</span>) &#123; <span class="comment">//如果没有右子树就返回左子树</span></span><br><span class="line">            <span class="keyword">return</span> node.left;</span><br><span class="line">        &#125;</span><br><span class="line">        Node delNode=node;</span><br><span class="line">        <span class="comment">//有左右子节点都有</span></span><br><span class="line">        node=getMin(node.right); <span class="comment">//用右子树的最小值填补删除的元素的空位</span></span><br><span class="line">        <span class="comment">//删除对应的右子树的最小值，然后连接起来</span></span><br><span class="line">        node.right=deleteMin(delNode.right);</span><br><span class="line">        node.left=delNode.left;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> node;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里文字的描述比较无力，画个图就清晰明白了，核心的思想就是利用右子树中的最小值填补待删除节点</p>
+<p><img src="http://static.imlgw.top/blog/20191113/yyI0q2yftm0X.png?imageslim" alt="mark"></p>
+<p>当然这里其实也是有坑的，主要就是连最后两句</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//删除对应的右子树的最小值，然后连接起来</span></span><br><span class="line">node.right=deleteMin(delNode.right);</span><br><span class="line">node.left=delNode.left;</span><br></pre></td></tr></table></figure>
+<p>这里的两句话是不能交换的，如果我们交换了两句话的位置，那么我们下一步删除最小值就会出现问题，我们希望的是删除右子树中最小的 node 节点，结果你先把待删除节点的 left 接到了 node 的左边，这样的话 node 就不再是 delNode.right 中的最小值，最后结果可能就会成这个样子，成了一个闭环！！！</p>
+<p><img src="http://static.imlgw.top/blog/20191113/qc5kHljj03uq.png?imageslim" alt="mark"></p>
+<p>所以最后的结果肯定是不对的，其实这一点书上并没有提到，我也是在做这道题 <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/delete-node-in-a-bst/">删除节点</a> 的时候写反了，才发现这个问题，感兴趣可以去试试</p>
+<blockquote>
+<p>其实这样的删除时一种很随机的做法，虽然能正确的删除元素，但是并没有考虑树的对称性，关于树的对称性，我们后面再来研究</p>
+</blockquote>
+<h2 id="代码地址"><a href="#代码地址" class="headerlink" title="代码地址"></a>代码地址</h2><p><a target="_blank" rel="noopener" href="https://github.com/imlgw/LeetCode/blob/master/tree/BST.java">BST.java</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/imlgw/LeetCode/blob/master/tree/BSTTest.java">BSTTest.java</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/imlgw/LeetCode/blob/master/tree/BSTWithCount.java">BSTWithCount.java</a></p>
+
+        
+            <div class="donate-container">
+    <div class="donate-button">
+        <button id="donate-button">赞赏</button>
+    </div>
+    <div class="donate-img-container hide" id="donate-img-container">
+        <img id="donate-img" src="" data-src="">
+        <p> 感谢鼓励 </p>
+    </div>
+</div>
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+        <div id="lv-container"></div>
+        <div class="giscus"></div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/imlgw">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://imlgw.top">Tadow</a></span>
+        <span>/</span>
+        
+        <span><a target="_blank" rel="noopener" href="http://beian.miit.gov.cn/publish/query/indexFirst.action">鄂ICP备18011208号</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>  Theme <a target="_blank" rel="noopener" href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/live2d-widget@3.x/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"https://cdn.jsdelivr.net/npm/live2d-widget-model-hijiki@1.0.5/assets/hijiki.model.json"},"display":{"superSample":2,"width":160,"height":320,"position":"right","hOffset":0,"vOffset":-70},"mobile":{"show":false,"scale":0.2},"log":false});</script></body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://giscus.app/client.js"
+  data-repo="imlgw/imlgw.github.io"
+  data-repo-id="MDEwOlJlcG9zaXRvcnkxMzMyMDY4NDg="
+  data-category="Announcements"
+  data-category-id="DIC_kwDOB_CTQM4CQ7v8"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="top"
+  data-theme="light"
+  data-lang="zh-CN"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+
+
+</html>

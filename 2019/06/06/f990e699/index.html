@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:description" content="Tadow 的博客">
+    <meta property="og:type" content="website">
+    <meta name="description" content="Tadow 的博客">
+    <meta name="keyword"  content="Tadow, Resolmi, imlgw, 半岛铁盒, 算法, Java, Golang">
+    <link rel="shortcut icon" href="https://fav.farm/💭">
+
+    <title>
+        
+        JMeter 压测 - Tadow 碎碎念
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_28hi1hpxx24.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Tadow 碎碎念" type="application/atom+xml">
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> Keep It Simple, Stupid </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar radius">
+            <img src="https://static.imlgw.top/blog/20220821160037.png" />
+        </div>
+        <div class="name">
+            <i>Tadow</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <!-- <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li> -->
+            <li >
+                <a href="/categories">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>分类</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            
+            <li >
+                <a href="/selfhosted">
+                    <i class="iconfont icon-guidang1"></i>
+                    <span>自建</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/collect/">
+                    <i class="iconfont icon-shoucang1"></i>
+                    <span>收藏</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#JMeter-%E5%85%A5%E9%97%A8"><span class="toc-text">JMeter 入门</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E4%B8%8A%E6%89%8B"><span class="toc-text">简单上手</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8F%82%E6%95%B0"><span class="toc-text">添加自定义参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E6%88%90-token"><span class="toc-text">生成 token</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Redis-%E5%8E%8B%E6%B5%8B"><span class="toc-text">Redis 压测</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%90%AD%E5%BB%BA%E5%8E%8B%E6%B5%8B%E7%8E%AF%E5%A2%83"><span class="toc-text">搭建压测环境</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8E%8B%E6%B5%8B"><span class="toc-text">命令行压测</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83"><span class="toc-text">环境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SpringBoot-%E6%89%93-war-%E5%8C%85"><span class="toc-text">SpringBoot 打 war 包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SpringBoot-%E6%89%93-jar-%E5%8C%85"><span class="toc-text">SpringBoot 打 jar 包</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E5%A7%8B%E5%8E%8B%E6%B5%8B"><span class="toc-text">开始压测</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%8B%E6%B5%8B%E5%95%86%E5%93%81%E5%88%97%E8%A1%A8%E9%A1%B5%E9%9D%A2"><span class="toc-text">压测商品列表页面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-text">遇到的问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%80%E7%BB%88%E9%85%8D%E7%BD%AE"><span class="toc-text">最终配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%93%E6%9E%9C"><span class="toc-text">结果</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%8B%E6%B5%8B-Redis-%E6%9F%A5%E8%AF%A2%E7%9A%84%E6%80%A7%E8%83%BD"><span class="toc-text">压测 Redis 查询的性能</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%93%E6%9E%9C-1"><span class="toc-text">结果</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E5%A4%B4%E6%88%8F%E2%80%94%E5%8E%8B%E6%B5%8B-do-spike-%E6%8E%A5%E5%8F%A3"><span class="toc-text">重头戏—压测 do_spike 接口</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B6%85%E5%8D%96%E9%97%AE%E9%A2%98"><span class="toc-text">超卖问题</span></a></li></ol></li></ol></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-bg" id="search-bg"></div>
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i> Keep It Simple, Stupid </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        JMeter 压测
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2019-06-06 00:00:00</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#JMeter" title="JMeter">JMeter</a>
+        <span>/</span>
+        
+        <a class="tag" href="/tags/#秒杀" title="秒杀">秒杀</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <h2 id="JMeter-入门"><a href="#JMeter-入门" class="headerlink" title="JMeter 入门"></a>JMeter 入门</h2><p><a target="_blank" rel="noopener" href="http://jmeter.apache.org/">官网地址</a> 下载好之后直接运行 jar 包 </p>
+<h3 id="简单上手"><a href="#简单上手" class="headerlink" title="简单上手"></a>简单上手</h3><p><strong>添加线程组</strong></p>
+<p><img src="http://static.imlgw.top/image/20190529/wBWwVD5chqtc.png?imageslim" alt="mark"></p>
+<p><strong>设置线程个数和配置</strong></p>
+<p><img src="http://static.imlgw.top/image/20190529/KonWE6pHVdMz.png?imageslim" alt="mark"></p>
+<p>Ramp-Up 就是多长时间内启动这些线程设置位 0 就是同时启动。</p>
+<p><strong>设置 HTTP 请求默认值</strong></p>
+<p><img src="http://static.imlgw.top/image/20190529/73A4su1jMAWM.png?imageslim" alt="mark"></p>
+<p>设置好后再添加具体的请求的时候就不用再写这个了</p>
+<p><img src="http://static.imlgw.top/image/20190529/Uwy5zrWzFsji.png?imageslim" alt="mark"></p>
+<p><strong>添加 HTTP 请求</strong></p>
+<p><img src="http://static.imlgw.top/image/20190529/iVbmgkdG7D88.png?imageslim" alt="mark"></p>
+<p>这里对我们的秒杀商品列表进行压测。</p>
+<p><strong>添加监听器</strong></p>
+<p><img src="http://static.imlgw.top/image/20190529/yVm6imNhWYKe.png?imageslim" alt="mark"></p>
+<p>这里添加比较常用的聚合报告就可以了</p>
+<p><strong>结果</strong></p>
+<p><img src="http://static.imlgw.top/image/20190531/C3pwAwyh7BhG.png?imageslim" alt="mark"></p>
+<p>这里我们可以需要关注的就是吞吐量这个参数，一开始可能会不太准多测几次。</p>
+<p>同时我们也可以用 Linux 的<code>top</code>命令查看当前 CPU 的利用率。</p>
+<h3 id="添加自定义参数"><a href="#添加自定义参数" class="headerlink" title="添加自定义参数"></a>添加自定义参数</h3><p><img src="http://static.imlgw.top/image/20190601/VQ9adD8KBfvA.png?imageslim" alt="mark"></p>
+<p><img src="http://static.imlgw.top/image/20190601/j1XB0mewqvJG.png?imageslim" alt="mark"></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="number">17362363659</span>,3d3ae96d381d4376b87cb7ebf14aadb6</span><br><span class="line"><span class="number">12012341234</span>,fbb11e35f16b4a54be1315a0a1619193</span><br><span class="line"><span class="number">11012341234</span>,58d63f1d9482472f907829da2ae3b4ff</span><br><span class="line"><span class="number">10012341234</span>,09fe09587b924c49b6db64f763c1ad10</span><br></pre></td></tr></table></figure>
+
+<p><strong>效果</strong></p>
+<p><img src="http://static.imlgw.top/image/20190601/5up85aDbSTWM.png?imageslim" alt="mark"></p>
+<h3 id="生成-token"><a href="#生成-token" class="headerlink" title="生成 token"></a>生成 token</h3><p>方便后面的压测，可以直接写一个工具类生成 token 供后面的 redis 使用</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@RunWith(SpringJUnit4ClassRunner.class)</span></span><br><span class="line"><span class="meta">@SpringBootTest</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TokenUtils</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> SpikeUserService spikeUserService;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> String str=<span class="string">&quot;0123456789&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span>  <span class="type">Random</span> <span class="variable">random</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Random</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> HttpServletResponse resp;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span>  <span class="keyword">void</span> <span class="title function_">test</span><span class="params">()</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">        FileOutputStream outputStream=<span class="keyword">new</span> <span class="title class_">FileOutputStream</span>(<span class="keyword">new</span> <span class="title class_">File</span>(<span class="string">&quot;D:\\AliyunKey\\config.txt&quot;</span>));</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">20000</span>;i++)&#123;</span><br><span class="line">            <span class="type">String</span> <span class="variable">phone</span> <span class="operator">=</span> creatPhone();</span><br><span class="line">            <span class="type">RegisterVo</span> <span class="variable">registerVo</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">RegisterVo</span>(phone,<span class="string">&quot;123456&quot;</span>,<span class="string">&quot;user-&quot;</span>+i);</span><br><span class="line">            spikeUserService.register(registerVo);</span><br><span class="line">            <span class="comment">//需要在 service 层 token 返回出来</span></span><br><span class="line">            String token= spikeUserService.login(resp, <span class="keyword">new</span> <span class="title class_">LoginVo</span>(registerVo.getMobile(), registerVo.getPassword()));</span><br><span class="line">            outputStream.write((phone+<span class="string">&quot;,&quot;</span>+token+<span class="string">&quot;\n&quot;</span>).getBytes());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span>  String <span class="title function_">creatPhone</span><span class="params">()</span>&#123;</span><br><span class="line">        String res=<span class="string">&quot;1&quot;</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">10</span>;i++)&#123;</span><br><span class="line">            res+=str.charAt(random.nextInt(<span class="number">10</span>));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Redis-压测"><a href="#Redis-压测" class="headerlink" title="Redis 压测"></a>Redis 压测</h3><p>①redis-benchmark -h 127.0.0.1 -p 6379 -c 100 -n 100000</p>
+<p>100 个并发，十万个请求，对常用的一些命令进行测试</p>
+<p><img src="http://static.imlgw.top/image/20190601/oPkioXCFgL8R.png?imageslim" alt="mark"></p>
+<p>②redis-benchmark -h 127.0.0.1 -p 6379 -q -d 100</p>
+<p>100 bytes payload </p>
+<p>-q 是 quiet 输出信息较少</p>
+<p>③ redis-benchmark -n 100000 -q script load “redis.call(‘set’,’foo’,’bar’)”</p>
+<p>对特定的语句压测</p>
+<h2 id="搭建压测环境"><a href="#搭建压测环境" class="headerlink" title="搭建压测环境"></a>搭建压测环境</h2><h3 id="命令行压测"><a href="#命令行压测" class="headerlink" title="命令行压测"></a>命令行压测</h3><p>其实还是需要借助图形界面来录好 jmx 文件然后上传到 Linux 上，然后执行</p>
+<p>sh jmeter.sh -n -t Xxx.jmx -l result.jtl</p>
+<p>然后再用图形界面导入 result.jtl 就可以看到结果</p>
+<blockquote>
+<p>上面的测试都是在我的开发机 (win) 上进行的，压测和服务都在本地，结果可能并不准确，这里为了隔离环境我开了了 2 个虚拟机，一个是部署服务的机器（2G 4 核），一个是部署 mysql 和 redis 的机器（2G 4 核），这里在 Linux 上运行部署项目有两种方式，一种是打成 war 包放在 tomcat 目录下，一种是打成 jar 包直接运行。</p>
+</blockquote>
+<h3 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h3><p>✔ 192.168.25.123   Centos6  mysql+redis  2G4 核</p>
+<p>✔ 192.168.25.4     Centos7   SpikeServer+压测  2.5G 4 核</p>
+<p>✔<del>win10 开发机     Jmeter 压测 SpikeServer</del> </p>
+<p>✔<del>192.168.25.129 Centos7 压测设备 2G4 核</del></p>
+<h3 id="SpringBoot-打-war-包"><a href="#SpringBoot-打-war-包" class="headerlink" title="SpringBoot 打 war 包"></a>SpringBoot 打 war 包</h3><p><strong>添加 tomcat 依赖（编译时依赖）</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-starter-tomcat&lt;/artifactId&gt;</span><br><span class="line">	&lt;scope&gt;provided&lt;/scope&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>添加一个 maven 插件</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">&lt;plugin&gt;</span><br><span class="line">    &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;maven-war-plugin&lt;/artifactId&gt;</span><br><span class="line">	&lt;configuration&gt;</span><br><span class="line">    	&lt;failOnMissingWebXml&gt;<span class="literal">false</span>&lt;/failOnMissingWebXml&gt;</span><br><span class="line">	&lt;/configuration&gt;</span><br><span class="line">&lt;/plugin&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>修改 pom 打包方式位 war</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">&lt;packaging&gt;war&lt;/packaging&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>boot 类添加一个方法</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SpikeApplication</span> <span class="keyword">extends</span> <span class="title class_">SpringBootServletInitializer</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        SpringApplication.run(SpikeApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> builder</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 打 war 包</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> SpringApplicationBuilder <span class="title function_">configure</span><span class="params">(SpringApplicationBuilder builder)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> builder.sources(SpikeApplication.class);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后在项目目录下执行<code>mvn clean package</code>就会在 target 目录下生成 war 包，然后将 war 包拷到 tomcat 里面就可以直接运行了。</p>
+<h3 id="SpringBoot-打-jar-包"><a href="#SpringBoot-打-jar-包" class="headerlink" title="SpringBoot 打 jar 包"></a>SpringBoot 打 jar 包</h3><p><strong>pom 里的打包方式改为 jar（默认就是 jar)</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">&lt;packaging&gt;war&lt;/packaging&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>添加一个 maven 插件</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">&lt;!--打 jar 包的插件--&gt;</span><br><span class="line">&lt;plugin&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;</span><br><span class="line">&lt;/plugin&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>执行 mvn clean package</strong></p>
+<p>同上会在 target 目录下生成一个 jar 包，jar 包内容大致如下</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Manifest-Version: <span class="number">1.0</span></span><br><span class="line">Implementation-Title: Spike</span><br><span class="line">Implementation-Version: <span class="number">1.0</span>-SNAPSHOT</span><br><span class="line">Built-By: priva</span><br><span class="line">Implementation-Vendor-Id: top.imlgw</span><br><span class="line">Spring-Boot-Version: <span class="number">2.1</span><span class="number">.2</span>.RELEASE</span><br><span class="line">Main-Class: org.springframework.boot.loader.JarLauncher</span><br><span class="line">Start-Class: top.imlgw.spike.SpikeApplication</span><br><span class="line">Spring-Boot-Classes: BOOT-INF/classes/</span><br><span class="line">Spring-Boot-Lib: BOOT-INF/lib/</span><br><span class="line">Created-By: Apache Maven <span class="number">3.5</span><span class="number">.3</span></span><br><span class="line">Build-Jdk: <span class="number">1.8</span><span class="number">.0_172</span></span><br><span class="line">Implementation-URL: https:<span class="comment">//projects.spring.io/spring-boot/#/spring-bo</span></span><br><span class="line"> ot-starter-parent/Spike</span><br></pre></td></tr></table></figure>
+
+<p>如果确少一些信息比如 Main-Class 和 Start-Class，说明 jar 包打的有问题，运行会报<code>没有主清单属性</code>，我一开始没注意，我的<code>plugins</code>上层还有个<code>pluginmanagement</code>插件根本没加载进来，去掉就行了。</p>
+<h2 id="开始压测"><a href="#开始压测" class="headerlink" title="开始压测"></a>开始压测</h2><h3 id="压测商品列表页面"><a href="#压测商品列表页面" class="headerlink" title="压测商品列表页面"></a>压测商品列表页面</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@RequestMapping(&quot;/to_list&quot;)</span></span><br><span class="line"><span class="keyword">public</span> String <span class="title function_">tolist</span><span class="params">(Model model,SpikeUser spikeUser)</span> &#123;</span><br><span class="line">    List&lt;GoodsVo&gt; goodsVos = goodsService.goodsVoList();</span><br><span class="line">    model.addAttribute(<span class="string">&quot;user&quot;</span>, spikeUser);</span><br><span class="line">    model.addAttribute(<span class="string">&quot;goodsList&quot;</span>,goodsVos);</span><br><span class="line">	<span class="keyword">return</span> <span class="string">&quot;goods_list&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个接口主要就做了一个查询的 mysql 的操作，没有 cookie 所以不会去操作 redis</p>
+<h3 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h3><p>一开始直接设置了 5000*10 的并发，然后服务端报了   打开文件过多的错误</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">java.io.IOException: 打开的文件过多</span><br><span class="line">        at sun.nio.ch.ServerSocketChannelImpl.accept0(Native Method) ~[na:<span class="number">1.8</span><span class="number">.0_171</span>]</span><br><span class="line">        at sun.nio.ch.ServerSocketChannelImpl.accept(ServerSocketChannelImpl.java:<span class="number">422</span>) ~[na:<span class="number">1.8</span><span class="number">.0_171</span>]</span><br><span class="line">        at sun.nio.ch.ServerSocketChannelImpl.accept(ServerSocketChannelImpl.java:<span class="number">250</span>) ~[na:<span class="number">1.8</span><span class="number">.0_171</span>]</span><br><span class="line">        at org.apache.tomcat.util.net.NioEndpoint.serverSocketAccept(NioEndpoint.java:<span class="number">448</span>) ~[tomcat-embed-core-<span class="number">9.0</span><span class="number">.14</span>.jar!/:<span class="number">9.0</span><span class="number">.14</span>]</span><br><span class="line">        at org.apache.tomcat.util.net.NioEndpoint.serverSocketAccept(NioEndpoint.java:<span class="number">70</span>) ~[tomcat-embed-core-<span class="number">9.0</span><span class="number">.14</span>.jar!/:<span class="number">9.0</span><span class="number">.14</span>]</span><br><span class="line">        at org.apache.tomcat.util.net.Acceptor.run(Acceptor.java:<span class="number">95</span>) ~[tomcat-embed-core-<span class="number">9.0</span><span class="number">.14</span>.jar!/:<span class="number">9.0</span><span class="number">.14</span>]</span><br><span class="line">        at java.lang.Thread.run(Thread.java:<span class="number">748</span>) [na:<span class="number">1.8</span><span class="number">.0_171</span>]</span><br></pre></td></tr></table></figure>
+
+<p>google 后发现是句柄太少的原因，Linux 默认是 1024，而我们同时起了 5000 个线程自然就出问题了。</p>
+<p>通过<code>ulimit -a</code> 可以查看到当前的最大句柄数<code>open files</code> ，这里我们可以通过 <code>ulimit -n 2048</code>临时的设置一个较大的值，但是重启后就会失效。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">core file <span class="title function_">size</span>          <span class="params">(blocks, -c)</span> <span class="number">0</span></span><br><span class="line">data seg <span class="title function_">size</span>           <span class="params">(kbytes, -d)</span> unlimited</span><br><span class="line">scheduling <span class="title function_">priority</span>             <span class="params">(-e)</span> <span class="number">0</span></span><br><span class="line">file <span class="title function_">size</span>               <span class="params">(blocks, -f)</span> unlimited</span><br><span class="line">pending <span class="title function_">signals</span>                 <span class="params">(-i)</span> <span class="number">14707</span></span><br><span class="line">max locked <span class="title function_">memory</span>       <span class="params">(kbytes, -l)</span> <span class="number">64</span></span><br><span class="line">max memory <span class="title function_">size</span>         <span class="params">(kbytes, -m)</span> unlimited</span><br><span class="line">open <span class="title function_">files</span>                      <span class="params">(-n)</span> <span class="number">1024</span></span><br><span class="line">pipe <span class="title function_">size</span>            <span class="params">(<span class="number">512</span> bytes, -p)</span> <span class="number">8</span></span><br><span class="line">POSIX message <span class="title function_">queues</span>     <span class="params">(bytes, -q)</span> <span class="number">819200</span></span><br><span class="line">real-time <span class="title function_">priority</span>              <span class="params">(-r)</span> <span class="number">0</span></span><br><span class="line">stack <span class="title function_">size</span>              <span class="params">(kbytes, -s)</span> <span class="number">8192</span></span><br><span class="line">cpu <span class="title function_">time</span>               <span class="params">(seconds, -t)</span> unlimited</span><br><span class="line">max user <span class="title function_">processes</span>              <span class="params">(-u)</span> <span class="number">14707</span></span><br><span class="line">virtual <span class="title function_">memory</span>          <span class="params">(kbytes, -v)</span> unlimited</span><br><span class="line">file <span class="title function_">locks</span>                      <span class="params">(-x)</span> unlimited</span><br></pre></td></tr></table></figure>
+
+<p>这里最好是直接修改  /etc/security/limits.conf</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">*  soft nofile  <span class="number">32768</span></span><br><span class="line">*  hard nofile <span class="number">65536</span></span><br></pre></td></tr></table></figure>
+
+<p>就可以将文件句柄限制统一改成软 32768，硬 65536。配置文件最前面的是指 domain，设置为星号代表全局，另外你也可以针对不同的用户做出不同的限制。</p>
+<p>注意：这个当中的硬限制是实际的限制，而软限制，是 warnning 限制，只会做出 warning，其实 ulimit 命令本身就有分软硬设置，加-H 就是硬，加-S 就是软</p>
+<p>修改后记得重启才会生效 <a target="_blank" rel="noopener" href="https://www.cnblogs.com/ibook360/archive/2012/05/11/2495405.html">参考资料</a> </p>
+<p>一开始是打算直接用 win 开发机做压测的，但是发现在进程开大了之后老是跑不完，跑一半就停了（可能是内存给小了），而且数据出入也比较大，然后改用秒杀服务的那条机器来压测，一开始只增大了跑秒杀服务的虚拟机，发现还是会有异常，然后我把 mysql 和 redis 的虚拟机也调大了就没报异常了，但是在压测的时候秒杀服务的虚拟机 cpu 飙到了 <code>9.0+</code>，4 核的机子，cpu 飙到这么高就有点问题了一般来说应该维持在 <code>4*0.7</code> 左右。</p>
+<p><img src="http://static.imlgw.top/image/20190604/LedMcRvfSXeb.png?imageslim" alt="mark"></p>
+<p><img src="http://static.imlgw.top/image/20190604/UbcTCaTGiEJ9.png?imageslim" alt="mark"></p>
+<p>可以看到平均等待时间都在 2s 以上。</p>
+<p>为了更准确的模拟，我又开了一台<del>1G2 核</del> 2G4 核的虚拟机专门来做压测（8G 内存吃不消了）。</p>
+<p><img src="http://static.imlgw.top/image/20190604/pr4yMAE2Jamf.png?imageslim" alt="mark"></p>
+<p>这里用 top 观察了两台虚拟机的情况发现 mysql 的那台机器负载一直很低，SpikeServer 那台机器（1G 双核）负载一路飙到 6.0+。吞吐率也明显的下降了，这里我连续测试了两次都是 400 多。</p>
+<h3 id="最终配置"><a href="#最终配置" class="headerlink" title="最终配置"></a>最终配置</h3><p>经过一上午的折腾，我决定还是值利用两台你虚拟机，一台跑 SpikeServer 和压测，另外一台跑 mysql 和 redis，再启动一台成本太大了，这里主要根据这个做一个标准量，后期优化后拿来对比</p>
+<h4 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h4><p><img src="http://static.imlgw.top/image/20190604/IEGxtWU8pujI.png?imageslim" alt="mark"></p>
+<p>后面在调整机器或连续测试了 5，6 次 在 5000 的并发下 QPS 大概是 1000 左右的样子，小于 1000。</p>
+<h3 id="压测-Redis-查询的性能"><a href="#压测-Redis-查询的性能" class="headerlink" title="压测 Redis 查询的性能"></a>压测 Redis 查询的性能</h3><p>上面的 goods_list 实际上只对 mysql 进行了一个查询操作，而 mysql 的并发量并不大。</p>
+<p>下面我们单独对 redis 做一下压测，看下系统的 QPS（这里）</p>
+<p><img src="http://static.imlgw.top/image/20190604/h2NOJszwC7Lo.png?imageslim" alt="mark"></p>
+<h4 id="结果-1"><a href="#结果-1" class="headerlink" title="结果"></a>结果</h4><p>一开测试忘了调大 redis 链接池的大小，一直跑不出来，后来改大之后测了 4，5 次，同样的 5000 并发 10 次，QPS 大概在 3000 左右</p>
+<p><img src="http://static.imlgw.top/image/20190606/58L5ieKaxR7a.png?imageslim" alt="mark"></p>
+<p>可以说是相当快了，而且<code>top</code>观察 redis 那台机器发现负载依然很低，说明这点并发确实对 redis 来说是小意思，前面其实也单独对 redis 用它自带的压测工具测试过，大概每秒 10 0000 的 GET 是没问题的</p>
+<h3 id="重头戏—压测-do-spike-接口"><a href="#重头戏—压测-do-spike-接口" class="headerlink" title="重头戏—压测 do_spike 接口"></a>重头戏—压测 do_spike 接口</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@RequestMapping(&quot;/do_spike&quot;)</span></span><br><span class="line"><span class="keyword">public</span> String <span class="title function_">do_spike</span><span class="params">(Model model, SpikeUser spikeUser, <span class="meta">@RequestParam(&quot;goodsId&quot;)</span> <span class="type">long</span> goodsId)</span> &#123;</span><br><span class="line">       <span class="keyword">if</span> (spikeUser==<span class="literal">null</span>) &#123; <span class="comment">//没有登录</span></span><br><span class="line">           <span class="keyword">return</span> <span class="string">&quot;login&quot;</span>;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="comment">//检查库存</span></span><br><span class="line">       GoodsVo goodsVo= goodsService.getGoodsVoByGoodsId(goodsId);</span><br><span class="line">       <span class="type">int</span> stock=goodsVo.getStockCount(); <span class="comment">//这里拿的秒杀商品里面的库存，不是商品里面的库存</span></span><br><span class="line">       <span class="keyword">if</span>(stock&lt;=<span class="number">0</span>)&#123;</span><br><span class="line">           model.addAttribute(<span class="string">&quot;failMsg&quot;</span>,CodeMsg.STOCK_EMPTY);</span><br><span class="line">           <span class="keyword">return</span> <span class="string">&quot;spike_fail&quot;</span>;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="comment">//看是否重复秒杀</span></span><br><span class="line">       SpikeOrder spikeOrder=spikeService.getGoodsVoByUserIdAndGoodsId(spikeUser.getId(), goodsId);</span><br><span class="line">       <span class="keyword">if</span>(spikeOrder!=<span class="literal">null</span>)&#123;</span><br><span class="line">           model.addAttribute(<span class="string">&quot;failMsg&quot;</span>,CodeMsg.SKIPE_REPEAT);</span><br><span class="line">           <span class="keyword">return</span> <span class="string">&quot;spike_fail&quot;</span>;</span><br><span class="line">       &#125;</span><br><span class="line">       OrderInfo orderInfo=spikeService.doSpike(spikeUser.getId(),goodsVo);</span><br><span class="line">       model.addAttribute(<span class="string">&quot;orderInfo&quot;</span>,orderInfo);</span><br><span class="line">       model.addAttribute(<span class="string">&quot;goods&quot;</span>,goodsVo);</span><br><span class="line">       <span class="keyword">return</span> <span class="string">&quot;order_detail&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>步骤都跟上面一样，不过要多加一个商品 id 的参数，这里依然是 5000 的并发 10 次，其实这里测出来的结果和上面的商品列表差不太多，差不多 950 左右 QPS，毕竟这里有判断库存的操作，一旦小于 0 之后就不会对 mysql 再进行操作，进行复杂的<strong>减库存</strong>和<strong>生成订单</strong>操作</p>
+<h4 id="超卖问题"><a href="#超卖问题" class="headerlink" title="超卖问题"></a>超卖问题</h4><p>本来只有 10 件商品，硬生生给减成了负数😂</p>
+<p><img src="http://static.imlgw.top/image/20190606/m5RhIzmdXRV1.png?imageslim" alt="mark"></p>
+<p>可以看到有 16 个人秒杀到了这个商品这显然是不合理的</p>
+<p><img src="http://static.imlgw.top/image/20190606/nJmnvKvVzAHt.png?imageslim" alt="mark"></p>
+<p>这个问题会在后面的文章中提出解决方案，这一篇主要熟悉下压测。</p>
+
+        
+            <div class="donate-container">
+    <div class="donate-button">
+        <button id="donate-button">赞赏</button>
+    </div>
+    <div class="donate-img-container hide" id="donate-img-container">
+        <img id="donate-img" src="" data-src="">
+        <p> 感谢鼓励 </p>
+    </div>
+</div>
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+        <div id="lv-container"></div>
+        <div class="giscus"></div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/imlgw">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://imlgw.top">Tadow</a></span>
+        <span>/</span>
+        
+        <span><a target="_blank" rel="noopener" href="http://beian.miit.gov.cn/publish/query/indexFirst.action">鄂ICP备18011208号</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>  Theme <a target="_blank" rel="noopener" href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/live2d-widget@3.x/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"https://cdn.jsdelivr.net/npm/live2d-widget-model-hijiki@1.0.5/assets/hijiki.model.json"},"display":{"superSample":2,"width":160,"height":320,"position":"right","hOffset":0,"vOffset":-70},"mobile":{"show":false,"scale":0.2},"log":false});</script></body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://giscus.app/client.js"
+  data-repo="imlgw/imlgw.github.io"
+  data-repo-id="MDEwOlJlcG9zaXRvcnkxMzMyMDY4NDg="
+  data-category="Announcements"
+  data-category-id="DIC_kwDOB_CTQM4CQ7v8"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="top"
+  data-theme="light"
+  data-lang="zh-CN"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+
+
+</html>

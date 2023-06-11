@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:description" content="Tadow 的博客">
+    <meta property="og:type" content="website">
+    <meta name="description" content="Tadow 的博客">
+    <meta name="keyword"  content="Tadow, Resolmi, imlgw, 半岛铁盒, 算法, Java, Golang">
+    <link rel="shortcut icon" href="https://fav.farm/💭">
+
+    <title>
+        
+        可以获取最小值的栈 - Tadow 碎碎念
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_28hi1hpxx24.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Tadow 碎碎念" type="application/atom+xml">
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> Keep It Simple, Stupid </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar radius">
+            <img src="https://static.imlgw.top/blog/20220821160037.png" />
+        </div>
+        <div class="name">
+            <i>Tadow</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <!-- <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li> -->
+            <li >
+                <a href="/categories">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>分类</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            
+            <li >
+                <a href="/selfhosted">
+                    <i class="iconfont icon-guidang1"></i>
+                    <span>自建</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/collect/">
+                    <i class="iconfont icon-shoucang1"></i>
+                    <span>收藏</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%8F%AF%E4%BB%A5%E8%8E%B7%E5%8F%96%E6%9C%80%E5%B0%8F%E5%80%BC%E7%9A%84%E6%A0%88%EF%BC%9F"><span class="toc-text">如何实现可以获取最小值的栈？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Solution-1%EF%BC%9A"><span class="toc-text">Solution 1：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Solution-2%EF%BC%9A"><span class="toc-text">Solution 2：</span></a></li></ol></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-bg" id="search-bg"></div>
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i> Keep It Simple, Stupid </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        可以获取最小值的栈
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2018-09-27 00:00:00</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#算法" title="算法">算法</a>
+        <span>/</span>
+        
+        <a class="tag" href="/tags/#数据结构" title="数据结构">数据结构</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <h2 id="如何实现可以获取最小值的栈？"><a href="#如何实现可以获取最小值的栈？" class="headerlink" title="如何实现可以获取最小值的栈？"></a>如何实现可以获取最小值的栈？</h2><p>这个问题是很久之前在微信公众号上看见的一个问题，突然想起来就来操作一下。<br>开发环境   : sublime+MinGW<br>先附上我自己实现的栈的结构</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//定义链栈的节点的结构体 </span></span><br><span class="line">typedef struct  StackNode</span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">int</span> data;</span><br><span class="line">	struct StackNode *next;</span><br><span class="line">&#125;StackNode,*LinkStackPtr;</span><br><span class="line"></span><br><span class="line"><span class="comment">//链栈的结构体</span></span><br><span class="line">typedef struct LinkStack</span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">//栈顶</span></span><br><span class="line">	LinkStackPtr top;</span><br><span class="line">	<span class="comment">//总数量</span></span><br><span class="line">	<span class="type">int</span> count;</span><br><span class="line">&#125;LinkStack;</span><br><span class="line"></span><br><span class="line"><span class="comment">//初始化栈</span></span><br><span class="line">LinkStack *init()&#123;</span><br><span class="line">	LinkStack *stack=(LinkStack*)malloc(sizeof(LinkStack));</span><br><span class="line">	<span class="keyword">if</span> (stack==NULL)</span><br><span class="line">	&#123;</span><br><span class="line">		printf(<span class="string">&quot;动态开辟空间失败&quot;</span>);</span><br><span class="line">	&#125;<span class="keyword">else</span></span><br><span class="line">		<span class="comment">//初始化空栈</span></span><br><span class="line">		stack-&gt;top=NULL;</span><br><span class="line">		stack-&gt;count=<span class="number">0</span>;</span><br><span class="line">		<span class="keyword">return</span> stack;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//创建节点</span></span><br><span class="line">LinkStackPtr  <span class="title function_">creatNode</span><span class="params">()</span>&#123;</span><br><span class="line">	LinkStackPtr stack;</span><br><span class="line">	<span class="comment">//开辟空间</span></span><br><span class="line">	stack =(LinkStackPtr)malloc(sizeof(StackNode));</span><br><span class="line">	<span class="keyword">if</span>(stack==NULL)&#123;</span><br><span class="line">		printf(<span class="string">&quot;动态开辟空间失败&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	scanf(<span class="string">&quot;%d&quot;</span>,&amp;(stack-&gt;data));</span><br><span class="line">	stack-&gt;next=NULL;</span><br><span class="line">	<span class="keyword">return</span> stack;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//压栈</span></span><br><span class="line"><span class="keyword">void</span> <span class="title function_">push</span><span class="params">(LinkStack * s)</span>&#123;</span><br><span class="line">	<span class="comment">//创建节点</span></span><br><span class="line">	LinkStackPtr newStack= creatNode();</span><br><span class="line">	<span class="comment">//保存当前的节点</span></span><br><span class="line">	LinkStackPtr currentTopStack=s-&gt;top;</span><br><span class="line">	<span class="comment">//栈顶变为刚进栈的元素</span></span><br><span class="line">	s-&gt;top=newStack;</span><br><span class="line">	<span class="comment">//连接</span></span><br><span class="line">	newStack-&gt;next=currentTopStack;</span><br><span class="line">	<span class="comment">//数目加一</span></span><br><span class="line">	s-&gt;count++;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//弹栈</span></span><br><span class="line"><span class="keyword">void</span> <span class="title function_">pop</span><span class="params">(LinkStack *s)</span>&#123;</span><br><span class="line">	<span class="comment">//将栈顶弹出</span></span><br><span class="line">	LinkStackPtr topStack=s-&gt;top;</span><br><span class="line">	s-&gt;top=topStack-&gt;next;</span><br><span class="line">	s-&gt;count--;</span><br><span class="line">	free(topStack);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Solution-1："><a href="#Solution-1：" class="headerlink" title="Solution 1："></a><strong>Solution 1</strong>：</h3><p>在进栈的时候用一个变量保存当前的最小值每次进栈就会和最小值比较如果比最小值要小就会更新这个变量的值，出栈的时候比较麻烦，如果最小值被弹出去了就需要遍历整个栈来获取最小值。</p>
+<ul>
+<li>Implement：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">typedef struct  StackNode</span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">int</span> data;</span><br><span class="line">	struct StackNode *next;</span><br><span class="line">&#125;StackNode,*LinkStackPtr;</span><br><span class="line"></span><br><span class="line"><span class="comment">//链栈的结构体</span></span><br><span class="line">typedef struct LinkStack</span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">//栈顶</span></span><br><span class="line">	LinkStackPtr top;</span><br><span class="line">	<span class="comment">//总数量</span></span><br><span class="line">	<span class="type">int</span> count;</span><br><span class="line">	<span class="comment">//最小值</span></span><br><span class="line">	<span class="type">int</span> min;</span><br><span class="line">&#125;LinkStack;</span><br><span class="line"></span><br><span class="line"><span class="comment">//进栈</span></span><br><span class="line"><span class="keyword">void</span> <span class="title function_">push</span><span class="params">(LinkStack * s)</span>&#123;</span><br><span class="line">	<span class="comment">//创建节点</span></span><br><span class="line">	LinkStackPtr newStack= creatNode();</span><br><span class="line">	<span class="comment">//**********************************</span></span><br><span class="line">	<span class="keyword">if</span>(s-&gt;count==<span class="number">0</span>)&#123;</span><br><span class="line">		s-&gt;min=newStack-&gt;data;	</span><br><span class="line">	&#125;<span class="keyword">else</span> <span class="keyword">if</span>(s-&gt;min&gt;newStack-&gt;data)&#123;</span><br><span class="line">		s-&gt;min=newStack-&gt;data;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//*********************************</span></span><br><span class="line">	<span class="comment">//保存当前的节点</span></span><br><span class="line">	LinkStackPtr currentTopStack=s-&gt;top;</span><br><span class="line">	<span class="comment">//栈顶变为刚进栈的元素</span></span><br><span class="line">	s-&gt;top=newStack;</span><br><span class="line">	<span class="comment">//连接</span></span><br><span class="line">	newStack-&gt;next=currentTopStack;</span><br><span class="line">	<span class="comment">//数目加一</span></span><br><span class="line">	s-&gt;count++;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//弹栈</span></span><br><span class="line"><span class="keyword">void</span> <span class="title function_">pop</span><span class="params">(LinkStack *s)</span>&#123;</span><br><span class="line">	<span class="comment">//将栈顶弹出</span></span><br><span class="line">	LinkStackPtr topStack=s-&gt;top;</span><br><span class="line">	<span class="comment">//从第二个开始比较</span></span><br><span class="line">	LinkStackPtr stackNode=topStack-&gt;next;</span><br><span class="line">	<span class="comment">//弹出去的那个节点的数据</span></span><br><span class="line">	<span class="type">int</span> min=topStack-&gt;data;</span><br><span class="line">	s-&gt;top=topStack-&gt;next;</span><br><span class="line">	s-&gt;count--;</span><br><span class="line">	free(topStack);</span><br><span class="line">	<span class="comment">//如果弹出的是最小值就需要从当前栈顶遍历数组获取最小值</span></span><br><span class="line">	<span class="keyword">if</span>(min==s-&gt;min)&#123;</span><br><span class="line">		min=stackNode-&gt;data;</span><br><span class="line">	  <span class="keyword">do</span>&#123;</span><br><span class="line">	  	<span class="keyword">if</span>(min&gt;stackNode-&gt;data)&#123;</span><br><span class="line">	  		min=stackNode-&gt;data;</span><br><span class="line">	  	&#125;</span><br><span class="line">		stackNode=stackNode-&gt;next;</span><br><span class="line">	   &#125;<span class="keyword">while</span>(stackNode!=NULL);	</span><br><span class="line">	&#125;</span><br><span class="line">	s-&gt;min=min;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这种方法进栈时间复杂度为 O(1), 但是出栈时间复杂度为 O(n). 显然不是很优雅。</p>
+<h3 id="Solution-2："><a href="#Solution-2：" class="headerlink" title="Solution 2："></a><strong>Solution 2</strong>：</h3><p>空间换时间利用一个辅助栈，辅助栈里面存放最小值，辅助栈进栈时判断进栈的元素和当前栈顶的元素大小跟小就可以进栈。所以最小值就是辅助栈的栈顶元素，出栈时如果出栈的元素是最小值节点那辅助栈也同时弹栈 再取栈顶元素。</p>
+<ul>
+<li>Implement：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;string.h&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment">//定义链栈的节点的结构体 </span></span><br><span class="line">typedef struct  StackNode</span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">int</span> data;</span><br><span class="line">	struct StackNode *next;</span><br><span class="line">&#125;StackNode,*LinkStackPtr;</span><br><span class="line"></span><br><span class="line"><span class="comment">//链栈的结构体</span></span><br><span class="line">typedef struct LinkStack</span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">//栈顶</span></span><br><span class="line">	LinkStackPtr top;</span><br><span class="line">	<span class="comment">//总数量</span></span><br><span class="line">	<span class="type">int</span> count;</span><br><span class="line">	<span class="comment">//辅助栈</span></span><br><span class="line">	struct LinkStack *mins;</span><br><span class="line">&#125;LinkStack;</span><br><span class="line"></span><br><span class="line"><span class="comment">//初始化栈</span></span><br><span class="line">LinkStack *init()&#123;</span><br><span class="line">	LinkStack *stack=(LinkStack*)malloc(sizeof(LinkStack));</span><br><span class="line">	<span class="keyword">if</span> (stack==NULL)</span><br><span class="line">	&#123;</span><br><span class="line">		printf(<span class="string">&quot;动态开辟空间失败&quot;</span>);</span><br><span class="line">	&#125;<span class="keyword">else</span></span><br><span class="line">		<span class="comment">//初始化空栈</span></span><br><span class="line">		stack-&gt;top=NULL;</span><br><span class="line">		stack-&gt;count=<span class="number">0</span>;</span><br><span class="line">		<span class="keyword">return</span> stack;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//创建节点</span></span><br><span class="line">LinkStackPtr  <span class="title function_">creatNode</span><span class="params">()</span>&#123;</span><br><span class="line">	LinkStackPtr stack;</span><br><span class="line">	<span class="comment">//开辟空间</span></span><br><span class="line">	stack =(LinkStackPtr)malloc(sizeof(StackNode));</span><br><span class="line">	<span class="keyword">if</span>(stack==NULL)&#123;</span><br><span class="line">		printf(<span class="string">&quot;动态开辟空间失败&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	scanf(<span class="string">&quot;%d&quot;</span>,&amp;(stack-&gt;data));</span><br><span class="line">	stack-&gt;next=NULL;</span><br><span class="line">	<span class="keyword">return</span> stack;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//进栈</span></span><br><span class="line"><span class="keyword">void</span> <span class="title function_">push</span><span class="params">(LinkStack * s)</span>&#123;</span><br><span class="line">	<span class="comment">//创建节点</span></span><br><span class="line">	LinkStackPtr newStack= creatNode();</span><br><span class="line">	<span class="comment">//保存当前的节点</span></span><br><span class="line">	LinkStackPtr currentTopStack=s-&gt;top;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//开辟空间 用于添加到辅助栈中，之前直接操作 newStack，指针地址导致后面辅助栈和主栈混合到了一起，</span></span><br><span class="line">	<span class="type">LinkStackPtr</span> <span class="variable">minStackNode</span> <span class="operator">=</span>(LinkStackPtr)malloc(sizeof(StackNode));</span><br><span class="line">	<span class="keyword">if</span>(minStackNode==NULL)&#123;</span><br><span class="line">		printf(<span class="string">&quot;动态开辟空间失败&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	minStackNode-&gt;data=newStack-&gt;data;</span><br><span class="line">	minStackNode-&gt;next=NULL;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//栈顶变为刚进栈的元素</span></span><br><span class="line">	s-&gt;top=newStack;</span><br><span class="line">	<span class="comment">//辅助栈</span></span><br><span class="line">	LinkStack *mins=s-&gt;mins;</span><br><span class="line">	<span class="comment">//保存辅助栈当前栈顶</span></span><br><span class="line">	LinkStackPtr  currentMinsTop=mins-&gt;top;</span><br><span class="line">	<span class="keyword">if</span>(s-&gt;count==<span class="number">0</span>)&#123;</span><br><span class="line">	   mins-&gt;top=newStack;</span><br><span class="line">	   newStack-&gt;next=NULL;</span><br><span class="line">    &#125;<span class="keyword">else</span></span><br><span class="line">    	<span class="comment">//如果进栈的元素比当前辅助栈的栈顶小</span></span><br><span class="line">    	<span class="comment">//相等的要进栈</span></span><br><span class="line">    	<span class="keyword">if</span>(newStack-&gt;data&lt;=mins-&gt;top-&gt;data)&#123;</span><br><span class="line">    		mins-&gt;top=minStackNode;</span><br><span class="line">    		<span class="comment">//连接</span></span><br><span class="line">    		mins-&gt;top-&gt;next=currentMinsTop;</span><br><span class="line">    		mins-&gt;count++;</span><br><span class="line">    	&#125;</span><br><span class="line">	<span class="comment">//连接</span></span><br><span class="line">	s-&gt;top-&gt;next=currentTopStack;</span><br><span class="line">	<span class="comment">//数目加一</span></span><br><span class="line">	s-&gt;count++;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//弹栈</span></span><br><span class="line"><span class="keyword">void</span> <span class="title function_">pop</span><span class="params">(LinkStack *s)</span>&#123;</span><br><span class="line">	<span class="comment">//将栈顶弹出</span></span><br><span class="line">	LinkStackPtr topStack=s-&gt;top;</span><br><span class="line">    <span class="comment">//辅助栈</span></span><br><span class="line">	LinkStack * mins=s-&gt;mins;</span><br><span class="line">	<span class="comment">//保存辅助栈栈顶元素便于销毁</span></span><br><span class="line">	LinkStackPtr minsTopStack=mins-&gt;top;</span><br><span class="line">	s-&gt;top=topStack-&gt;next;</span><br><span class="line">	s-&gt;count--;</span><br><span class="line">	<span class="comment">//弹出的元素是最小值</span></span><br><span class="line">	<span class="keyword">if</span> (topStack-&gt;data==mins-&gt;top-&gt;data)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">//辅助栈同时弹栈</span></span><br><span class="line">		mins-&gt;top=minsTopStack-&gt;next;</span><br><span class="line">		mins-&gt;count--;</span><br><span class="line">		free(minsTopStack);</span><br><span class="line">	&#125;</span><br><span class="line">	free(topStack);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//遍历栈（栈顶到栈底）</span></span><br><span class="line"><span class="keyword">void</span> <span class="title function_">printStack</span><span class="params">(LinkStack *stack)</span>&#123;</span><br><span class="line">	<span class="comment">//当前栈顶</span></span><br><span class="line">	LinkStackPtr stackNode=stack-&gt;top;</span><br><span class="line">	<span class="keyword">do</span>&#123;</span><br><span class="line">		printf(<span class="string">&quot;%d\n&quot;</span>,stackNode-&gt;data);</span><br><span class="line">		stackNode=stackNode-&gt;next;</span><br><span class="line">	&#125;<span class="keyword">while</span>(stackNode!=NULL);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> const *argv[])</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">//申明并初始化栈结构</span></span><br><span class="line">	LinkStack *stack=init();</span><br><span class="line">	<span class="comment">//初始化这个链栈的辅助（C 语言学的不好原谅这些很奇怪的操作）</span></span><br><span class="line">	stack-&gt;mins=init();</span><br><span class="line">	push(stack);</span><br><span class="line">	printf(<span class="string">&quot;*******进栈******\n&quot;</span>);</span><br><span class="line">	printStack(stack);</span><br><span class="line">	printf(<span class="string">&quot;*********辅助栈*******\n&quot;</span>);</span><br><span class="line">	printStack(stack-&gt;mins);</span><br><span class="line">	printf(<span class="string">&quot;*******最小值******\n&quot;</span>);</span><br><span class="line">	printf(<span class="string">&quot;%d\n&quot;</span>, stack-&gt;mins-&gt;top-&gt;data);</span><br><span class="line">	pop(stack);</span><br><span class="line">	printf(<span class="string">&quot;*******出栈******\n&quot;</span>);</span><br><span class="line">	printStack(stack);</span><br><span class="line">	printf(<span class="string">&quot;*******最小值******\n&quot;</span>);</span><br><span class="line">	printf(<span class="string">&quot;%d\n&quot;</span>, stack-&gt;mins-&gt;top-&gt;data);</span><br><span class="line">	printf(<span class="string">&quot;*********辅助栈*******\n&quot;</span>);</span><br><span class="line">	printStack(stack-&gt;mins);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>明显这个方法进栈出栈时间复杂度都是 O(1)，空间复杂度相对会高一点，其实空间复杂度还可以优化，可以在辅助栈里面存索引，这样进栈时会避免存入相同的最小值，如  2 1 1 1 1 1 存到辅助栈就是  2 1 1 1 1 1 后面的 1 都是重复的，如果存索引就是 0 1 进栈时跟之前一样，出栈时判断索引是否和辅助栈存的索引一致，不一致就不动。这里因为这个是个链栈 , 要根据索引取值并不方便所以就不实现了。</p>
+<p>这里我把代码全部贴上来了，C 语言确实学的不怎么样，所以里面会有一些奇怪的操作，这个算法本身很简单但是用 C 语言一实现就会有一堆问题，昨天进栈的时候一个指针把辅助栈和主栈搞混了一直有 bug, 今天早上上课才想起来，毕竟 C 语言写的少 hahahaha,  所以后面我打算以后会同时用 C 语言和 Java 都实现一遍。</p>
+
+        
+            <div class="donate-container">
+    <div class="donate-button">
+        <button id="donate-button">赞赏</button>
+    </div>
+    <div class="donate-img-container hide" id="donate-img-container">
+        <img id="donate-img" src="" data-src="">
+        <p> 感谢鼓励 </p>
+    </div>
+</div>
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+        <div id="lv-container"></div>
+        <div class="giscus"></div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/imlgw">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://imlgw.top">Tadow</a></span>
+        <span>/</span>
+        
+        <span><a target="_blank" rel="noopener" href="http://beian.miit.gov.cn/publish/query/indexFirst.action">鄂ICP备18011208号</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>  Theme <a target="_blank" rel="noopener" href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/live2d-widget@3.x/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"https://cdn.jsdelivr.net/npm/live2d-widget-model-hijiki@1.0.5/assets/hijiki.model.json"},"display":{"superSample":2,"width":160,"height":320,"position":"right","hOffset":0,"vOffset":-70},"mobile":{"show":false,"scale":0.2},"log":false});</script></body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://giscus.app/client.js"
+  data-repo="imlgw/imlgw.github.io"
+  data-repo-id="MDEwOlJlcG9zaXRvcnkxMzMyMDY4NDg="
+  data-category="Announcements"
+  data-category-id="DIC_kwDOB_CTQM4CQ7v8"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="top"
+  data-theme="light"
+  data-lang="zh-CN"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+
+
+</html>

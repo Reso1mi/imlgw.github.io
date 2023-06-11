@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:description" content="Tadow 的博客">
+    <meta property="og:type" content="website">
+    <meta name="description" content="Tadow 的博客">
+    <meta name="keyword"  content="Tadow, Resolmi, imlgw, 半岛铁盒, 算法, Java, Golang">
+    <link rel="shortcut icon" href="https://fav.farm/💭">
+
+    <title>
+        
+        LeetCode1178. 猜字谜 - Tadow 碎碎念
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_28hi1hpxx24.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.2"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style><link rel="alternate" href="/atom.xml" title="Tadow 碎碎念" type="application/atom+xml">
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> Keep It Simple, Stupid </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar radius">
+            <img src="https://static.imlgw.top/blog/20220821160037.png" />
+        </div>
+        <div class="name">
+            <i>Tadow</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <!-- <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li> -->
+            <li >
+                <a href="/categories">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>分类</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            
+            <li >
+                <a href="/selfhosted">
+                    <i class="iconfont icon-guidang1"></i>
+                    <span>自建</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/collect/">
+                    <i class="iconfont icon-shoucang1"></i>
+                    <span>收藏</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1178-%E7%8C%9C%E5%AD%97%E8%B0%9C"><span class="toc-text">1178. 猜字谜</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E6%B3%95%E4%B8%80"><span class="toc-text">解法一</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E6%B3%95%E4%BA%8C"><span class="toc-text">解法二</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E6%B3%95%E4%B8%89"><span class="toc-text">解法三</span></a></li></ol></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-bg" id="search-bg"></div>
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i> Keep It Simple, Stupid </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        LeetCode1178. 猜字谜
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2021-02-27 00:00:00</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#LeetCode" title="LeetCode">LeetCode</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <h2 id="1178-猜字谜"><a href="#1178-猜字谜" class="headerlink" title="1178. 猜字谜"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/number-of-valid-words-for-each-puzzle/">1178. 猜字谜</a></h2><p>Difficulty: <strong>困难</strong></p>
+<p>外国友人仿照中国字谜设计了一个英文版猜字谜小游戏，请你来猜猜看吧。</p>
+<p>字谜的迷面 <code>puzzle</code> 按字符串形式给出，如果一个单词 <code>word</code> 符合下面两个条件，那么它就可以算作谜底：</p>
+<ul>
+<li>  单词 <code>word</code> 中包含谜面 <code>puzzle</code> 的第一个字母。</li>
+<li>单词 <code>word</code> 中的每一个字母都可以在谜面 <code>puzzle</code> 中找到。<br>  例如，如果字谜的谜面是 “abcdefg”，那么可以作为谜底的单词有 “faced”, “cabbage”, 和 “baggage”；而 “beefed”（不含字母 “a”）以及 “based”（其中的 “s” 没有出现在谜面中）都不能作为谜底。</li>
+</ul>
+<p>返回一个答案数组 <code>answer</code>，数组中的每个元素 <code>answer[i]</code> 是在给出的单词列表 <code>words</code> 中可以作为字谜迷面 <code>puzzles[i]</code> 所对应的谜底的单词数目。</p>
+<p><strong>示例：</strong></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">输入：</span><br><span class="line">words = [<span class="string">"aaaa"</span>,<span class="string">"asas"</span>,<span class="string">"able"</span>,<span class="string">"ability"</span>,<span class="string">"actt"</span>,<span class="string">"actor"</span>,<span class="string">"access"</span>], </span><br><span class="line">puzzles = [<span class="string">"aboveyz"</span>,<span class="string">"abrodyz"</span>,<span class="string">"abslute"</span>,<span class="string">"absoryz"</span>,<span class="string">"actresz"</span>,<span class="string">"gaswxyz"</span>]</span><br><span class="line">输出：[<span class="number">1</span>,<span class="number">1</span>,<span class="number">3</span>,<span class="number">2</span>,<span class="number">4</span>,<span class="number">0</span>]</span><br><span class="line">解释：</span><br><span class="line"><span class="number">1</span> 个单词可以作为 <span class="string">"aboveyz"</span> 的谜底 : <span class="string">"aaaa"</span> </span><br><span class="line"><span class="number">1</span> 个单词可以作为 <span class="string">"abrodyz"</span> 的谜底 : <span class="string">"aaaa"</span></span><br><span class="line"><span class="number">3</span> 个单词可以作为 <span class="string">"abslute"</span> 的谜底 : <span class="string">"aaaa"</span>, <span class="string">"asas"</span>, <span class="string">"able"</span></span><br><span class="line"><span class="number">2</span> 个单词可以作为 <span class="string">"absoryz"</span> 的谜底 : <span class="string">"aaaa"</span>, <span class="string">"asas"</span></span><br><span class="line"><span class="number">4</span> 个单词可以作为 <span class="string">"actresz"</span> 的谜底 : <span class="string">"aaaa"</span>, <span class="string">"asas"</span>, <span class="string">"actt"</span>, <span class="string">"access"</span></span><br><span class="line">没有单词可以作为 <span class="string">"gaswxyz"</span> 的谜底，因为列表中的单词都不含字母 <span class="string">'g'</span>。</span><br></pre></td></tr></table></figure>
+
+<p><strong>提示</strong></p>
+<ul>
+<li>  1 &lt;= words.length &lt;= 10^5</li>
+<li>  4 &lt;= words[i].length &lt;= 50</li>
+<li>  1 &lt;= puzzles.length &lt;= 10^4</li>
+<li>  puzzles[i].length == 7</li>
+<li>  words[i][j], puzzles[i][j] 都是小写英文字母。</li>
+<li>  每个 puzzles[i] 所包含的字符都不重复。</li>
+</ul>
+<h3 id="解法一"><a href="#解法一" class="headerlink" title="解法一"></a>解法一</h3><p>前几天的每日一题，看群消息时看见了，群友提到了位运算和枚举子集，所以直接往这个方向想了，一发 AC。首先将所有的 word 进行状态压缩转换成二进制，然后用 hash 表统计下个数，再遍历所有的<code>puzzle</code>，并且枚举<code>puzzle</code>的子集，这里 puzz 比较短，所以我们直接按照 puzz 各个字符的的选取状态进行枚举，然后在 hash 表中找到对应的次数就行了，注意 puzz 的第一个字符必须包含。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">​<span class="keyword">class</span> <span class="title class_">Solution</span> {</span><br><span class="line">    <span class="keyword">public</span> List&lt;Integer&gt; <span class="title function_">findNumOfValidWords3</span><span class="params">(String[] words, String[] puzzles)</span> {</span><br><span class="line">        HashMap&lt;Integer, Integer&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">        <span class="comment">//50*10^5</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; words.length; i++) {</span><br><span class="line">            <span class="type">char</span>[] word = words[i].toCharArray();</span><br><span class="line">            <span class="type">int</span> <span class="variable">key</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; word.length; j++) {</span><br><span class="line">                key |= <span class="number">1</span>&lt;&lt;(word[j]-<span class="string">'a'</span>);</span><br><span class="line">            }</span><br><span class="line">            map.put(key, map.getOrDefault(key, <span class="number">0</span>)+<span class="number">1</span>);</span><br><span class="line">        }</span><br><span class="line">        <span class="comment">//枚举 puzzles[i] 的子集 10^4*2^7*7</span></span><br><span class="line">        <span class="comment">//word 包含 puzz 的第一个字母 &amp; puzz 包含 word 所有字母</span></span><br><span class="line">        List&lt;Integer&gt; res = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; puzzles.length; i++) {</span><br><span class="line">            <span class="type">char</span>[] puzz = puzzles[i].toCharArray();</span><br><span class="line">            <span class="type">int</span> <span class="variable">cnt</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">            <span class="comment">//枚举子集复杂度：2^p*p (p 为 puzz[i] 长度 7)</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">s</span> <span class="operator">=</span> <span class="number">0</span>; s &lt; (<span class="number">1</span>&lt;&lt;puzz.length); s++) {</span><br><span class="line">                <span class="type">int</span> <span class="variable">key</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">                <span class="comment">//puzz[0] 必选</span></span><br><span class="line">                <span class="keyword">if</span> ((s&amp;<span class="number">1</span>)!=<span class="number">1</span>) <span class="keyword">continue</span>;</span><br><span class="line">                <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">k</span> <span class="operator">=</span> <span class="number">0</span>; k &lt; puzz.length; k++) {</span><br><span class="line">                    <span class="keyword">if</span> (((s&gt;&gt;&gt;k)&amp;<span class="number">1</span>)==<span class="number">1</span>) {</span><br><span class="line">                        key |= <span class="number">1</span>&lt;&lt;(puzz[k]-<span class="string">'a'</span>);</span><br><span class="line">                    }</span><br><span class="line">                }</span><br><span class="line">                cnt += map.getOrDefault(key, <span class="number">0</span>);</span><br><span class="line">            }</span><br><span class="line">            res.add(cnt);</span><br><span class="line">        }</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+
+<h3 id="解法二"><a href="#解法二" class="headerlink" title="解法二"></a>解法二</h3><p>看了题解后学习到的一种更快的 <strong>枚举二进制子集</strong> 的方法</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//更优的枚举二进制子集的方法</span></span><br><span class="line"><span class="keyword">public</span> List&lt;Integer&gt; <span class="title function_">findNumOfValidWords</span><span class="params">(String[] words, String[] puzzles)</span> {</span><br><span class="line">    HashMap&lt;Integer, Integer&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">    <span class="comment">//50*10^5</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; words.length; i++) {</span><br><span class="line">        <span class="type">char</span>[] word = words[i].toCharArray();</span><br><span class="line">        <span class="type">int</span> <span class="variable">key</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; word.length; j++) {</span><br><span class="line">            key |= <span class="number">1</span>&lt;&lt;(word[j]-<span class="string">'a'</span>);</span><br><span class="line">        }</span><br><span class="line">        map.put(key, map.getOrDefault(key, <span class="number">0</span>)+<span class="number">1</span>);</span><br><span class="line">    }</span><br><span class="line">    <span class="comment">//word 包含 puzz 的第一个字母 &amp; puzz 包含 word 所有字母</span></span><br><span class="line">    List&lt;Integer&gt; res = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; puzzles.length; i++) {</span><br><span class="line">        <span class="type">char</span>[] puzz = puzzles[i].toCharArray();</span><br><span class="line">        <span class="type">int</span> <span class="variable">cnt</span> <span class="operator">=</span> <span class="number">0</span>, mask = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">1</span>; j &lt; puzz.length; j++) {</span><br><span class="line">            mask |= (<span class="number">1</span>&lt;&lt;(puzz[j]-<span class="string">'a'</span>));</span><br><span class="line">        }</span><br><span class="line">        <span class="comment">//枚举子集复杂度：2^k (k 为 mask 中 1 的个数，最多为 7)</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">sub</span> <span class="operator">=</span> mask;</span><br><span class="line">        <span class="keyword">do</span> {</span><br><span class="line">            cnt += map.getOrDefault(sub|(<span class="number">1</span>&lt;&lt;(puzz[<span class="number">0</span>]-<span class="string">'a'</span>)), <span class="number">0</span>);</span><br><span class="line">            sub = (sub-<span class="number">1</span>) &amp; mask;</span><br><span class="line">        } <span class="keyword">while</span> (sub != mask);</span><br><span class="line">        res.add(cnt);</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="comment">// &amp;mask 保证了 sub 一定是 mask 的子集，同时 sub 不断的减一，最终会减到 0</span></span><br><span class="line"><span class="comment">//s = 101</span></span><br><span class="line"><span class="comment">//1. sub = 101</span></span><br><span class="line"><span class="comment">//2. sub = 100 &amp; 101 = 100</span></span><br><span class="line"><span class="comment">//3. sub = 011 &amp; 101 = 001</span></span><br><span class="line"><span class="comment">//4. sub = 000 &amp; 101 = 000</span></span><br><span class="line"><span class="comment">//5. sub = 111 &amp; 101 = 101 （取反全为 1，回到 mask，将空集也包含进去）</span></span><br></pre></td></tr></table></figure>
+<p>实际上上面的解法是针对下面这种枚举二进制子集方法的优化，不过下面这个解法在这题的时间复杂度比较高 <mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.566ex" xmlns="http://www.w3.org/2000/svg" width="6.405ex" height="2.452ex" role="img" focusable="false" viewBox="0 -833.9 2831.1 1083.9"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mi"><path data-c="1D442" d="M740 435Q740 320 676 213T511 42T304 -22Q207 -22 138 35T51 201Q50 209 50 244Q50 346 98 438T227 601Q351 704 476 704Q514 704 524 703Q621 689 680 617T740 435ZM637 476Q637 565 591 615T476 665Q396 665 322 605Q242 542 200 428T157 216Q157 126 200 73T314 19Q404 19 485 98T608 313Q637 408 637 476Z"></path></g><g data-mml-node="mo" transform="translate(763,0)"><path data-c="28" d="M94 250Q94 319 104 381T127 488T164 576T202 643T244 695T277 729T302 750H315H319Q333 750 333 741Q333 738 316 720T275 667T226 581T184 443T167 250T184 58T225 -81T274 -167T316 -220T333 -241Q333 -250 318 -250H315H302L274 -226Q180 -141 137 -14T94 250Z"></path></g><g data-mml-node="msup" transform="translate(1152,0)"><g data-mml-node="mn"><path data-c="32" d="M109 429Q82 429 66 447T50 491Q50 562 103 614T235 666Q326 666 387 610T449 465Q449 422 429 383T381 315T301 241Q265 210 201 149L142 93L218 92Q375 92 385 97Q392 99 409 186V189H449V186Q448 183 436 95T421 3V0H50V19V31Q50 38 56 46T86 81Q115 113 136 137Q145 147 170 174T204 211T233 244T261 278T284 308T305 340T320 369T333 401T340 431T343 464Q343 527 309 573T212 619Q179 619 154 602T119 569T109 550Q109 549 114 549Q132 549 151 535T170 489Q170 464 154 447T109 429Z"></path></g><g data-mml-node="TeXAtom" transform="translate(533,363) scale(0.707)" data-mjx-texclass="ORD"><g data-mml-node="mn"><path data-c="32" d="M109 429Q82 429 66 447T50 491Q50 562 103 614T235 666Q326 666 387 610T449 465Q449 422 429 383T381 315T301 241Q265 210 201 149L142 93L218 92Q375 92 385 97Q392 99 409 186V189H449V186Q448 183 436 95T421 3V0H50V19V31Q50 38 56 46T86 81Q115 113 136 137Q145 147 170 174T204 211T233 244T261 278T284 308T305 340T320 369T333 401T340 431T343 464Q343 527 309 573T212 619Q179 619 154 602T119 569T109 550Q109 549 114 549Q132 549 151 535T170 489Q170 464 154 447T109 429Z"></path><path data-c="36" d="M42 313Q42 476 123 571T303 666Q372 666 402 630T432 550Q432 525 418 510T379 495Q356 495 341 509T326 548Q326 592 373 601Q351 623 311 626Q240 626 194 566Q147 500 147 364L148 360Q153 366 156 373Q197 433 263 433H267Q313 433 348 414Q372 400 396 374T435 317Q456 268 456 210V192Q456 169 451 149Q440 90 387 34T253 -22Q225 -22 199 -14T143 16T92 75T56 172T42 313ZM257 397Q227 397 205 380T171 335T154 278T148 216Q148 133 160 97T198 39Q222 21 251 21Q302 21 329 59Q342 77 347 104T352 209Q352 289 347 316T329 361Q302 397 257 397Z" transform="translate(500,0)"></path></g></g></g><g data-mml-node="mo" transform="translate(2442.1,0)"><path data-c="29" d="M60 749L64 750Q69 750 74 750H86L114 726Q208 641 251 514T294 250Q294 182 284 119T261 12T224 -76T186 -143T145 -194T113 -227T90 -246Q87 -249 86 -250H74Q66 -250 63 -250T58 -247T55 -238Q56 -237 66 -225Q221 -64 221 250T66 725Q56 737 55 738Q55 746 60 749Z"></path></g></g></g></svg></mjx-container> 会直接 T 掉</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="variable">cnt</span> <span class="operator">=</span> <span class="number">0</span>, mask = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">1</span>; j &lt; puzz.length; j++) {</span><br><span class="line">    mask |= (<span class="number">1</span>&lt;&lt;(puzz[j]-<span class="string">'a'</span>));</span><br><span class="line">}</span><br><span class="line"><span class="comment">//枚举子集复杂度：2^n (n 为二进制长度，这里为 26)</span></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">s</span> <span class="operator">=</span> <span class="number">0</span>; s &lt;= mask; s++) {</span><br><span class="line">    <span class="keyword">if</span> ((s|mask) == mask) {</span><br><span class="line">        cnt += map.getOrDefault(s|(<span class="number">1</span>&lt;&lt;(puzz[<span class="number">0</span>]-<span class="string">'a'</span>)), <span class="number">0</span>);</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+
+<h3 id="解法三"><a href="#解法三" class="headerlink" title="解法三"></a>解法三</h3><p>字典树的做法，和上面的解法本质上一样的，只是采用的数据结构不一样，上面的解法采用的是哈希表存储，这里采用字典树存储，理论上来讲这里字典树的方法应该会比 hash 表慢，但是在 lc 提交上看这种方法是最快的，可能是哈希表常数太大了</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Node</span> {</span><br><span class="line">    Node[] next;</span><br><span class="line">    <span class="type">int</span> cnt;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Node</span><span class="params">()</span> {</span><br><span class="line">        next = <span class="keyword">new</span> <span class="title class_">Node</span>[<span class="number">26</span>];</span><br><span class="line">    }</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">Node root;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">add</span><span class="params">(Node node, String str, <span class="type">int</span> index)</span> {</span><br><span class="line">    <span class="keyword">if</span> (index == str.length()) {</span><br><span class="line">        node.cnt++;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    }</span><br><span class="line">    <span class="type">int</span> <span class="variable">c</span> <span class="operator">=</span> str.charAt(index)-<span class="string">'a'</span>;</span><br><span class="line">    <span class="keyword">if</span> (node.next[c] == <span class="literal">null</span>) {</span><br><span class="line">        node.next[c] = <span class="keyword">new</span> <span class="title class_">Node</span>();</span><br><span class="line">    }</span><br><span class="line">    add(node.next[c], str, index+<span class="number">1</span>);</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">dfs</span><span class="params">(Node cur, <span class="type">char</span>[] puzz, <span class="type">char</span> req, <span class="type">int</span> idx)</span> {</span><br><span class="line">    <span class="keyword">if</span> (cur == <span class="literal">null</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (idx == puzz.length) {</span><br><span class="line">        <span class="keyword">return</span> cur.cnt;</span><br><span class="line">    }</span><br><span class="line">    <span class="type">int</span> <span class="variable">res</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="comment">//选择当前元素</span></span><br><span class="line">    res += dfs(cur.next[puzz[idx]-<span class="string">'a'</span>], puzz, req, idx+<span class="number">1</span>);</span><br><span class="line">    <span class="comment">//不选择当前元素（req 必须选）</span></span><br><span class="line">    <span class="keyword">if</span> (puzz[idx] != req) {</span><br><span class="line">        res += dfs(cur, puzz, req, idx+<span class="number">1</span>);</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="comment">//2^26</span></span><br><span class="line"><span class="keyword">public</span> List&lt;Integer&gt; <span class="title function_">findNumOfValidWords</span><span class="params">(String[] words, String[] puzzles)</span> {</span><br><span class="line">    root = <span class="keyword">new</span> <span class="title class_">Node</span>();</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; words.length; i++) {</span><br><span class="line">        <span class="type">char</span>[] word = words[i].toCharArray();</span><br><span class="line">        Arrays.sort(word);</span><br><span class="line">        <span class="type">StringBuilder</span> <span class="variable">sb</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuilder</span>();</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; word.length; j++) {</span><br><span class="line">            <span class="keyword">if</span> (j==<span class="number">0</span> || word[j]!=word[j-<span class="number">1</span>]) {</span><br><span class="line">                sb.append(word[j]);</span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">        add(root, sb.toString(), <span class="number">0</span>);</span><br><span class="line">    }</span><br><span class="line">    <span class="comment">//dfs 分解 puzz 子集</span></span><br><span class="line">    List&lt;Integer&gt; res = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; puzzles.length; i++) {</span><br><span class="line">        <span class="type">char</span>[] puzz = puzzles[i].toCharArray();</span><br><span class="line">        Arrays.sort(puzz);</span><br><span class="line">        res.add(dfs(root, puzz, puzzles[i].charAt(<span class="number">0</span>), <span class="number">0</span>));</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+        
+            <div class="donate-container">
+    <div class="donate-button">
+        <button id="donate-button">赞赏</button>
+    </div>
+    <div class="donate-img-container hide" id="donate-img-container">
+        <img id="donate-img" src="" data-src="">
+        <p> 感谢鼓励 </p>
+    </div>
+</div>
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+        <div id="lv-container"></div>
+        <div class="giscus"></div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/imlgw">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://imlgw.top">Tadow</a></span>
+        <span>/</span>
+        
+        <span><a target="_blank" rel="noopener" href="http://beian.miit.gov.cn/publish/query/indexFirst.action">鄂ICP备18011208号</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>  Theme <a target="_blank" rel="noopener" href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/live2d-widget@3.x/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"https://cdn.jsdelivr.net/npm/live2d-widget-model-hijiki@1.0.5/assets/hijiki.model.json"},"display":{"superSample":2,"width":160,"height":320,"position":"right","hOffset":0,"vOffset":-70},"mobile":{"show":false,"scale":0.2},"log":false});</script></body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://giscus.app/client.js"
+  data-repo="imlgw/imlgw.github.io"
+  data-repo-id="MDEwOlJlcG9zaXRvcnkxMzMyMDY4NDg="
+  data-category="Announcements"
+  data-category-id="DIC_kwDOB_CTQM4CQ7v8"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="top"
+  data-theme="light"
+  data-lang="zh-CN"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+
+
+</html>

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:description" content="Tadow 的博客">
+    <meta property="og:type" content="website">
+    <meta name="description" content="Tadow 的博客">
+    <meta name="keyword"  content="Tadow, Resolmi, imlgw, 半岛铁盒, 算法, Java, Golang">
+    <link rel="shortcut icon" href="https://fav.farm/💭">
+
+    <title>
+        
+        由于 cmd 引发的血案 - Tadow 碎碎念
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_28hi1hpxx24.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Tadow 碎碎念" type="application/atom+xml">
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> Keep It Simple, Stupid </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar radius">
+            <img src="https://static.imlgw.top/blog/20220821160037.png" />
+        </div>
+        <div class="name">
+            <i>Tadow</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <!-- <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li> -->
+            <li >
+                <a href="/categories">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>分类</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            
+            <li >
+                <a href="/selfhosted">
+                    <i class="iconfont icon-guidang1"></i>
+                    <span>自建</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/collect/">
+                    <i class="iconfont icon-shoucang1"></i>
+                    <span>收藏</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#FixBug"><span class="toc-text">FixBug</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-bg" id="search-bg"></div>
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i> Keep It Simple, Stupid </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        由于 cmd 引发的血案
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2019-12-08 00:00:00</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#Bug" title="Bug">Bug</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>给教务处做一个工作量审核的 web 项目，前几天完成后部署在机房电脑上进行测试，但是测试的时候出现了 Bug，会存在一个用户登录的时候，整个应用卡死，所有人都无法登陆，因为登陆模块是我写的，我当时就慌了（并不），然后赶紧去机房看看到底是啥情况</p>
+<h2 id="FixBug"><a href="#FixBug" class="headerlink" title="FixBug"></a>FixBug</h2><p>其实我首先想到的就是网络或者数据库的问题，但是看了我控制台的输出，发现代码其实根本就还没到数据库层！所以先排除了数据库的问题</p>
+<p>然后我就想会不会是 GC 的问题，然后我打开了 <code>jvisualvm</code>，准备查看当前的堆占用和 GC 情况，但是他们之前重启了服务，现在是正常的，看不出来什么，所以我们需要复现这个 Bug，结果我们几个人在哪里搞了半天死活复现不了😂</p>
+<blockquote>
+<p>在经过我们一个小时多小时坚持不懈的尝试下，终于复现了！</p>
+</blockquote>
+<p>页面 hang 住，所有人都无法登陆，后台也并没有任何的错误信息，然后我赶紧去看了下 <code>jvisualvm</code> 发现堆并没有任何变化，GC 也并没有发生！而且更诡异的是其他的已经登陆的人是可以正常的操作的！只是卡住了登陆的人，所以 GC 的问题也排除了</p>
+<p>在 dump 出线程快照后终于发现了问题所在</p>
+<p><img src="http://static.imlgw.top/blog/20191208/XKUriuCE9nTb.png?imageslim" alt="mark"></p>
+<p>图中的这条线程卡在了 <code>PrintStream.println()</code> 上，而这个是我在 Service 打印的 log 信息，为什么会在这里卡住？？？这不科学啊，然后我看了 其他 tomcat 的工作线程，发现还有好几个都是<code>BLOCK</code> 状态，都在等 <code>[0x0000004df8afd000]</code>这把锁，这个锁被另一个 tomcat 的工作线程 <code>http-bio-80-exec[2]</code> 所持有，而且它并不是<code>BLOCK</code>状态，而是 <code>RUNNABLE</code> 状态，这个线程正在执行 <code>java.io.FileOutputStream.writeBytes()</code> 方法，我们去看看<code>println</code>的源码</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Prints a String and then terminate the line.  This method behaves as</span></span><br><span class="line"><span class="comment"> * though it invokes &lt;code&gt;&#123;<span class="doctag">@link</span> #print(String)&#125;&lt;/code&gt; and then</span></span><br><span class="line"><span class="comment"> * &lt;code&gt;&#123;<span class="doctag">@link</span> #println()&#125;&lt;/code&gt;.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> x  The &lt;code&gt;String&lt;/code&gt; to be printed.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">println</span><span class="params">(String x)</span> &#123;</span><br><span class="line">    <span class="keyword">synchronized</span> (<span class="built_in">this</span>) &#123;</span><br><span class="line">        print(x);</span><br><span class="line">        newLine();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看出在 println 方法确实是加了锁的，锁的对象就是当前的 PrintStream 实例对象，而占用这个锁的对象的线程则正在执行下面这个方法，是个本地方法我们看不到底层的细节</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Writes a sub array as a sequence of bytes.</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> b the data to be written</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> off the start offset in the data</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> len the number of bytes that are written</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> append &#123;<span class="doctag">@code</span> true&#125; to first advance the position to the</span></span><br><span class="line"><span class="comment"> *     end of file</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@exception</span> IOException If an I/O error has occurred.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title function_">writeBytes</span><span class="params">(<span class="type">byte</span> b[], <span class="type">int</span> off, <span class="type">int</span> len, <span class="type">boolean</span> append)</span></span><br><span class="line">    <span class="keyword">throws</span> IOException;</span><br></pre></td></tr></table></figure>
+
+<p>无奈，借助搜索引擎，果然查到了同样的问题 </p>
+<p><a target="_blank" rel="noopener" href="https://my.oschina.net/u/1030459/blog/908007">一个 RUNNABLE 状态的线程 hang 在了 java.io.FileOutputStream.writeBytes 方法上</a></p>
+<p>当然原问题是来自 <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/634102/log4j-is-hanging-my-application-what-am-i-doing-wrong">StackOverflow</a> </p>
+<p>问题的根本原因：在 CMD 窗口点击了黑框之后，控制台就会被暂停！<a target="_blank" rel="noopener" href="http://static.imlgw.top/blog/20191208/1em5YGsoGyxT.png?imageslim">mark</a></p>
+<p>，进入编辑模式，之后向控制台的输入缓冲区会被很快填满，然后正在输出的线程就会 hang 住，但是正在输出的线程也并不会<code>BLOCK</code>，状态仍然是<code>RUNNABLE</code>所以就很诡异，也就是上面所描述的情况，当你这个时候在 CMD 状态下按一下回车或者其他的键释放 console，退出编辑模式！<a target="_blank" rel="noopener" href="http://static.imlgw.top/blog/20191208/4RXkNizHfNsP.png?imageslim">mark</a></p>
+<p>这个线程又会继续往下执行，要解决这个问题可以调整 cmd 的设置，我这里其实无所谓，因为后面并不会在 win 上运行</p>
+<p>至此问题就基本解决了（其实都不算问题），没想到还会被 cmd 给坑一把，不过增长了一点排查问题的能力也还是不错的😁</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>最大的收获就是： 遇到 bug 不要先急着重启逃避问题，得面对它，因为有些 bug 完全就是偶然性的，一旦放过，要想复现可能会极其困难，这次还算运气好，最终复现了，不过当时如果他们保护了现场后面就不会花几个小时去复现问题（确实大家也都经验不太足），也算是吃一堑长一智了 hahaha ~~</p>
+
+        
+            <div class="donate-container">
+    <div class="donate-button">
+        <button id="donate-button">赞赏</button>
+    </div>
+    <div class="donate-img-container hide" id="donate-img-container">
+        <img id="donate-img" src="" data-src="">
+        <p> 感谢鼓励 </p>
+    </div>
+</div>
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+        <div id="lv-container"></div>
+        <div class="giscus"></div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/imlgw">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://imlgw.top">Tadow</a></span>
+        <span>/</span>
+        
+        <span><a target="_blank" rel="noopener" href="http://beian.miit.gov.cn/publish/query/indexFirst.action">鄂ICP备18011208号</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>  Theme <a target="_blank" rel="noopener" href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/live2d-widget@3.x/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"https://cdn.jsdelivr.net/npm/live2d-widget-model-hijiki@1.0.5/assets/hijiki.model.json"},"display":{"superSample":2,"width":160,"height":320,"position":"right","hOffset":0,"vOffset":-70},"mobile":{"show":false,"scale":0.2},"log":false});</script></body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://giscus.app/client.js"
+  data-repo="imlgw/imlgw.github.io"
+  data-repo-id="MDEwOlJlcG9zaXRvcnkxMzMyMDY4NDg="
+  data-category="Announcements"
+  data-category-id="DIC_kwDOB_CTQM4CQ7v8"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="top"
+  data-theme="light"
+  data-lang="zh-CN"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+
+
+</html>

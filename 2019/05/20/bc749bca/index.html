@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:description" content="Tadow 的博客">
+    <meta property="og:type" content="website">
+    <meta name="description" content="Tadow 的博客">
+    <meta name="keyword"  content="Tadow, Resolmi, imlgw, 半岛铁盒, 算法, Java, Golang">
+    <link rel="shortcut icon" href="https://fav.farm/💭">
+
+    <title>
+        
+        数据库大作业 - Tadow 碎碎念
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_28hi1hpxx24.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Tadow 碎碎念" type="application/atom+xml">
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> Keep It Simple, Stupid </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar radius">
+            <img src="https://static.imlgw.top/blog/20220821160037.png" />
+        </div>
+        <div class="name">
+            <i>Tadow</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <!-- <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li> -->
+            <li >
+                <a href="/categories">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>分类</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            
+            <li >
+                <a href="/selfhosted">
+                    <i class="iconfont icon-guidang1"></i>
+                    <span>自建</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/collect/">
+                    <i class="iconfont icon-shoucang1"></i>
+                    <span>收藏</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="toc-text">准备工作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83"><span class="toc-text">环境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E7%BB%99%E7%9A%84-Demo"><span class="toc-text">测试给的 Demo</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="toc-text">注意事项</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8"><span class="toc-text">启动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%94%B9%E7%94%A8%E8%87%AA%E5%B7%B1%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-text">改用自己的数据库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Mysql"><span class="toc-text">Mysql</span></a></li></ol></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-bg" id="search-bg"></div>
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i> Keep It Simple, Stupid </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        数据库大作业
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2019-05-20 00:00:00</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#工具" title="工具">工具</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><h3 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h3><ul>
+<li>JDK（建议 1.8 以上）</li>
+<li>开发工具，Eclipse 或者 idea …</li>
+<li><strong>mysql **或者</strong> mssql<strong>（我是用的</strong> mysql5.7.17**，给的 demo 是 mysql 的）</li>
+</ul>
+<h3 id="测试给的-Demo"><a href="#测试给的-Demo" class="headerlink" title="测试给的 Demo"></a>测试给的 Demo</h3><p>①装好 mysql 之后启动它，然后用管理工具我用的是** navicat**，打开然后将给的 demo 里面的 sql 脚本导入进去（导入不好的可以手动建立一个，用脚本文件导入后的名字是 tb_demo，我这里是手动建的）</p>
+<p><video controls="controls" src="http://static.imlgw.top/image/20190530/M2IOTaKdyaQO.mp4" width="100%"></video></p>
+<p><img src="http://static.imlgw.top/image/20190524/oNHeEFJhHEYX.png?imageslim" alt="mark"></p>
+<p>最后差不多是这样的结构</p>
+<p>②在** Eclipse <strong>里面</strong> import <strong>项目，这里我</strong> import <strong>会有个感叹号，</strong>最好重新建一个项目，不然可能会有奇怪的错误<strong>下面是</strong>如何新建的步骤视频**</p>
+<p><video controls="controls" src="http://static.imlgw.top/f0xim-iyaow.mp4" width="100%"></video></p>
+<p>这里要改的地方就是 DbUtil 里面数据库配置</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">DbUtil</span> &#123;</span><br><span class="line">	<span class="comment">//com.microsoft.sqlserver.jdbc.SQLServerDriver</span></span><br><span class="line">    <span class="comment">//数据库驱动的名字（1.6 还是 1.8 之后就不需要了，这里还是加上吧）</span></span><br><span class="line">	<span class="type">String</span> <span class="variable">driverName</span> <span class="operator">=</span> <span class="string">&quot;com.mysql.jdbc.Driver&quot;</span>;</span><br><span class="line">	<span class="comment">//jdbc:sqlserver://127.0.0.1:1433;DatabaseName=demo</span></span><br><span class="line">    <span class="comment">//连接数据库的地址，前面的不用改，这里要改的就是后面的 demo 换成你的数据库名字（我上面的是 demo）</span></span><br><span class="line">	<span class="type">String</span> <span class="variable">dbURL</span> <span class="operator">=</span> <span class="string">&quot;jdbc:mysql://localhost:3306/demo&quot;</span>;</span><br><span class="line">    <span class="comment">//你的数据库的帐号</span></span><br><span class="line">	<span class="type">String</span> <span class="variable">userName</span> <span class="operator">=</span> <span class="string">&quot;root&quot;</span>;</span><br><span class="line">    <span class="comment">//装 mysql 时设置的密码</span></span><br><span class="line">	<span class="type">String</span> <span class="variable">userPwd</span> <span class="operator">=</span> <span class="string">&quot;admin&quot;</span>; </span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> Connection <span class="title function_">getCon</span><span class="params">()</span> <span class="keyword">throws</span> ClassNotFoundException, SQLException &#123;</span><br><span class="line">		Class.forName(driverName);</span><br><span class="line">		<span class="type">Connection</span> <span class="variable">conn</span> <span class="operator">=</span> DriverManager.getConnection(dbURL, userName, userPwd);</span><br><span class="line">		<span class="keyword">return</span> conn;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">closeCon</span><span class="params">(Connection conn)</span> <span class="keyword">throws</span> SQLException &#123;</span><br><span class="line">		<span class="keyword">if</span> (conn != <span class="literal">null</span>)</span><br><span class="line">			conn.close();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">		<span class="type">DbUtil</span> <span class="variable">dbUtil</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">DbUtil</span>();</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			dbUtil.getCon();</span><br><span class="line">			System.out.println(<span class="string">&quot;连接成功&quot;</span>);</span><br><span class="line">		&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//com.microsoft.sqlserver.jdbc.SQLServerDriver</span></span><br><span class="line">   <span class="comment">//数据库驱动的名字（1.6 还是 1.8 之后就不需要了，这里还是加上吧）</span></span><br><span class="line"><span class="type">String</span> <span class="variable">driverName</span> <span class="operator">=</span> <span class="string">&quot;com.mysql.jdbc.Driver&quot;</span>;</span><br><span class="line"><span class="comment">//jdbc:sqlserver://127.0.0.1:1433;DatabaseName=demo</span></span><br><span class="line">   <span class="comment">//连接数据库的地址，这里要改的就是后面的 demo 换成你的数据库名字（我上面的是 demo）</span></span><br><span class="line"><span class="type">String</span> <span class="variable">dbURL</span> <span class="operator">=</span> <span class="string">&quot;jdbc:mysql://localhost:3306/demo&quot;</span>;</span><br><span class="line">   <span class="comment">//你的数据库的帐号</span></span><br><span class="line"><span class="type">String</span> <span class="variable">userName</span> <span class="operator">=</span> <span class="string">&quot;root&quot;</span>;</span><br><span class="line">   <span class="comment">//密码</span></span><br><span class="line"><span class="type">String</span> <span class="variable">userPwd</span> <span class="operator">=</span> <span class="string">&quot;admin&quot;</span>; </span><br></pre></td></tr></table></figure>
+
+<p>要改的差不多就是这 4 个配置</p>
+<p>①如果是** mysql <strong>并且版本是 8 以下的，那么</strong> driverName** 可以不用改，如果是 8 以上的（群里面那个是 8 以上的）就需要改成</p>
+<p><strong>com.mysql.cj.jdbc.Driver</strong>，并且<strong>找到适合版本的驱动拷贝到 lib 目录然后右键 bulidpath</strong>（在这之前先将老的驱动删掉，bulidpath 的作用是将 jar 包<strong>真正的</strong>加到你的项目中去）</p>
+<ul>
+<li><p>8 以上 驱动下载地址 链接：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1WXjAAHX5gQC6v5pfiTOqmQ">https://pan.baidu.com/s/1WXjAAHX5gQC6v5pfiTOqmQ</a>  提取码：5lf5 </p>
+</li>
+<li><p>sqlServer 需要改的地方我也注释在上面但是我电脑上没 sqlserver 我没有测试，老师给的包里面有 sqlserver 的驱动</p>
+</li>
+</ul>
+<p>②<strong>dbURL</strong>，前面的不用改，这里只需要改一下后面的数据库名字，比如我上面建的数据库名字是** demo**, 后面就应该是/demo（如果用脚本直接导入生成的数据库名字是 db_demo，这里就要改成 jdbc:mysql://localhost:3306/db_demo</p>
+<ul>
+<li>对应 sqlserver 的我也放在上面但是我没装 sqlserver 所以没测试。</li>
+</ul>
+<p>③<strong>userName</strong>，数据库账号（一般默认就是 root）</p>
+<p>④<strong>password</strong>，数据库密码</p>
+<h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h3><p>在 view 包下的** MainPage<strong>，这是用 java 的 swing 组件开发的一个 GUI 页面，最下面有一个 main 函数直接启动它就行，（如果有乱码，需要将 eclipes 的工作空间的编码方式换为</strong> utf-8**），到此环境就基本 ok 了，后面的就是写代码的事了。</p>
+<h3 id="改用自己的数据库"><a href="#改用自己的数据库" class="headerlink" title="改用自己的数据库"></a>改用自己的数据库</h3><blockquote>
+<p>后面的部分主要是代码的问题了，每个人数据库不同也会有一些差距</p>
+</blockquote>
+<ul>
+<li><p>导入自己的数据</p>
+<p>数据库名字，字段名不要用中文！</p>
+<p>数据库名字，字段名不要用中文 ！</p>
+<p>数据库名字，字段名不要用中文！</p>
+</li>
+<li><p>实体类改成自己的</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Date;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">StuInfo</span> &#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> Long stuId;</span><br><span class="line">	<span class="keyword">private</span> String stuName;</span><br><span class="line">	<span class="keyword">private</span> String stuSex;</span><br><span class="line">	<span class="keyword">private</span> Date stuDob;</span><br><span class="line">	<span class="keyword">private</span> String stuMajor;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">public</span> Long <span class="title function_">getStuId</span><span class="params">()</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> stuId;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setStuId</span><span class="params">(Long stuId)</span> &#123;</span><br><span class="line">		<span class="built_in">this</span>.stuId = stuId;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> String <span class="title function_">getStuName</span><span class="params">()</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> stuName;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setStuName</span><span class="params">(String stuName)</span> &#123;</span><br><span class="line">		<span class="built_in">this</span>.stuName = stuName;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> String <span class="title function_">getStuSex</span><span class="params">()</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> stuSex;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setStuSex</span><span class="params">(String stuSex)</span> &#123;</span><br><span class="line">		<span class="built_in">this</span>.stuSex = stuSex;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> Date <span class="title function_">getStuDob</span><span class="params">()</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> stuDob;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setStuDob</span><span class="params">(Date stuDob)</span> &#123;</span><br><span class="line">		<span class="built_in">this</span>.stuDob = stuDob;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> String <span class="title function_">getStuMajor</span><span class="params">()</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> stuMajor;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setStuMajor</span><span class="params">(String stuMajor)</span> &#123;</span><br><span class="line">		<span class="built_in">this</span>.stuMajor = stuMajor;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">public</span> <span class="title function_">StuInfo</span><span class="params">()</span> &#123;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="title function_">StuInfo</span><span class="params">(String stuName, String stuSex, Date stuDob, String stuMajor)</span> &#123;</span><br><span class="line">		<span class="built_in">this</span>.stuName = stuName;</span><br><span class="line">		<span class="built_in">this</span>.stuSex = stuSex;</span><br><span class="line">		<span class="built_in">this</span>.stuDob = stuDob;</span><br><span class="line">		<span class="built_in">this</span>.stuMajor = stuMajor;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里实体类是和数据库的表和字段对应的，一个 StuInfo 对象就对应一条数据。</p>
+<ul>
+<li>增删改查的修改</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserDao</span> &#123;</span><br><span class="line">	<span class="keyword">public</span> ResultSet <span class="title function_">getUsers</span><span class="params">(User user, Connection con)</span> <span class="keyword">throws</span> SQLException &#123;</span><br><span class="line">		<span class="type">StringBuffer</span> <span class="variable">sql</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuffer</span>(<span class="string">&quot;select * from t_user &quot;</span>);</span><br><span class="line">		<span class="keyword">if</span> (user.getUserName()!= <span class="literal">null</span>) &#123;</span><br><span class="line">			sql.append(<span class="string">&quot; where userName like &#x27;%&quot;</span>+user.getUserName()+<span class="string">&quot;%&#x27;&quot;</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="type">PreparedStatement</span> <span class="variable">ps</span> <span class="operator">=</span> con.prepareStatement(sql.toString());</span><br><span class="line">		<span class="keyword">return</span> ps.executeQuery();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">public</span> <span class="type">int</span> <span class="title function_">delete</span><span class="params">(User user, Connection con)</span> <span class="keyword">throws</span> SQLException&#123;</span><br><span class="line">		String sql=<span class="string">&quot;delete from t_user where userName=&#x27;&quot;</span>+user.getUserName()+<span class="string">&quot;&#x27;&quot;</span>;</span><br><span class="line">		<span class="type">PreparedStatement</span> <span class="variable">ps</span> <span class="operator">=</span> con.prepareStatement(sql);</span><br><span class="line">		<span class="keyword">return</span> ps.executeUpdate();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">public</span> <span class="type">int</span> <span class="title function_">add</span><span class="params">(User user, Connection con)</span> <span class="keyword">throws</span> SQLException&#123;</span><br><span class="line">		String sql=<span class="string">&quot;insert into t_user  values(?,?)&quot;</span>;</span><br><span class="line">		<span class="type">PreparedStatement</span> <span class="variable">ps</span> <span class="operator">=</span> con.prepareStatement(sql);</span><br><span class="line">		ps.setString(<span class="number">1</span>, user.getUserName());</span><br><span class="line">		ps.setString(<span class="number">2</span>, user.getTel());</span><br><span class="line">		<span class="keyword">return</span> ps.executeUpdate();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">public</span> <span class="type">int</span> <span class="title function_">modify</span><span class="params">(User user, Connection con)</span> <span class="keyword">throws</span> SQLException&#123;</span><br><span class="line">		String sql=<span class="string">&quot;update t_user  set userName=?, tel=? where userName = &#x27;&quot;</span>+user.getUserName()+<span class="string">&quot;&#x27;&quot;</span>;</span><br><span class="line">		<span class="type">PreparedStatement</span> <span class="variable">ps</span> <span class="operator">=</span> con.prepareStatement(sql);</span><br><span class="line">		ps.setString(<span class="number">1</span>, user.getUserName());</span><br><span class="line">		ps.setString(<span class="number">2</span>, user.getTel());</span><br><span class="line">		System.out.println(sql);</span><br><span class="line">		<span class="keyword">return</span> ps.executeUpdate();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>最终都是通过调用这个 Dao 类实现的增删改查。</p>
+<ul>
+<li>页面的修改</li>
+</ul>
+<p>按照老师的要求是对我们常用的数据库做增删改查，因为我们用的数据库和给的 demo 的表结构不一样，所以需要修改 MainPage，这个是用 java 的 swing 写的一个 GUI，所以需要改这些界面上的一些元素，我记的好像有个插件可以直接拖动生成 swing 这些界面的（看见刘勇用过），我对 swing 不熟悉（早就过时了，没有学的意义），我用 web 写的界面</p>
+<p><img src="http://static.imlgw.top/image/20190530/96gB7wwVz4Xj.png?imageslim" alt="mark"></p>
+<h3 id="Mysql"><a href="#Mysql" class="headerlink" title="Mysql"></a>Mysql</h3><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/mr_green1024/article/details/53222526?tdsourcetag=s_pcqq_aiomsg">Mysql5.7 解压版的安装和卸载及常见问题</a></p>
+
+        
+            <div class="donate-container">
+    <div class="donate-button">
+        <button id="donate-button">赞赏</button>
+    </div>
+    <div class="donate-img-container hide" id="donate-img-container">
+        <img id="donate-img" src="" data-src="">
+        <p> 感谢鼓励 </p>
+    </div>
+</div>
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+        <div id="lv-container"></div>
+        <div class="giscus"></div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/imlgw">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://imlgw.top">Tadow</a></span>
+        <span>/</span>
+        
+        <span><a target="_blank" rel="noopener" href="http://beian.miit.gov.cn/publish/query/indexFirst.action">鄂ICP备18011208号</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>  Theme <a target="_blank" rel="noopener" href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/live2d-widget@3.x/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"https://cdn.jsdelivr.net/npm/live2d-widget-model-hijiki@1.0.5/assets/hijiki.model.json"},"display":{"superSample":2,"width":160,"height":320,"position":"right","hOffset":0,"vOffset":-70},"mobile":{"show":false,"scale":0.2},"log":false});</script></body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://giscus.app/client.js"
+  data-repo="imlgw/imlgw.github.io"
+  data-repo-id="MDEwOlJlcG9zaXRvcnkxMzMyMDY4NDg="
+  data-category="Announcements"
+  data-category-id="DIC_kwDOB_CTQM4CQ7v8"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="top"
+  data-theme="light"
+  data-lang="zh-CN"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+
+
+</html>

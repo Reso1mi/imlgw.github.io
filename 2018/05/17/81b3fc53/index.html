@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:description" content="Tadow 的博客">
+    <meta property="og:type" content="website">
+    <meta name="description" content="Tadow 的博客">
+    <meta name="keyword"  content="Tadow, Resolmi, imlgw, 半岛铁盒, 算法, Java, Golang">
+    <link rel="shortcut icon" href="https://fav.farm/💭">
+
+    <title>
+        
+        Spring 请求参数获取的几种方式（转） - Tadow 碎碎念
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_28hi1hpxx24.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Tadow 碎碎念" type="application/atom+xml">
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> Keep It Simple, Stupid </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar radius">
+            <img src="https://static.imlgw.top/blog/20220821160037.png" />
+        </div>
+        <div class="name">
+            <i>Tadow</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <!-- <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li> -->
+            <li >
+                <a href="/categories">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>分类</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            
+            <li >
+                <a href="/selfhosted">
+                    <i class="iconfont icon-guidang1"></i>
+                    <span>自建</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/collect/">
+                    <i class="iconfont icon-shoucang1"></i>
+                    <span>收藏</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#springmvc-%E8%AF%B7%E6%B1%82%E5%8F%82%E6%95%B0%E8%8E%B7%E5%8F%96%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E6%B3%95"><span class="toc-text">springmvc 请求参数获取的几种方法</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-bg" id="search-bg"></div>
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i> Keep It Simple, Stupid </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        Spring 请求参数获取的几种方式（转）
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2018-05-17 00:00:00</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#Spring" title="Spring">Spring</a>
+        <span>/</span>
+        
+        <a class="tag" href="/tags/#转载" title="转载">转载</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <h1 id="springmvc-请求参数获取的几种方法"><a href="#springmvc-请求参数获取的几种方法" class="headerlink" title="springmvc 请求参数获取的几种方法"></a><a target="_blank" rel="noopener" href="http://www.cnblogs.com/xiaoxi/p/5695783.html">springmvc 请求参数获取的几种方法</a></h1><p><strong>1、直接把表单的参数写在 Controller 相应的方法的形参中，适用于 get 方式提交，不适用于 post 方式提交。</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/** * 1. 直接把表单的参数写在 Controller 相应的方法的形参中</span></span><br><span class="line"><span class="comment">  * <span class="doctag">@param</span> username</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> password</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span> <span class="meta">@RequestMapping(&quot;/addUser1&quot;)</span> <span class="keyword">public</span> String <span class="title function_">addUser1</span><span class="params">(String username,String password)</span> &#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;username is:&quot;</span>+username);</span><br><span class="line">    System.out.println(<span class="string">&quot;password is:&quot;</span>+password); <span class="keyword">return</span> <span class="string">&quot;demo/index&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>url 形式：<a target="_blank" rel="noopener" href="http://localhost/SSMDemo/demo/addUser1?username=lixiaoxi&password=111111">http://localhost/SSMDemo/demo/addUser1?username=lixiaoxi&amp;password=111111</a> 提交的参数需要和 Controller 方法中的入参名称一致。</p>
+<p><strong>2、通过 HttpServletRequest 接收，post 方式和 get 方式都可以。</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/** 2、通过 HttpServletRequest 接收</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> request</span></span><br><span class="line"><span class="comment">  * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">  */</span> <span class="meta">@RequestMapping(&quot;/addUser2&quot;)</span> <span class="keyword">public</span> String <span class="title function_">addUser2</span><span class="params">(HttpServletRequest request)</span> &#123;</span><br><span class="line">     String username=request.getParameter(<span class="string">&quot;username&quot;</span>);</span><br><span class="line">     String password=request.getParameter(<span class="string">&quot;password&quot;</span>);</span><br><span class="line">     System.out.println(<span class="string">&quot;username is:&quot;</span>+username);</span><br><span class="line">     System.out.println(<span class="string">&quot;password is:&quot;</span>+password); <span class="keyword">return</span> <span class="string">&quot;demo/index&quot;</span>;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>3、通过一个 bean 来接收，post 方式和 get 方式都可以。</strong><br>(1) 建立一个和表单中参数对应的 bean</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> demo.model; <span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserModel</span> &#123; <span class="keyword">private</span> String username; <span class="keyword">private</span> String password; <span class="keyword">public</span> String <span class="title function_">getUsername</span><span class="params">()</span> &#123; <span class="keyword">return</span> username;</span><br><span class="line">    &#125; <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setUsername</span><span class="params">(String username)</span> &#123; <span class="built_in">this</span>.username = username;</span><br><span class="line">    &#125; <span class="keyword">public</span> String <span class="title function_">getPassword</span><span class="params">()</span> &#123; <span class="keyword">return</span> password;</span><br><span class="line">    &#125; <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setPassword</span><span class="params">(String password)</span> &#123; <span class="built_in">this</span>.password = password;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>(2) 用这个 bean 来封装接收的参数</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/** * 3、通过一个 bean 来接收</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> user</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">    */</span> <span class="meta">@RequestMapping(&quot;/addUser3&quot;)</span> <span class="keyword">public</span> String <span class="title function_">addUser3</span><span class="params">(UserModel user)</span> &#123;</span><br><span class="line">       System.out.println(<span class="string">&quot;username is:&quot;</span>+user.getUsername());</span><br><span class="line">       System.out.println(<span class="string">&quot;password is:&quot;</span>+user.getPassword()); <span class="keyword">return</span> <span class="string">&quot;demo/index&quot;</span>;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p><strong>4、通过@PathVariable 获取路径中的参数</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*** 4、通过<span class="doctag">@PathVariable</span> 获取路径中的参数</span></span><br><span class="line"><span class="comment">      * <span class="doctag">@param</span> username</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> password</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span> <span class="meta">@RequestMapping(value=&quot;/addUser4/&#123;username&#125;/&#123;password&#125;&quot;,method=RequestMethod.GET)</span> <span class="keyword">public</span> String <span class="title function_">addUser4</span><span class="params">(<span class="meta">@PathVariable</span> String username,<span class="meta">@PathVariable</span> String password)</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;username is:&quot;</span>+username);</span><br><span class="line">        System.out.println(<span class="string">&quot;password is:&quot;</span>+password); <span class="keyword">return</span> <span class="string">&quot;demo/index&quot;</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>例如，访问 <a target="_blank" rel="noopener" href="http://localhost/SSMDemo/demo/addUser4/lixiaoxi/111111">http://localhost/SSMDemo/demo/addUser4/lixiaoxi/111111</a> 路径时，则自动将 URL 中模板变量{username}和{password}绑定到通过@PathVariable 注解的同名参数上，即入参后 username=lixiaoxi、password=111111。<br><strong>5、使用@ModelAttribute 注解获取 POST 请求的 FORM 表单数据</strong><br>Jsp 表单如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">&lt;<span class="type">form</span> <span class="variable">action</span> <span class="operator">=</span><span class="string">&quot;&lt;%=request.getContextPath()%&gt;/demo/addUser5&quot;</span> method=<span class="string">&quot;post&quot;</span>&gt; 用户名：&amp;nbsp;&lt;input type=<span class="string">&quot;text&quot;</span> name=<span class="string">&quot;username&quot;</span>/&gt;&lt;br/&gt; 密&amp;nbsp;&amp;nbsp; 码：&amp;nbsp;&lt;input type=<span class="string">&quot;password&quot;</span> name=<span class="string">&quot;password&quot;</span>/&gt;&lt;br/&gt;</span><br><span class="line">     &lt;input type=<span class="string">&quot;submit&quot;</span> value=<span class="string">&quot;提交&quot;</span>/&gt; </span><br><span class="line">     &lt;input type=<span class="string">&quot;reset&quot;</span> value=<span class="string">&quot;重置&quot;</span>/&gt; </span><br><span class="line">&lt;/form&gt; </span><br></pre></td></tr></table></figure>
+<p>Java Controller 如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/** * 5、使用<span class="doctag">@ModelAttribute</span> 注解获取 POST 请求的 FORM 表单数据</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> user</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span> <span class="meta">@RequestMapping(value=&quot;/addUser5&quot;,method=RequestMethod.POST)</span> <span class="keyword">public</span> String <span class="title function_">addUser5</span><span class="params">(<span class="meta">@ModelAttribute(&quot;user&quot;)</span> UserModel user)</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;username is:&quot;</span>+user.getUsername());</span><br><span class="line">        System.out.println(<span class="string">&quot;password is:&quot;</span>+user.getPassword()); <span class="keyword">return</span> <span class="string">&quot;demo/index&quot;</span>;</span><br><span class="line">    &#125; </span><br></pre></td></tr></table></figure>
+
+<p><strong>6、用注解@RequestParam 绑定请求参数到方法入参</strong><br>当请求参数 username 不存在时会有异常发生，可以通过设置属性 required=false 解决，例如：@RequestParam(value=”username”, required=false)</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/** * 6、用注解<span class="doctag">@RequestParam</span> 绑定请求参数到方法入参</span></span><br><span class="line"><span class="comment">      * <span class="doctag">@param</span> username</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> password</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span> <span class="meta">@RequestMapping(value=&quot;/addUser6&quot;,method=RequestMethod.GET)</span> <span class="keyword">public</span> String <span class="title function_">addUser6</span><span class="params">(<span class="meta">@RequestParam(&quot;username&quot;)</span> String username,<span class="meta">@RequestParam(&quot;password&quot;)</span> String password)</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;username is:&quot;</span>+username);</span><br><span class="line">        System.out.println(<span class="string">&quot;password is:&quot;</span>+password); <span class="keyword">return</span> <span class="string">&quot;demo/index&quot;</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+        
+            <div class="donate-container">
+    <div class="donate-button">
+        <button id="donate-button">赞赏</button>
+    </div>
+    <div class="donate-img-container hide" id="donate-img-container">
+        <img id="donate-img" src="" data-src="">
+        <p> 感谢鼓励 </p>
+    </div>
+</div>
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+        <div id="lv-container"></div>
+        <div class="giscus"></div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/imlgw">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://imlgw.top">Tadow</a></span>
+        <span>/</span>
+        
+        <span><a target="_blank" rel="noopener" href="http://beian.miit.gov.cn/publish/query/indexFirst.action">鄂ICP备18011208号</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>  Theme <a target="_blank" rel="noopener" href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/live2d-widget@3.x/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"https://cdn.jsdelivr.net/npm/live2d-widget-model-hijiki@1.0.5/assets/hijiki.model.json"},"display":{"superSample":2,"width":160,"height":320,"position":"right","hOffset":0,"vOffset":-70},"mobile":{"show":false,"scale":0.2},"log":false});</script></body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://giscus.app/client.js"
+  data-repo="imlgw/imlgw.github.io"
+  data-repo-id="MDEwOlJlcG9zaXRvcnkxMzMyMDY4NDg="
+  data-category="Announcements"
+  data-category-id="DIC_kwDOB_CTQM4CQ7v8"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="top"
+  data-theme="light"
+  data-lang="zh-CN"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+
+
+</html>

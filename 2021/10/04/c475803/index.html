@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:description" content="Tadow 的博客">
+    <meta property="og:type" content="website">
+    <meta name="description" content="Tadow 的博客">
+    <meta name="keyword"  content="Tadow, Resolmi, imlgw, 半岛铁盒, 算法, Java, Golang">
+    <link rel="shortcut icon" href="https://fav.farm/💭">
+
+    <title>
+        
+        断舍离 - Tadow 碎碎念
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_28hi1hpxx24.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Tadow 碎碎念" type="application/atom+xml">
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> Keep It Simple, Stupid </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar radius">
+            <img src="https://static.imlgw.top/blog/20220821160037.png" />
+        </div>
+        <div class="name">
+            <i>Tadow</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <!-- <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li> -->
+            <li >
+                <a href="/categories">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>分类</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            
+            <li >
+                <a href="/selfhosted">
+                    <i class="iconfont icon-guidang1"></i>
+                    <span>自建</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/collect/">
+                    <i class="iconfont icon-shoucang1"></i>
+                    <span>收藏</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Manjaro-Xfce-%E9%85%8D%E7%BD%AE%EF%BC%88Manjaro-21-2-0-Qonos%EF%BC%89"><span class="toc-text">Manjaro-Xfce 配置（Manjaro 21.2.0 Qonos）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SwitchyOmega"><span class="toc-text">SwitchyOmega</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AUR-%E5%8A%A9%E6%89%8B-yay"><span class="toc-text">AUR 助手-yay</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E6%B3%95%E9%85%8D%E7%BD%AE"><span class="toc-text">输入法配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%AD%E8%A8%80%E7%8E%AF%E5%A2%83"><span class="toc-text">语言环境</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Deepin-%E9%85%8D%E7%BD%AE%EF%BC%88v20%EF%BC%89"><span class="toc-text">Deepin 配置（v20）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8D%E8%A6%81%E4%B9%B1%E6%94%B9%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%EF%BC%81"><span class="toc-text">不要乱改环境变量！</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#git-ssh"><span class="toc-text">git-ssh</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%87%E9%A2%98%E6%A0%8F"><span class="toc-text">标题栏</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#zsh-amp-ohmyzsh"><span class="toc-text">zsh &amp; ohmyzsh</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%94%AE%E7%9B%98%E6%98%A0%E5%B0%84"><span class="toc-text">键盘映射</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BE%85%E6%9C%BA"><span class="toc-text">待机</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Clash"><span class="toc-text">Clash</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8"><span class="toc-text">浏览器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Jetbrains"><span class="toc-text">Jetbrains</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Goland-%E9%85%8D%E7%BD%AE"><span class="toc-text">Goland 配置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SublimeText"><span class="toc-text">SublimeText</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Crack"><span class="toc-text">Crack</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sync"><span class="toc-text">Sync</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%92%E4%BB%B6"><span class="toc-text">插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Preferences-sublime-settings"><span class="toc-text">Preferences.sublime-settings</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Adtivate-Theme-Setting"><span class="toc-text">Adtivate Theme Setting</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Javac-Build"><span class="toc-text">Javac Build</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#KeyMap"><span class="toc-text">KeyMap</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#VSCode"><span class="toc-text">VSCode</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hexo-%E5%8D%9A%E5%AE%A2"><span class="toc-text">Hexo 博客</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Node-amp-NPM"><span class="toc-text">Node &amp; NPM</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Utools"><span class="toc-text">Utools</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%98%9F%E7%81%AB%E5%BA%94%E7%94%A8%E5%95%86%E5%BA%97"><span class="toc-text">星火应用商店</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#code-server"><span class="toc-text">code-server</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E8%AF%AD"><span class="toc-text">结语</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-bg" id="search-bg"></div>
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i> Keep It Simple, Stupid </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        断舍离
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2021-10-04 00:00:00</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#折腾" title="折腾">折腾</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近笔记本抽风，经常莫名其妙启动不了主系统，每次关机都可能是永别。所以预先做好打算，万一真的有一天崩了方便自己重新配置环境。</p>
+<p>这里主要列举一下自己在新系统上需要的一些工具，同时也是一次<strong>断舍离</strong>，希望在这篇文章上的软件越少越好。</p>
+<blockquote>
+<p><strong>2021.10.3 Append</strong>:  deepin 崩了。（自己操作不当）<br>我其实非常热衷于将各种数据存储在云端。包括一些配置文件，网页书签，笔记，代码甚至是帐号密码也都是存储在云端，这样在系统崩溃或则更换设备的时候代价能降到最低。这次 deepin 玩崩了重装，我本来以为又得花好多天去重新配置 (-_-)，结果却并没有花很长时间，要有很多配置都是直接用的云端同步过来的。包括 Chrome，VScode，Goland 等，下载好之后直接帐号登录，然后所有的设置，插件等就都同步过来了，省去了很多事情（注意网络问题）。这一次把 sublime 也搞了云端同步，但是不知道效果咋样，下次有机会试试，重装配置花费时间最长的就是它了，幸好我还手动保存了之前的配置，不然更麻烦。</p>
+</blockquote>
+<h2 id="Manjaro-Xfce-配置（Manjaro-21-2-0-Qonos）"><a href="#Manjaro-Xfce-配置（Manjaro-21-2-0-Qonos）" class="headerlink" title="Manjaro-Xfce 配置（Manjaro 21.2.0 Qonos）"></a>Manjaro-Xfce 配置（Manjaro 21.2.0 Qonos）</h2><h3 id="SwitchyOmega"><a href="#SwitchyOmega" class="headerlink" title="SwitchyOmega"></a>SwitchyOmega</h3><p>Xfce 系统没有全局代理的设置，懒得改配置文件，用 SwitchyOmega 手动设置下</p>
+<p><a target="_blank" rel="noopener" href="https://proxy-switchyomega.com/settings/">https://proxy-switchyomega.com/settings/</a></p>
+<h3 id="AUR-助手-yay"><a href="#AUR-助手-yay" class="headerlink" title="AUR 助手-yay"></a>AUR 助手-yay</h3><p>Arch 用户软件仓库 通常称为 AUR，是给 Arch 用户的基于社区的软件存储库。</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo pacman -S yay</span><br></pre></td></tr></table></figure>
+<h3 id="输入法配置"><a href="#输入法配置" class="headerlink" title="输入法配置"></a>输入法配置</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Google 拼音</span></span><br><span class="line"><span class="comment"># 加入～/.xprofile 中，配置环境变量，让应用可以调用 fcitx 输入法</span></span><br><span class="line"><span class="built_in">export</span> GTK_IM_MODULE=fcitx</span><br><span class="line"><span class="built_in">export</span> QT_IM_MODULE=fcitx</span><br><span class="line"><span class="built_in">export</span> XMODIFIERS=@im=fcitx</span><br></pre></td></tr></table></figure>
+<h3 id="语言环境"><a href="#语言环境" class="headerlink" title="语言环境"></a>语言环境</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># golang https://go.dev/dl/</span></span><br><span class="line">sudo <span class="built_in">ln</span> -s /opt/go/bin/go /usr/local/bin</span><br><span class="line"></span><br><span class="line"><span class="comment"># Py 自带 3.9</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># java8</span></span><br><span class="line">yay -S jdk8-openjdk</span><br><span class="line"></span><br><span class="line"><span class="comment"># Node &amp; npm</span></span><br><span class="line">yay -S nodejs, npm</span><br></pre></td></tr></table></figure>
+
+<h2 id="Deepin-配置（v20）"><a href="#Deepin-配置（v20）" class="headerlink" title="Deepin 配置（v20）"></a>Deepin 配置（v20）</h2><h3 id="不要乱改环境变量！"><a href="#不要乱改环境变量！" class="headerlink" title="不要乱改环境变量！"></a>不要乱改环境变量！</h3><p>2021.10.3 号下午，就在我前一天晚上呕心沥血的重装了 deepin 后下午又崩了，这次进的去系统，但是进不去桌面。<strong>登录循环</strong>，其实发生这个情况的原因很多，这里记录下我的经历。</p>
+<p>首先考虑的是 dde 的桌面环境出问题了，所以进不去。进 tty 模式，准备重装 dde 结果发现没网，wifi 也连接不上。没有多余的网线，于是下楼去买了一根网线（-10￥），接上后顺利的上了网。然后重装了 dde，结果发现还是不行。</p>
+<p>到这里其实有一些问题被我忽略了，一开始进 tty 的时候所有的命令都失效了，我直接 export 了。这里其实就应该意识到问题，肯定是环境变量出问题了，导致桌面环境读取不到正确的环境变量，所以启动不起来。后来搜索到了这个文章<br><a target="_blank" rel="noopener" href="https://github.com/bubifengyun/deepin-bible/blob/master/rmd/302-install-deepin.Rmd">deepin-bible</a>，才提醒了我</p>
+<p>然后我回想了昨天晚上修改了那些地方的环境变量，包括<code>/etc/profile</code>，<code>/etc/environment</code>等等，然后统统都改回去，然后重启，问题解决！</p>
+<p>连着崩两次也给了我一些教训，不过玩 Linux 多踩踩坑也挺好的。</p>
+<h3 id="git-ssh"><a href="#git-ssh" class="headerlink" title="git-ssh"></a>git-ssh</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -C <span class="string">&quot;privateli@qq.com&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># git 配置</span></span><br><span class="line">git config --global user.name <span class="string">&quot;Resolmi&quot;</span></span><br><span class="line">git config --global user.email privateli@qq.com</span><br></pre></td></tr></table></figure>
+<h3 id="标题栏"><a href="#标题栏" class="headerlink" title="标题栏"></a>标题栏</h3><figure class="highlight c"><table><tr><td class="code"><pre><span class="line">vim ~/.config/kwinrc</span><br><span class="line"></span><br><span class="line">[Windows]</span><br><span class="line">BorderlessMaximizedWindows=<span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="zsh-amp-ohmyzsh"><a href="#zsh-amp-ohmyzsh" class="headerlink" title="zsh &amp; ohmyzsh"></a>zsh &amp; ohmyzsh</h3><p>zsh 直接 apt-get</p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/35283688">https://zhuanlan.zhihu.com/p/35283688</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000018093021">https://segmentfault.com/a/1190000018093021</a></p>
+</li>
+</ul>
+<h3 id="键盘映射"><a href="#键盘映射" class="headerlink" title="键盘映射"></a>键盘映射</h3><p>CAPS 映射为 Numlock，设置为输入法切换键</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 取消提示</span></span><br><span class="line">gsettings <span class="built_in">set</span> com.deepin.dde.keybinding.mediakey capslock <span class="string">&#x27;[]&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 映射 numlock，加到。zshrc 中</span></span><br><span class="line">gsettings <span class="built_in">set</span> com.deepin.dde.keyboard layout-options <span class="string">&#x27;[&quot;caps:numlock&quot;]&#x27;</span></span><br></pre></td></tr></table></figure>
+<h3 id="待机"><a href="#待机" class="headerlink" title="待机"></a>待机</h3><p>deepin 的待机恢复似乎有点问题，可能是太慢了，也可能是卡死，索性就直接关掉了。</p>
+<h2 id="Clash"><a href="#Clash" class="headerlink" title="Clash"></a>Clash</h2><p><a target="_blank" rel="noopener" href="https://github.com/Dreamacro/clash/wiki/clash-as-a-daemon">https://github.com/Dreamacro/clash/wiki/clash-as-a-daemon</a></p>
+<h2 id="浏览器"><a href="#浏览器" class="headerlink" title="浏览器"></a>浏览器</h2><p>Chrome 不用多说，需要一些插件</p>
+<ul>
+<li><del><strong>Infinity 标签页</strong></del></li>
+<li><del>onetab</del></li>
+<li><del>bitwarden</del></li>
+<li><del>adbplus</del></li>
+<li><del>bookmarkManager</del></li>
+<li><del>Octotree-Github code tree</del></li>
+<li><del>沙拉查词</del></li>
+<li><del>下载管理</del></li>
+<li><del>油猴（复制脚本）</del></li>
+</ul>
+<blockquote>
+<p>2021.9.5 在 deepin 上安装 Chrome，登录 Google 帐号后配置全部同步过来了，插件也全部同步过来了，非常 Nice。Infinity 登录后也全部同步过来了，非常完美</p>
+</blockquote>
+<h2 id="Jetbrains"><a href="#Jetbrains" class="headerlink" title="Jetbrains"></a>Jetbrains</h2><p>IDEA、Goland 以及 PyCharm，使用开源项目申请的 Licenses。具体的配置相对比较容易，属于开箱即用类型。</p>
+<h3 id="Goland-配置"><a href="#Goland-配置" class="headerlink" title="Goland 配置"></a>Goland 配置</h3><p>Java 的环境不太想配置，在家不写业务 Java。</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># /usr/share/applications</span></span><br><span class="line">[Desktop Entry]</span><br><span class="line">Type=Application</span><br><span class="line">Comment=Goland</span><br><span class="line">Name=Goland</span><br><span class="line">Icon=/opt/GoLand-2021.2.3/bin/goland.png</span><br><span class="line">Exec=/opt/GoLand-2021.2.3/bin/goland.sh</span><br><span class="line">Terminal=<span class="literal">false</span></span><br><span class="line">Categories=Application</span><br></pre></td></tr></table></figure>
+<p>有设置同步（Jetbrains 帐号），还是很方便的</p>
+<h2 id="SublimeText"><a href="#SublimeText" class="headerlink" title="SublimeText"></a>SublimeText</h2><p>这个是肯定要留下的，个人非常喜欢的一款「文本编辑器」，平常写一些 demo 或者算法题都是使用的 st。相比之下 vscode 平常都是用来写 markdown 的，基本不会拿来写代码。</p>
+<h3 id="Crack"><a href="#Crack" class="headerlink" title="Crack"></a>Crack</h3><p><a target="_blank" rel="noopener" href="https://gist.github.com/maboloshi/feaa63c35f4c2baab24c9aaf9b3f4e47">https://gist.github.com/maboloshi/feaa63c35f4c2baab24c9aaf9b3f4e47</a></p>
+<h3 id="Sync"><a href="#Sync" class="headerlink" title="Sync"></a>Sync</h3><p>折腾了一圈，发现还是 subl 配置最麻烦，其他都很好配置。这里查了下发现有 sync 的插件，但是不确定能同步多少，下次有机会试试（可别再下次了）</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;access_token&quot;</span><span class="punctuation">:</span> <span class="string">&quot;bitwarden&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;gist_id&quot;</span><span class="punctuation">:</span> <span class="string">&quot;f5643bb6272713bc23eb50dfe41c80d6&quot;</span><span class="punctuation">,</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>注意更改配置后 upload 一下</p>
+<blockquote>
+<p>安装配置 Manjaro 的时候尝试了同步的功能，除了 GoSublime，其他的插件以及设置都同步过来了，GoSublime 只能手动安装。build 编译脚本也没有同步，这个依赖于本地环境，还是需要手动再配置</p>
+</blockquote>
+<h3 id="插件"><a href="#插件" class="headerlink" title="插件"></a>插件</h3><p><del>subl 没有配置同步，只能手动同步</del> 加上了，还没测试效果。</p>
+<ul>
+<li>Package Controller</li>
+<li>AdvancedNewFile</li>
+<li>Alignment</li>
+<li>BracketHighlighter</li>
+<li>Ctags</li>
+<li>FileDiffs</li>
+<li><del>GoSublime</del>（不能通过 Package Control 安装，无法同步，同时也不太好配置，弃坑，换官方的 Go Build)<ul>
+<li><del><a target="_blank" rel="noopener" href="https://margo.sh/b/migrate/">https://margo.sh/b/migrate/</a></del></li>
+<li><del><a target="_blank" rel="noopener" href="https://roninwz.github.io/pages/78564e/#sublime%E9%85%8D%E7%BD%AEgo%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83">https://roninwz.github.io/pages/78564e/#sublime%E9%85%8D%E7%BD%AEgo%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83</a></del></li>
+</ul>
+</li>
+<li>SideBarEnhancements</li>
+<li>Golang Build，比较适合我，Sublime 我只用来写算法题，编译简单的 Go 程序绰绰有余了。因为用的原始的 GoPath，不用额外处理中文目录。且通过 Package Control 安装，支持同步</li>
+<li>GoFmt（配合 GoBuild 好用的一批）</li>
+</ul>
+<h3 id="Preferences-sublime-settings"><a href="#Preferences-sublime-settings" class="headerlink" title="Preferences.sublime-settings"></a>Preferences.sublime-settings</h3><figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Settings in here override those in &quot;Default/Preferences.sublime-settings&quot;,</span></span><br><span class="line"><span class="comment">// and are overridden in turn by syntax-specific settings.</span></span><br><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">	<span class="attr">&quot;font_face&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Source Code Pro Medium&quot;</span><span class="punctuation">,</span></span><br><span class="line">	<span class="attr">&quot;font_size&quot;</span><span class="punctuation">:</span><span class="number">14</span><span class="punctuation">,</span></span><br><span class="line">	<span class="attr">&quot;color_scheme&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Packages/Color Scheme - Default/Monokai.sublime-color-scheme&quot;</span><span class="punctuation">,</span></span><br><span class="line">	<span class="attr">&quot;theme&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Adaptive.sublime-theme&quot;</span><span class="punctuation">,</span></span><br><span class="line">	<span class="attr">&quot;highlight_line&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">	<span class="attr">&quot;save_on_focus_lost&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">	<span class="attr">&quot;translate_tabs_to_spaces&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">	<span class="attr">&quot;ignored_packages&quot;</span><span class="punctuation">:</span></span><br><span class="line">	<span class="punctuation">[</span></span><br><span class="line">		<span class="string">&quot;Vintage&quot;</span><span class="punctuation">,</span></span><br><span class="line">	<span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">	<span class="attr">&quot;word_wrap&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">	<span class="attr">&quot;update_check&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<h3 id="Adtivate-Theme-Setting"><a href="#Adtivate-Theme-Setting" class="headerlink" title="Adtivate Theme Setting"></a>Adtivate Theme Setting</h3><figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Documentation at https://www.sublimetext.com/docs/themes.html</span></span><br><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;variables&quot;</span><span class="punctuation">:</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="comment">// &quot;font_size&quot;: 13,</span></span><br><span class="line">        <span class="comment">// &quot;font_size_sm&quot;: 12</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;rules&quot;</span><span class="punctuation">:</span></span><br><span class="line">    <span class="punctuation">[</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;class&quot;</span><span class="punctuation">:</span> <span class="string">&quot;sidebar_label&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;fg&quot;</span><span class="punctuation">:</span> <span class="string">&quot;color(var(--background) blend(white 20%))&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;font.face&quot;</span><span class="punctuation">:</span> <span class="string">&quot;var(font_face)&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;font.size&quot;</span><span class="punctuation">:</span> <span class="number">13</span></span><br><span class="line">        <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;class&quot;</span><span class="punctuation">:</span> <span class="string">&quot;tab_label&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;font.face&quot;</span><span class="punctuation">:</span> <span class="string">&quot;var(font_face)&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;font.size&quot;</span><span class="punctuation">:</span> <span class="number">13</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Javac-Build"><a href="#Javac-Build" class="headerlink" title="Javac Build"></a>Javac Build</h3><figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;cmd&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;xfce4-terminal&quot;</span><span class="punctuation">,</span> <span class="string">&quot;-e&quot;</span><span class="punctuation">,</span> <span class="string">&quot;sh -c &#x27;javac -encoding utf-8 $file &amp;&amp; java $file_base_name&#x27;&quot;</span><span class="punctuation">,</span> <span class="string">&quot;-H&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;file_regex&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^(...*?):([0-9]*):?([0-9]*)&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;selector&quot;</span><span class="punctuation">:</span> <span class="string">&quot;source.java&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;encoding&quot;</span><span class="punctuation">:</span> <span class="string">&quot;utf-8&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<h3 id="KeyMap"><a href="#KeyMap" class="headerlink" title="KeyMap"></a>KeyMap</h3><figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">[</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">       <span class="attr">&quot;keys&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;ctrl+alt+l&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">       <span class="attr">&quot;command&quot;</span><span class="punctuation">:</span> <span class="string">&quot;reindent&quot;</span><span class="punctuation">,</span> </span><br><span class="line">       <span class="attr">&quot;args&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;single_line&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">]</span></span><br></pre></td></tr></table></figure>
+<h2 id="VSCode"><a href="#VSCode" class="headerlink" title="VSCode"></a>VSCode</h2><p>主要用途就是写 markdown，以及作为 database client（非常好用）替代 navicat，开了配置同步，不知道有没有用，后面试试看</p>
+<blockquote>
+<p>2021.9.5 尝试在 deepin 上安装，配置同步非常的丝滑，插件也全部同步过来了，非常 Nice</p>
+</blockquote>
+<h2 id="Hexo-博客"><a href="#Hexo-博客" class="headerlink" title="Hexo 博客"></a>Hexo 博客</h2><p>目前 Hexo 博客已经完全云化，新系统上直接拉下来就行了。（需要 Node 环境做本地测试）</p>
+<h3 id="Node-amp-NPM"><a href="#Node-amp-NPM" class="headerlink" title="Node &amp; NPM"></a>Node &amp; NPM</h3><p>这里有点小坑，首先直接</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo apt install nodejs, npm</span><br></pre></td></tr></table></figure>
+<p>但是可能会用不了，各种问题。需要升级下 npm </p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo npm -g install npm</span><br><span class="line"><span class="comment"># 换 cnpm</span></span><br><span class="line">npm install cnpm -g --registry=https://registry.npmmirror.com</span><br></pre></td></tr></table></figure>
+<p>然后再去 install 博客的依赖</p>
+<h2 id="Utools"><a href="#Utools" class="headerlink" title="Utools"></a>Utools</h2><p>适配了 deepin，非常棒的软件。这个同步似乎是要收费，不过主要也就用几个插件</p>
+<ul>
+<li><strong>图床</strong></li>
+<li><strong>Host 切换</strong></li>
+<li>JDK 文档</li>
+<li>Py 文档</li>
+</ul>
+<h2 id="星火应用商店"><a href="#星火应用商店" class="headerlink" title="星火应用商店"></a>星火应用商店</h2><ul>
+<li>lcalingua：QQ 客户端</li>
+<li>死亡细胞</li>
+</ul>
+<h2 id="code-server"><a href="#code-server" class="headerlink" title="code-server"></a>code-server</h2><p>配置 code-server 遇到了小问题，开代理 code-server 进不去，但是在其他电脑上是好的，把 code-server 过滤后就好了，很奇怪。</p>
+<p>相关链接</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/microsoft/vscode/issues/115818">https://github.com/microsoft/vscode/issues/115818</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/cdr/code-server/issues/1500">https://github.com/cdr/code-server/issues/1500</a></li>
+</ul>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>自己总是会在一些不重要的事情上花费大量的时间，付出与回报严重不成正比。但人的精力毕竟是有限的，所以需要及时的「断舍离」，放弃一些不重要事情，一些不重要的物件，一些不重要的人，给自己减负，活得更自在些。</p>
+
+        
+            <div class="donate-container">
+    <div class="donate-button">
+        <button id="donate-button">赞赏</button>
+    </div>
+    <div class="donate-img-container hide" id="donate-img-container">
+        <img id="donate-img" src="" data-src="">
+        <p> 感谢鼓励 </p>
+    </div>
+</div>
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+        <div id="lv-container"></div>
+        <div class="giscus"></div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/imlgw">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://imlgw.top">Tadow</a></span>
+        <span>/</span>
+        
+        <span><a target="_blank" rel="noopener" href="http://beian.miit.gov.cn/publish/query/indexFirst.action">鄂ICP备18011208号</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>  Theme <a target="_blank" rel="noopener" href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/live2d-widget@3.x/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"https://cdn.jsdelivr.net/npm/live2d-widget-model-hijiki@1.0.5/assets/hijiki.model.json"},"display":{"superSample":2,"width":160,"height":320,"position":"right","hOffset":0,"vOffset":-70},"mobile":{"show":false,"scale":0.2},"log":false});</script></body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://giscus.app/client.js"
+  data-repo="imlgw/imlgw.github.io"
+  data-repo-id="MDEwOlJlcG9zaXRvcnkxMzMyMDY4NDg="
+  data-category="Announcements"
+  data-category-id="DIC_kwDOB_CTQM4CQ7v8"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="top"
+  data-theme="light"
+  data-lang="zh-CN"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+
+
+</html>

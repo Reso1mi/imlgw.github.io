@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:description" content="Tadow 的博客">
+    <meta property="og:type" content="website">
+    <meta name="description" content="Tadow 的博客">
+    <meta name="keyword"  content="Tadow, Resolmi, imlgw, 半岛铁盒, 算法, Java, Golang">
+    <link rel="shortcut icon" href="https://fav.farm/💭">
+
+    <title>
+        
+        FastDFS 学习 - Tadow 碎碎念
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_28hi1hpxx24.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Tadow 碎碎念" type="application/atom+xml">
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> Keep It Simple, Stupid </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar radius">
+            <img src="https://static.imlgw.top/blog/20220821160037.png" />
+        </div>
+        <div class="name">
+            <i>Tadow</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <!-- <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li> -->
+            <li >
+                <a href="/categories">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>分类</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            
+            <li >
+                <a href="/selfhosted">
+                    <i class="iconfont icon-guidang1"></i>
+                    <span>自建</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/collect/">
+                    <i class="iconfont icon-shoucang1"></i>
+                    <span>收藏</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#FastDFS-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0"><span class="toc-text">FastDFS 学习笔记</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-bg" id="search-bg"></div>
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i> Keep It Simple, Stupid </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        FastDFS 学习
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2018-05-16 00:00:00</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#入门" title="入门">入门</a>
+        <span>/</span>
+        
+        <a class="tag" href="/tags/#FastDFS" title="FastDFS">FastDFS</a>
+        <span>/</span>
+        
+        <a class="tag" href="/tags/#淘淘商城" title="淘淘商城">淘淘商城</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <h1 id="FastDFS-学习笔记"><a href="#FastDFS-学习笔记" class="headerlink" title="FastDFS 学习笔记"></a>FastDFS 学习笔记</h1><ul>
+<li>FastDFS 简介<br>  FastDFS 服务端有两个角色：跟踪器（tracker）和存储 <a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E8%8A%82%E7%82%B9">节点</a>（storage）。跟踪器主要做调度工作，在访问上起负载均衡的作用。<br>存储节点存储文件，完成文件管理的所有功能：就是这样的存储、同步和提供存取接口，FastDFS 同时对文件的 metadata 进行管理。所谓文件的 meta data 就是文件的相关属性，以键值对（key value）方式表示，如：width=1024，其中的 key 为 width，value 为 1024。文件 metadata 是 <a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E6%96%87%E4%BB%B6%E5%B1%9E%E6%80%A7">文件属性</a> 列表，可以包含多个键值对。<br>跟踪器和存储节点都可以由一台或多台服务器构成。跟踪器和存储节点中的服务器均可以随时增加或下线而不会影响线上服务。其中跟踪器中的所有服务器都是对等的，可以根据服务器的压力情况随时增加或减少。<br>为了支持大容量，存储 <a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E8%8A%82%E7%82%B9">节点</a>（服务器）采用了分卷（或分组）的组织方式。<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%AD%98%E5%82%A8%E7%B3%BB%E7%BB%9F">存储系统</a> 由一个或多个卷组成，卷与卷之间的文件是相互独立的，所有卷的文件容量累加就是整个存储系统中的文件容量。一个卷可以由一台或多台 <a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%AD%98%E5%82%A8%E6%9C%8D%E5%8A%A1%E5%99%A8">存储服务器</a> 组成，一个卷下的存储服务器中的文件都是相同的，卷中的多台存储服务器起到了 <a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%86%97%E4%BD%99%E5%A4%87%E4%BB%BD">冗余备份</a> 和负载均衡的作用。<br>在卷中增加服务器时，同步已有的文件由系统自动完成，同步完成后，系统自动将新增服务器切换到线上提供服务。<br>当存储空间不足或即将耗尽时，可以动态添加卷。只需要增加一台或多台服务器，并将它们配置为一个新的卷，这样就扩大了 <a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%AD%98%E5%82%A8%E7%B3%BB%E7%BB%9F">存储系统</a> 的容量。<br>FastDFS 中的文件标识分为两个部分：卷名和文件名，二者缺一不可。</li>
+<li>大胆分析<br>这里在淘淘的后台上传图片的时候用到了，确实好用也是 c 语言开发的 搭配* Nginx <em>贼方便，确实佩服那些搞** C **的大佬，上面的说法不够直白文字总是苍白的 (￣▽￣)~<em>让我来强行解释一波！<a target="_blank" rel="noopener" href="http://p1.so.qhmsg.com/bdr/_240_/t0183119f547ca0bbc6.png">image</a><br>上面说到了</em></em> FastDFS **主要有两个节点</li>
+</ul>
+<ol>
+<li>储存节点 Storage<br>顾名思义就是用来储存文件的服务器这个图中的是比较复杂的情况这里有一个 stroage 群里又分了很多组每个组里又有很多服务器（这里的服务器里面储存的文件是一样的 会自动同步 方便加机器）</li>
+<li>监控节点 Tracker<br>这个就跟 <a target="_blank" rel="noopener" href="http://www.so.com/link?m=a0NGOfhwBC5nSFnUTBxpX2uhRysff5w5UsQFEqgCBRrJbwZpybFckcSRdwhuJdbgSApcIIqhL0gq5D6eIbBJ5pN22O2Z0k6ENTFGSjrRpsgETp2Dl">zookeper</a> 作用有点像先上图<br><img src="http://p0.cdn.img9.top/ipfs/QmZynH9DgJJbePkn35LjhRTc6xyyWL64jNT6QU6jyBnrXE?0.png" alt="image"><br>这个是上传的过程可以看到客户端要上传图片都是通过 Tracker 的而储存节点也会定时向 Tracker 发送状态的信息监控 Storage 的状态<br><code>可以看出上面 Client 在上传图片成功后 Storage 返回了一个 file_id 然后客户端就会储存这个 id 那客户端是如何通过这个 id 访问到这个图片的呢？ ---没错就是 Nginx 用 Nginx 来处理这些静态资源再好不过了</code></li>
+</ol>
+<ul>
+<li>使用<br>说了这么多来实际用用看吧  <ol>
+<li>首先我们要在虚拟机上安装 FastDFS 并配置 Nginx 这个过程比较复杂也不是我们重点关心的问题是运维应该关心的问题这里有一个搭建好的最简单的 <a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1u5FLtQu71CueAJwq63ji6A">FastDFS 服务器</a> 开机就可以直接用服务都是开机自启动的  </li>
+<li>然后我们要有客户端这里 FastDFS 作者已经写好了 JAVA 的客户端我们直接拿来用就好了 <a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1KY5BKUr6f1PlCRR7hyhRSA">fastdfs_client 的 jar 包</a></li>
+<li>开始使用吧  </li>
+</ol>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testUpload</span><span class="params">()</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line"></span><br><span class="line">		<span class="comment">//1、加载配置文件，配置文件中的内容就是 tracker 服务的地址。</span></span><br><span class="line">		<span class="comment">//配置文件内容：tracker_server=192.168.25.133:22122</span></span><br><span class="line">		ClientGlobal.init(<span class="string">&quot;D:\\JavaDemo\\taoshop-web\\src\\main\\resources\\conf\\client.conf&quot;</span>);</span><br><span class="line">		<span class="comment">//2、创建一个 TrackerClient 对象。直接 new 一个。</span></span><br><span class="line">		<span class="type">TrackerClient</span> <span class="variable">trackerClient</span> <span class="operator">=</span><span class="keyword">new</span> <span class="title class_">TrackerClient</span>();</span><br><span class="line">		<span class="comment">//3、使用 TrackerClient 对象创建连接，获得一个 TrackerServer 对象。</span></span><br><span class="line">		<span class="type">TrackerServer</span> <span class="variable">trackerServer</span> <span class="operator">=</span> trackerClient.getConnection();</span><br><span class="line">		<span class="comment">//4、创建一个 StorageServer 的引用，值为 null</span></span><br><span class="line">		<span class="type">StorageServer</span> <span class="variable">storageServer</span> <span class="operator">=</span><span class="literal">null</span>;</span><br><span class="line">		<span class="comment">//5、创建一个 StorageClient 对象，需要两个参数 TrackerServer 对象、StorageServer 的引用</span></span><br><span class="line">		<span class="type">StorageClient</span> <span class="variable">storageCilent</span> <span class="operator">=</span><span class="keyword">new</span> <span class="title class_">StorageClient</span>(trackerServer,storageServer);</span><br><span class="line">		<span class="comment">//6、使用 StorageCilent 上传文件</span></span><br><span class="line">		String[] strings = storageCilent.upload_file(<span class="string">&quot;C:\\Users\\Administrator\\Desktop\\image\\222.jpg&quot;</span>,<span class="string">&quot;jpg&quot;</span>, <span class="literal">null</span>);</span><br><span class="line">		<span class="keyword">for</span> (String string : strings) &#123;</span><br><span class="line">			System.out.println(string);</span><br><span class="line">		&#125;</span><br></pre></td></tr></table></figure>
+<p>这里最后也就是为了的到 StorageServer 对象 我们可以写个工具类方便我们上传，将得到的 file 信息直接放在虚拟机 ip/后面<br><img src="http://p3.so.qhimgs1.com/bdr/_240_/t0151a407cda74a2153.png" alt="image"> 成功访问到了这张图片！还是很方便的。</p>
+<ul>
+<li><p>在淘淘商城中的运用<br> 在淘淘中主要是用在后台的图片上传上的 这里用的是 ssm 的组合 SpringMVC 上传图片首先要有 commons.io 和 fileupload 的 jar 包还有配置多媒体解析器<br>在这里我也遇到了一个小问题 他在这里用的是* KingEditor* 上传图片时要求返回的格式是</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">  <span class="comment">//成功时</span></span><br><span class="line">  &#123; </span><br><span class="line">        <span class="string">&quot;error&quot;</span> : <span class="number">0</span>,</span><br><span class="line">        <span class="string">&quot;url&quot;</span> : <span class="string">&quot;http://www.example.com/path/to/file.ext&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//失败时</span></span><br><span class="line">&#123;</span><br><span class="line">        <span class="string">&quot;error&quot;</span> : <span class="number">1</span>,</span><br><span class="line">        <span class="string">&quot;message&quot;</span> : <span class="string">&quot;错误信息&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我直接返回的一个 map 然后前台解析不出来出现了问题后来用 fastJson 把 map 转成 json 后就好了但是其实传还是传到了图片服务器上去了</p>
+</li>
+<li><p>在做这个的时候还遇到了一些奇怪的问题就是如果修改代码后马上重新启动项目会报错 clean 一下就好了。</p>
+</li>
+</ul>
+
+        
+            <div class="donate-container">
+    <div class="donate-button">
+        <button id="donate-button">赞赏</button>
+    </div>
+    <div class="donate-img-container hide" id="donate-img-container">
+        <img id="donate-img" src="" data-src="">
+        <p> 感谢鼓励 </p>
+    </div>
+</div>
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+        <div id="lv-container"></div>
+        <div class="giscus"></div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/imlgw">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://imlgw.top">Tadow</a></span>
+        <span>/</span>
+        
+        <span><a target="_blank" rel="noopener" href="http://beian.miit.gov.cn/publish/query/indexFirst.action">鄂ICP备18011208号</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>  Theme <a target="_blank" rel="noopener" href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/live2d-widget@3.x/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"https://cdn.jsdelivr.net/npm/live2d-widget-model-hijiki@1.0.5/assets/hijiki.model.json"},"display":{"superSample":2,"width":160,"height":320,"position":"right","hOffset":0,"vOffset":-70},"mobile":{"show":false,"scale":0.2},"log":false});</script></body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://giscus.app/client.js"
+  data-repo="imlgw/imlgw.github.io"
+  data-repo-id="MDEwOlJlcG9zaXRvcnkxMzMyMDY4NDg="
+  data-category="Announcements"
+  data-category-id="DIC_kwDOB_CTQM4CQ7v8"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="top"
+  data-theme="light"
+  data-lang="zh-CN"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+
+
+</html>

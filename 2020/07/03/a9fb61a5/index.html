@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:description" content="Tadow 的博客">
+    <meta property="og:type" content="website">
+    <meta name="description" content="Tadow 的博客">
+    <meta name="keyword"  content="Tadow, Resolmi, imlgw, 半岛铁盒, 算法, Java, Golang">
+    <link rel="shortcut icon" href="https://fav.farm/💭">
+
+    <title>
+        
+        LeetCode 位运算 - Tadow 碎碎念
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_28hi1hpxx24.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Tadow 碎碎念" type="application/atom+xml">
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> Keep It Simple, Stupid </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar radius">
+            <img src="https://static.imlgw.top/blog/20220821160037.png" />
+        </div>
+        <div class="name">
+            <i>Tadow</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <!-- <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li> -->
+            <li >
+                <a href="/categories">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>分类</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            
+            <li >
+                <a href="/selfhosted">
+                    <i class="iconfont icon-guidang1"></i>
+                    <span>自建</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/collect/">
+                    <i class="iconfont icon-shoucang1"></i>
+                    <span>收藏</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#LeetCode-%E4%BA%8C%E8%BF%9B%E5%88%B6"><span class="toc-text">LeetCode 二进制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#136-%E5%8F%AA%E5%87%BA%E7%8E%B0%E4%B8%80%E6%AC%A1%E7%9A%84%E6%95%B0%E5%AD%97"><span class="toc-text">136. 只出现一次的数字</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#260-%E5%8F%AA%E5%87%BA%E7%8E%B0%E4%B8%80%E6%AC%A1%E7%9A%84%E6%95%B0%E5%AD%97-III"><span class="toc-text">260. 只出现一次的数字 III</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#268-%E7%BC%BA%E5%A4%B1%E6%95%B0%E5%AD%97"><span class="toc-text">268. 缺失数字</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#461-%E6%B1%89%E6%98%8E%E8%B7%9D%E7%A6%BB"><span class="toc-text">461. 汉明距离</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#191-%E4%BD%8D-1-%E7%9A%84%E4%B8%AA%E6%95%B0"><span class="toc-text">191. 位 1 的个数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#338-%E6%AF%94%E7%89%B9%E4%BD%8D%E8%AE%A1%E6%95%B0"><span class="toc-text">338. 比特位计数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#231-2-%E7%9A%84%E5%B9%82"><span class="toc-text">231. 2 的幂</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#458-%E5%8F%AF%E6%80%9C%E7%9A%84%E5%B0%8F%E7%8C%AA"><span class="toc-text">458. 可怜的小猪</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#371-%E4%B8%A4%E6%95%B4%E6%95%B0%E4%B9%8B%E5%92%8C"><span class="toc-text">371. 两整数之和</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#190-%E9%A2%A0%E5%80%92%E4%BA%8C%E8%BF%9B%E5%88%B6%E4%BD%8D"><span class="toc-text">190. 颠倒二进制位</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#201-%E6%95%B0%E5%AD%97%E8%8C%83%E5%9B%B4%E6%8C%89%E4%BD%8D%E4%B8%8E"><span class="toc-text">201. 数字范围按位与</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1018-%E5%8F%AF%E8%A2%AB-5-%E6%95%B4%E9%99%A4%E7%9A%84%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%89%8D%E7%BC%80"><span class="toc-text">1018. 可被 5 整除的二进制前缀</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-bg" id="search-bg"></div>
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i> Keep It Simple, Stupid </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        LeetCode 位运算
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2020-07-03 00:00:00</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#LeetCode" title="LeetCode">LeetCode</a>
+        <span>/</span>
+        
+        <a class="tag" href="/tags/#位运算" title="位运算">位运算</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <blockquote>
+<p>从 <a href="http://imlgw.top/2019/05/04/leetcode-shu-zu/">数组专题</a> 抽离出来的，时间就不做矫正了，我也不知道啥时候开始做的</p>
+</blockquote>
+<h2 id="LeetCode-二进制"><a href="#LeetCode-二进制" class="headerlink" title="LeetCode 二进制"></a><em>LeetCode 二进制</em></h2><h2 id="136-只出现一次的数字"><a href="#136-只出现一次的数字" class="headerlink" title="136. 只出现一次的数字"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/single-number/">136. 只出现一次的数字</a></h2><p>给定一个<strong>非空整数</strong>数组，除了某个元素只出现一次以外，<strong>其余每个元素均出现两次</strong>。找出那个只出现了一次的元素。</p>
+<p><strong>说明：</strong></p>
+<p>你的算法应该具有线性时间复杂度。 你可以不使用额外空间来实现吗？</p>
+<p><strong>示例 1:</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：[<span class="number">2</span>,<span class="number">2</span>,<span class="number">1</span>]</span><br><span class="line">输出：<span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 2:</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：[<span class="number">4</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">1</span>,<span class="number">2</span>]</span><br><span class="line">输出：<span class="number">4</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>解法一</strong></p>
+<p>很可惜，想到了位运算，但是没试，瞄了一眼评论区，看见异或两个字马上就滚回来写了这个😂</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">singleNumber</span><span class="params">(<span class="type">int</span>[] nums)</span> &#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;nums.length;i++)&#123;</span><br><span class="line">        nums[i]^=nums[i-<span class="number">1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> nums[nums.length-<span class="number">1</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="260-只出现一次的数字-III"><a href="#260-只出现一次的数字-III" class="headerlink" title="260. 只出现一次的数字 III"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/single-number-iii/">260. 只出现一次的数字 III</a></h2><p>给定一个整数数组 nums，其中恰好有两个元素只出现一次，其余所有元素均出现两次。 找出只出现一次的那两个元素。</p>
+<p><strong>示例 :</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：[<span class="number">1</span>,<span class="number">2</span>,<span class="number">1</span>,<span class="number">3</span>,<span class="number">2</span>,<span class="number">5</span>]</span><br><span class="line">输出：[<span class="number">3</span>,<span class="number">5</span>]</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong></p>
+<ol>
+<li>结果输出的顺序并不重要，对于上面的例子， [5, 3] 也是正确答案。</li>
+<li>你的算法应该具有线性时间复杂度。你能否仅使用常数空间复杂度来实现？</li>
+</ol>
+<p><strong>解法一</strong></p>
+<p>根据异或的结果<code>xor</code>，讲整个数组划分为两组，分别包含 a，b 这两个唯一的元素</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span>[] singleNumber(<span class="type">int</span>[] nums) &#123;</span><br><span class="line">    <span class="keyword">if</span>(nums==<span class="literal">null</span> || nums.length&lt;=<span class="number">0</span>) <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[<span class="number">0</span>];</span><br><span class="line">    <span class="type">int</span> xor=nums[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i=<span class="number">1</span>;i&lt;nums.length;i++) &#123;</span><br><span class="line">        xor^=nums[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> index=<span class="number">0</span>; <span class="comment">//ab 二进制不同的 index</span></span><br><span class="line">    <span class="keyword">while</span>((xor&amp;<span class="number">1</span>)==<span class="number">0</span>)&#123;</span><br><span class="line">        xor&gt;&gt;&gt;=<span class="number">1</span>;</span><br><span class="line">        index++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//a,b 在 index 位置的二进制位不同，异或结果为 1，然后我们就可以根据这个不同点，将整个数组按照这个划分为两部分</span></span><br><span class="line">    <span class="comment">//这样相同的数肯定会被分配到同一组，问题就转换成了 136，这样我们再分别异或就能得到最终的 a,b</span></span><br><span class="line">    <span class="type">int</span> a=<span class="number">0</span>,b=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i=<span class="number">0</span>;i&lt;nums.length;i++) &#123;</span><br><span class="line">        <span class="keyword">if</span>(((nums[i]&gt;&gt;&gt;index)&amp;<span class="number">1</span>)==<span class="number">1</span>)&#123; <span class="comment">//根据 index 位置的元素 0，1 来划分为两个数组</span></span><br><span class="line">            a^=nums[i];</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            b^=nums[i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;a,b&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>为啥没有 只出现一次的数字Ⅱ？ 别问，问就是不会🤣</p>
+</blockquote>
+<h2 id="268-缺失数字"><a href="#268-缺失数字" class="headerlink" title="268. 缺失数字"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/missing-number/">268. 缺失数字</a></h2><p>给定一个包含 0, 1, 2, …, n 中 n 个数的序列，找出 0 .. n 中没有出现在序列中的那个数。</p>
+<p><strong>示例 1:</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：[<span class="number">3</span>,<span class="number">0</span>,<span class="number">1</span>]</span><br><span class="line">输出：<span class="number">2</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 2:</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：[<span class="number">9</span>,<span class="number">6</span>,<span class="number">4</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">7</span>,<span class="number">0</span>,<span class="number">1</span>]</span><br><span class="line">输出：<span class="number">8</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>说明：</strong><br>你的算法应具有线性时间复杂度。你能否仅使用额外常数空间来实现？</p>
+<p><strong>解法一</strong></p>
+<p>比较直接的思路，求全序列的和然后相减就 ok</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">missingNumber</span><span class="params">(<span class="type">int</span>[] nums)</span> &#123;</span><br><span class="line">    <span class="type">int</span> N=nums.length;</span><br><span class="line">    <span class="type">int</span> sum=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i=<span class="number">0</span>;i&lt;N;i++) &#123;</span><br><span class="line">        sum+=nums[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> N*(N+<span class="number">1</span>)/<span class="number">2</span>-sum; <span class="comment">//可能会溢出</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>解法二</strong></p>
+<p>位运算，异或，和上面一样的思路</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">missingNumber</span><span class="params">(<span class="type">int</span>[] nums)</span> &#123;</span><br><span class="line">    <span class="type">int</span> res=<span class="number">0</span>;</span><br><span class="line">    <span class="comment">//3 0 1 </span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i=<span class="number">0</span>;i&lt;nums.length;i++) &#123;</span><br><span class="line">        res^=nums[i];</span><br><span class="line">        res^=i;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//3^0^1^0^1^2^3=2</span></span><br><span class="line">    <span class="keyword">return</span> res^nums.length;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>异或每个数和下标索引，结果就是缺失的数，因为缺失的只有一个，这样就和上面那一题一样了</p>
+<h2 id="461-汉明距离"><a href="#461-汉明距离" class="headerlink" title="461. 汉明距离"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/hamming-distance/">461. 汉明距离</a></h2><p>两个整数之间的汉明距离指的是这两个数字对应二进制位不同的位置的数目。</p>
+<p>给出两个整数 x 和 y，计算它们之间的汉明距离。</p>
+<p><strong>注意：</strong><br><code>0 ≤ x, y &lt; 2^31.</code></p>
+<p><strong>示例：</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：x = <span class="number">1</span>, y = <span class="number">4</span></span><br><span class="line"></span><br><span class="line">输出：<span class="number">2</span></span><br><span class="line"></span><br><span class="line">解释：</span><br><span class="line"><span class="number">1</span>   (<span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">1</span>)</span><br><span class="line"><span class="number">4</span>   (<span class="number">0</span> <span class="number">1</span> <span class="number">0</span> <span class="number">0</span>)</span><br><span class="line">       ↑   ↑</span><br></pre></td></tr></table></figure>
+
+<p><strong>解法一</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">hammingDistance</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span> &#123;</span><br><span class="line">    <span class="type">int</span> i=x^y;</span><br><span class="line">    <span class="type">int</span> count=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(i!=<span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">if</span> ((i&amp;<span class="number">1</span>)==<span class="number">1</span>) &#123; <span class="comment">//括号不能掉</span></span><br><span class="line">            count++;</span><br><span class="line">        &#125;</span><br><span class="line">        i=i&gt;&gt;<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> count;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>一行<code>Integer.bitCount(x^y)</code></p>
+<h2 id="191-位-1-的个数"><a href="#191-位-1-的个数" class="headerlink" title="191. 位 1 的个数"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/number-of-1-bits/">191. 位 1 的个数</a></h2><p>编写一个函数，输入是一个无符号整数，返回其二进制表达式中数字位数为 ‘1’ 的个数（也被称为汉明重量）</p>
+<p><strong>示例 1：</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：<span class="number">00000000000000000000000000001011</span></span><br><span class="line">输出：<span class="number">3</span></span><br><span class="line">解释：输入的二进制串 <span class="number">00000000000000000000000000001011</span> 中，共有三位为 <span class="string">&#x27;1&#x27;</span>。</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 2：</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：<span class="number">00000000000000000000000010000000</span></span><br><span class="line">输出：<span class="number">1</span></span><br><span class="line">解释：输入的二进制串 <span class="number">00000000000000000000000010000000</span> 中，共有一位为 <span class="string">&#x27;1&#x27;</span>。</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 3：</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：<span class="number">11111111111111111111111111111101</span></span><br><span class="line">输出：<span class="number">31</span></span><br><span class="line">解释：输入的二进制串 <span class="number">11111111111111111111111111111101</span> 中，共有 <span class="number">31</span> 位为 <span class="string">&#x27;1&#x27;</span>。</span><br></pre></td></tr></table></figure>
+
+<p><strong>提示：</strong></p>
+<ul>
+<li>请注意，在某些语言（如 Java）中，没有无符号整数类型。在这种情况下，输入和输出都将被指定为有符号整数类型，并且不应影响您的实现，因为无论整数是有符号的还是无符号的，其内部的二进制表示形式都是相同的。</li>
+<li>在 Java 中，编译器使用二进制补码记法来表示有符号整数。因此，在上面的 示例 3 中，输入表示有符号整数 -3。</li>
+</ul>
+<p><strong>进阶：</strong><br>如果多次调用这个函数，你将如何优化你的算法？ </p>
+<p><strong>解法一</strong></p>
+<p>比较精妙的解法，<code>n&amp;(n-1)</code> 就是将二进制最右边的 1 变为 0，这样逐步的&amp;最后数组就会变为 0，我们统计下次数就是 1 的数量</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">hammingWeight</span><span class="params">(<span class="type">int</span> n)</span> &#123;</span><br><span class="line">    <span class="type">int</span> count=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(n!=<span class="number">0</span>)&#123;</span><br><span class="line">        <span class="comment">//while(n&gt;0)&#123;</span></span><br><span class="line">        n&amp;=(n-<span class="number">1</span>);</span><br><span class="line">        count++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> count;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>解法二</strong></p>
+<p>移位操作，相比上面会慢一些，没有那么精妙</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">hammingWeight</span><span class="params">(<span class="type">int</span> n)</span> &#123;</span><br><span class="line">    <span class="type">int</span> count=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(n!=<span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">if</span>((n&amp;<span class="number">1</span>)==<span class="number">1</span>)<span class="comment">//判断末位是不是 1</span></span><br><span class="line">            count++;</span><br><span class="line">        n&gt;&gt;&gt;=<span class="number">1</span>; <span class="comment">//无符号右移，避免添高位添 1 死循环</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> count;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意右移的操作，都需要使用无符号右移，不然负数右移高位补 1 后就错了</p>
+</blockquote>
+<h2 id="338-比特位计数"><a href="#338-比特位计数" class="headerlink" title="338. 比特位计数"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/counting-bits/">338. 比特位计数</a></h2><p>给定一个非负整数 num。对于 0 ≤ i ≤ num 范围中的每个数字 i ，计算其二进制数中的 1 的数目并将它们作为数组返回。</p>
+<p><strong>示例 1:</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：<span class="number">2</span></span><br><span class="line">输出：[<span class="number">0</span>,<span class="number">1</span>,<span class="number">1</span>]</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 2:</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：<span class="number">5</span></span><br><span class="line">输出：[<span class="number">0</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">1</span>,<span class="number">2</span>]</span><br></pre></td></tr></table></figure>
+
+<p><strong>进阶：</strong></p>
+<ul>
+<li>给出时间复杂度为 O(n*sizeof(integer)) 的解答非常容易。但你可以在线性时间 O(n) 内用一趟扫描做到吗？</li>
+<li>要求算法的空间复杂度为 O(n)。</li>
+<li>你能进一步完善解法吗？要求在 C++或任何其他语言中不使用任何内置函数（如 C++ 中的 __builtin_popcount）来执行此操作。 </li>
+</ul>
+<p><strong>解法一</strong></p>
+<p>这样的题肯定是直接上进阶的啦，有动态规划的意思</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span>[] countBits(<span class="type">int</span> num) &#123;</span><br><span class="line">    <span class="type">int</span>[] res=<span class="keyword">new</span> <span class="title class_">int</span>[num+<span class="number">1</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i=<span class="number">1</span>;i&lt;=num;i++) &#123;</span><br><span class="line">        <span class="comment">//如果 i 二进制以 0 结尾，那么 i&gt;&gt;1 的 countBit 和 i 一样，i&amp;1=0（&gt;&gt;1 就是/2）</span></span><br><span class="line">        <span class="comment">//反之，那么 i&gt;&gt;1 的比 i 会少 1 个，i&amp;1=1</span></span><br><span class="line">        res[i]=res[i&gt;&gt;<span class="number">1</span>]+(i&amp;<span class="number">1</span>); <span class="comment">//注意括号</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>解法二</strong></p>
+<p>和上面类似，不过手法有点不一样</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span>[] countBits(<span class="type">int</span> num) &#123;</span><br><span class="line">    <span class="type">int</span>[] res=<span class="keyword">new</span> <span class="title class_">int</span>[num+<span class="number">1</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i=<span class="number">1</span>;i&lt;=num;i++) &#123;</span><br><span class="line">        <span class="comment">//i&amp;(i-1) 会去掉最右边的 1</span></span><br><span class="line">        res[i]=res[i&amp;(i-<span class="number">1</span>)]+<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="231-2-的幂"><a href="#231-2-的幂" class="headerlink" title="231. 2 的幂"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/power-of-two/">231. 2 的幂</a></h2><p>给定一个整数，编写一个函数来判断它是否是 2 的幂次方。</p>
+<p><strong>示例 1:</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：<span class="number">1</span></span><br><span class="line">输出：<span class="literal">true</span></span><br><span class="line">解释：<span class="number">20</span> = <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 2:</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：<span class="number">16</span></span><br><span class="line">输出：<span class="literal">true</span></span><br><span class="line">解释：<span class="number">24</span> = <span class="number">16</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 3:</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：<span class="number">218</span></span><br><span class="line">输出：<span class="literal">false</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>解法一</strong></p>
+<p>应该是最快 AC 的题吧 hahaha</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">isPowerOfTwo</span><span class="params">(<span class="type">int</span> n)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> n&gt;<span class="number">0</span> &amp;&amp; (n&amp;(n-<span class="number">1</span>))==<span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="458-可怜的小猪"><a href="#458-可怜的小猪" class="headerlink" title="458. 可怜的小猪"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/poor-pigs/">458. 可怜的小猪</a></h2><p>有 1000 只水桶，其中有且只有一桶装的含有毒药，其余装的都是水。它们从外观看起来都一样。如果小猪喝了毒药，它会在 15 分钟内死去。</p>
+<p>问题来了，如果需要你在一小时内，弄清楚哪只水桶含有毒药，你最少需要多少只猪？</p>
+<p>回答这个问题，并为下列的进阶问题编写一个通用算法。</p>
+<p><strong>进阶：</strong></p>
+<p>假设有 <code>n</code> 只水桶，猪饮水中毒后会在 <code>m</code> 分钟内死亡，你需要多少猪（<code>x</code>）就能在 <code>p</code> 分钟内找出 “<strong>有毒</strong>” 水桶？这 <code>n</code> 只水桶里有且仅有一只有毒的桶。</p>
+<p><strong>提示：</strong></p>
+<ol>
+<li>可以允许小猪同时饮用任意数量的桶中的水，并且该过程不需要时间。</li>
+<li>小猪喝完水后，必须有 <em>m</em> 分钟的<strong>冷却时间</strong>。在这段时间里，只允许观察，而不允许继续饮水。</li>
+<li>任何给定的桶都可以无限次采样（无限数量的猪）。</li>
+</ol>
+<p><strong>解法一</strong></p>
+<p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/poor-pigs/solution/hua-jie-suan-fa-458-ke-lian-de-xiao-zhu-by-guanpen/">参考题解区</a> 我就不搬运了，简单来说就是看每个小猪能表示几进制的状态，比如题目中说的是 15 分钟死亡，一个小时时间，那么每只小猪可以吃 4 次药，可以检测出 5 瓶药，所以<code>x</code>只猪就能检测<code>state^x</code>个桶</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">poorPigs</span><span class="params">(<span class="type">int</span> buckets, <span class="type">int</span> minutesToDie, <span class="type">int</span> minutesToTest)</span> &#123;</span><br><span class="line">    <span class="type">int</span> state=minutesToTest/minutesToDie+<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> (<span class="type">int</span>)Math.ceil(Math.log(buckets)/Math.log(state));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>具体的做法：x 只🐖，每只🐖都和对应。…..</p>
+<blockquote>
+<p>两只猪二维的表格可以解决，三只猪三维的坐标可以解决，如果是 4 只猪，5 只猪呢？具体的如何测量，这里我还没有点没想清楚😐</p>
+</blockquote>
+<h2 id="371-两整数之和"><a href="#371-两整数之和" class="headerlink" title="371. 两整数之和"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/sum-of-two-integers/">371. 两整数之和</a></h2><p><strong>不使用</strong>运算符 <code>+</code> 和 <code>-</code> ，计算两整数 <code>a</code> 、<code>b</code> 之和。</p>
+<p><strong>示例 1:</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：a = <span class="number">1</span>, b = <span class="number">2</span></span><br><span class="line">输出：<span class="number">3</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 2:</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：a = -<span class="number">2</span>, b = <span class="number">3</span></span><br><span class="line">输出：<span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>解法一</strong></p>
+<p>两数之和 = 两数不进位和+两数进位和 ，一开始也没搞懂这个式子，后来在 10 进制上想了下就明白了</p>
+<p>比如 998 + 99 = 987+110 = 97 + 1000 = 1097 ，其实就是把加法拆开来看，把进位的数和对应的数位和分开计算，而进位的数和两数的不进位和都可以通过位运算算出来，进而不使用<code>+/-</code>计算两数之和</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">getSum</span><span class="params">(a <span class="type">int</span>, b <span class="type">int</span>)</span></span> <span class="type">int</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> b==<span class="number">0</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> a</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//a^b: 不进位和 a&amp;b&lt;&lt;1: 进位数和（进位是进到前一位，所以需要左移，类比十进制就清楚了）</span></span><br><span class="line">    <span class="keyword">return</span> getSum(a^b,(a&amp;b)&lt;&lt;<span class="number">1</span>) </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="190-颠倒二进制位"><a href="#190-颠倒二进制位" class="headerlink" title="190. 颠倒二进制位"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/reverse-bits/">190. 颠倒二进制位</a></h2><p>Difficulty: <strong>简单</strong></p>
+<p>颠倒给定的 32 位无符号整数的二进制位。</p>
+<p><strong>示例 1：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：00000010100101000001111010011100</span><br><span class="line">输出：00111001011110000010100101000000</span><br><span class="line">解释：输入的二进制串 00000010100101000001111010011100 表示无符号整数 43261596，</span><br><span class="line">     因此返回 964176192，其二进制表示形式为 00111001011110000010100101000000。</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 2：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">输入：11111111111111111111111111111101</span><br><span class="line">输出：10111111111111111111111111111111</span><br><span class="line">解释：输入的二进制串 11111111111111111111111111111101 表示无符号整数 4294967293，</span><br><span class="line">     因此返回 3221225471 其二进制表示形式为 10111111111111111111111111111111 。</span><br></pre></td></tr></table></figure>
+
+<p><strong>提示：</strong></p>
+<ul>
+<li>  请注意，在某些语言（如 Java）中，没有无符号整数类型。在这种情况下，输入和输出都将被指定为有符号整数类型，并且不应影响您的实现，因为无论整数是有符号的还是无符号的，其内部的二进制表示形式都是相同的。</li>
+<li>  在 Java 中，编译器使用记法来表示有符号整数。因此，在上面的 <strong>示例 2</strong> 中，输入表示有符号整数 <code>-3</code>，输出表示有符号整数 <code>-1073741825</code>。</li>
+</ul>
+<p><strong>进阶</strong>:<br>如果多次调用这个函数，你将如何优化你的算法？</p>
+<p><strong>解法一</strong></p>
+<p>利用移位运算从后往前计算二进制的值就可以了</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">reverseBits</span><span class="params">(<span class="type">int</span> n)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">res</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">count</span> <span class="operator">=</span> <span class="number">32</span>;</span><br><span class="line">    <span class="keyword">while</span>(n != <span class="number">0</span>)&#123; <span class="comment">//Java 中没有无符号数，所以这里不能写大于 0</span></span><br><span class="line">        <span class="comment">//Java 移位运算优先级低于+-</span></span><br><span class="line">        res = (res &lt;&lt; <span class="number">1</span>) + (n &amp; <span class="number">1</span>);</span><br><span class="line">        n &gt;&gt;&gt;= <span class="number">1</span>; <span class="comment">//无符号右移，避免高位补 1</span></span><br><span class="line">        count--;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(count &gt; <span class="number">0</span>)&#123;</span><br><span class="line">        res &lt;&lt;= <span class="number">1</span>;</span><br><span class="line">        count--;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的解法还是不够简洁，第二个循环没有必要，不过中间有几个小知识点挺有意思的，回顾了下</p>
+<p><strong>解法二</strong></p>
+<p>简洁的解法</p>
+<figure class="highlight golang"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">reverseBits</span><span class="params">(num <span class="type">uint32</span>)</span></span> <span class="type">uint32</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> res <span class="type">uint32</span> = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i := <span class="number">32</span>; i &gt; <span class="number">0</span>; i-- &#123;</span><br><span class="line">        <span class="comment">//go 中移位运算符优先级高于于+-</span></span><br><span class="line">        res = (res &lt;&lt; <span class="number">1</span>) + (num &amp; <span class="number">1</span>)</span><br><span class="line">        num &gt;&gt;= <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>golang 和 java 的位运算优先级居然不一样，一开始写的 go，该成 java 的时候发现不对，调试了下才发现😂，所以任何时候能加括号的尽量加括号，即使你知道不加也可以，最好还是要加上括号！！！</p>
+</blockquote>
+<h2 id="201-数字范围按位与"><a href="#201-数字范围按位与" class="headerlink" title="201. 数字范围按位与"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/bitwise-and-of-numbers-range/">201. 数字范围按位与</a></h2><p>Difficulty: <strong>中等</strong></p>
+<p>给定范围 [m, n]，其中 0 &lt;= m &lt;= n &lt;= 2147483647，返回此范围内所有数字的按位与（包含 m, n 两端点）。</p>
+<p><strong>示例 1:</strong></p>
+<figure class="highlight golang"><table><tr><td class="code"><pre><span class="line">输入：[<span class="number">5</span>,<span class="number">7</span>]</span><br><span class="line">输出：<span class="number">4</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 2:</strong></p>
+<figure class="highlight golang"><table><tr><td class="code"><pre><span class="line">输入：[<span class="number">0</span>,<span class="number">1</span>]</span><br><span class="line">输出：<span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>解法一</strong><br>最长公共前缀</p>
+<figure class="highlight golang"><table><tr><td class="code"><pre><span class="line"><span class="comment">//最长公共前缀</span></span><br><span class="line"><span class="comment">//1011 011 m</span></span><br><span class="line"><span class="comment">//1011 100</span></span><br><span class="line"><span class="comment">//1011 101</span></span><br><span class="line"><span class="comment">//1011 110 n</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">rangeBitwiseAnd</span><span class="params">(m <span class="type">int</span>, n <span class="type">int</span>)</span></span> <span class="type">int</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> tlen = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> m != n &#123;</span><br><span class="line">        m &gt;&gt;= <span class="number">1</span></span><br><span class="line">        n &gt;&gt;= <span class="number">1</span></span><br><span class="line">        tlen++</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> m &lt;&lt; tlen</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>解法二</strong></p>
+<figure class="highlight golang"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">rangeBitwiseAnd</span><span class="params">(m <span class="type">int</span>, n <span class="type">int</span>)</span></span> <span class="type">int</span> &#123;</span><br><span class="line">    <span class="keyword">for</span> n &gt; m &#123;</span><br><span class="line">        n &amp;= (n<span class="number">-1</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> n</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="1018-可被-5-整除的二进制前缀"><a href="#1018-可被-5-整除的二进制前缀" class="headerlink" title="1018. 可被 5 整除的二进制前缀"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/binary-prefix-divisible-by-5/">1018. 可被 5 整除的二进制前缀</a></h2><p>Difficulty: <strong>简单</strong></p>
+<p>给定由若干 <code>0</code> 和 <code>1</code> 组成的数组 <code>A</code>。我们定义 <code>N_i</code>：从 <code>A[0]</code> 到 <code>A[i]</code> 的第 <code>i</code> 个子数组被解释为一个二进制数（从最高有效位到最低有效位）。</p>
+<p>返回布尔值列表 <code>answer</code>，只有当 <code>N_i</code> 可以被 <code>5</code> 整除时，答案 <code>answer[i]</code> 为 <code>true</code>，否则为 <code>false</code>。</p>
+<p><strong>示例 1：</strong></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">输入：[<span class="number">0</span>,<span class="number">1</span>,<span class="number">1</span>]</span><br><span class="line">输出：[<span class="literal">true</span>,<span class="literal">false</span>,<span class="literal">false</span>]</span><br><span class="line">解释：</span><br><span class="line">输入数字为 <span class="number">0</span>, <span class="number">01</span>, <span class="number">011</span>；也就是十进制中的 <span class="number">0</span>, <span class="number">1</span>, <span class="number">3</span> 。只有第一个数可以被 <span class="number">5</span> 整除，因此 answer[<span class="number">0</span>] 为真。</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 2：</strong></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">输入：[<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>]</span><br><span class="line">输出：[<span class="literal">false</span>,<span class="literal">false</span>,<span class="literal">false</span>]</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 3：</strong></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">输入：[<span class="number">0</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>]</span><br><span class="line">输出：[<span class="literal">true</span>,<span class="literal">false</span>,<span class="literal">false</span>,<span class="literal">false</span>,<span class="literal">true</span>,<span class="literal">false</span>]</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 4：</strong></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">输入：[<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>]</span><br><span class="line">输出：[<span class="literal">false</span>,<span class="literal">false</span>,<span class="literal">false</span>,<span class="literal">false</span>,<span class="literal">false</span>]</span><br></pre></td></tr></table></figure>
+
+<p><strong>提示：</strong></p>
+<ol>
+<li> 1 &lt;= A.length &lt;= 30000</li>
+<li> <code>A[i]</code> 为 <code>0</code> 或 <code>1</code></li>
+</ol>
+<p><strong>解法一</strong></p>
+<p>一开始没考虑溢出的问题，用的是 py 所以也没报错，看了评论区才意识到会有溢出的问题，不过这里也很好处理，因为我们每次都只需要知道这个值模 5 的值就行了，所以我们只需要保留当前值模 5 的余数就行了<br>$$<br>(a * b+c) \bmod \ p=((\underbrace{(a \bmod \ p)} * (b \bmod \ p))+(c \bmod p))\bmod p<br>$$<br>这里的$a$就是上次计算的结果，根据取模运算的性质，我们只需要保存上次计算的结果模 5 后的值就行了，这样就能避免溢出的问题</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">​<span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">prefixesDivBy5</span>(<span class="params">self, A: <span class="type">List</span>[<span class="built_in">int</span>]</span>) -&gt; <span class="type">List</span>[<span class="built_in">bool</span>]:</span><br><span class="line">        res = []</span><br><span class="line">        v = <span class="number">0</span></span><br><span class="line">        <span class="comment"># 1110(14) --&gt; 11101 (29)</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="built_in">len</span>(A)):</span><br><span class="line">            v = (v*<span class="number">2</span> + A[i]) % <span class="number">5</span></span><br><span class="line">            res.append(v==<span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
+        
+            <div class="donate-container">
+    <div class="donate-button">
+        <button id="donate-button">赞赏</button>
+    </div>
+    <div class="donate-img-container hide" id="donate-img-container">
+        <img id="donate-img" src="" data-src="">
+        <p> 感谢鼓励 </p>
+    </div>
+</div>
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+        <div id="lv-container"></div>
+        <div class="giscus"></div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/imlgw">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://imlgw.top">Tadow</a></span>
+        <span>/</span>
+        
+        <span><a target="_blank" rel="noopener" href="http://beian.miit.gov.cn/publish/query/indexFirst.action">鄂ICP备18011208号</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>  Theme <a target="_blank" rel="noopener" href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/live2d-widget@3.x/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"https://cdn.jsdelivr.net/npm/live2d-widget-model-hijiki@1.0.5/assets/hijiki.model.json"},"display":{"superSample":2,"width":160,"height":320,"position":"right","hOffset":0,"vOffset":-70},"mobile":{"show":false,"scale":0.2},"log":false});</script></body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://giscus.app/client.js"
+  data-repo="imlgw/imlgw.github.io"
+  data-repo-id="MDEwOlJlcG9zaXRvcnkxMzMyMDY4NDg="
+  data-category="Announcements"
+  data-category-id="DIC_kwDOB_CTQM4CQ7v8"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="top"
+  data-theme="light"
+  data-lang="zh-CN"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+
+
+</html>

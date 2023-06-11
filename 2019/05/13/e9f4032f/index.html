@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:description" content="Tadow 的博客">
+    <meta property="og:type" content="website">
+    <meta name="description" content="Tadow 的博客">
+    <meta name="keyword"  content="Tadow, Resolmi, imlgw, 半岛铁盒, 算法, Java, Golang">
+    <link rel="shortcut icon" href="https://fav.farm/💭">
+
+    <title>
+        
+        JSR303-参数检验 - Tadow 碎碎念
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_28hi1hpxx24.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Tadow 碎碎念" type="application/atom+xml">
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> Keep It Simple, Stupid </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar radius">
+            <img src="https://static.imlgw.top/blog/20220821160037.png" />
+        </div>
+        <div class="name">
+            <i>Tadow</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <!-- <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li> -->
+            <li >
+                <a href="/categories">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>分类</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            
+            <li >
+                <a href="/selfhosted">
+                    <i class="iconfont icon-guidang1"></i>
+                    <span>自建</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/collect/">
+                    <i class="iconfont icon-shoucang1"></i>
+                    <span>收藏</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#JSR303"><span class="toc-text">JSR303</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8A%E6%89%8B"><span class="toc-text">上手</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E5%85%A5%E4%BE%9D%E8%B5%96"><span class="toc-text">引入依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JSR-%E6%8F%90%E4%BE%9B%E7%9A%84%E6%B3%A8%E8%A7%A3"><span class="toc-text">JSR 提供的注解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Hibernate-%E6%8F%90%E4%BE%9B%E7%9A%84"><span class="toc-text">Hibernate 提供的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A0%A1%E9%AA%8C%E6%B3%A8%E8%A7%A3"><span class="toc-text">自定义校验注解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E6%AE%B5%E4%B8%8A%E5%8A%A0%E6%B3%A8%E8%A7%A3"><span class="toc-text">字段上加注解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E5%BC%82%E5%B8%B8"><span class="toc-text">自定义异常</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%A8%E5%B1%80%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E5%99%A8"><span class="toc-text">全局异常处理器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E7%BB%84%E6%A0%A1%E9%AA%8C"><span class="toc-text">分组校验</span></a></li></ol></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-bg" id="search-bg"></div>
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i> Keep It Simple, Stupid </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        JSR303-参数检验
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2019-05-13 00:00:00</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#参数校验" title="参数校验">参数校验</a>
+        <span>/</span>
+        
+        <a class="tag" href="/tags/#JSR" title="JSR">JSR</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <h2 id="JSR303"><a href="#JSR303" class="headerlink" title="JSR303"></a>JSR303</h2><p>目前最新的规范已经是 JSR380 了，也就是 Bean Validation 2.0.</p>
+<p><img src="http://static.imlgw.top///20190513/qa5DNu5Nsq26.png?imageslim" alt="mark"></p>
+<p>参数校验是一个成熟的网站必须的功能，然而有的时候为了校验参数也要费好大的劲，免不了写很多 if-else，一点也不优雅。</p>
+<h2 id="上手"><a href="#上手" class="headerlink" title="上手"></a>上手</h2><h3 id="引入依赖"><a href="#引入依赖" class="headerlink" title="引入依赖"></a>引入依赖</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"> &lt;!--SpringBootWeb 这个包里面自带了 hibernate 的校验包--&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="JSR-提供的注解"><a href="#JSR-提供的注解" class="headerlink" title="JSR 提供的注解"></a>JSR 提供的注解</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Null</span>   被注释的元素必须为 <span class="literal">null</span>    </span><br><span class="line"><span class="meta">@NotNull</span>    被注释的元素必须不为 <span class="literal">null</span>    </span><br><span class="line"><span class="meta">@AssertTrue</span>     被注释的元素必须为 <span class="literal">true</span>    </span><br><span class="line"><span class="meta">@AssertFalse</span>    被注释的元素必须为 <span class="literal">false</span>    </span><br><span class="line"><span class="meta">@Min(value)</span>     被注释的元素必须是一个数字，其值必须大于等于指定的最小值    </span><br><span class="line"><span class="meta">@Max(value)</span>     被注释的元素必须是一个数字，其值必须小于等于指定的最大值    </span><br><span class="line"><span class="meta">@DecimalMin(value)</span>  被注释的元素必须是一个数字，其值必须大于等于指定的最小值    </span><br><span class="line"><span class="meta">@DecimalMax(value)</span>  被注释的元素必须是一个数字，其值必须小于等于指定的最大值    </span><br><span class="line"><span class="meta">@Size(max=, min=)</span>   被注释的元素的大小必须在指定的范围内    </span><br><span class="line"><span class="meta">@Digits</span> (integer, fraction)     被注释的元素必须是一个数字，其值必须在可接受的范围内    </span><br><span class="line"><span class="meta">@Past</span>   被注释的元素必须是一个过去的日期    </span><br><span class="line"><span class="meta">@Future</span>     被注释的元素必须是一个将来的日期    </span><br><span class="line"><span class="meta">@Pattern(regex=,flag=)</span>  被注释的元素必须符合指定的正则表达式</span><br></pre></td></tr></table></figure>
+
+<h3 id="Hibernate-提供的"><a href="#Hibernate-提供的" class="headerlink" title="Hibernate 提供的"></a>Hibernate 提供的</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@NotBlank(message =)   验证字符串非 null，且长度必须大于 0    </span><br><span class="line">@Email  被注释的元素必须是电子邮箱地址    </span><br><span class="line">@Length(min=,max=)  被注释的字符串的大小必须在指定的范围内    </span><br><span class="line">@NotEmpty   被注释的字符串的必须非空    </span><br><span class="line">@Range(min=,max=,message=)  被注释的元素必须在合适的范围内</span><br></pre></td></tr></table></figure>
+
+<h3 id="自定义校验注解"><a href="#自定义校验注解" class="headerlink" title="自定义校验注解"></a>自定义校验注解</h3><p><strong>@IsMobile 注解</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> top.imlgw.spike.validator;</span><br><span class="line"><span class="keyword">import</span> javax.validation.Constraint;</span><br><span class="line"><span class="keyword">import</span> javax.validation.Payload;</span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.*;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> imlgw.top</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2019/5/13 17:50</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Target(&#123;ElementType.METHOD, ElementType.FIELD, ElementType.ANNOTATION_TYPE, ElementType.CONSTRUCTOR, ElementType.PARAMETER, ElementType.TYPE_USE&#125;)</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Constraint(</span></span><br><span class="line"><span class="meta">        validatedBy = &#123;IsMobileValidator.class&#125; //指定真正校验的类</span></span><br><span class="line"><span class="meta">)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> IsMobile &#123;</span><br><span class="line">    <span class="type">boolean</span> <span class="title function_">required</span><span class="params">()</span> <span class="keyword">default</span> <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    String <span class="title function_">message</span><span class="params">()</span> <span class="keyword">default</span> <span class="string">&quot;号码格式错误&quot;</span>;</span><br><span class="line"></span><br><span class="line">    Class&lt;?&gt;[] groups() <span class="keyword">default</span> &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    Class&lt;? <span class="keyword">extends</span> <span class="title class_">Payload</span>&gt;[] payload() <span class="keyword">default</span> &#123;&#125;;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>IsMobileValidator 类</strong></p>
+<blockquote>
+<p>自定义的校验器要实现 ConstraintValidator 接口</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> top.imlgw.spike.validator;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.apache.commons.lang3.StringUtils;</span><br><span class="line"><span class="keyword">import</span> top.imlgw.spike.utils.ValidatorUtil;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.validation.ConstraintValidator;</span><br><span class="line"><span class="keyword">import</span> javax.validation.ConstraintValidatorContext;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> imlgw.top</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2019/5/13 18:12</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">IsMobileValidator</span> <span class="keyword">implements</span> <span class="title class_">ConstraintValidator</span>&lt;IsMobile, String&gt; &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="type">boolean</span> required=<span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">initialize</span><span class="params">(IsMobile constraintAnnotation)</span> &#123;</span><br><span class="line">        required=constraintAnnotation.required();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">isValid</span><span class="params">(String s, ConstraintValidatorContext constraintValidatorContext)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span>(required)&#123;</span><br><span class="line">            <span class="keyword">return</span>  ValidatorUtil.isMobile(s);</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">if</span>(StringUtils.isEmpty(s))&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">return</span>  ValidatorUtil.isMobile(s);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="字段上加注解"><a href="#字段上加注解" class="headerlink" title="字段上加注解"></a>字段上加注解</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> top.imlgw.spike.entity;</span><br><span class="line"><span class="keyword">import</span> org.hibernate.validator.constraints.Length;</span><br><span class="line"><span class="keyword">import</span> javax.validation.constraints.NotNull;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> imlgw.top</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2019/5/11 15:56</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">User</span> &#123;</span><br><span class="line">    <span class="meta">@NotNull(message = &quot;id 不能为空&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> Integer id;</span><br><span class="line">    <span class="meta">@NotNull(message = &quot;名字不能为空&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> Integer age;</span><br><span class="line">    <span class="meta">@Length(min = 6,message = &quot;密码长度至少 6 位&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> String password;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">toString</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;User&#123;&quot;</span> +</span><br><span class="line">                <span class="string">&quot;id=&quot;</span> + id +</span><br><span class="line">                <span class="string">&quot;, name=&#x27;&quot;</span> + name + <span class="string">&#x27;\&#x27;&#x27;</span> +</span><br><span class="line">                <span class="string">&quot;, age=&quot;</span> + age +</span><br><span class="line">                <span class="string">&quot;, password=&#x27;&quot;</span> + password + <span class="string">&#x27;\&#x27;&#x27;</span> +</span><br><span class="line">                <span class="string">&#x27;&#125;&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">User</span><span class="params">(Integer id, String name, Integer age, String password)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.name = name;</span><br><span class="line">        <span class="built_in">this</span>.age = age;</span><br><span class="line">        <span class="built_in">this</span>.password = password;</span><br><span class="line">        <span class="built_in">this</span>.id=id;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getPassword</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> password;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setPassword</span><span class="params">(String password)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.password = password;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getName</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setName</span><span class="params">(String name)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> Integer <span class="title function_">getAge</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setAge</span><span class="params">(Integer age)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">long</span> <span class="title function_">getId</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> id;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setId</span><span class="params">(Integer id)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.id = id;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>@Valid 加 BindingResult</strong></p>
+<p><img src="http://static.imlgw.top///20190513/ILDAz6Bdj3cz.png?imageslim" alt="mark"></p>
+<p>在 Controlle 层待校验的的参数上加上<code>@Valid</code>注解，然后在后面紧跟一个 <code>BindingResult</code>，校验的结果会封装在这个对象里面，BindingResult 的作用是当参数不合法时能够捕捉到错误，不会直接抛异常，感觉还是有点麻烦。</p>
+<p><strong>@Valid 加全局异常捕获</strong></p>
+<p>上面的方法如果不加后面的 BindingResult 在校验失败后就会抛一个 BindException</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">org.springframework.validation.BindException: org.springframework.validation.BeanPropertyBindingResult: <span class="number">1</span> errors</span><br><span class="line">Field error in object <span class="string">&#x27;user&#x27;</span> on field <span class="string">&#x27;id&#x27;</span>: rejected value [<span class="literal">null</span>]; codes [NotNull.user.id,NotNull.id,NotNull.<span class="type">long</span>,NotNull]; arguments .......</span><br></pre></td></tr></table></figure>
+
+<p>那我们就可以利用<code>@ControllerAdvice+@ExceptionHandler</code>来定义一个全局的异常处理器来处理这个异常，<code>@ExceptionHandle</code>，针对的仅仅是单个 controller，加上<code>@ControllerAdvice</code>就可以对所有的 Controller 层异常进行捕获，这里的全局仅仅指的是 controller 层。</p>
+<h3 id="自定义异常"><a href="#自定义异常" class="headerlink" title="自定义异常"></a>自定义异常</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> top.imlgw.spike.exception;</span><br><span class="line"><span class="keyword">import</span> top.imlgw.spike.result.CodeMsg;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 全局通用异常</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> imlgw.top</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2019/5/14 20:51</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">GlobalException</span> <span class="keyword">extends</span> <span class="title class_">RuntimeException</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">long</span> <span class="variable">serialVersionUID</span> <span class="operator">=</span> <span class="number">1L</span>;</span><br><span class="line">    <span class="keyword">private</span> CodeMsg cm;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">GlobalException</span><span class="params">(CodeMsg cm)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(cm.toString());</span><br><span class="line">        <span class="built_in">this</span>.cm = cm;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> CodeMsg <span class="title function_">getCm</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> cm;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="全局异常处理器"><a href="#全局异常处理器" class="headerlink" title="全局异常处理器"></a>全局异常处理器</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Controller 层异常处理器</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> imlgw.top</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2019/5/13 18:21</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@ControllerAdvice</span></span><br><span class="line"><span class="meta">@ResponseBody</span> <span class="comment">//直接返回给客户端，需要 json 的转换</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">GlobalExceptionHandler</span> &#123;</span><br><span class="line">    <span class="meta">@ExceptionHandler(value = Exception.class)</span> <span class="comment">//处理 controller 层所有异常</span></span><br><span class="line">    <span class="keyword">public</span> Result&lt;String&gt; <span class="title function_">exceptionHandle</span><span class="params">(HttpServletRequest request, Exception e)</span> &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">        <span class="keyword">if</span> (e <span class="keyword">instanceof</span> GlobalException) &#123;</span><br><span class="line">            <span class="comment">//全局异常</span></span><br><span class="line">            <span class="type">GlobalException</span> <span class="variable">ex</span> <span class="operator">=</span> (GlobalException) e;</span><br><span class="line">            <span class="keyword">return</span> Result.error(ex.getCm());</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (e <span class="keyword">instanceof</span> BindException) &#123;</span><br><span class="line">            <span class="comment">//@Validated 检验器的异常</span></span><br><span class="line">            <span class="type">BindException</span> <span class="variable">ex</span> <span class="operator">=</span> (BindException) e;</span><br><span class="line">            List&lt;ObjectError&gt; errors = ex.getAllErrors();</span><br><span class="line">            <span class="type">ObjectError</span> <span class="variable">error</span> <span class="operator">=</span> errors.get(<span class="number">0</span>);</span><br><span class="line">            <span class="type">String</span> <span class="variable">msg</span> <span class="operator">=</span> error.getDefaultMessage();</span><br><span class="line">            <span class="keyword">return</span> Result.error(CodeMsg.BIND_ERROR.fillArgs(msg));</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> Result.error(CodeMsg.SERVER_ERROR);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//测试 Demo 看先处理那个</span></span><br><span class="line">    <span class="meta">@ExceptionHandler(value = GlobalException.class)</span> <span class="comment">//处理 controller 层所有异常</span></span><br><span class="line">    <span class="keyword">public</span> Result&lt;String&gt; <span class="title function_">GLe</span><span class="params">(HttpServletRequest request, Exception e)</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;优先处理了这个 GlobalException&quot;</span>);</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">        <span class="comment">//全局异常</span></span><br><span class="line">        <span class="type">GlobalException</span> <span class="variable">ex</span> <span class="operator">=</span> (GlobalException) e;</span><br><span class="line">        <span class="keyword">return</span> Result.error(ex.getCm());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里也做了个小测试，可以看到我定义了两个@ExceptionHandle，一个是另一个的子类，看会先处理那个，测试后发现会先处理小异常，那个最大的异常其实相当于’’兜底’’的。其实后面我为了跟精细的处理，将绑定异常和自定义的异常分开处理了。</p>
+<blockquote>
+<p>@ControllerAdvice :</p>
+<p>It is typically used to define {@link ExceptionHandler <strong>@ExceptionHandler</strong>},</p>
+<p>{@link InitBinder <strong>@InitBinder</strong>}, and {@link ModelAttribute <strong>@ModelAttribute</strong>}</p>
+<p>methods that <strong>apply to all</strong> {@link RequestMapping <strong>@RequestMapping</strong>} methods.</p>
+<p>@author Rossen Stoyanchev</p>
+<p>@since 3.2</p>
+</blockquote>
+<h3 id="分组校验"><a href="#分组校验" class="headerlink" title="分组校验"></a>分组校验</h3><p>只需要在 vo 里加上对应分组的接口然后在注解上加上就可以了</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LoginVo</span> &#123;</span><br><span class="line">    <span class="meta">@NotNull(message = &quot;手机号不能为空&quot;)</span></span><br><span class="line">    <span class="meta">@IsMobile(groups = Test1.class)</span> <span class="comment">//只有在 Test1 分组下才生效</span></span><br><span class="line">    <span class="keyword">private</span> String mobile;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@NotNull(message = &quot;密码不能为空&quot;)</span></span><br><span class="line">    <span class="meta">@Length(min=6 ,groups = Test2.class,message = &quot;密码长度过短&quot;)</span> <span class="comment">//只有在 Test2 分组下才生效</span></span><br><span class="line">    <span class="keyword">private</span> String password;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getMobile</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> mobile;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setMobile</span><span class="params">(String mobile)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.mobile = mobile;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getPassword</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> password;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setPassword</span><span class="params">(String password)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.password = password;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">toString</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;LoginVo [mobile=&quot;</span> + mobile + <span class="string">&quot;, password=&quot;</span> + password + <span class="string">&quot;]&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Test1</span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Test2</span>&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用时注意用<code>@Validated</code>，这个其实是 Spring 对 Hibernate 的二次封装，增加了一些功能。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@RequestMapping(&quot;/jsr303-2&quot;)</span></span><br><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">testJSR</span><span class="params">(<span class="meta">@Validated(&#123;LoginVo.Test2.class&#125;)</span> LoginVo vo)</span>&#123;</span><br><span class="line">	  <span class="comment">//........	</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样在这个 Controller 里 post 密码就没有长度的限制了。</p>
+<blockquote>
+<p>其实还有一些校验的方法，基于方法校验，基于少量参数的校验，以后用到再来记录</p>
+</blockquote>
+
+        
+            <div class="donate-container">
+    <div class="donate-button">
+        <button id="donate-button">赞赏</button>
+    </div>
+    <div class="donate-img-container hide" id="donate-img-container">
+        <img id="donate-img" src="" data-src="">
+        <p> 感谢鼓励 </p>
+    </div>
+</div>
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+        <div id="lv-container"></div>
+        <div class="giscus"></div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/imlgw">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://imlgw.top">Tadow</a></span>
+        <span>/</span>
+        
+        <span><a target="_blank" rel="noopener" href="http://beian.miit.gov.cn/publish/query/indexFirst.action">鄂ICP备18011208号</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>  Theme <a target="_blank" rel="noopener" href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/live2d-widget@3.x/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"https://cdn.jsdelivr.net/npm/live2d-widget-model-hijiki@1.0.5/assets/hijiki.model.json"},"display":{"superSample":2,"width":160,"height":320,"position":"right","hOffset":0,"vOffset":-70},"mobile":{"show":false,"scale":0.2},"log":false});</script></body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://giscus.app/client.js"
+  data-repo="imlgw/imlgw.github.io"
+  data-repo-id="MDEwOlJlcG9zaXRvcnkxMzMyMDY4NDg="
+  data-category="Announcements"
+  data-category-id="DIC_kwDOB_CTQM4CQ7v8"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="top"
+  data-theme="light"
+  data-lang="zh-CN"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+
+
+</html>

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:description" content="Tadow 的博客">
+    <meta property="og:type" content="website">
+    <meta name="description" content="Tadow 的博客">
+    <meta name="keyword"  content="Tadow, Resolmi, imlgw, 半岛铁盒, 算法, Java, Golang">
+    <link rel="shortcut icon" href="https://fav.farm/💭">
+
+    <title>
+        
+        Hexo 添加其他的评论系统 - Tadow 碎碎念
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_28hi1hpxx24.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Tadow 碎碎念" type="application/atom+xml">
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> Keep It Simple, Stupid </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar radius">
+            <img src="https://static.imlgw.top/blog/20220821160037.png" />
+        </div>
+        <div class="name">
+            <i>Tadow</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <!-- <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li> -->
+            <li >
+                <a href="/categories">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>分类</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            
+            <li >
+                <a href="/selfhosted">
+                    <i class="iconfont icon-guidang1"></i>
+                    <span>自建</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/collect/">
+                    <i class="iconfont icon-shoucang1"></i>
+                    <span>收藏</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E8%BF%91%E6%8D%A2%E4%BA%86%E4%B8%80%E4%B8%AA-Hexo-%E7%9A%84%E4%B8%BB%E9%A2%98%EF%BC%8C%E4%B9%9F%E5%B0%B1%E6%98%AF%E7%8E%B0%E5%9C%A8%E7%9A%84%E8%BF%99%E6%AC%BE%EF%BC%8C%E4%BD%86%E6%98%AF%E6%94%AF%E6%8C%81%E7%9A%84%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F%E4%B8%A4%E4%B8%AA%E5%B7%B2%E7%BB%8F%E5%85%B3%E4%BA%86%EF%BC%8C%E8%BF%98%E6%9C%89%E4%B8%80%E4%B8%AA%E4%BC%9A%E8%A2%AB%E5%A2%99%E3%80%82%E6%89%80%E4%BB%A5%E5%B0%B1%E8%87%AA%E5%B7%B1%E6%9D%A5%E5%8A%A0%E4%BA%86%E4%B8%80%E4%B8%AA"><span class="toc-text">最近换了一个 Hexo 的主题，也就是现在的这款，但是支持的评论系统两个已经关了，还有一个会被墙。所以就自己来加了一个</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A6%96%E5%85%88%E6%B3%A8%E5%86%8C%E5%B9%B6%E7%99%BB%E5%BD%95-LiveRe"><span class="toc-text">首先注册并登录 LiveRe</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E4%B8%AD%E5%8A%A0%E5%85%A5-LiveRe-%E4%BB%A3%E7%A0%81"><span class="toc-text">在个人博客中加入 LiveRe 代码</span></a></li></ol></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-bg" id="search-bg"></div>
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i> Keep It Simple, Stupid </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        Hexo 添加其他的评论系统
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2018-07-01 00:00:00</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#Hexo" title="Hexo">Hexo</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <h2 id="最近换了一个-Hexo-的主题，也就是现在的这款，但是支持的评论系统两个已经关了，还有一个会被墙。所以就自己来加了一个"><a href="#最近换了一个-Hexo-的主题，也就是现在的这款，但是支持的评论系统两个已经关了，还有一个会被墙。所以就自己来加了一个" class="headerlink" title="最近换了一个 Hexo 的主题，也就是现在的这款，但是支持的评论系统两个已经关了，还有一个会被墙。所以就自己来加了一个"></a>最近换了一个 Hexo 的主题，也就是现在的这款，但是支持的评论系统两个已经关了，还有一个会被墙。所以就自己来加了一个</h2><h3 id="首先注册并登录-LiveRe"><a href="#首先注册并登录-LiveRe" class="headerlink" title="首先注册并登录 LiveRe"></a>首先注册并登录 LiveRe</h3><p>登陆注册过程就不多说了<br>   选择 city 版的安装，会得到一段代码 </p>
+<h3 id="在个人博客中加入-LiveRe-代码"><a href="#在个人博客中加入-LiveRe-代码" class="headerlink" title="在个人博客中加入 LiveRe 代码"></a>在个人博客中加入 LiveRe 代码</h3><p>首先去如路径：hexo_bolg/themes/your-theme/layout/_partial/post 下创建 livere.ejs 代码。livere.ejs 的内容就是上一步中获取的代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;!-- 来必力 City 版安装代码 --&gt;</span><br><span class="line">&lt;div id=&quot;lv-container&quot; data-id=&quot;city&quot; data-uid=&quot;MTAyMC8zMzM5MC85OTQ2&quot;&gt;</span><br><span class="line">    &lt;script type=&quot;text/javascript&quot;&gt;</span><br><span class="line">   (function(d, s) &#123;</span><br><span class="line">       var j, e = d.getElementsByTagName(s)[0];</span><br><span class="line"></span><br><span class="line">       if (typeof LivereTower === &#x27;function&#x27;) &#123; return; &#125;</span><br><span class="line"></span><br><span class="line">       j = d.createElement(s);</span><br><span class="line">       j.src = &#x27;https://cdn-city.livere.com/js/embed.dist.js&#x27;;</span><br><span class="line">       j.async = true;</span><br><span class="line"></span><br><span class="line">       e.parentNode.insertBefore(j, e);</span><br><span class="line">   &#125;)(document, &#x27;script&#x27;);</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">&lt;noscript&gt; 为正常使用来必力评论功能请激活 JavaScript&lt;/noscript&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;!-- City 版安装代码已完成 --&gt;</span><br></pre></td></tr></table></figure>
+
+<p>然后修改路径：hexo_bolg/themes/your-theme/layout/_partial 下的 article.ejs 文件，在<code>&lt;% if (!index &amp;&amp; post.comments)&#123; %&gt;</code> 代码块下添加如下代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;% if (!index)&#123; %&gt;</span><br><span class="line">  &lt;% if (post.comments)&#123; %&gt;</span><br><span class="line">  &lt;%- partial(&#x27;post/livere&#x27;) %&gt;</span><br><span class="line">  &lt;% &#125; else &#123; %&gt;</span><br><span class="line">    &lt;div class=&quot;lv-container&quot;&gt;&lt;/div&gt;</span><br><span class="line">  &lt;% &#125; %&gt;</span><br><span class="line">&lt;% &#125; %&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="http://p0.cdn.img9.top/ipfs/QmWwSjQj5zqz5mAgEtYjgTBRXRqBapvZMaEzArt8xRqQm2?0.jpg"></p>
+<p><del>此时 LiveRe 已经添加 OK 了，重新部署你的博客然后刷新页面就可以看到博客中添加好了 LiveRe 评论</del><br>换了 Valine</p>
+
+        
+            <div class="donate-container">
+    <div class="donate-button">
+        <button id="donate-button">赞赏</button>
+    </div>
+    <div class="donate-img-container hide" id="donate-img-container">
+        <img id="donate-img" src="" data-src="">
+        <p> 感谢鼓励 </p>
+    </div>
+</div>
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+        <div id="lv-container"></div>
+        <div class="giscus"></div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/imlgw">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://imlgw.top">Tadow</a></span>
+        <span>/</span>
+        
+        <span><a target="_blank" rel="noopener" href="http://beian.miit.gov.cn/publish/query/indexFirst.action">鄂ICP备18011208号</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>  Theme <a target="_blank" rel="noopener" href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/live2d-widget@3.x/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"https://cdn.jsdelivr.net/npm/live2d-widget-model-hijiki@1.0.5/assets/hijiki.model.json"},"display":{"superSample":2,"width":160,"height":320,"position":"right","hOffset":0,"vOffset":-70},"mobile":{"show":false,"scale":0.2},"log":false});</script></body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://giscus.app/client.js"
+  data-repo="imlgw/imlgw.github.io"
+  data-repo-id="MDEwOlJlcG9zaXRvcnkxMzMyMDY4NDg="
+  data-category="Announcements"
+  data-category-id="DIC_kwDOB_CTQM4CQ7v8"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="top"
+  data-theme="light"
+  data-lang="zh-CN"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+
+
+</html>

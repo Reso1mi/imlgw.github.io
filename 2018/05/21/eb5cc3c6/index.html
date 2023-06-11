@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:description" content="Tadow 的博客">
+    <meta property="og:type" content="website">
+    <meta name="description" content="Tadow 的博客">
+    <meta name="keyword"  content="Tadow, Resolmi, imlgw, 半岛铁盒, 算法, Java, Golang">
+    <link rel="shortcut icon" href="https://fav.farm/💭">
+
+    <title>
+        
+        SpringMVC - 处理静态资源 （转） - Tadow 碎碎念
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_28hi1hpxx24.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Tadow 碎碎念" type="application/atom+xml">
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> Keep It Simple, Stupid </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar radius">
+            <img src="https://static.imlgw.top/blog/20220821160037.png" />
+        </div>
+        <div class="name">
+            <i>Tadow</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <!-- <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li> -->
+            <li >
+                <a href="/categories">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>分类</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            
+            <li >
+                <a href="/selfhosted">
+                    <i class="iconfont icon-guidang1"></i>
+                    <span>自建</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/collect/">
+                    <i class="iconfont icon-shoucang1"></i>
+                    <span>收藏</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E3%80%901%E3%80%91%E7%AC%AC%E4%B8%80%E7%A7%8D%E7%A4%BA%E4%BE%8B%E4%B8%8E%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95"><span class="toc-text">【1】第一种示例与解决办法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E3%80%902%E3%80%91%E7%AC%AC%E4%BA%8C%E7%A7%8D%E7%A4%BA%E4%BE%8B%E4%B8%8E%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95"><span class="toc-text">【2】第二种示例与解决办法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E3%80%903%E3%80%91%E7%AC%AC%E4%B8%89%E7%A7%8D%E7%A4%BA%E4%BE%8B%E4%B8%8E%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95"><span class="toc-text">【3】第三种示例与解决办法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E3%80%904%E3%80%91%E7%AC%AC%E5%9B%9B%E7%A7%8D%E7%A4%BA%E4%BE%8B%E4%B8%8E%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95"><span class="toc-text">【4】第四种示例与解决办法</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-bg" id="search-bg"></div>
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i> Keep It Simple, Stupid </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        SpringMVC - 处理静态资源 （转）
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2018-05-21 00:00:00</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#技术" title="技术">技术</a>
+        <span>/</span>
+        
+        <a class="tag" href="/tags/#Spring" title="Spring">Spring</a>
+        <span>/</span>
+        
+        <a class="tag" href="/tags/#转载" title="转载">转载</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <h2 id="【1】第一种示例与解决办法"><a href="#【1】第一种示例与解决办法" class="headerlink" title="【1】第一种示例与解决办法"></a><strong>【1】第一种示例与解决办法</strong></h2><p>将 DispatcherServlet 请求映射设置为 / ，将会拦截所有的请求。不能访问静态资源。</p>
+<p><strong>解决办法：</strong></p>
+<p>在 SpringMVC 的配置文件中配置如下标签解决</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">&lt;mvc:<span class="keyword">default</span>-servlet-handler/&gt;</span><br></pre></td></tr></table></figure>
+
+<p>其 XSD 文档说明如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*配置一个 handler 通过转发请求到 servlet 容器的默认 servlet 来处理静态资源*/</span></span><br><span class="line">Configures a handler <span class="keyword">for</span> serving <span class="keyword">static</span> resources by forwarding to the Servlet container<span class="string">&#x27;s default Servlet.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">/*使用该 handler 将会允许 DispatcherServlet 的 url-pattern 为&#x27;</span>/<span class="string">&#x27;; 同时使用 servlet 容器的默认 servlet 处理静态资源*/</span></span><br><span class="line"><span class="string">Use of this handler allows using a &quot;/&quot; mapping with the DispatcherServlet </span></span><br><span class="line"><span class="string">while still utilizing the Servlet container to serve static resources. </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">/*该 handler 将会转发所有请求到默认 servlet*/</span></span><br><span class="line"><span class="string">This handler will forward all requests to the default Servlet. </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">/*因此将该 handler 的执行顺序放到所有请求处理的最后是非常重要的！！！*/</span></span><br><span class="line"><span class="string">Therefore it is important that it remains last in the order of all other URL HandlerMappings. </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">/*使用&lt;mvc:annotation-driven/&gt;标签或者设置 HandlerMapping instance 的 order 来确保 DefaultServletHttpRequestHandler 的 order 最大。*/</span></span><br><span class="line"><span class="string">That will be the case if you use the &quot;annotation-driven&quot; element </span></span><br><span class="line"><span class="string">or alternatively if you are setting up your customized HandlerMapping instance </span></span><br><span class="line"><span class="string">be sure to set its &quot;order&quot; property to a value lower than </span></span><br><span class="line"><span class="string">that of the DefaultServletHttpRequestHandler, which is Integer.MAX_VALUE.</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdn.net/20170914152551033?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvSjA4MDYyNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="image"></p>
+<p><strong>解释如下：</strong></p>
+<p><code>&lt;mvc:default-servlet-handler/&gt;</code>将在 SpringMVC 的上下文中定义一个 DefaultServletHttpRequestHandler 来处理静态资源（其实就是将请求转发给默认的 servlet)。</p>
+<p>一般 WEB 服务器默认的 servlet 的名称为 default。若所使用的 WEB 服务器默认的 Servlet 名称不是 default，则需要通过 default-servlet-name 属性指定！</p>
+<p><img src="https://img-blog.csdn.net/20170224143539025?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvSjA4MDYyNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="image"></p>
+<hr>
+<p><strong>不同服务器下默认 servlet 名字对应如下：</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Tomcat, Jetty, JBoss, and GlassFish  默认 Servlet 的名字 -- <span class="string">&quot;default&quot;</span></span><br><span class="line">Google App Engine 默认 Servlet 的名字 -- <span class="string">&quot;_ah_default&quot;</span></span><br><span class="line">Resin 默认 Servlet 的名字 -- <span class="string">&quot;resin-file&quot;</span></span><br><span class="line">WebLogic 默认 Servlet 的名字  -- <span class="string">&quot;FileServlet&quot;</span></span><br><span class="line">WebSphere  默认 Servlet 的名字 -- <span class="string">&quot;SimpleFileServlet&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdn.net/20170914154653746?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvSjA4MDYyNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<hr>
+<p><strong>【Tips：】</strong></p>
+<p>使用上述配置，你会发现正常的 Controller 跳转失效了！</p>
+<p>XSD 说明最后一段话如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*使用&lt;mvc:annotation-driven/&gt;标签或者设置 HandlerMapping instance 的 order 来确保 DefaultServletHttpRequestHandler 的 order 最大。*/</span></span><br><span class="line">That will be the <span class="keyword">case</span> <span class="keyword">if</span> you use the <span class="string">&quot;annotation-driven&quot;</span> element </span><br><span class="line">or alternatively <span class="keyword">if</span> you are setting up your customized HandlerMapping instance </span><br><span class="line">be sure to set its <span class="string">&quot;order&quot;</span> property to a value lower than </span><br><span class="line">that of the DefaultServletHttpRequestHandler, which is Integer.MAX_VALUE.</span><br></pre></td></tr></table></figure>
+
+<p>也就是说，要么配置<code>&lt;mvc:annotation-driven /&gt;</code>标签，要么手动注册请求映射处理 bean 于 xml 中，并设置 order 属性值，以其实现框架中处理请求映射的 bean 的 order 值小于 DefaultServletHttpRequestHandler 的 order 属性值！！！</p>
+<p>常用的解决方式为配置<code>&lt;mvc:annotation-driven /&gt;</code>标签，详情点击查看 <a target="_blank" rel="noopener" href="http://blog.csdn.net/j080624/article/details/66969987">请求映射失效</a>。</p>
+<p>点击查看 <a target="_blank" rel="noopener" href="http://blog.csdn.net/J080624/article/details/66969987">controller 映射失效</a></p>
+<hr>
+<h2 id="【2】第二种示例与解决办法"><a href="#【2】第二种示例与解决办法" class="headerlink" title="【2】第二种示例与解决办法"></a><strong>【2】第二种示例与解决办法</strong></h2><p>解决静态资源的思路是，在 SpringMVC.xml 中，拦截设置为”*.do”，而不是”/”。</p>
+<p>这样就不会拦截静态资源的请求。</p>
+<p>需要注意的是，如果项目中用到了 shiro 或者其他权限框架。那么需要注意你的 shiro.xml 配置，示例如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">&lt;bean id=<span class="string">&quot;shiroFilter&quot;</span> class=<span class="string">&quot;org.apache.shiro.spring.web.ShiroFilterFactoryBean&quot;</span>&gt;</span><br><span class="line">      &lt;!-- Shiro 的核心安全接口，这个属性是必须的 --&gt;</span><br><span class="line">      &lt;property name=<span class="string">&quot;securityManager&quot;</span> ref=<span class="string">&quot;securityManager&quot;</span>/&gt;</span><br><span class="line">      &lt;!-- loginUrl 认证提交地址，如果没有认证将会请求此地址进行认证，请求此地址将由 formAuthenticationFilter 进行表单认证 --&gt;</span><br><span class="line">      &lt;property name=<span class="string">&quot;loginUrl&quot;</span> value=<span class="string">&quot;/login&quot;</span>/&gt;</span><br><span class="line"></span><br><span class="line">      &lt;!-- Shiro 连接约束配置，即过滤链的定义 --&gt;</span><br><span class="line">      &lt;property name=<span class="string">&quot;filterChainDefinitions&quot;</span>&gt;</span><br><span class="line">          &lt;value&gt;</span><br><span class="line">              &lt;!-- <span class="comment">/** = anon 所有 url 都可以匿名访问 --&gt;</span></span><br><span class="line"><span class="comment">              &lt;!-- 对静态资源设置匿名访问 --&gt;</span></span><br><span class="line"><span class="comment">              /images/** = anon</span></span><br><span class="line"><span class="comment">              /js/** = anon</span></span><br><span class="line"><span class="comment">              /styles/** = anon</span></span><br><span class="line"><span class="comment">              &lt;!-- 验证码，可匿名访问 --&gt;</span></span><br><span class="line"><span class="comment">              /validateCode = anon  &lt;!--验证码--&gt;</span></span><br><span class="line"><span class="comment">              /doLogin = anon</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">              &lt;!-- /** = authc 所有 url 都必须认证通过才可以访问 --&gt;</span></span><br><span class="line"><span class="comment">              /**=authc</span></span><br><span class="line"><span class="comment">              &lt;!--请求 logout，shrio 擦除 sssion--&gt;</span></span><br><span class="line"><span class="comment">              /logout=logout</span></span><br><span class="line"><span class="comment">          &lt;/value&gt;</span></span><br><span class="line"><span class="comment">      &lt;/property&gt;</span></span><br><span class="line"><span class="comment">  &lt;/bean&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>需要注意的是虽然 SpringMVC 拦截的是。do，但是由于使用了 shiro（或者你的其他权限框架），那么未登录情况下是不能直接访问除 shiro 配置文件里面允许匿名访问的路径之外的静态资源文件。</p>
+<p>举个例子，你把静态资源文件放在了项目根目录，但是参考上面配置文件，显然不在匿名访问路径列表之内，所以会提示你先登录，登录之后才可访问项目根目录的静态资源文件。</p>
+<ul>
+<li>  未登录前访问项目根目录下 1.jpg , 跳到登录页面：</li>
+</ul>
+<p><img src="https://img-blog.csdn.net/20170518094647021?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvSjA4MDYyNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="image"></p>
+<ul>
+<li>  登录后访问项目根目录下 1.jpg :</li>
+</ul>
+<p><img src="https://img-blog.csdn.net/20170518094717006?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvSjA4MDYyNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="image"></p>
+<p>另外，建议最好参考 shiro 配置文件，比如 1.jpg 放到 images 文件夹下，那么不用登录就可以直接访问。</p>
+<p><img src="https://img-blog.csdn.net/20170518094833869?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvSjA4MDYyNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="image"></p>
+<hr>
+<h2 id="【3】第三种示例与解决办法"><a href="#【3】第三种示例与解决办法" class="headerlink" title="【3】第三种示例与解决办法"></a><strong>【3】第三种示例与解决办法</strong></h2><p><strong>通过配置，避免静态资源被拦截，示例如下：</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">&lt;!-- 静态资源访问（不拦截此目录下的东西的访问） --&gt;</span><br><span class="line">   &lt;mvc:resources location=<span class="string">&quot;/js/&quot;</span> mapping=<span class="string">&quot;/js/**&quot;</span>/&gt;</span><br><span class="line">   &lt;mvc:resources location=<span class="string">&quot;/css/&quot;</span> mapping=<span class="string">&quot;/css/**&quot;</span>/&gt;</span><br><span class="line">   &lt;mvc:resources location=<span class="string">&quot;/images/&quot;</span> mapping=<span class="string">&quot;/images/**&quot;</span>/&gt;</span><br><span class="line">   &lt;mvc:resources location=<span class="string">&quot;/bootstrap/&quot;</span> mapping=<span class="string">&quot;/bootstrap/**&quot;</span>/&gt;</span><br></pre></td></tr></table></figure>
+
+<p>该标签的 xsd 说明文档如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/*配置 handler 为静态资源，如 images，js 和 CSS 文件并进行缓存头优化，以便在 Web 浏览器中高效加载。*/</span><br><span class="line">Configures a handler for serving static resources such as </span><br><span class="line">images, js, and, css files with cache headers optimized for efficient loading in a web browser. </span><br><span class="line">/*允许为任何可以通过 spring 处理的路径资源提供服务*/</span><br><span class="line">Allows resources to be served out of any path that is reachable via Spring&#x27;s Resource handling.</span><br></pre></td></tr></table></figure>
+
+<p>注册的 handler 如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">org.springframework.web.servlet.resource.ResourceHttpRequestHandler</span><br></pre></td></tr></table></figure>
+
+<p><strong>即，该标签注册 ResourceHttpRequestHandler 为静态资源的访问提供服务。</strong></p>
+<p>该 handler 的 javadoc 如下所示：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">&#123;<span class="meta">@code</span> HttpRequestHandler&#125; that serves <span class="keyword">static</span> resources in an optimized way according to the guidelines of Page Speed, YSlow, etc.</span><br><span class="line"></span><br><span class="line"> * &lt;p&gt;The &#123;<span class="meta">@linkplain</span> #setLocations <span class="string">&quot;locations&quot;</span>&#125; property takes a list of Spring</span><br><span class="line"> * &#123;<span class="meta">@link</span> Resource&#125; locations from which <span class="keyword">static</span> resources are allowed to</span><br><span class="line"> * be served by <span class="built_in">this</span> handler. Resources could be served from a classpath location,</span><br><span class="line"> * e.g. <span class="string">&quot;classpath:/META-INF/public-web-resources/&quot;</span>, allowing convenient packaging</span><br><span class="line"> * and serving of resources such as .js, .css, and others in jar files.</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="【4】第四种示例与解决办法"><a href="#【4】第四种示例与解决办法" class="headerlink" title="【4】第四种示例与解决办法"></a><strong>【4】第四种示例与解决办法</strong></h2><p>确切说这里只解决不通过 controller 而直接访问 jsp 的问题。</p>
+<p><code>&lt;mvc:view-controller/&gt;</code>直接访问 view-name 对应的 jsp</p>
+<ul>
+<li>  jsp 路径依据视图解析器配置。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">&lt;!-- mvc:view-controller 可使其直接访问路径 --&gt;  </span><br><span class="line">&lt;mvc:view-controller path=<span class="string">&quot;/i18n&quot;</span> view-name=<span class="string">&quot;i18n&quot;</span>/&gt;</span><br><span class="line"></span><br><span class="line">&lt;mvc:view-controller path=<span class="string">&quot;/i18n2&quot;</span> view-name=<span class="string">&quot;i18n2&quot;</span>/&gt;</span><br></pre></td></tr></table></figure>
+
+        
+            <div class="donate-container">
+    <div class="donate-button">
+        <button id="donate-button">赞赏</button>
+    </div>
+    <div class="donate-img-container hide" id="donate-img-container">
+        <img id="donate-img" src="" data-src="">
+        <p> 感谢鼓励 </p>
+    </div>
+</div>
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+        <div id="lv-container"></div>
+        <div class="giscus"></div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/imlgw">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://imlgw.top">Tadow</a></span>
+        <span>/</span>
+        
+        <span><a target="_blank" rel="noopener" href="http://beian.miit.gov.cn/publish/query/indexFirst.action">鄂ICP备18011208号</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>  Theme <a target="_blank" rel="noopener" href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/live2d-widget@3.x/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"https://cdn.jsdelivr.net/npm/live2d-widget-model-hijiki@1.0.5/assets/hijiki.model.json"},"display":{"superSample":2,"width":160,"height":320,"position":"right","hOffset":0,"vOffset":-70},"mobile":{"show":false,"scale":0.2},"log":false});</script></body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://giscus.app/client.js"
+  data-repo="imlgw/imlgw.github.io"
+  data-repo-id="MDEwOlJlcG9zaXRvcnkxMzMyMDY4NDg="
+  data-category="Announcements"
+  data-category-id="DIC_kwDOB_CTQM4CQ7v8"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="top"
+  data-theme="light"
+  data-lang="zh-CN"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+
+
+</html>

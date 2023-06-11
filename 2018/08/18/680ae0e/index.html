@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:description" content="Tadow 的博客">
+    <meta property="og:type" content="website">
+    <meta name="description" content="Tadow 的博客">
+    <meta name="keyword"  content="Tadow, Resolmi, imlgw, 半岛铁盒, 算法, Java, Golang">
+    <link rel="shortcut icon" href="https://fav.farm/💭">
+
+    <title>
+        
+        双向循环链表 - Tadow 碎碎念
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_28hi1hpxx24.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Tadow 碎碎念" type="application/atom+xml">
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> Keep It Simple, Stupid </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar radius">
+            <img src="https://static.imlgw.top/blog/20220821160037.png" />
+        </div>
+        <div class="name">
+            <i>Tadow</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <!-- <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li> -->
+            <li >
+                <a href="/categories">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>分类</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            
+            <li >
+                <a href="/selfhosted">
+                    <i class="iconfont icon-guidang1"></i>
+                    <span>自建</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/collect/">
+                    <i class="iconfont icon-shoucang1"></i>
+                    <span>收藏</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#C-%E5%AE%9E%E7%8E%B0%E7%9A%84%E5%8F%8C%E5%90%91%E5%BE%AA%E7%8E%AF%E9%93%BE%E8%A1%A8"><span class="toc-text">C 实现的双向循环链表</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-bg" id="search-bg"></div>
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i> Keep It Simple, Stupid </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        双向循环链表
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2018-08-18 00:00:00</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#算法" title="算法">算法</a>
+        <span>/</span>
+        
+        <a class="tag" href="/tags/#数据结构" title="数据结构">数据结构</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <h2 id="C-实现的双向循环链表"><a href="#C-实现的双向循环链表" class="headerlink" title="C 实现的双向循环链表"></a>C 实现的双向循环链表</h2><p>很久没有用 C 了，都忘了，昨天下午又复习了一下然后实现了这个双向循环链表，后面每种数据结构都会在这里实现记录下来。<br>开发环境   : sublime+MinGW </p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line"><span class="comment">//定义结构体</span></span><br><span class="line">typedef struct Node</span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">int</span> data;</span><br><span class="line">	struct Node *perv;</span><br><span class="line">	struct Node *next;</span><br><span class="line">&#125;Node;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> length;</span><br><span class="line"></span><br><span class="line"><span class="comment">//初始化节点</span></span><br><span class="line">Node* createNode()&#123;</span><br><span class="line">	Node * node;</span><br><span class="line">	<span class="comment">//开辟空间</span></span><br><span class="line">	node =(Node*)malloc(sizeof(Node));</span><br><span class="line">	<span class="keyword">if</span>(node==NULL)&#123;</span><br><span class="line">		printf(<span class="string">&quot;动态开辟空间失败&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	scanf(<span class="string">&quot;%d&quot;</span>,&amp;(node-&gt;data));</span><br><span class="line">	node-&gt;perv=NULL;</span><br><span class="line">	node-&gt;next=NULL;</span><br><span class="line">	<span class="keyword">return</span> node;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//初始化链表 </span></span><br><span class="line">Node* createList(<span class="type">int</span> n)</span><br><span class="line">&#123;</span><br><span class="line">    Node *tail,*p,*head;</span><br><span class="line">    <span class="comment">//初始化头结点 （这个节点只是个标志，标志链表的头并不存储数据，只是为了操作的统一性）</span></span><br><span class="line">    head=(Node*)malloc(sizeof(Node));</span><br><span class="line">    <span class="type">int</span> i;</span><br><span class="line">    <span class="keyword">if</span>(n &gt;= <span class="number">1</span>)   <span class="comment">//结点的个数 &gt;= 1 的时候</span></span><br><span class="line">    &#123;</span><br><span class="line">        p = createNode();</span><br><span class="line">        head-&gt;next = p;</span><br><span class="line">        p-&gt;perv=head;</span><br><span class="line">        tail = p;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">2</span>;i &lt;= n;i++)    <span class="comment">//生成第一个结点以后的结点，并建立双向链表的关系 </span></span><br><span class="line">    &#123;</span><br><span class="line">        p = createNode();</span><br><span class="line">        tail-&gt;next = p;</span><br><span class="line">        p-&gt;perv = tail;</span><br><span class="line">        <span class="comment">//尾指针后移</span></span><br><span class="line">        tail = p;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//连接头尾</span></span><br><span class="line">    head-&gt;perv=tail;</span><br><span class="line">    tail-&gt;next=head;</span><br><span class="line">    <span class="comment">//链表的长度</span></span><br><span class="line">    length = n;</span><br><span class="line">    <span class="keyword">if</span>(n &gt;= <span class="number">1</span>)</span><br><span class="line">        <span class="keyword">return</span> (head);</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;    </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="comment">//在头尾插入节点   （实际上这两个方法都可以通过下面的 insAnywhere 完成，主要为了效率，如果是尾结点插入 getEle() 时间复杂度过高）</span></span><br><span class="line"><span class="comment">//insAnywhere(head,0);</span></span><br><span class="line"><span class="keyword">void</span> <span class="title function_">insHead</span><span class="params">(Node* head)</span>&#123;</span><br><span class="line">	Node *p=createNode();</span><br><span class="line">	Node *q;</span><br><span class="line">	<span class="comment">//保存第一个节点</span></span><br><span class="line">	q=head-&gt;next;</span><br><span class="line">	<span class="comment">//连接头结点</span></span><br><span class="line">	head-&gt;next=p;</span><br><span class="line">	p-&gt;perv=head;</span><br><span class="line">	<span class="comment">//连接之前的第一个节点</span></span><br><span class="line">	p-&gt;next=q;</span><br><span class="line">	q-&gt;perv=p;</span><br><span class="line">	++length;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//insAnywhere(head,length);</span></span><br><span class="line"><span class="keyword">void</span> <span class="title function_">insTail</span><span class="params">(Node* head)</span>&#123;</span><br><span class="line">	Node *p=createNode();</span><br><span class="line">	<span class="comment">//先保存下之前的尾指针</span></span><br><span class="line">	Node *tail=head-&gt;perv;</span><br><span class="line">	<span class="comment">//连接头尾</span></span><br><span class="line">	head-&gt;perv=p;</span><br><span class="line">	p-&gt;next=head;</span><br><span class="line">	<span class="comment">//连接之前的尾指针</span></span><br><span class="line">	tail-&gt;next=p;</span><br><span class="line">	p-&gt;perv=tail;</span><br><span class="line">	++length;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//取得某一位置的节点  时间复杂度为 O(n)</span></span><br><span class="line">Node * getEle(Node* head,<span class="type">int</span> n)&#123;</span><br><span class="line">	<span class="comment">//将第一个节点赋值给 p</span></span><br><span class="line">	Node *p=head;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; n; ++i)</span><br><span class="line">	&#123;</span><br><span class="line">		p=p-&gt;next;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> p;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//获取链表的长度</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">getLength</span><span class="params">()</span>&#123;</span><br><span class="line">	<span class="keyword">return</span> length;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//任意位置插入，因为设置了头节点所以插入的操作具有一致性</span></span><br><span class="line"><span class="keyword">void</span> <span class="title function_">insAnywhere</span><span class="params">(Node *head,<span class="type">int</span> n)</span>&#123;</span><br><span class="line">	Node *newNode=createNode();</span><br><span class="line">	<span class="comment">//取得对应位置的值</span></span><br><span class="line">	Node *currentNode=getEle(head,n);</span><br><span class="line">	<span class="comment">//保存当前位置的下一个</span></span><br><span class="line">	Node *nextNode;</span><br><span class="line">	<span class="comment">//保存下一个节点</span></span><br><span class="line">	nextNode=currentNode-&gt;next;</span><br><span class="line">	<span class="comment">//连接当前结点</span></span><br><span class="line">	currentNode-&gt;next=newNode;</span><br><span class="line">	newNode-&gt;perv=currentNode;</span><br><span class="line">	<span class="comment">//连接之前的下一个节点</span></span><br><span class="line">	newNode-&gt;next=nextNode;</span><br><span class="line">	nextNode-&gt;perv=newNode;</span><br><span class="line">	++length;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//任意位置的删除</span></span><br><span class="line"><span class="keyword">void</span> <span class="title function_">delNode</span><span class="params">(Node *head,<span class="type">int</span> n)</span>&#123;</span><br><span class="line">	Node *delNode=getEle(head,n);</span><br><span class="line">	<span class="comment">/*printf(&quot;%d\n&quot;, delNode-&gt;data);</span></span><br><span class="line"><span class="comment">	printf(&quot;--------------\n&quot;);*/</span></span><br><span class="line">	<span class="comment">//先保存当前节点的后一节点</span></span><br><span class="line">	Node *nextNode=delNode-&gt;next;</span><br><span class="line">	<span class="comment">//将后一个节点接在当前节点的前一个的后面</span></span><br><span class="line">	delNode-&gt;perv-&gt;next=nextNode;</span><br><span class="line">	nextNode-&gt;perv=delNode-&gt;perv;</span><br><span class="line">	<span class="comment">//free 这个节点</span></span><br><span class="line">	free(delNode);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//遍历链表</span></span><br><span class="line"><span class="keyword">void</span> <span class="title function_">printlnAll</span><span class="params">(Node *head)</span>&#123;</span><br><span class="line">	Node *p=head-&gt;next;</span><br><span class="line">   <span class="keyword">do</span>&#123;</span><br><span class="line">   	  printf(<span class="string">&quot;%d\n&quot;</span>, p-&gt;data);</span><br><span class="line">   	  p=p-&gt;next;</span><br><span class="line">   &#125;<span class="keyword">while</span>(p!=head);</span><br><span class="line">	<span class="comment">// while(p-&gt;next!=head)&#123;</span></span><br><span class="line">	<span class="comment">// 	printf(&quot;%d\n&quot;, p-&gt;data);</span></span><br><span class="line">	<span class="comment">// 	//指针后移</span></span><br><span class="line">	<span class="comment">// 	p=p-&gt;next;</span></span><br><span class="line">	<span class="comment">// &#125;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> const *argv[])</span></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">	Node* createList(<span class="type">int</span> n);</span><br><span class="line">	Node* createNode();</span><br><span class="line"></span><br><span class="line">	Node *head=createList(<span class="number">3</span>);</span><br><span class="line">	printf(<span class="string">&quot;遍历链表、n&quot;</span>);</span><br><span class="line">	printlnAll(head);</span><br><span class="line">	</span><br><span class="line">	insHead(head);</span><br><span class="line">	<span class="comment">//insAnywhere(head,0);</span></span><br><span class="line">	printf(<span class="string">&quot;在头插入节点后、n&quot;</span>);</span><br><span class="line">	printlnAll(head);</span><br><span class="line"></span><br><span class="line">	insTail(head);    <span class="comment">//下面的也可以但是效率比较低</span></span><br><span class="line">	<span class="comment">//insAnywhere(head,getLength());</span></span><br><span class="line">	printf(<span class="string">&quot;在尾插入节点后、n&quot;</span>);</span><br><span class="line">	printlnAll(head);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//在第一个元素后面插入元素</span></span><br><span class="line">	printf(<span class="string">&quot;---------在第一个元素后面插入元素-----\n&quot;</span>);</span><br><span class="line">	insAnywhere(head,<span class="number">1</span>);</span><br><span class="line">	printlnAll(head);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//删除最后面的节点</span></span><br><span class="line">	printf(<span class="string">&quot;---------删除最后面的节点-------\n&quot;</span>);</span><br><span class="line">	delNode(head,<span class="number">6</span>);</span><br><span class="line">	printlnAll(head);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//删除第一个后面的节点</span></span><br><span class="line">	printf(<span class="string">&quot;-------删除第一个后面的节点---------\n&quot;</span>);</span><br><span class="line">	delNode(head,<span class="number">2</span>);</span><br><span class="line">	<span class="comment">//printf(&quot;%d\n&quot;, head-&gt;next-&gt;data);</span></span><br><span class="line">	printlnAll(head);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>线性表<br><img src="http://p0.cdn.img9.top/ipfs/QmUS62kkfTx4trGRmMukDCFuJNxrKDR2P2DdoERRqf1pcr?0.png" alt="image"><br>这里面的链式存储结构里面的 <em>静态链表</em> 挺有意思的，不用指针实现链式结构。<br>线性表的这两种结构实际上是后面其他数据结构的基础，顺序储存结构和链式储存结构也各有优劣。<br><img src="http://p1.cdn.img9.top/ipfs/QmUWbnXLv86uwuCrWkp2ft6fax7TgZ1kryaCPKrWTGidsy?1.PNG" alt="image"></li>
+</ul>
+<p>注：代码中的 String 是我自定义的。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">typedef struct&#123;</span><br><span class="line">	<span class="comment">//长度</span></span><br><span class="line">	<span class="type">int</span> length;</span><br><span class="line">	<span class="comment">//内容</span></span><br><span class="line">	<span class="type">char</span> *str;</span><br><span class="line">	<span class="comment">//最大值</span></span><br><span class="line">	<span class="type">int</span> maxLength;</span><br><span class="line">&#125;String;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> <span class="title function_">init</span><span class="params">(String *s,<span class="type">int</span> max,<span class="type">char</span> * string)</span>&#123;</span><br><span class="line">	<span class="type">int</span> i;</span><br><span class="line">	s-&gt;maxLength=max;</span><br><span class="line">	s-&gt;length=strlen(string);</span><br><span class="line">	<span class="comment">//开辟空间</span></span><br><span class="line">	s-&gt;str=(<span class="type">char</span>*)malloc(sizeof(<span class="type">char</span>)*max);</span><br><span class="line">	<span class="comment">//赋值</span></span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;s-&gt;length;i++)&#123;</span><br><span class="line">		s-&gt;str[i]=string[i];</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+        
+            <div class="donate-container">
+    <div class="donate-button">
+        <button id="donate-button">赞赏</button>
+    </div>
+    <div class="donate-img-container hide" id="donate-img-container">
+        <img id="donate-img" src="" data-src="">
+        <p> 感谢鼓励 </p>
+    </div>
+</div>
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+        <div id="lv-container"></div>
+        <div class="giscus"></div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/imlgw">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://imlgw.top">Tadow</a></span>
+        <span>/</span>
+        
+        <span><a target="_blank" rel="noopener" href="http://beian.miit.gov.cn/publish/query/indexFirst.action">鄂ICP备18011208号</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>  Theme <a target="_blank" rel="noopener" href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/live2d-widget@3.x/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"https://cdn.jsdelivr.net/npm/live2d-widget-model-hijiki@1.0.5/assets/hijiki.model.json"},"display":{"superSample":2,"width":160,"height":320,"position":"right","hOffset":0,"vOffset":-70},"mobile":{"show":false,"scale":0.2},"log":false});</script></body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://giscus.app/client.js"
+  data-repo="imlgw/imlgw.github.io"
+  data-repo-id="MDEwOlJlcG9zaXRvcnkxMzMyMDY4NDg="
+  data-category="Announcements"
+  data-category-id="DIC_kwDOB_CTQM4CQ7v8"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="top"
+  data-theme="light"
+  data-lang="zh-CN"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+
+
+</html>

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:description" content="Tadow 的博客">
+    <meta property="og:type" content="website">
+    <meta name="description" content="Tadow 的博客">
+    <meta name="keyword"  content="Tadow, Resolmi, imlgw, 半岛铁盒, 算法, Java, Golang">
+    <link rel="shortcut icon" href="https://fav.farm/💭">
+
+    <title>
+        
+        NodeJS 模仿 Express 封装路由 - Tadow 碎碎念
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_28hi1hpxx24.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Tadow 碎碎念" type="application/atom+xml">
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> Keep It Simple, Stupid </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar radius">
+            <img src="https://static.imlgw.top/blog/20220821160037.png" />
+        </div>
+        <div class="name">
+            <i>Tadow</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <!-- <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li> -->
+            <li >
+                <a href="/categories">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>分类</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            
+            <li >
+                <a href="/selfhosted">
+                    <i class="iconfont icon-guidang1"></i>
+                    <span>自建</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/collect/">
+                    <i class="iconfont icon-shoucang1"></i>
+                    <span>收藏</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#NodeJS-%E6%A8%A1%E4%BB%BF-Express-%E5%B0%81%E8%A3%85%E8%B7%AF%E7%94%B1"><span class="toc-text">NodeJS 模仿 Express 封装路由</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B2%A1%E5%B0%81%E8%A3%85%E5%89%8D"><span class="toc-text">没封装前</span></a></li></ol></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-bg" id="search-bg"></div>
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i> Keep It Simple, Stupid </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        NodeJS 模仿 Express 封装路由
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2018-12-03 00:00:00</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#NodeJS" title="NodeJS">NodeJS</a>
+        <span>/</span>
+        
+        <a class="tag" href="/tags/#ES6" title="ES6">ES6</a>
+        <span>/</span>
+        
+        <a class="tag" href="/tags/#JavaScript" title="JavaScript">JavaScript</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <h2 id="NodeJS-模仿-Express-封装路由"><a href="#NodeJS-模仿-Express-封装路由" class="headerlink" title="NodeJS 模仿 Express 封装路由"></a>NodeJS 模仿 Express 封装路由</h2><p><em>最近才开始学 NodeJs 也不知道为啥就突然对这个很感兴趣，（可能 Java 写烦了😄)，感觉用这个开发还是挺快的，而且性能也很好，借此也了解下函数式编程的特点和异步编程的思想。</em></p>
+<ul>
+<li><h3 id="没封装前"><a href="#没封装前" class="headerlink" title="没封装前"></a>没封装前</h3>原生的就差不多是这样的。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/* </span></span><br><span class="line"><span class="comment">    Node.js 未封装 1.0</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="type">const</span> <span class="variable">http</span> <span class="operator">=</span> require(<span class="string">&quot;http&quot;</span>);</span><br><span class="line"><span class="type">const</span> <span class="variable">fs</span> <span class="operator">=</span> require(<span class="string">&quot;fs&quot;</span>);</span><br><span class="line"><span class="type">const</span> <span class="variable">path</span> <span class="operator">=</span> require(<span class="string">&quot;path&quot;</span>);</span><br><span class="line"><span class="type">const</span> <span class="variable">querystring</span> <span class="operator">=</span> require(<span class="string">&quot;querystring&quot;</span>); <span class="comment">//json 转换</span></span><br><span class="line"><span class="type">const</span> <span class="variable">scores</span> <span class="operator">=</span> require(<span class="string">&quot;./StudentScore.json&quot;</span>);</span><br><span class="line"><span class="type">const</span> <span class="variable">template</span> <span class="operator">=</span> require(<span class="string">&quot;art-template&quot;</span>);</span><br><span class="line">http.createServer((req, resp) =&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> (req.url.startsWith(<span class="string">&quot;/query&quot;</span>) &amp;&amp; req.method == <span class="string">&#x27;GET&#x27;</span>) &#123;</span><br><span class="line">        <span class="comment">//这里可以采用模板为了和下面的对比一下</span></span><br><span class="line">        fs.readFile(path.join(__dirname, <span class="string">&quot;querypage.html&quot;</span>), (err, content) =&gt; &#123;</span><br><span class="line">            <span class="keyword">if</span> (err) &#123;</span><br><span class="line">                resp.writeHead(<span class="number">500</span>, &#123;</span><br><span class="line">                    <span class="string">&#x27;Content-Type&#x27;</span>: <span class="string">&#x27;text/plain;charset=utf8&#x27;</span></span><br><span class="line">                &#125;);</span><br><span class="line">                resp.end(<span class="string">&#x27;服务器错误&#x27;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            resp.end(content);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125; <span class="keyword">else</span></span><br><span class="line">    <span class="keyword">if</span> (req.url.startsWith(<span class="string">&quot;/scores&quot;</span>)) &#123;</span><br><span class="line">        <span class="type">let</span> <span class="variable">pdata</span> <span class="operator">=</span> <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">        <span class="comment">//事件绑定</span></span><br><span class="line">        <span class="comment">//获取数据（id）</span></span><br><span class="line">        req.on(<span class="string">&#x27;data&#x27;</span>, (ck) =&gt; &#123;</span><br><span class="line">            pdata += ck;</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="comment">//在这里返回</span></span><br><span class="line">        req.on(<span class="string">&#x27;end&#x27;</span>, () =&gt; &#123;</span><br><span class="line">            <span class="type">let</span> <span class="variable">obj</span> <span class="operator">=</span> querystring.parse(pdata); <span class="comment">//将参数 的字符串转换成 对象</span></span><br><span class="line">            <span class="type">let</span> <span class="variable">result</span> <span class="operator">=</span> scores[obj.stunum];</span><br><span class="line">            <span class="type">let</span> <span class="variable">content</span> <span class="operator">=</span> template(path.join(__dirname, <span class="string">&quot;scores.art&quot;</span>), result);</span><br><span class="line">            resp.end(content);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;).listen(<span class="number">9999</span>, () =&gt; &#123;</span><br><span class="line">    console.log(<span class="string">&#x27;Server is runing on 9999&#x27;</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Express 的方式<br>通过 const app=express(); 获得一个 app 的对象后面就通过这个来操作<br><img src="https://imlgwpicture.oss-cn-qingdao.aliyuncs.com/blogImage/D~KS%28D1%5B%5DUS5TBZPO7KTJ88.png" alt="oss"></li>
+<li>手动封装</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">var</span> <span class="variable">url</span> <span class="operator">=</span> require(<span class="string">&#x27;url&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//封装方法改变 res  绑定 res.send()</span></span><br><span class="line">function <span class="title function_">changeRes</span><span class="params">(res)</span> &#123;</span><br><span class="line"></span><br><span class="line">    res.send = function(data) &#123;</span><br><span class="line"></span><br><span class="line">        res.writeHead(<span class="number">200</span>, &#123;</span><br><span class="line">            <span class="string">&quot;Content-Type&quot;</span>: <span class="string">&quot;text/html;charset=utf-8&quot;</span></span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        res.end(data);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//定义暴露的模块  return 里面定义的模块</span></span><br><span class="line"><span class="type">var</span> <span class="variable">Server</span> <span class="operator">=</span> function() &#123;</span><br><span class="line"></span><br><span class="line">    <span class="type">var</span> <span class="variable">G</span> <span class="operator">=</span> <span class="built_in">this</span>; <span class="comment">/*全局变量*/</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//处理 get 和 post 请求</span></span><br><span class="line">    <span class="built_in">this</span>._get = &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">this</span>._post = &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="type">var</span> <span class="variable">app</span> <span class="operator">=</span> function(req, res) &#123;</span><br><span class="line"></span><br><span class="line">        changeRes(res);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//获取路由</span></span><br><span class="line">        <span class="type">var</span> <span class="variable">pathname</span> <span class="operator">=</span> url.parse(req.url).pathname;</span><br><span class="line">        <span class="keyword">if</span> (!pathname.endsWith(<span class="string">&#x27;/&#x27;</span>)) &#123;</span><br><span class="line">            pathname = pathname + <span class="string">&#x27;/&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//获取请求的方式 get  post</span></span><br><span class="line">        <span class="type">var</span> <span class="variable">method</span> <span class="operator">=</span> req.method.toLowerCase();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (G[<span class="string">&#x27;_&#x27;</span> + method][pathname]) &#123;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (method == <span class="string">&#x27;post&#x27;</span>) &#123; <span class="comment">/*执行 post 请求*/</span></span><br><span class="line"></span><br><span class="line">                <span class="type">var</span> <span class="variable">postStr</span> <span class="operator">=</span> <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">                req.on(<span class="string">&#x27;data&#x27;</span>, function(chunk) &#123;</span><br><span class="line"></span><br><span class="line">                    postStr += chunk;</span><br><span class="line">                &#125;)</span><br><span class="line">                req.on(<span class="string">&#x27;end&#x27;</span>, function(err, chunk) &#123;</span><br><span class="line">                    <span class="comment">//添加请求属性</span></span><br><span class="line">                    req.myBody = postStr; <span class="comment">/*表示拿到 post 的值*/</span></span><br><span class="line">                    <span class="comment">/*执行方法*/</span></span><br><span class="line">                    G[<span class="string">&#x27;_&#x27;</span> + method][pathname](req, res);</span><br><span class="line">                &#125;)</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123; <span class="comment">/*执行 get 请求*/</span></span><br><span class="line">                G[<span class="string">&#x27;_&#x27;</span> + method][pathname](req, res); <span class="comment">/*执行方法*/</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            res.end(<span class="string">&#x27;no router&#x27;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//下面的都是为了做注册的操作</span></span><br><span class="line">    app.get = function(string, callback) &#123;</span><br><span class="line">        <span class="keyword">if</span> (!string.endsWith(<span class="string">&#x27;/&#x27;</span>)) &#123;</span><br><span class="line">            string = string + <span class="string">&#x27;/&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (!string.startsWith(<span class="string">&#x27;/&#x27;</span>)) &#123;</span><br><span class="line">            string = <span class="string">&#x27;/&#x27;</span> + string;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//    /login/</span></span><br><span class="line">        G._get[string] = callback;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    app.post = function(string, callback) &#123;</span><br><span class="line">        <span class="keyword">if</span> (!string.endsWith(<span class="string">&#x27;/&#x27;</span>)) &#123;</span><br><span class="line">            string = string + <span class="string">&#x27;/&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (!string.startsWith(<span class="string">&#x27;/&#x27;</span>)) &#123;</span><br><span class="line">            string = <span class="string">&#x27;/&#x27;</span> + string;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//    /login/</span></span><br><span class="line">        G._post[string] = callback;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//G._post[&#x27;dologin&#x27;]=function(req,res)&#123;</span></span><br><span class="line">        <span class="comment">//</span></span><br><span class="line">        <span class="comment">//&#125;</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> app;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">module</span>.<span class="keyword">exports</span> = Server();</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>封装后<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">const</span> <span class="variable">http</span> <span class="operator">=</span> require(<span class="string">&quot;http&quot;</span>);</span><br><span class="line"><span class="type">const</span> <span class="variable">url</span> <span class="operator">=</span> require(<span class="string">&quot;url&quot;</span>);</span><br><span class="line"><span class="comment">//引入自定义的路由模块</span></span><br><span class="line"><span class="type">const</span> <span class="variable">myApp</span> <span class="operator">=</span> require(<span class="string">&quot;./model/express-route.js&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//使用自定义的模块</span></span><br><span class="line">http.createServer(myApp).listen(<span class="number">9999</span>, () =&gt; &#123;</span><br><span class="line">    console.log(<span class="string">&#x27;Running 9999&#x27;</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">myApp.get(<span class="string">&quot;/express&quot;</span>, (req, resp) =&gt; &#123;</span><br><span class="line">    resp.send(<span class="string">&quot;模仿 Express 封装路由&quot;</span>);</span><br><span class="line">    console.log(req);</span><br><span class="line">&#125;);</span><br><span class="line">myApp.post(<span class="string">&quot;/postExpress&quot;</span>, (req, resp) =&gt; &#123;</span><br><span class="line">    resp.send(<span class="string">&quot;模仿 Express 封装路由&quot;</span>);</span><br><span class="line">    console.log(req.myBody);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<hr>
+<p>通过这个体会下 Express 的封装</p>
+
+        
+            <div class="donate-container">
+    <div class="donate-button">
+        <button id="donate-button">赞赏</button>
+    </div>
+    <div class="donate-img-container hide" id="donate-img-container">
+        <img id="donate-img" src="" data-src="">
+        <p> 感谢鼓励 </p>
+    </div>
+</div>
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+        <div id="lv-container"></div>
+        <div class="giscus"></div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/imlgw">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://imlgw.top">Tadow</a></span>
+        <span>/</span>
+        
+        <span><a target="_blank" rel="noopener" href="http://beian.miit.gov.cn/publish/query/indexFirst.action">鄂ICP备18011208号</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>  Theme <a target="_blank" rel="noopener" href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/live2d-widget@3.x/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"https://cdn.jsdelivr.net/npm/live2d-widget-model-hijiki@1.0.5/assets/hijiki.model.json"},"display":{"superSample":2,"width":160,"height":320,"position":"right","hOffset":0,"vOffset":-70},"mobile":{"show":false,"scale":0.2},"log":false});</script></body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://giscus.app/client.js"
+  data-repo="imlgw/imlgw.github.io"
+  data-repo-id="MDEwOlJlcG9zaXRvcnkxMzMyMDY4NDg="
+  data-category="Announcements"
+  data-category-id="DIC_kwDOB_CTQM4CQ7v8"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="top"
+  data-theme="light"
+  data-lang="zh-CN"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+
+
+</html>

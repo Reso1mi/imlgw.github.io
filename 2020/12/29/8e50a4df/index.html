@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:description" content="Tadow 的博客">
+    <meta property="og:type" content="website">
+    <meta name="description" content="Tadow 的博客">
+    <meta name="keyword"  content="Tadow, Resolmi, imlgw, 半岛铁盒, 算法, Java, Golang">
+    <link rel="shortcut icon" href="https://fav.farm/💭">
+
+    <title>
+        
+        力扣 220th 周赛 - Tadow 碎碎念
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_28hi1hpxx24.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.2"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style><link rel="alternate" href="/atom.xml" title="Tadow 碎碎念" type="application/atom+xml">
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> Keep It Simple, Stupid </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar radius">
+            <img src="https://static.imlgw.top/blog/20220821160037.png" />
+        </div>
+        <div class="name">
+            <i>Tadow</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <!-- <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li> -->
+            <li >
+                <a href="/categories">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>分类</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            
+            <li >
+                <a href="/selfhosted">
+                    <i class="iconfont icon-guidang1"></i>
+                    <span>自建</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/collect/">
+                    <i class="iconfont icon-shoucang1"></i>
+                    <span>收藏</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1696-%E8%B7%B3%E8%B7%83%E6%B8%B8%E6%88%8F-VI"><span class="toc-text">1696. 跳跃游戏 VI</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E6%B3%95%E4%B8%80"><span class="toc-text">解法一</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E6%B3%95%E4%BA%8C"><span class="toc-text">解法二</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1697-%E6%A3%80%E6%9F%A5%E8%BE%B9%E9%95%BF%E5%BA%A6%E9%99%90%E5%88%B6%E7%9A%84%E8%B7%AF%E5%BE%84%E6%98%AF%E5%90%A6%E5%AD%98%E5%9C%A8"><span class="toc-text">1697. 检查边长度限制的路径是否存在</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E6%B3%95%E4%B8%80-1"><span class="toc-text">解法一</span></a></li></ol></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-bg" id="search-bg"></div>
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i> Keep It Simple, Stupid </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        力扣 220th 周赛
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2020-12-29 00:00:00</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#动态规划" title="动态规划">动态规划</a>
+        <span>/</span>
+        
+        <a class="tag" href="/tags/#LeetCode" title="LeetCode">LeetCode</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <blockquote>
+<p>好久没写 LeetCode 的题了，来补一下 <a target="_blank" rel="noopener" href="https://leetcode-cn.com/contest/weekly-contest-220/">220 周赛</a> 的 T3 和 T4</p>
+</blockquote>
+<h2 id="1696-跳跃游戏-VI"><a href="#1696-跳跃游戏-VI" class="headerlink" title="1696. 跳跃游戏 VI"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/jump-game-vi/">1696. 跳跃游戏 VI</a></h2><p>Difficulty: <strong>中等</strong></p>
+<p>给你一个下标从 <strong>0</strong> 开始的整数数组 <code>nums</code> 和一个整数 <code>k</code> 。</p>
+<p>一开始你在下标 <code>0</code> 处。每一步，你最多可以往前跳 <code>k</code> 步，但你不能跳出数组的边界。也就是说，你可以从下标 <code>i</code> 跳到 <code>[i + 1， min(n - 1, i + k)]</code> <strong>包含</strong> 两个端点的任意位置。</p>
+<p>你的目标是到达数组最后一个位置（下标为 <code>n - 1</code> ），你的 <strong>得分</strong> 为经过的所有数字之和。</p>
+<p>请你返回你能得到的 <strong>最大得分</strong> 。</p>
+<p><strong>示例 1：</strong></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">输入：nums = [<span class="number">1</span>,<span class="number">-1</span>,<span class="number">-2</span>,<span class="number">4</span>,<span class="number">-7</span>,<span class="number">3</span>], k = <span class="number">2</span></span><br><span class="line">输出：<span class="number">7</span></span><br><span class="line">解释：你可以选择子序列 [<span class="number">1</span>,<span class="number">-1</span>,<span class="number">4</span>,<span class="number">3</span>] （上面加粗的数字），和为 <span class="number">7</span> 。</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 2：</strong></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">输入：nums = [<span class="number">10</span>,<span class="number">-5</span>,<span class="number">-2</span>,<span class="number">4</span>,<span class="number">0</span>,<span class="number">3</span>], k = <span class="number">3</span></span><br><span class="line">输出：<span class="number">17</span></span><br><span class="line">解释：你可以选择子序列 [<span class="number">10</span>,<span class="number">4</span>,<span class="number">3</span>] （上面加粗数字），和为 <span class="number">17</span> 。</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 3：</strong></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">输入：nums = [<span class="number">1</span>,<span class="number">-5</span>,<span class="number">-20</span>,<span class="number">4</span>,<span class="number">-1</span>,<span class="number">3</span>,<span class="number">-6</span>,<span class="number">-3</span>], k = <span class="number">2</span></span><br><span class="line">输出：<span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>提示：</strong></p>
+<ul>
+<li>  1 &lt;= nums.length, k &lt;= 10<sup>5</sup></li>
+<li>  -10<sup>4</sup> &lt;= nums[i] &lt;= 10<sup>4</sup></li>
+</ul>
+<h3 id="解法一"><a href="#解法一" class="headerlink" title="解法一"></a>解法一</h3><p>递推公式很容易得到，先来一发暴力解法，不出意料的 T 了</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//1 2 3 4 5 k=2</span></span><br><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">maxResult</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> k)</span> {</span><br><span class="line">    <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> nums.length;</span><br><span class="line">    <span class="type">int</span>[] dp = <span class="keyword">new</span> <span class="title class_">int</span>[n];</span><br><span class="line">    dp[<span class="number">0</span>] = nums[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt; n; i++) {</span><br><span class="line">        dp[i] = -<span class="number">0x3f3f3f3f</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> i-<span class="number">1</span>; i-j &lt;= k &amp;&amp; j &gt;= <span class="number">0</span>; j--) {</span><br><span class="line">            dp[i] = Math.max(dp[j]+nums[i], dp[i]);</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">return</span> dp[n-<span class="number">1</span>];</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+
+<h3 id="解法二"><a href="#解法二" class="headerlink" title="解法二"></a>解法二</h3><p>其实这题想了挺久的，主要是没想到 T3 会用到单调队列去优化 dp，很巧的是这个单调队列优化这个知识点我刚刚在 yxc 那边学了一点，那个题目相对这题会复杂很多，是多重背包的问题。然后我就感觉这个题好像也可以用单调队列来优化，然后就试了一发，然后就 AC 了😁</p>
+<blockquote>
+<p>这里也可以借助其他的数据结构，比如线段树，st 表，优先队列什么的去维护连续的大小为 k 的区间的最大值，这里我就不写了</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//1 2 3 4 5 k=2</span></span><br><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">maxResult</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> k)</span> {</span><br><span class="line">    <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> nums.length;</span><br><span class="line">    <span class="type">int</span>[] dp = <span class="keyword">new</span> <span class="title class_">int</span>[n];</span><br><span class="line">    dp[<span class="number">0</span>] = nums[<span class="number">0</span>];</span><br><span class="line">    <span class="comment">//dp[i]   = Max(       dp[i-1], dp[i-2], dp[i-3],... dp[i-k+1], dp[i-k])</span></span><br><span class="line">    <span class="comment">//dp[i+1] = Max(dp[i], dp[i-1], dp[i-2], dp[i-3],... dp[i-k+1])</span></span><br><span class="line">    <span class="comment">//dp[i] --&gt; dp[i+1] 滑动窗口最大值</span></span><br><span class="line">    LinkedList&lt;<span class="type">int</span>[]&gt; queue = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;&gt;();</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt; n; i++) {</span><br><span class="line">        <span class="keyword">while</span> (!queue.isEmpty() &amp;&amp; dp[i-<span class="number">1</span>] &gt; queue.getLast()[<span class="number">0</span>]) {</span><br><span class="line">            queue.removeLast();</span><br><span class="line">        }</span><br><span class="line">        <span class="keyword">if</span> (!queue.isEmpty() &amp;&amp; i-queue.getFirst()[<span class="number">1</span>] &gt;= k) {</span><br><span class="line">            queue.removeFirst();</span><br><span class="line">        }</span><br><span class="line">        <span class="comment">//这里也可以在队列中只存 dp 值的坐标，简化代码</span></span><br><span class="line">        queue.addLast(<span class="keyword">new</span> <span class="title class_">int</span>[]{dp[i-<span class="number">1</span>], i});</span><br><span class="line">        dp[i] = queue.getFirst()[<span class="number">0</span>]+nums[i];</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">return</span> dp[n-<span class="number">1</span>];</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+
+<h2 id="1697-检查边长度限制的路径是否存在"><a href="#1697-检查边长度限制的路径是否存在" class="headerlink" title="1697. 检查边长度限制的路径是否存在"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/checking-existence-of-edge-length-limited-paths/">1697. 检查边长度限制的路径是否存在</a></h2><p>Difficulty: <strong>困难</strong></p>
+<p>给你一个 <code>n</code> 个点组成的无向图边集 <code>edgeList</code> ，其中 edgeList[i] = [u<sub style="display: inline;">i</sub>, v<sub style="display: inline;">i</sub>, dis<sub style="display: inline;">i</sub>] 表示点 u<sub style="display: inline;">i</sub><code> 和点 </code>v<sub style="display: inline;">i</sub> 之间有一条长度为 dis<sub style="display: inline;">i</sub> 的边。请注意，两个点之间可能有超过一条边。</p>
+<p>给你一个查询数组<code>queries</code> ，其中 queries[j] = [p<sub style="display: inline;">j</sub>, q<sub style="display: inline;">j</sub>, limit<sub style="display: inline;">j</sub>] ，你的任务是对于每个查询 queries[j] ，判断是否存在从 p<sub style="display: inline;">j</sub> 到 q<sub style="display: inline;">j</sub>的路径，且这条路径上的每一条边都 <strong>严格小于</strong> limit<sub style="display: inline;">j</sub>。</p>
+<p>请你返回一个 <strong>布尔数组</strong><code>answer</code>，其中<code>answer.length == queries.length</code> ，当 <code>queries[j]</code> 的查询结果为 <code>true</code> 时， <code>answer</code> 第<code>j</code> 个值为<code>true</code>，否则为 <code>false</code> 。</p>
+<p><strong>示例 1：</strong></p>
+<p><img src="https://i.loli.net/2020/12/30/WiZjdPCsFca4JlE.png"></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">输入：n = <span class="number">3</span>, edgeList = [[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>],[<span class="number">1</span>,<span class="number">2</span>,<span class="number">4</span>],[<span class="number">2</span>,<span class="number">0</span>,<span class="number">8</span>],[<span class="number">1</span>,<span class="number">0</span>,<span class="number">16</span>]], queries = [[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>],[<span class="number">0</span>,<span class="number">2</span>,<span class="number">5</span>]]</span><br><span class="line">输出：[<span class="literal">false</span>,<span class="literal">true</span>]</span><br><span class="line">解释：上图为给定的输入数据。注意到 <span class="number">0</span> 和 <span class="number">1</span> 之间有两条重边，分别为 <span class="number">2</span> 和 <span class="number">16</span> 。</span><br><span class="line">对于第一个查询，<span class="number">0</span> 和 <span class="number">1</span> 之间没有小于 <span class="number">2</span> 的边，所以我们返回 <span class="literal">false</span> 。</span><br><span class="line">对于第二个查询，有一条路径（<span class="number">0</span> -&gt; <span class="number">1</span> -&gt; <span class="number">2</span>）两条边都小于 <span class="number">5</span> ，所以这个查询我们返回 <span class="literal">true</span> 。</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 2：</strong></p>
+<p><img src="https://i.loli.net/2020/12/30/TRQdGcei1S8UX9k.png"></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">输入：n = <span class="number">5</span>, edgeList = [[<span class="number">0</span>,<span class="number">1</span>,<span class="number">10</span>],[<span class="number">1</span>,<span class="number">2</span>,<span class="number">5</span>],[<span class="number">2</span>,<span class="number">3</span>,<span class="number">9</span>],[<span class="number">3</span>,<span class="number">4</span>,<span class="number">13</span>]], queries = [[<span class="number">0</span>,<span class="number">4</span>,<span class="number">14</span>],[<span class="number">1</span>,<span class="number">4</span>,<span class="number">13</span>]]</span><br><span class="line">输出：[<span class="literal">true</span>,<span class="literal">false</span>]</span><br><span class="line">解释：上图为给定数据。</span><br></pre></td></tr></table></figure>
+
+<p><strong>提示：</strong></p>
+<ul>
+<li>  2 &lt;= n &lt;= 10<sup>5</sup></li>
+<li>  1 &lt;= edgeList.length, queries.length &lt;= 10<sup>5</sup></li>
+<li>  edgeList[i].length == 3</li>
+<li>  queries[j].length == 3</li>
+<li>  0 &lt;= u<sub style="display: inline;">i</sub>, v<sub style="display: inline;">i</sub>, p<sub style="display: inline;">j</sub>, q<sub style="display: inline;">j</sub> &lt;= n - 1</li>
+<li>  u<sub style="display: inline;">i</sub> != v<sub style="display: inline;">i</sub></li>
+<li>  p<sub style="display: inline;">j</sub> != q<sub style="display: inline;">j</sub></li>
+<li>  1 &lt;= dis<sub style="display: inline;">i</sub>, limit<sub style="display: inline;">j</sub> &lt;= 10<sup>9</sup></li>
+<li>  两个点之间可能有 <strong>多条</strong> 边。</li>
+</ul>
+<h3 id="解法一-1"><a href="#解法一-1" class="headerlink" title="解法一"></a>解法一</h3><p>看到了评论区的一句提示然后写出了下面的解法，后来看题解区大佬科普这种类型的题目属于 <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/checking-existence-of-edge-length-limited-paths/solution/jie-zhe-ge-wen-ti-ke-pu-yi-xia-shi-yao-j-pn1b/">离线算法</a>，其实核心的思想就是，对查询的 limit 和边权值进行排序，然后从小 query 的 limit 开始，将 edge 权值不大于 limit 的都丢到并查集里面，然后查询一下就行了</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span>[] parent;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">find</span><span class="params">(<span class="type">int</span> a)</span> {</span><br><span class="line">    <span class="keyword">if</span> (parent[a] == a) {</span><br><span class="line">        <span class="keyword">return</span> a;</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">return</span> parent[a] = find(parent[a]);</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">union</span><span class="params">(<span class="type">int</span> a,<span class="type">int</span> b)</span> {</span><br><span class="line">    <span class="type">int</span> <span class="variable">pa</span> <span class="operator">=</span> find(a);</span><br><span class="line">    <span class="type">int</span> <span class="variable">pb</span> <span class="operator">=</span> find(b);</span><br><span class="line">    <span class="keyword">if</span> (pa == pb) <span class="keyword">return</span>;</span><br><span class="line">    parent[pa] = pb; </span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Pair</span> {</span><br><span class="line">    <span class="type">int</span> p, q;</span><br><span class="line">    <span class="type">int</span> limit;</span><br><span class="line">    <span class="type">int</span> idx;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Pair</span><span class="params">(<span class="type">int</span> p, <span class="type">int</span> q, <span class="type">int</span> limit, <span class="type">int</span> idx)</span> {</span><br><span class="line">        <span class="built_in">this</span>.p = p;</span><br><span class="line">        <span class="built_in">this</span>.q = q;</span><br><span class="line">        <span class="built_in">this</span>.limit = limit;</span><br><span class="line">        <span class="built_in">this</span>.idx = idx;</span><br><span class="line">    }</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="type">boolean</span>[] distanceLimitedPathsExist(<span class="type">int</span> n, <span class="type">int</span>[][] edge, <span class="type">int</span>[][] q) {</span><br><span class="line">    parent = <span class="keyword">new</span> <span class="title class_">int</span>[n];</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; n; i++) parent[i] = i;</span><br><span class="line">    <span class="type">boolean</span>[] res = <span class="keyword">new</span> <span class="title class_">boolean</span>[q.length];</span><br><span class="line">    Pair[] query = <span class="keyword">new</span> <span class="title class_">Pair</span>[q.length];</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; q.length; i++) {</span><br><span class="line">        query[i] = <span class="keyword">new</span> <span class="title class_">Pair</span>(q[i][<span class="number">0</span>], q[i][<span class="number">1</span>], q[i][<span class="number">2</span>], i);</span><br><span class="line">    }</span><br><span class="line">    Arrays.sort(edge, (e1, e2)-&gt;e1[<span class="number">2</span>]-e2[<span class="number">2</span>]);</span><br><span class="line">    Arrays.sort(query, (q1, q2)-&gt;q1.limit-q2.limit);</span><br><span class="line">    <span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; query.length; i++) {</span><br><span class="line">        <span class="keyword">while</span> (j &lt; edge.length &amp;&amp; edge[j][<span class="number">2</span>] &lt; query[i].limit) {</span><br><span class="line">            union(edge[j][<span class="number">0</span>], edge[j][<span class="number">1</span>]);</span><br><span class="line">            j++;</span><br><span class="line">        }</span><br><span class="line">        res[query[i].idx] = find(query[i].p) == find(query[i].q);</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<p>看了大佬们的代码后稍微做了下点简化</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span>[] parent;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">find</span><span class="params">(<span class="type">int</span> a)</span> {</span><br><span class="line">    <span class="keyword">if</span> (parent[a] == a) <span class="keyword">return</span> a;</span><br><span class="line">    <span class="keyword">return</span> parent[a] = find(parent[a]);</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">union</span><span class="params">(<span class="type">int</span> a,<span class="type">int</span> b)</span> {</span><br><span class="line">    <span class="type">int</span> <span class="variable">pa</span> <span class="operator">=</span> find(a);</span><br><span class="line">    <span class="type">int</span> <span class="variable">pb</span> <span class="operator">=</span> find(b);</span><br><span class="line">    <span class="keyword">if</span> (pa == pb) <span class="keyword">return</span>;</span><br><span class="line">    parent[pa] = pb; </span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="type">boolean</span>[] distanceLimitedPathsExist(<span class="type">int</span> n, <span class="type">int</span>[][] edge, <span class="type">int</span>[][] q) {</span><br><span class="line">    parent = <span class="keyword">new</span> <span class="title class_">int</span>[n];</span><br><span class="line">    <span class="type">int</span> <span class="variable">qlen</span> <span class="operator">=</span> q.length;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; n; i++) parent[i] = i;</span><br><span class="line">    <span class="type">boolean</span>[] res = <span class="keyword">new</span> <span class="title class_">boolean</span>[qlen];</span><br><span class="line">    <span class="comment">//记录 query 排序后的 id</span></span><br><span class="line">    Integer[] qid = <span class="keyword">new</span> <span class="title class_">Integer</span>[qlen];</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; qlen; i++) qid[i] = i;</span><br><span class="line">    Arrays.sort(edge, (e1, e2)-&gt;e1[<span class="number">2</span>]-e2[<span class="number">2</span>]);</span><br><span class="line">    Arrays.sort(qid, (i1, i2)-&gt;q[i1][<span class="number">2</span>]-q[i2][<span class="number">2</span>]);</span><br><span class="line">    <span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; qlen; i++) {</span><br><span class="line">        <span class="keyword">while</span> (j &lt; edge.length &amp;&amp; edge[j][<span class="number">2</span>] &lt; q[qid[i]][<span class="number">2</span>]) {</span><br><span class="line">            union(edge[j][<span class="number">0</span>], edge[j][<span class="number">1</span>]);</span><br><span class="line">            j++;</span><br><span class="line">        }</span><br><span class="line">        res[qid[i]] = find(q[qid[i]][<span class="number">0</span>]) == find(q[qid[i]][<span class="number">1</span>]);</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+        
+            <div class="donate-container">
+    <div class="donate-button">
+        <button id="donate-button">赞赏</button>
+    </div>
+    <div class="donate-img-container hide" id="donate-img-container">
+        <img id="donate-img" src="" data-src="">
+        <p> 感谢鼓励 </p>
+    </div>
+</div>
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+        <div id="lv-container"></div>
+        <div class="giscus"></div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/imlgw">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://imlgw.top">Tadow</a></span>
+        <span>/</span>
+        
+        <span><a target="_blank" rel="noopener" href="http://beian.miit.gov.cn/publish/query/indexFirst.action">鄂ICP备18011208号</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>  Theme <a target="_blank" rel="noopener" href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/live2d-widget@3.x/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"https://cdn.jsdelivr.net/npm/live2d-widget-model-hijiki@1.0.5/assets/hijiki.model.json"},"display":{"superSample":2,"width":160,"height":320,"position":"right","hOffset":0,"vOffset":-70},"mobile":{"show":false,"scale":0.2},"log":false});</script></body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://giscus.app/client.js"
+  data-repo="imlgw/imlgw.github.io"
+  data-repo-id="MDEwOlJlcG9zaXRvcnkxMzMyMDY4NDg="
+  data-category="Announcements"
+  data-category-id="DIC_kwDOB_CTQM4CQ7v8"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="top"
+  data-theme="light"
+  data-lang="zh-CN"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+
+
+</html>

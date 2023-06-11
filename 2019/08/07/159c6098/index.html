@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:description" content="Tadow 的博客">
+    <meta property="og:type" content="website">
+    <meta name="description" content="Tadow 的博客">
+    <meta name="keyword"  content="Tadow, Resolmi, imlgw, 半岛铁盒, 算法, Java, Golang">
+    <link rel="shortcut icon" href="https://fav.farm/💭">
+
+    <title>
+        
+        阻塞队列 - Tadow 碎碎念
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_28hi1hpxx24.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Tadow 碎碎念" type="application/atom+xml">
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> Keep It Simple, Stupid </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar radius">
+            <img src="https://static.imlgw.top/blog/20220821160037.png" />
+        </div>
+        <div class="name">
+            <i>Tadow</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <!-- <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li> -->
+            <li >
+                <a href="/categories">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>分类</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            
+            <li >
+                <a href="/selfhosted">
+                    <i class="iconfont icon-guidang1"></i>
+                    <span>自建</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/collect/">
+                    <i class="iconfont icon-shoucang1"></i>
+                    <span>收藏</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%98%BB%E5%A1%9E%E9%98%9F%E5%88%97"><span class="toc-text">阻塞队列</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Java-%E9%87%8C%E7%9A%84%E9%98%BB%E5%A1%9E%E9%98%9F%E5%88%97"><span class="toc-text">Java 里的阻塞队列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ArrayBlockingQueue"><span class="toc-text">ArrayBlockingQueue</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LinkedBlockingQueue"><span class="toc-text">LinkedBlockingQueue</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PriorityBlockingQueue"><span class="toc-text">PriorityBlockingQueue</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DelayQueue"><span class="toc-text">DelayQueue</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SynchronousQueue"><span class="toc-text">SynchronousQueue</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LinkedTransferQueue"><span class="toc-text">LinkedTransferQueue</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LinkedBlockingDeque"><span class="toc-text">LinkedBlockingDeque</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-text">参考</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-bg" id="search-bg"></div>
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i> Keep It Simple, Stupid </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        阻塞队列
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2019-08-07 00:00:00</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#多线程" title="多线程">多线程</a>
+        <span>/</span>
+        
+        <a class="tag" href="/tags/#并发编程" title="并发编程">并发编程</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <h2 id="阻塞队列"><a href="#阻塞队列" class="headerlink" title="阻塞队列"></a>阻塞队列</h2><p>阻塞队列（BlockingQueue）是一个支持两个附加操作的队列。这两个附加的操作是：在队列为空时，获取元素的线程会等待队列变为非空。当队列满时，存储元素的线程会等待队列可用。阻塞队列常用于生产者和消费者的场景，生产者是往队列里添加元素的线程，消费者是从队列里拿元素的线程。阻塞队列就是生产者存放元素的容器，而消费者也只从容器里拿元素。</p>
+<p><strong>非阻塞队列中的几个主要方法：</strong></p>
+<ul>
+<li><p><code>add(E e)</code>: 将元素 e 插入到队列末尾，如果插入成功，则返回 true；如果插入失败（即队列已满），则会抛出异常</p>
+</li>
+<li><p> <code>remove()</code>: 移除队首元素，若移除成功，则返回 true；如果移除失败（队列为空），则会抛出异常</p>
+</li>
+<li><p><code>offer(E e)</code>：将元素 e 插入到队列末尾，如果插入成功，则返回 true；如果插入失败（即队列已满），则返回 false</p>
+</li>
+<li><p><code>poll()</code>：移除并获取队首元素，若成功，则返回队首元素；否则返回 null</p>
+</li>
+<li><p><code>peek()</code>：获取队首元素，若成功，则返回队首元素；否则返回 null</p>
+</li>
+</ul>
+<p>对于非阻塞队列，一般情况下建议使用 offer、poll 和 peek 三个方法，不建议使用 add 和 remove 方法。因为使用 offer、poll 和 peek 三个方法可以通过返回值判断操作成功与否，而使用 add 和 remove 方法却不能达到这样的效果。注意，非阻塞队列中的方法都没有进行同步措施。</p>
+<p><strong>阻塞队列中的几个主要方法：</strong></p>
+<p>阻塞队列包括了非阻塞队列中的大部分方法，上面列举的 5 个方法在阻塞队列中都存在，但是要注意这 5 个方法在阻塞队列中都进行了<strong>同步措施</strong>。除此之外，阻塞队列提供了另外 4 个非常有用的方法：</p>
+<ul>
+<li><p><code>put(E e)</code>方法用来向队尾存入元素，如果队列满，则等待</p>
+</li>
+<li><p><code>take()</code>方法用来从队首取元素，如果队列为空，则等待</p>
+</li>
+<li><p><code>offer(E e,long timeout, TimeUnit unit)</code>方法用来向队尾存入元素，如果队列满，则等待一定的时间，当时间期限达到时，如果还没有插入成功，则返回 false；否则返回 true</p>
+</li>
+<li><p><code>poll(long timeout, TimeUnit unit)</code>方法用来从队首取元素，如果队列空，则等待一定的时间，当时间期限达到时，如果没取到，则返回 null；否则返回取得的元素</p>
+</li>
+</ul>
+<h3 id="Java-里的阻塞队列"><a href="#Java-里的阻塞队列" class="headerlink" title="Java 里的阻塞队列"></a>Java 里的阻塞队列</h3><ul>
+<li><strong>ArrayBlockingQueue</strong> ：一个由数组结构组成的有界阻塞队列。</li>
+<li><strong>LinkedBlockingQueue</strong> ：一个由链表结构组成的有界阻塞队列。</li>
+<li><strong>PriorityBlockingQueue</strong> ：一个支持优先级排序的无界阻塞队列。</li>
+<li><strong>DelayQueue</strong>：一个使用优先级队列实现的无界阻塞队列。</li>
+<li><strong>SynchronousQueue</strong>：一个不存储元素的阻塞队列。</li>
+<li><strong>LinkedTransferQueue</strong>：一个由链表结构组成的无界阻塞队列。</li>
+<li><strong>LinkedBlockingDeque</strong>：一个由链表结构组成的双向阻塞队列。</li>
+</ul>
+<blockquote>
+<p>除了这几个外还有一个 <code>ScheduledThreadPoolExecutor.DelayedWorkQueue</code>这个其实是 DelayQueue 的优化</p>
+</blockquote>
+<h3 id="ArrayBlockingQueue"><a href="#ArrayBlockingQueue" class="headerlink" title="ArrayBlockingQueue"></a>ArrayBlockingQueue</h3><p>ArrayBlockingQueue 是一个用数组实现的有界阻塞队列。此队列按照先进先出（FIFO）的原则对元素进行排序。默认情况下不保证访问者公平的访问队列，所谓公平访问队列是指阻塞的所有生产者线程或消费者线程，当队列可用时，可以按照阻塞的先后顺序访问队列，即先阻塞的生产者线程，可以先往队列里插入元素，先阻塞的消费者线程，可以先从队列里获取元素。通常情况下为了保证公平性会降低吞吐量。我们可以使用以下代码创建一个公平的阻塞队列：</p>
+<p><code>ArrayBlockingQueue fairQueue = new ArrayBlockingQueue(1000,true);</code></p>
+<p>访问者的公平性是使用可重入锁实现的</p>
+<h3 id="LinkedBlockingQueue"><a href="#LinkedBlockingQueue" class="headerlink" title="LinkedBlockingQueue"></a>LinkedBlockingQueue</h3><p>LinkedBlockingQueue 是一个用链表实现的<strong>有界</strong>阻塞队列。此队列按照先进先出的原则对元素进行排序。</p>
+<p>容易被误解为无边界，但其实其行为和内部代码都是基于有界的逻辑实现的，只不过如果我们没有在创建队列时就指定容量，那么其容量限制就自动被<br>设置为 Integer.MAX_VALUE ，成为了无界队列。</p>
+<h3 id="PriorityBlockingQueue"><a href="#PriorityBlockingQueue" class="headerlink" title="PriorityBlockingQueue"></a>PriorityBlockingQueue</h3><p>PriorityBlockingQueue 是一个支持优先级的无界队列。底层采用数组实现了二叉堆，相比 PriorityQueue 其实就是将默认情况下元素采取自然顺序排列，也可以通过比较器 comparator 来指定元素的排序规则。</p>
+<h3 id="DelayQueue"><a href="#DelayQueue" class="headerlink" title="DelayQueue"></a>DelayQueue</h3><p>这个队列还是挺有意思的，DelayQueue 是一个支持延时获取元素的无界阻塞队列。内部使用 PriorityQueue 来存储元素。队列中的元素必须实现 Delayed 接口，在创建元素时可以指定多久才能从队列中获取当前元素。只有在延迟期满时才能从队列中<strong>取出</strong>元素。我们可以将 DelayQueue 运用在以下应用场景：</p>
+<ul>
+<li>缓存系统的设计：可以用 DelayQueue 保存缓存元素的有效期，使用一个线程循环查询 DelayQueue，一旦能从 DelayQueue 中获取（删除）元素时，表示缓存有效期到了。</li>
+<li>定时任务调度。使用 DelayQueue 保存当天将会执行的任务和执行时间，一旦从 DelayQueue 中获取到任务就开始执行，从比如 TimerQueue 就是使用 DelayQueue 实现的。</li>
+</ul>
+<p>队列中的 Delayed 必须实现 compareTo 来指定元素的顺序。比如让延时时间最长的放在队列的末尾。实现代码如下：</p>
+<p><strong>如何实现 Delayed 接口</strong></p>
+<p>我们可以参考 ScheduledThreadPoolExecutor 里 ScheduledFutureTask 类。这个类实现了 Delayed 接口。</p>
+<p>然后使用 getDelay 可以查询当前元素还需要延时多久，代码如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">long</span> <span class="title function_">getDelay</span><span class="params">(TimeUnit unit)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> unit.convert(time - now(), TimeUnit.NANOSECONDS);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过构造函数可以看出延迟时间参数 ns 的单位是纳秒，自己设计的时候最好使用纳秒，因为 getDelay 时可以指定任意单位，一旦以纳秒作为单位，而延时的时间又精确不到纳秒就麻烦了。使用时请注意当 time 小于当前时间时，getDelay 会返回负数。</p>
+<p><strong>如何实现延时队列</strong></p>
+<p>延时队列的实现很简单，当消费者从队列里获取元素时，如果元素没有达到延时时间，就阻塞当前线程。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.concurrent.Delayed;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.TimeUnit;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">DelayedEle</span> <span class="keyword">implements</span> <span class="title class_">Delayed</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">long</span> delayTime; <span class="comment">//延迟时间</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">long</span> expire;  <span class="comment">//到期时间</span></span><br><span class="line">    <span class="keyword">private</span> String data;   <span class="comment">//数据</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">DelayedEle</span><span class="params">(<span class="type">long</span> delay, String data)</span> &#123;</span><br><span class="line">        delayTime = delay;</span><br><span class="line">        <span class="built_in">this</span>.data = data;</span><br><span class="line">        expire = System.currentTimeMillis() + delay;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 剩余时间=到期时间-当前时间</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">long</span> <span class="title function_">getDelay</span><span class="params">(TimeUnit unit)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> unit.convert(<span class="built_in">this</span>.expire - System.currentTimeMillis() , TimeUnit.MILLISECONDS);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 优先队列里面优先级规则</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">compareTo</span><span class="params">(Delayed o)</span> &#123;</span><br><span class="line">        <span class="comment">//根据 delay 时间</span></span><br><span class="line">        <span class="keyword">return</span> (<span class="type">int</span>) (<span class="built_in">this</span>.getDelay(TimeUnit.MILLISECONDS) -o.getDelay(TimeUnit.MILLISECONDS));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">toString</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">final</span> <span class="type">StringBuilder</span> <span class="variable">sb</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuilder</span>(<span class="string">&quot;DelayedElement&#123;&quot;</span>);</span><br><span class="line">        sb.append(<span class="string">&quot;delay=&quot;</span>).append(delayTime);</span><br><span class="line">        sb.append(<span class="string">&quot;, expire=&quot;</span>).append(expire);</span><br><span class="line">        sb.append(<span class="string">&quot;, data=&#x27;&quot;</span>).append(data).append(<span class="string">&#x27;\&#x27;&#x27;</span>);</span><br><span class="line">        sb.append(<span class="string">&#x27;&#125;&#x27;</span>);</span><br><span class="line">        <span class="keyword">return</span> sb.toString();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>测试</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.concurrent.DelayQueue;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> imlgw.top</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2019/8/7 17:55</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">DelayedQueueTest</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException &#123;</span><br><span class="line">        DelayQueue&lt;DelayedEle&gt; delayQueue = <span class="keyword">new</span> <span class="title class_">DelayQueue</span>&lt;DelayedEle&gt;();</span><br><span class="line"></span><br><span class="line">        <span class="type">DelayedEle</span> <span class="variable">element1</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">DelayedEle</span>(<span class="number">3000</span>,<span class="string">&quot;lgw&quot;</span>);</span><br><span class="line">        <span class="type">DelayedEle</span> <span class="variable">element2</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">DelayedEle</span>(<span class="number">3000</span>,<span class="string">&quot;top&quot;</span>);</span><br><span class="line"></span><br><span class="line">        delayQueue.offer(element1);</span><br><span class="line">        delayQueue.offer(element2);</span><br><span class="line">        <span class="type">long</span> <span class="variable">l</span> <span class="operator">=</span> System.currentTimeMillis();</span><br><span class="line"></span><br><span class="line">        System.out.println(l);</span><br><span class="line">        element1 =  delayQueue.take();</span><br><span class="line">        System.out.println(System.currentTimeMillis()-l);</span><br><span class="line"></span><br><span class="line">        System.out.println(element1);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** 测试结果</span></span><br><span class="line"><span class="comment"> *  1565176036796</span></span><br><span class="line"><span class="comment"> *  3016</span></span><br><span class="line"><span class="comment"> *  DelayedElement&#123;delay=3000, expire=1565176039796, data=&#x27;lgw&#x27;&#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"> </span><br></pre></td></tr></table></figure>
+
+<h3 id="SynchronousQueue"><a href="#SynchronousQueue" class="headerlink" title="SynchronousQueue"></a>SynchronousQueue</h3><p>SynchronousQueue 是一个不存储元素的阻塞队列。每一个 put 操作必须等待一个 take 操作，否则不能继续添加元素。SynchronousQueue 可以看成是一个传球手，负责把生产者线程处理的数据直接传递给消费者线程。队列本身并不存储任何元素，非常适合于传递性场景，比如在一个线程中使用的数据，传递给另外一个线程使用，SynchronousQueue 的吞吐量高于 LinkedBlockingQueue 和 ArrayBlockingQueue。</p>
+<blockquote>
+<p>线程池工厂方法 <strong>newCachedThreadPool</strong> 底层就是用的 Synchronized</p>
+</blockquote>
+<h3 id="LinkedTransferQueue"><a href="#LinkedTransferQueue" class="headerlink" title="LinkedTransferQueue"></a>LinkedTransferQueue</h3><p>TransferQueue 相比 SynchronousQueue 用处更广、更好用，因为你可以决定是使用 BlockingQueue 的方法（译者注：例如 put 方法）还是确保一次传递完成（译者注：即 transfer 方法）。在队列中已有元素的情况下，调用 transfer 方法，可以确保队列中被传递元素之前的所有元素都能被处理。<a target="_blank" rel="noopener" href="http://cs.oswego.edu/pipermail/concurrency-interest/2009-February/005888.html">Doug Lea 说</a> 从功能角度来讲，LinkedTransferQueue 实际上是 ConcurrentLinkedQueue、SynchronousQueue（公平模式）和 LinkedBlockingQueue 的超集。而且 LinkedTransferQueue 更好用，因为它不仅仅综合了这几个类的功能，同时也提供了更高效的实现。</p>
+<p>LinkedTransferQueue 是一个由链表结构组成的无界阻塞 TransferQueue 队列。相对于其他阻塞队列 LinkedTransferQueue 多了 tryTransfer 和 transfer 方法。</p>
+<p>LinkedTransferQueue 与 SynchronousQueue 中公平模式的实现 TransferQueue 是一样的，队列中存放的不是数据，而是操作（取出数据的操作 take 和放入数据的操作 put）队列中既可以存放 take 操作也可以存放 put 操作，但是队列中不能同时存在两种不同的操作，因为不同的操作会触发队列进行配对（操作出队）。</p>
+<p><strong>transfer 方法</strong>。如果当前有消费者正在等待接收元素（消费者使用 take() 方法或带时间限制的 poll() 方法时），transfer 方法可以把生产者传入的元素立刻 transfer（传输）给消费者。如果没有消费者在等待接收元素，transfer 方法会将元素存放在队列的 tail 节点，并等到该元素被消费者消费了才返回。transfer 方法的关键代码如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> E <span class="title function_">xfer</span><span class="params">(E e, <span class="type">boolean</span> haveData, <span class="type">int</span> how, <span class="type">long</span> nanos)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (haveData &amp;&amp; (e == <span class="literal">null</span>))</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">NullPointerException</span>();</span><br><span class="line">    <span class="type">Node</span> <span class="variable">s</span> <span class="operator">=</span> <span class="literal">null</span>;                        <span class="comment">// the node to append, if needed</span></span><br><span class="line"></span><br><span class="line">    retry:</span><br><span class="line">    <span class="keyword">for</span> (;;) &#123;                            <span class="comment">// restart on append race</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">Node</span> <span class="variable">h</span> <span class="operator">=</span> head, p = h; p != <span class="literal">null</span>;) &#123; <span class="comment">// find &amp; match first node</span></span><br><span class="line">            <span class="type">boolean</span> <span class="variable">isData</span> <span class="operator">=</span> p.isData;</span><br><span class="line">            <span class="type">Object</span> <span class="variable">item</span> <span class="operator">=</span> p.item;</span><br><span class="line">            <span class="keyword">if</span> (item != p &amp;&amp; (item != <span class="literal">null</span>) == isData) &#123; <span class="comment">// unmatched</span></span><br><span class="line">                <span class="keyword">if</span> (isData == haveData)   <span class="comment">// can&#x27;t match</span></span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">if</span> (p.casItem(item, e)) &#123; <span class="comment">// match</span></span><br><span class="line">                    <span class="keyword">for</span> (<span class="type">Node</span> <span class="variable">q</span> <span class="operator">=</span> p; q != h;) &#123;</span><br><span class="line">                        <span class="type">Node</span> <span class="variable">n</span> <span class="operator">=</span> q.next;  <span class="comment">// update by 2 unless singleton</span></span><br><span class="line">                        <span class="keyword">if</span> (head == h &amp;&amp; casHead(h, n == <span class="literal">null</span> ? q : n)) &#123;</span><br><span class="line">                            h.forgetNext();</span><br><span class="line">                            <span class="keyword">break</span>;</span><br><span class="line">                        &#125;                 <span class="comment">// advance and retry</span></span><br><span class="line">                        <span class="keyword">if</span> ((h = head)   == <span class="literal">null</span> ||</span><br><span class="line">                            (q = h.next) == <span class="literal">null</span> || !q.isMatched())</span><br><span class="line">                            <span class="keyword">break</span>;        <span class="comment">// unless slack &lt; 2</span></span><br><span class="line">                    &#125;</span><br><span class="line">                    LockSupport.unpark(p.waiter);</span><br><span class="line">                    <span class="keyword">return</span> LinkedTransferQueue.&lt;E&gt;cast(item);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="type">Node</span> <span class="variable">n</span> <span class="operator">=</span> p.next;</span><br><span class="line">            p = (p != n) ? n : (h = head); <span class="comment">// Use head if p offlist</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (how != NOW) &#123;                 <span class="comment">// No matches available</span></span><br><span class="line">            <span class="keyword">if</span> (s == <span class="literal">null</span>)</span><br><span class="line">                s = <span class="keyword">new</span> <span class="title class_">Node</span>(e, haveData);</span><br><span class="line">            <span class="comment">//（1）尝试添加到链表尾部</span></span><br><span class="line">            <span class="type">Node</span> <span class="variable">pred</span> <span class="operator">=</span> tryAppend(s, haveData);</span><br><span class="line">            <span class="keyword">if</span> (pred == <span class="literal">null</span>)</span><br><span class="line">                <span class="keyword">continue</span> retry;           <span class="comment">// lost race vs opposite mode</span></span><br><span class="line">            <span class="keyword">if</span> (how != ASYNC)</span><br><span class="line">            <span class="comment">//（2）等待消费者消费</span></span><br><span class="line">                <span class="keyword">return</span> awaitMatch(s, pred, e, (how == TIMED), nanos);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> e; <span class="comment">// not waiting</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>（1）代码是试图把存放当前元素的 s 节点作为 tail 节点。（2）代码是让 CPU 自旋等待消费者消费元素。因为自旋会消耗 CPU，所以自旋一定的次数后使用 Thread.yield() 方法来暂停当前正在执行的线程，并执行其他线程。</p>
+<p><strong>tryTransfer 方法</strong>。则是用来试探下生产者传入的元素是否能直接传给消费者。如果没有消费者等待接收元素，则返回 false。和 transfer 方法的区别是 tryTransfer 方法无论消费者是否接收，方法立即返回。而 transfer 方法是必须等到消费者消费了才返回。</p>
+<p>对于带有时间限制的 tryTransfer(E e, long timeout, TimeUnit unit) 方法，则是试图把生产者传入的元素直接传给消费者，但是如果没有消费者消费该元素则等待指定的时间再返回，如果超时还没消费元素，则返回 false，如果在超时时间内消费了元素，则返回 true。</p>
+<p><strong>实例</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> juc_study.collection.blocking;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.ExecutorService;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.Executors;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.LinkedTransferQueue;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LinkedTransferQueueDemo</span> &#123;</span><br><span class="line">    <span class="keyword">static</span> LinkedTransferQueue&lt;String&gt; lnkTransQueue = <span class="keyword">new</span> <span class="title class_">LinkedTransferQueue</span>&lt;String&gt;();</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">ExecutorService</span> <span class="variable">exService</span> <span class="operator">=</span> Executors.newFixedThreadPool(<span class="number">2</span>);</span><br><span class="line">        <span class="type">Producer</span> <span class="variable">producer</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">LinkedTransferQueueDemo</span>().<span class="keyword">new</span> <span class="title class_">Producer</span>();</span><br><span class="line">        <span class="type">Consumer</span> <span class="variable">consumer</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">LinkedTransferQueueDemo</span>().<span class="keyword">new</span> <span class="title class_">Consumer</span>();</span><br><span class="line">        exService.execute(producer);</span><br><span class="line">        exService.execute(consumer);</span><br><span class="line">        exService.shutdown();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">Producer</span> <span class="keyword">implements</span> <span class="title class_">Runnable</span>&#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">3</span>;i++)&#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    System.out.println(<span class="string">&quot;Producer is waiting to transfer...&quot;</span>);</span><br><span class="line">                    lnkTransQueue.transfer(<span class="string">&quot;A&quot;</span>+i);</span><br><span class="line">                    System.out.println(<span class="string">&quot;producer transfered element: A&quot;</span>+i);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">Consumer</span> <span class="keyword">implements</span> <span class="title class_">Runnable</span>&#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">3</span>;i++)&#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    System.out.println(<span class="string">&quot;Consumer is waiting to take element...&quot;</span>);</span><br><span class="line">                    String s= lnkTransQueue.take();</span><br><span class="line">                    System.out.println(<span class="string">&quot;Consumer received Element: &quot;</span>+s);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="LinkedBlockingDeque"><a href="#LinkedBlockingDeque" class="headerlink" title="LinkedBlockingDeque"></a>LinkedBlockingDeque</h3><p>LinkedBlockingDeque 是一个由链表结构组成的双向阻塞队列。所谓双向队列指的你可以从队列的两端插入和移出元素。双端队列因为多了一个操作队列的入口，在多线程同时入队时，也就减少了一半的竞争。相比其他的阻塞队列，LinkedBlockingDeque 多了 addFirst，addLast，offerFirst，offerLast，peekFirst，peekLast 等方法，以 First 单词结尾的方法，表示插入，获取（peek）或移除双端队列的第一个元素。以 Last 单词结尾的方法，表示插入，获取或移除双端队列的最后一个元素。另外插入方法 add 等同于 addLast，移除方法 remove 等效于 removeFirst。但是 take 方法却等同于 takeFirst，不知道是不是 Jdk 的 bug，使用时还是用带有 First 和 Last 后缀的方法更清楚。在初始化 LinkedBlockingDeque 时可以初始化队列的容量，用来防止其再扩容时过渡膨胀。另外双向阻塞队列可以运用在“工作窃取”模式中。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://my.oschina.net/bzhangpoorman/blog/3044802">并发容器学习—LinkedTransferQueue</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/YJian2008/article/details/16951811">阻塞队列之 LinkedTransferQueue</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/2659eb72134b">并发队列-无界阻塞延迟队列 DelayQueue 原理探究</a></p>
+<p><a target="_blank" rel="noopener" href="http://ifeve.com/blocking-queues/">并发编程网</a></p>
+<p><a target="_blank" rel="noopener" href="http://ifeve.com/java-transfer-queue/">Java 7 中的 TransferQueue</a></p>
+
+        
+            <div class="donate-container">
+    <div class="donate-button">
+        <button id="donate-button">赞赏</button>
+    </div>
+    <div class="donate-img-container hide" id="donate-img-container">
+        <img id="donate-img" src="" data-src="">
+        <p> 感谢鼓励 </p>
+    </div>
+</div>
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+        <div id="lv-container"></div>
+        <div class="giscus"></div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/imlgw">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://imlgw.top">Tadow</a></span>
+        <span>/</span>
+        
+        <span><a target="_blank" rel="noopener" href="http://beian.miit.gov.cn/publish/query/indexFirst.action">鄂ICP备18011208号</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>  Theme <a target="_blank" rel="noopener" href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/live2d-widget@3.x/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"https://cdn.jsdelivr.net/npm/live2d-widget-model-hijiki@1.0.5/assets/hijiki.model.json"},"display":{"superSample":2,"width":160,"height":320,"position":"right","hOffset":0,"vOffset":-70},"mobile":{"show":false,"scale":0.2},"log":false});</script></body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://giscus.app/client.js"
+  data-repo="imlgw/imlgw.github.io"
+  data-repo-id="MDEwOlJlcG9zaXRvcnkxMzMyMDY4NDg="
+  data-category="Announcements"
+  data-category-id="DIC_kwDOB_CTQM4CQ7v8"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="top"
+  data-theme="light"
+  data-lang="zh-CN"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+
+
+</html>

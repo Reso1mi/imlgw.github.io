@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:description" content="Tadow 的博客">
+    <meta property="og:type" content="website">
+    <meta name="description" content="Tadow 的博客">
+    <meta name="keyword"  content="Tadow, Resolmi, imlgw, 半岛铁盒, 算法, Java, Golang">
+    <link rel="shortcut icon" href="https://fav.farm/💭">
+
+    <title>
+        
+        Nmap 学习 - Tadow 碎碎念
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_28hi1hpxx24.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Tadow 碎碎念" type="application/atom+xml">
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> Keep It Simple, Stupid </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar radius">
+            <img src="https://static.imlgw.top/blog/20220821160037.png" />
+        </div>
+        <div class="name">
+            <i>Tadow</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <!-- <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li> -->
+            <li >
+                <a href="/categories">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>分类</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            
+            <li >
+                <a href="/selfhosted">
+                    <i class="iconfont icon-guidang1"></i>
+                    <span>自建</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/collect/">
+                    <i class="iconfont icon-shoucang1"></i>
+                    <span>收藏</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Nmap-%E7%AE%80%E4%BB%8B"><span class="toc-text">Nmap 简介</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8"><span class="toc-text">使用</span></a>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-bg" id="search-bg"></div>
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i> Keep It Simple, Stupid </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        Nmap 学习
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2018-06-17 00:00:00</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#Kali" title="Kali">Kali</a>
+        <span>/</span>
+        
+        <a class="tag" href="/tags/#Nmap" title="Nmap">Nmap</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <h2 id="Nmap-简介"><a href="#Nmap-简介" class="headerlink" title="Nmap 简介"></a>Nmap 简介</h2><p>   Nmap 是一个开源免费的网络发现和安全审计工具 ， 全称是 NetWork  Mapper , 采用 c++语言编写。纯命令行界面，Nmap 官方提供了一个 Zenmap 的图形界面。</p>
+<ul>
+<li>关于端口<br>  ·    默认情况下，Namp 会扫描 1000 个最有可能开放的 TCP 端口<br>·   open：开放<br>·   closed：关闭<br>·   filtered：被屏蔽<br>·   unfiltered：没有屏蔽还需要确认<br>·   open | filtered : 开放或者屏蔽<br>·   close | filtered : 关闭或屏蔽<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1></li>
+<li>主机扫描</li>
+</ul>
+<ol>
+<li>nmap  192.168.1.100 直接扫描，会扫描常用前 1000 个端口 扫描我的宿主机</li>
+<li>nmap -F 192.168.1.100  快速扫描，会扫描常用的前 100 个端口</li>
+<li>-v  显示扫描过程<br>root@kali:~# nmap -v -F  192.168.1.100<br>Starting Nmap 7.70 ( <a target="_blank" rel="noopener" href="https://nmap.org/">https://nmap.org</a> ) at 2018-06-17 00:55 EDT<br>Initiating Ping Scan at 00:55<br>Scanning 192.168.1.100 [4 ports]<br>Completed Ping Scan at 00:55, 0.05s elapsed (1 total hosts)<br>Initiating Parallel DNS resolution of 1 host. at 00:55<br>Completed Parallel DNS resolution of 1 host. at 00:55, 0.01s elapsed<br>Initiating SYN Stealth Scan at 00:55<br>Scanning 192.168.1.100 [100 ports]<br>Discovered open port 135/tcp on 192.168.1.100<br>Discovered open port 139/tcp on 192.168.1.100<br>Discovered open port 445/tcp on 192.168.1.100<br>Discovered open port 3306/tcp on 192.168.1.100<br>Discovered open port 443/tcp on 192.168.1.100<br>Increasing send delay for 192.168.1.100 from 0 to 5 due to 43 out of 142 dropped probes since last increase.<br>Completed SYN Stealth Scan at 00:55, 7.68s elapsed (100 total ports)<br>Nmap scan report for 192.168.1.100<br>Host is up (1.8s latency).<br>Not shown: 94 closed ports<br>PORT     STATE    SERVICE<br>135/tcp  open     msrpc<br>139/tcp  open     netbios-ssn<br>443/tcp  open     https<br>445/tcp  open     microsoft-ds<br>514/tcp  filtered shell<br>3306/tcp open     mysql<br>Read data files from: /usr/bin/../share/nmap<br>Nmap done: 1 IP address (1 host up) scanned in 7.88 seconds<br>Raw packets sent: 166 (7.280KB) | Rcvd: 163 (6.688KB)</li>
+<li>-sV  返回端口对应的服务信息（好慢）</li>
+<li>-O  返回对应服务的系统信息</li>
+</ol>
+<ul>
+<li>主机发现<br>  我们可以通过 namp 来嗅探整个局域网，扫描出局域网中在线的主机，通过 ICMP ECHO 扫描出在线的主机 （ping 的底层原理） <ol>
+<li>nmap -sS 192.168.1.100 隐蔽扫描 -sS ，也就是 SYN 扫描，只管发送数据包</li>
+<li>查看存活主机<br>nmap -sP 192.168.239.* 或者 192.168.239.0/24</li>
+<li>扫描主机的所有端口<br>nmap -p 1-65535 192.168.239.133</li>
+<li>扫描主机的操作系统<br>nmap -O 192.168.239.133</li>
+<li>查看主机个服务的版本详细信息<br>nmap -sV 192.168.239.133</li>
+</ol>
+</li>
+<li>常见的 Nmap 扫描类型参数</li>
+<li>sT :TCP connect 扫描 ，类似 Metasploit 中的 tcp 扫描</li>
+<li>sS : TCP SYN 扫描，类似于 Metasploit 中的 syn 扫描模块</li>
+<li>sF/-sX/-sN : 这些扫描通过发送一些特殊的标志位以避开设备或软件的监测</li>
+<li>sP : 通过发送 ICMP echo 请求探测主机是否存货原理同 Ping.</li>
+<li>sU : 探测主机开放了那些 UDP 端口。</li>
+<li>sA : TCP ACK 扫描，类似与 Metasploit 里的 ack 扫描模块</li>
+<li>常见的 Nmap 扫描选项</li>
+<li>Pn : 在扫描之前不发送 ICMP echo 请求测试目标是否活跃</li>
+<li>O ：启用对于 TCP/IP 协议栈的特征扫描以获取远程主机的操作系统</li>
+<li>F ：快速扫描</li>
+<li>p ：端口范围</li>
+</ul>
+
+        
+            <div class="donate-container">
+    <div class="donate-button">
+        <button id="donate-button">赞赏</button>
+    </div>
+    <div class="donate-img-container hide" id="donate-img-container">
+        <img id="donate-img" src="" data-src="">
+        <p> 感谢鼓励 </p>
+    </div>
+</div>
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+        <div id="lv-container"></div>
+        <div class="giscus"></div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/imlgw">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://imlgw.top">Tadow</a></span>
+        <span>/</span>
+        
+        <span><a target="_blank" rel="noopener" href="http://beian.miit.gov.cn/publish/query/indexFirst.action">鄂ICP备18011208号</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>  Theme <a target="_blank" rel="noopener" href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/live2d-widget@3.x/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"https://cdn.jsdelivr.net/npm/live2d-widget-model-hijiki@1.0.5/assets/hijiki.model.json"},"display":{"superSample":2,"width":160,"height":320,"position":"right","hOffset":0,"vOffset":-70},"mobile":{"show":false,"scale":0.2},"log":false});</script></body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://giscus.app/client.js"
+  data-repo="imlgw/imlgw.github.io"
+  data-repo-id="MDEwOlJlcG9zaXRvcnkxMzMyMDY4NDg="
+  data-category="Announcements"
+  data-category-id="DIC_kwDOB_CTQM4CQ7v8"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="top"
+  data-theme="light"
+  data-lang="zh-CN"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+
+
+</html>

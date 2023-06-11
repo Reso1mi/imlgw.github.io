@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:description" content="Tadow 的博客">
+    <meta property="og:type" content="website">
+    <meta name="description" content="Tadow 的博客">
+    <meta name="keyword"  content="Tadow, Resolmi, imlgw, 半岛铁盒, 算法, Java, Golang">
+    <link rel="shortcut icon" href="https://fav.farm/💭">
+
+    <title>
+        
+        Nginx 学习 - Tadow 碎碎念
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_28hi1hpxx24.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Tadow 碎碎念" type="application/atom+xml">
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> Keep It Simple, Stupid </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar radius">
+            <img src="https://static.imlgw.top/blog/20220821160037.png" />
+        </div>
+        <div class="name">
+            <i>Tadow</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <!-- <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li> -->
+            <li >
+                <a href="/categories">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>分类</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            
+            <li >
+                <a href="/selfhosted">
+                    <i class="iconfont icon-guidang1"></i>
+                    <span>自建</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/collect/">
+                    <i class="iconfont icon-shoucang1"></i>
+                    <span>收藏</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Nginx-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0"><span class="toc-text">Nginx 学习笔记</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-bg" id="search-bg"></div>
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i> Keep It Simple, Stupid </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        Nginx 学习
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2018-05-13 00:00:00</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#Nginx" title="Nginx">Nginx</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <h1 id="Nginx-学习笔记"><a href="#Nginx-学习笔记" class="headerlink" title="Nginx 学习笔记"></a>Nginx 学习笔记</h1><ul>
+<li>Nginx 简介<br><em>Nginx</em> (engine x) 是一个高性能的 <a target="_blank" rel="noopener" href="https://baike.so.com/doc/5366073-5601774.html">HTTP</a> 和 <a target="_blank" rel="noopener" href="https://baike.so.com/doc/5345781-5581226.html">反向代理</a> 服务器，也是一个 IMAP/POP3/SMTP<a target="_blank" rel="noopener" href="https://baike.so.com/doc/4487696-4696885.html">服务器</a>。Nginx 是由伊戈尔·赛索耶夫为俄罗斯访问量第二的 Rambler.ru 站点（俄文：Рамблер) 开发的，第一个公开版本 0.1.0 发布于 2004 年 10 月 4 日。<br>其将源代码以类 BSD 许可证的形式发布，因它的稳定性、丰富的功能集、示例配置文件和低系统资源的消耗而闻名。2011 年 6 月 1 日，nginx 1.0.4 发布。<br>Nginx 是一款 <a target="_blank" rel="noopener" href="https://baike.so.com/doc/585215-619452.html">轻量级</a> 的 <a target="_blank" rel="noopener" href="https://baike.so.com/doc/4230501-4432285.html">Web</a> 服务器/<a target="_blank" rel="noopener" href="https://baike.so.com/doc/5345781-5581226.html">反向代理</a> 服务器及 <a target="_blank" rel="noopener" href="https://baike.so.com/doc/928072-980969.html">电子邮件</a>(IMAP/POP3) 代理服务器，并在一个 BSD-like 协议下发行。其特点是占有内存少，<a target="_blank" rel="noopener" href="https://baike.so.com/doc/6916691-7138566.html">并发</a> 能力强，事实上 nginx 的并发能力确实在同类型的网页服务器中表现较好，中国大陆使用 nginx 网站用户有：百度、京东、<a target="_blank" rel="noopener" href="https://baike.so.com/doc/2204905-2333035.html">新浪</a>、网易、<a target="_blank" rel="noopener" href="https://baike.so.com/doc/1038695-1098608.html">腾讯</a>、淘宝等。</li>
+<li>Nginx 主要作用</li>
+</ul>
+<ol>
+<li>(Http 服务器）处理静态文件<br><img src="http://p0.cdn.img9.top/ipfs/QmdiKx1JUr7y9TabUQNNqu5dP8AwdsHSHe9QMwa487rsaS?0.png" alt="image"><br>像这样配置的话当访问 <em>localhost:80</em> 时就会访问到相对当前路径下的 html 文件夹下的 index.html 或者 index.htm</li>
+<li>反向代理<br> <strong>反向代理</strong> 也是 nginx 用的最多的地方，既然有反向代理那就肯定有 <strong>正向代理</strong> 先来理解下正向代理！<a target="_blank" rel="noopener" href="https://gss0.baidu.com/7LsWdDW5_xN3otqbppnN2DJv/zhidao/pic/item/a2cc7cd98d1001e96d753f76b10e7bec54e79779.jpg">image</a><br>正向代理其实就是代理上网，<strong>客户端</strong>发送请求到代理服务器然后代理服务器转交请求给<strong>目标服务器</strong>目标服务器响应给代理服务器代理服务器再响应给<strong>客户端</strong>也就起到了代理的作用<br>那反向代理是什么呢？<br><img src="https://gss0.baidu.com/7LsWdDW5_xN3otqbppnN2DJv/zhidao/pic/item/a8014c086e061d95f3f21c4172f40ad162d9ca17.jpg" alt="image"><br>正向代理针对的是<strong>客户端</strong>而反向代理正对的是<strong>服务端</strong><br>当用户发送一个请求给 ServerB 然后 ServerB 判断用户是什么请求<br>是请求 Server1 就转发给 Server1… 在生产中前端用一个 Nginx 处理用户的请求再分发到不同的后端服务器。</li>
+</ol>
+<p><strong>配置</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">upstream sina&#123;</span><br><span class="line">	server <span class="number">192.168</span><span class="number">.125</span><span class="number">.3</span>:<span class="number">8080</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    server &#123;</span><br><span class="line">        listen       <span class="number">80</span>;</span><br><span class="line">        server_name  www.sina.com.cn;</span><br><span class="line"></span><br><span class="line">        #charset koi8-r;</span><br><span class="line"></span><br><span class="line">        #access_log  logs/host.access.log  main;</span><br><span class="line"></span><br><span class="line">        location / &#123;</span><br><span class="line">            proxy_pass   http:<span class="comment">//sina;</span></span><br><span class="line">            index  index.html index.htm;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">     upstream sohu&#123;</span><br><span class="line">	server <span class="number">192.168</span><span class="number">.125</span><span class="number">.3</span>:<span class="number">8081</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    server &#123;</span><br><span class="line">        listen       <span class="number">80</span>;</span><br><span class="line">        server_name  www.sohu.com;</span><br><span class="line"></span><br><span class="line">        #charset koi8-r;</span><br><span class="line"></span><br><span class="line">        #access_log  logs/host.access.log  main;</span><br><span class="line"></span><br><span class="line">        location / &#123;</span><br><span class="line">			#交给谁代理</span><br><span class="line">            proxy_pass   http:<span class="comment">//sohu;</span></span><br><span class="line">            index  index.html index.htm;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>像这样配置客户端访问通过一个公网 ip 入口先到达 Nginx 然后转发给对应的服务器当用户访问* <a target="_blank" rel="noopener" href="http://www.sohu.com/">www.sohu.com</a> *时就会转发给 <a target="_blank" rel="noopener" href="http://sohu/">http://sohu</a> 这个就是上面的 upstream sohu{…} 交给它处理<br>3. 负载均衡和容错<br>    负载均衡就是在反向代理的中间加上的 就是在 upstream 里面加一个 server，最简单的负载均衡就是轮询一人一次刷新就换 (<em>默认的就是轮询</em>) 当然你也可以根据服务器性能配置权重权重越大访问到的机会越大</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">upstream sina&#123;</span><br><span class="line">	server <span class="number">192.168</span><span class="number">.125</span><span class="number">.3</span>:<span class="number">8080</span>;</span><br><span class="line">	#weigth 是权重</span><br><span class="line">	server <span class="number">192.168</span><span class="number">.25</span><span class="number">.148</span>:<span class="number">8082</span> weight=<span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    server &#123;</span><br><span class="line">        listen       <span class="number">80</span>;</span><br><span class="line">        server_name  www.sina.com.cn;</span><br><span class="line"></span><br><span class="line">        #charset koi8-r;</span><br><span class="line"></span><br><span class="line">        #access_log  logs/host.access.log  main;</span><br><span class="line"></span><br><span class="line">        location / &#123;</span><br><span class="line">            proxy_pass   http:<span class="comment">//sina;</span></span><br><span class="line">            index  index.html index.htm;</span><br><span class="line">         &#125;</span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure>
+<p>由于 Nginx 是我们网站的入口如果 Nginx 挂掉后面的服务就都失效了这时候就可以加备用 Nginx 服务器用 keepalive+Nginx 实现主备！<a target="_blank" rel="noopener" href="http://p0.cdn.img9.top/ipfs/Qmc3nC82Xsh1QANbUfAdDGUmTL2KJ2bQzoYzge7VHvRRWu?0.png">image</a></p>
+
+        
+            <div class="donate-container">
+    <div class="donate-button">
+        <button id="donate-button">赞赏</button>
+    </div>
+    <div class="donate-img-container hide" id="donate-img-container">
+        <img id="donate-img" src="" data-src="">
+        <p> 感谢鼓励 </p>
+    </div>
+</div>
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+        <div id="lv-container"></div>
+        <div class="giscus"></div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/imlgw">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://imlgw.top">Tadow</a></span>
+        <span>/</span>
+        
+        <span><a target="_blank" rel="noopener" href="http://beian.miit.gov.cn/publish/query/indexFirst.action">鄂ICP备18011208号</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>  Theme <a target="_blank" rel="noopener" href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/live2d-widget@3.x/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"https://cdn.jsdelivr.net/npm/live2d-widget-model-hijiki@1.0.5/assets/hijiki.model.json"},"display":{"superSample":2,"width":160,"height":320,"position":"right","hOffset":0,"vOffset":-70},"mobile":{"show":false,"scale":0.2},"log":false});</script></body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://giscus.app/client.js"
+  data-repo="imlgw/imlgw.github.io"
+  data-repo-id="MDEwOlJlcG9zaXRvcnkxMzMyMDY4NDg="
+  data-category="Announcements"
+  data-category-id="DIC_kwDOB_CTQM4CQ7v8"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="top"
+  data-theme="light"
+  data-lang="zh-CN"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+
+
+</html>

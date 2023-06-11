@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:description" content="Tadow 的博客">
+    <meta property="og:type" content="website">
+    <meta name="description" content="Tadow 的博客">
+    <meta name="keyword"  content="Tadow, Resolmi, imlgw, 半岛铁盒, 算法, Java, Golang">
+    <link rel="shortcut icon" href="https://fav.farm/💭">
+
+    <title>
+        
+        KMP 算法 - Tadow 碎碎念
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_28hi1hpxx24.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Tadow 碎碎念" type="application/atom+xml">
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> Keep It Simple, Stupid </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar radius">
+            <img src="https://static.imlgw.top/blog/20220821160037.png" />
+        </div>
+        <div class="name">
+            <i>Tadow</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <!-- <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li> -->
+            <li >
+                <a href="/categories">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>分类</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            
+            <li >
+                <a href="/selfhosted">
+                    <i class="iconfont icon-guidang1"></i>
+                    <span>自建</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/collect/">
+                    <i class="iconfont icon-shoucang1"></i>
+                    <span>收藏</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#next-%E6%95%B0%E7%BB%84%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">next 数组是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#next-%E6%95%B0%E7%BB%84%E7%9A%84%E4%BD%9C%E7%94%A8%EF%BC%9F"><span class="toc-text">next 数组的作用？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E5%AD%90%E4%B8%B2%E5%8F%AF%E4%BB%A5%E7%9B%B4%E6%8E%A5%E6%BB%91%E5%8A%A8-next-i-%E6%AD%A5%EF%BC%9F"><span class="toc-text">为什么子串可以直接滑动 next[i] 步？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#next-%E6%95%B0%E7%BB%84%E5%A6%82%E4%BD%95%E6%B1%82%EF%BC%9F"><span class="toc-text">next 数组如何求？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%AF%E7%BA%BF%E6%80%A7%E7%9A%84%EF%BC%9F"><span class="toc-text">时间复杂度为什么是线性的？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BE%8B%E9%A2%98"><span class="toc-text">例题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#28-%E5%AE%9E%E7%8E%B0-strStr"><span class="toc-text">28. 实现 strStr()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#459-%E9%87%8D%E5%A4%8D%E7%9A%84%E5%AD%90%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="toc-text">459. 重复的子字符串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#214-%E6%9C%80%E7%9F%AD%E5%9B%9E%E6%96%87%E4%B8%B2"><span class="toc-text">214. 最短回文串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1392-%E6%9C%80%E9%95%BF%E5%BF%AB%E4%B9%90%E5%89%8D%E7%BC%80"><span class="toc-text">1392. 最长快乐前缀</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#796-%E6%97%8B%E8%BD%AC%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="toc-text">796. 旋转字符串</span></a></li></ol></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-bg" id="search-bg"></div>
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i> Keep It Simple, Stupid </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        KMP 算法
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2020-05-13 00:00:00</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#算法" title="算法">算法</a>
+        <span>/</span>
+        
+        <a class="tag" href="/tags/#数据结构" title="数据结构">数据结构</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>之前大一的时候写过一篇关于 KMP 的博客，写的也是乱七八糟的，自己看着都费劲，最近看左神的书《程序员代码面试指南》有讲，重新学了一遍，感觉写的还是挺好的，这篇就不从 0 开始讲解<code>KMP</code>了，简单说一些要点，方便以后回顾</p>
+<blockquote>
+<p>我记得大一为了搞懂 kmp 好像花了挺长时间的，网上翻各种博客，搞了大半天吧，结果还是没咋搞清楚，前几天看书大概只花了一个小时左右就都搞清楚了，可能是左神写的比较好吧😂</p>
+</blockquote>
+<h2 id="next-数组是什么？"><a href="#next-数组是什么？" class="headerlink" title="next 数组是什么？"></a>next 数组是什么？</h2><p><code>kmp</code>最关键的地方就是这个<code>next</code>数组了，<code>next</code>数组就是各个子串的前缀后缀最大匹配（相等）长度，具体一点就是<code>next[i]</code>代表的就是子串<code>i</code>位置前字符（不包括<code>i</code>位置）的前后缀最大匹配长度</p>
+<p>举个例子： 子串<code>abababc</code>  </p>
+<p>next[3] = “aba” 的前后缀最大匹配长度 = 1 （开头的 a 和结尾的 a 匹配）</p>
+<p>next[6]= “ababab” 的前后缀最大匹配长度 = 4 （开头的 abab 和结尾的 abab 匹配）</p>
+<h2 id="next-数组的作用？"><a href="#next-数组的作用？" class="headerlink" title="next 数组的作用？"></a>next 数组的作用？</h2><p>他的作用其实就是在两个字符串比较失配的时候避免目标串回溯，常规的暴力匹配在字符失配的时候就会回退到首字符重新匹配，整体时间复杂度就是<code>O(m*n)</code>，而 next 数组就是为了避免回退，简单举一个例子</p>
+<p><img src="http://static.imlgw.top/blog/20200513/ugvgLhmyaeBr.png?imageslim" alt="mark"></p>
+<p>用 PPT 简单的画了个图（PPT 真好用），当匹配到<strong>母串和子串</strong><code>index=6</code>的位置时，发现两者的字符不相同，按照暴力匹配，下一步就是母串回溯到<code>index=1</code>也就是 b 字符位置，子串回溯到首字符，重新开始匹配，直到匹配到子串，或者匹配完母串所有子串，但是当我们有了<code>next</code>数组，我们的母串就不必再回退了，而子串也不必再回退到首字符了，图中的黄色下划线和绿色下划线代表的就是<strong>子串 index=6 **位置前的最长前后缀匹配长度，也就是<code>ababab</code>的</strong>最长前后缀匹配字符**，当子串 index=6 位置的字符匹配不上的时候我们我们就可以直接将<code>index</code>跳到<code>next[6]</code>，也就是将子串索引移动到 index=4 的位置，就变成下面这样</p>
+<p><img src="http://static.imlgw.top/blog/20200513/6sBvml0hXrr6.png?imageslim" alt="mark"></p>
+<p>母串并没有回退，继续匹配<code>母串 index=6</code>和子串<code>index=4</code>位置的元素，然后重复上面的过程</p>
+<h2 id="为什么子串可以直接滑动-next-i-步？"><a href="#为什么子串可以直接滑动-next-i-步？" class="headerlink" title="为什么子串可以直接滑动 next[i] 步？"></a>为什么子串可以直接滑动 next[i] 步？</h2><p>前面我们知道了如何使用<code>next</code>数组，但是为什么子串可以一下子从滑动到<code>next[i]</code>位置呢？万一中间有能匹配的字符不就滑过了么？</p>
+<p>我们假设在母串中间存在某一个位置能匹配出子串，且该位置在<strong>子串最长匹配后缀之前</strong>，也就是说这部分<strong>比当前的最长前后缀匹配长度还要长</strong>对应到下图就是黑色虚线框框出来的部分</p>
+<p><img src="http://static.imlgw.top/blog/20200513/EbC0E1JvbkHh.png?imageslim" alt="mark"></p>
+<p>既然能从这个位置匹配出子串，那么说明我的<strong>子串的前缀</strong>和这一部分相等，同时，由于失配前子串和母串是完全匹配的，所以我<strong>子串的后缀</strong>和这一部分肯定也是相等的，诶？我子串前后缀都和这部分相等，那它肯定是我的匹配前后缀啊，但是这部分又比我的最长前后缀长度要长，是不是矛盾了？所以原假设是不成立的，不存在这样的位置！所以子串可以放心的滑到<code>next[i]</code>位置</p>
+<h2 id="next-数组如何求？"><a href="#next-数组如何求？" class="headerlink" title="next 数组如何求？"></a>next 数组如何求？</h2><p>说了这么多 next 数组，那么 next 数组究竟怎么求呢？其实整个的求解过程有点像动态规划，有一些细节需要注意下</p>
+<blockquote>
+<p>想起来了再写</p>
+</blockquote>
+<h2 id="时间复杂度为什么是线性的？"><a href="#时间复杂度为什么是线性的？" class="headerlink" title="时间复杂度为什么是线性的？"></a>时间复杂度为什么是线性的？</h2><blockquote>
+<p>想起来了再写</p>
+</blockquote>
+<h2 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h2><h3 id="28-实现-strStr"><a href="#28-实现-strStr" class="headerlink" title="28. 实现 strStr()"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/implement-strstr/">28. 实现 strStr()</a></h3><p>实现 <a target="_blank" rel="noopener" href="https://baike.baidu.com/item/strstr/811469">strStr()</a> 函数。</p>
+<p>给定一个 haystack 字符串和一个 needle 字符串，在 haystack 字符串中找出 needle 字符串出现的第一个位置 （从 0 开始）。如果不存在，则返回  <strong>-1</strong>。</p>
+<p><strong>示例 1:</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：haystack = <span class="string">&quot;hello&quot;</span>, needle = <span class="string">&quot;ll&quot;</span></span><br><span class="line">输出：<span class="number">2</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 2:</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：haystack = <span class="string">&quot;aaaaa&quot;</span>, needle = <span class="string">&quot;bba&quot;</span></span><br><span class="line">输出：-<span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>说明：</strong></p>
+<p>当 <code>needle</code> 是空字符串时，我们应当返回什么值呢？这是一个在面试中很好的问题。</p>
+<p>对于本题而言，当 <code>needle</code> 是空字符串时我们应当返回 0 。这与 C 语言的 <a target="_blank" rel="noopener" href="https://baike.baidu.com/item/strstr/811469">strstr()</a> 以及 Java 的 <a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/7/docs/api/java/lang/String.html#indexOf(java.lang.String)">indexOf()</a> 定义相符。</p>
+<p><strong>解法一</strong></p>
+<p>标注的是简单，很多人都是直接调的 API，但是我感觉没啥意义，所以这题应该直接上 kmp</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">strStr</span><span class="params">(String haystack, String needle)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span>(needle==<span class="literal">null</span> || needle.length()&lt;=<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span>(haystack==<span class="literal">null</span> ||haystack.length()&lt;=<span class="number">0</span>) <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    <span class="type">int</span>[] next=getNext(needle);</span><br><span class="line">    <span class="type">int</span> tidx=<span class="number">0</span>,sidx=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (sidx&lt;haystack.length() &amp;&amp; tidx&lt;needle.length()) &#123;</span><br><span class="line">        <span class="keyword">if</span>(needle.charAt(tidx) == haystack.charAt(sidx))&#123;</span><br><span class="line">            tidx++;sidx++;</span><br><span class="line">            <span class="keyword">if</span>(tidx==needle.length())&#123;</span><br><span class="line">                <span class="keyword">return</span> sidx-tidx;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(next[tidx]==-<span class="number">1</span>)&#123;</span><br><span class="line">            <span class="comment">//完全失配 sidx 需要后移</span></span><br><span class="line">            sidx++;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            tidx=next[tidx];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//求 t 的 next</span></span><br><span class="line"><span class="comment">//abadabac</span></span><br><span class="line"><span class="comment">//ac</span></span><br><span class="line"><span class="keyword">public</span> <span class="type">int</span>[] getNext(String t)&#123;</span><br><span class="line">    <span class="type">int</span>[] next= <span class="keyword">new</span> <span class="title class_">int</span>[t.length()];</span><br><span class="line">    next[<span class="number">0</span>]=-<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span>(t.length()&lt;=<span class="number">1</span>) <span class="keyword">return</span> next;</span><br><span class="line">    next[<span class="number">1</span>]=<span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> left=<span class="number">0</span>,right=<span class="number">2</span>;</span><br><span class="line">    <span class="keyword">while</span>(right&lt;t.length())&#123;</span><br><span class="line">        <span class="keyword">if</span>(t.charAt(left)==t.charAt(right-<span class="number">1</span>))&#123;</span><br><span class="line">            left++;</span><br><span class="line">            next[right++]=left;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(next[left]==-<span class="number">1</span>)&#123; <span class="comment">//无法匹配了</span></span><br><span class="line">            right++; <span class="comment">//next[right]=0</span></span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            left=next[left];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>没啥好说的，裸 kmp</p>
+<h3 id="459-重复的子字符串"><a href="#459-重复的子字符串" class="headerlink" title="459. 重复的子字符串"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/repeated-substring-pattern/">459. 重复的子字符串</a></h3><p>给定一个非空的字符串，判断它是否可以由它的一个子串重复多次构成。给定的字符串只含有小写英文字母，并且长度不超过 10000。</p>
+<p><strong>示例 1:</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：<span class="string">&quot;abab&quot;</span></span><br><span class="line"></span><br><span class="line">输出：True</span><br><span class="line"></span><br><span class="line">解释：可由子字符串 <span class="string">&quot;ab&quot;</span> 重复两次构成。</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 2:</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：<span class="string">&quot;aba&quot;</span></span><br><span class="line"></span><br><span class="line">输出：False</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 3:</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：<span class="string">&quot;abcabcabcabc&quot;</span></span><br><span class="line"></span><br><span class="line">输出：True</span><br><span class="line"></span><br><span class="line">解释：可由子字符串 <span class="string">&quot;abc&quot;</span> 重复四次构成。 （或者子字符串 <span class="string">&quot;abcabc&quot;</span> 重复两次构成。)</span><br></pre></td></tr></table></figure>
+
+<p><strong>解法一</strong></p>
+<p>这题标注的也是简单，确实暴力的解法不难想到，但是复杂度比较高，所以就直接上 kmp</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//20ms，做复杂了，构造了一个 s+s 然后去掉头，再在里面 kmp 找</span></span><br><span class="line"><span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">repeatedSubstringPattern</span><span class="params">(String s)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span>(s==<span class="literal">null</span> || s.length()&lt;=<span class="number">0</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    String t=s+s;</span><br><span class="line">    <span class="type">int</span>[] next=getNext(s);</span><br><span class="line">    <span class="type">int</span> i=<span class="number">0</span>,j=<span class="number">1</span>; <span class="comment">//去掉头</span></span><br><span class="line">    <span class="keyword">while</span>(i&lt;s.length() &amp;&amp; j&lt;t.length())&#123;</span><br><span class="line">        <span class="keyword">if</span>(s.charAt(i)==t.charAt(j))&#123;</span><br><span class="line">            i++;j++;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(next[i]==-<span class="number">1</span>)&#123;</span><br><span class="line">            j++;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            i=next[i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> j-i!=s.length();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="type">int</span>[] getNext(String s)&#123;</span><br><span class="line">    <span class="keyword">if</span>(s.length()==<span class="number">1</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;-<span class="number">1</span>&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span>[] next=<span class="keyword">new</span> <span class="title class_">int</span>[s.length()];</span><br><span class="line">    next[<span class="number">0</span>]=-<span class="number">1</span>;</span><br><span class="line">    next[<span class="number">1</span>]=<span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> left=<span class="number">0</span>,right=<span class="number">2</span>; </span><br><span class="line">    <span class="keyword">while</span>(right&lt;s.length())&#123;</span><br><span class="line">        <span class="keyword">if</span>(s.charAt(left)==s.charAt(right-<span class="number">1</span>))&#123;</span><br><span class="line">            next[right++]=++left;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(next[left]==-<span class="number">1</span>)&#123;</span><br><span class="line">            next[right++]=<span class="number">0</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            left=next[left];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个解法其实构造了一个<code>s+s</code>的字符<code>t</code>，然后去掉头，在<code>t[1:]</code>中找原<code>s</code>，最后找到的位置只要不是<code>s+s</code>连接处，也就是<code>s.length()</code>位置，那么就肯定是重复的有循环的，其实这个结论在写的时候并没有证明，完全是猜的😂，简单证明下，一图胜前言</p>
+<p><img src="http://static.imlgw.top/blog/20200513/O4Nmz343e9Li.png?imageslim" alt="mark"></p>
+<p><strong>解法二</strong></p>
+<p>其实只需要构造 next 数组，根据 next 数组就可以判断是不是重复的，我们看几组数据</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">   s:  a b c a b c a b c a b c \<span class="number">0</span></span><br><span class="line">next: -<span class="number">1</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">1</span> <span class="number">2</span> <span class="number">3</span> <span class="number">4</span> <span class="number">5</span> <span class="number">6</span> <span class="number">7</span> <span class="number">8</span>  <span class="number">9</span></span><br><span class="line">   s:  a a b a b d \<span class="number">0</span></span><br><span class="line">next: -<span class="number">1</span> <span class="number">0</span> <span class="number">1</span> <span class="number">0</span> <span class="number">1</span> <span class="number">0</span>  <span class="number">0</span></span><br><span class="line">   s:  a b c d a b \<span class="number">0</span></span><br><span class="line">next: -<span class="number">1</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">1</span> <span class="number">2</span> </span><br></pre></td></tr></table></figure>
+
+<p>相比常规的 KMP 算法，我们在字符最后最后也加了<code>next</code>位，其实是为了区别下面的情况</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">   s:  a b a b \0</span><br><span class="line">next: -1 0 0 1 2</span><br><span class="line">   s:  a b a c \0</span><br><span class="line">next: -1 0 0 1 0</span><br></pre></td></tr></table></figure>
+
+<p>然后我们就可以发现，next 数组在过了一定的范围后就开始逐渐递增了，而这个递增的拐点就是在第一个循环节结束的时候，至于为什么我就不详细证明了，其实也很好想因为过了循环节，后面的都是和前面重复的，所以每多一个字符<code>next[i]=next[i-1]+1</code>，所以我们用字符的长度减去<code>next[slen]</code>就可以得到循环结的长度，我们只需要验证这个循环节能否被<code>s</code>字符串长度整除就可以了，同时需要防止循环节长度等于字符串长度的情况</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">repeatedSubstringPattern</span><span class="params">(String s)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span>(s==<span class="literal">null</span> || s.length()&lt;=<span class="number">1</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="type">int</span>[] next=getNext(s);</span><br><span class="line">    <span class="type">int</span> replen=s.length()-next[s.length()];</span><br><span class="line">    <span class="comment">//循环结长度等于字符长度</span></span><br><span class="line">    <span class="keyword">return</span> replen!=s.length() &amp;&amp; s.length()%replen==<span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="type">int</span>[] getNext(String s)&#123;</span><br><span class="line">    <span class="keyword">if</span>(s.length()==<span class="number">1</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[]&#123;-<span class="number">1</span>&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span>[] next=<span class="keyword">new</span> <span class="title class_">int</span>[s.length()+<span class="number">1</span>];</span><br><span class="line">    next[<span class="number">0</span>]=-<span class="number">1</span>;</span><br><span class="line">    next[<span class="number">1</span>]=<span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> left=<span class="number">0</span>,right=<span class="number">2</span>; </span><br><span class="line">    <span class="keyword">while</span>(right&lt;=s.length())&#123;</span><br><span class="line">        <span class="keyword">if</span>(s.charAt(left)==s.charAt(right-<span class="number">1</span>))&#123;</span><br><span class="line">            next[right++]=++left;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(next[left]==-<span class="number">1</span>)&#123;</span><br><span class="line">            next[right++]=<span class="number">0</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            left=next[left];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>实在不行把这个记住就行了，反正我是记住了😂（过几天就忘了</p>
+<h3 id="214-最短回文串"><a href="#214-最短回文串" class="headerlink" title="214. 最短回文串"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/shortest-palindrome/">214. 最短回文串</a></h3><p>给定一个字符串 <strong><em>s</em></strong>，你可以通过在字符串前面添加字符将其转换为回文串。找到并返回可以用这种方式转换的最短回文串。</p>
+<p><strong>示例 1:</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：<span class="string">&quot;aacecaaa&quot;</span></span><br><span class="line">输出：<span class="string">&quot;aaacecaaa&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 2:</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：<span class="string">&quot;abcd&quot;</span></span><br><span class="line">输出：<span class="string">&quot;dcbabcd&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>解法一</strong></p>
+<p>这题很关键的一个点就是最短回文串其实就是原字符<code>s</code>，减去<code>s[0]</code>开头的最长回文串，剩下的部分再放到<code>s</code>前，这就是最短回文串</p>
+<p>所以问题就变成了如何求<code>s[0]</code>开头的最长回文串，朴素的思路可以使用中心扩散法，枚举所有的字符和间隙，或者使用”马拉车”，等高效算法，这里不多介绍，主要介绍 kmp 的做法</p>
+<p>我们把<code>s</code>串翻转变成<code>rs</code>，然后将两部分拼接起来变为<code>s+rs</code>，这个时候我们要求<code>s[0]</code>开头的最长回文子串，实际上就变成了求<code>s+rs</code>的最长公共前后缀</p>
+<p><img src="http://static.imlgw.top/blog/20200518/CtFIYht31mIL.png?imageslim" alt="mark"></p>
+<p>这里还有一点需要注意，就是<code>s+rs</code>的中间应该加分隔符，这是为了避免公共前后缀过长，甚至比原字符<code>s</code>还要长，这肯定是不对的，就比如<code>aaaaaaa</code>这样的 case，加了分割符之后最长的前后缀就不会超过<code>s</code>了，</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> String <span class="title function_">shortestPalindrome</span><span class="params">(String s)</span> &#123;</span><br><span class="line">    String rs=<span class="keyword">new</span> <span class="title class_">StringBuilder</span>(s).reverse().toString();</span><br><span class="line">    <span class="comment">//#是为了避免前后缀过长超过原字符 s 的长度，比如 aaaaaaa 这种</span></span><br><span class="line">    String t=s+<span class="string">&quot;#&quot;</span>+rs; </span><br><span class="line">    <span class="type">int</span>[] next=<span class="keyword">new</span> <span class="title class_">int</span>[t.length()+<span class="number">1</span>];</span><br><span class="line">    next[<span class="number">0</span>]=-<span class="number">1</span>;</span><br><span class="line">    next[<span class="number">1</span>]=<span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> left=<span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> i=<span class="number">2</span>;</span><br><span class="line">    <span class="keyword">while</span>(i&lt;=t.length())&#123;</span><br><span class="line">        <span class="keyword">if</span>(t.charAt(i-<span class="number">1</span>)==t.charAt(left))&#123;</span><br><span class="line">            next[i++]=++left;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(next[left]==-<span class="number">1</span>)&#123;</span><br><span class="line">            next[i++]=<span class="number">0</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            left=next[left];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//System.out.println(next[t.length()]);</span></span><br><span class="line">    <span class="keyword">return</span> rs.substring(<span class="number">0</span>,s.length()-next[t.length()])+s;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="1392-最长快乐前缀"><a href="#1392-最长快乐前缀" class="headerlink" title="1392. 最长快乐前缀"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/longest-happy-prefix/">1392. 最长快乐前缀</a></h3><p>「快乐前缀」是在原字符串中既是 非空 前缀也是后缀（不包括原字符串自身）的字符串。</p>
+<p>给你一个字符串 s，请你返回它的<strong>最长快乐前缀</strong>。</p>
+<p>如果不存在满足题意的前缀，则返回一个空字符串。</p>
+<p><strong>示例 1：</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：s = <span class="string">&quot;level&quot;</span></span><br><span class="line">输出：<span class="string">&quot;l&quot;</span></span><br><span class="line">解释：不包括 s 自己，一共有 <span class="number">4</span> 个前缀（<span class="string">&quot;l&quot;</span>, <span class="string">&quot;le&quot;</span>, <span class="string">&quot;lev&quot;</span>, <span class="string">&quot;leve&quot;</span>）和 <span class="number">4</span> 个后缀（<span class="string">&quot;l&quot;</span>, <span class="string">&quot;el&quot;</span>, <span class="string">&quot;vel&quot;</span>, <span class="string">&quot;evel&quot;</span>）。最长的既是前缀也是后缀的字符串是 <span class="string">&quot;l&quot;</span> 。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>示例 2：</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：s = <span class="string">&quot;ababab&quot;</span></span><br><span class="line">输出：<span class="string">&quot;abab&quot;</span></span><br><span class="line">解释：<span class="string">&quot;abab&quot;</span> 是最长的既是前缀也是后缀的字符串。题目允许前后缀在原字符串中重叠。</span><br></pre></td></tr></table></figure>
+<p><strong>示例 3：</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：s = <span class="string">&quot;leetcodeleet&quot;</span></span><br><span class="line">输出：<span class="string">&quot;leet&quot;</span></span><br></pre></td></tr></table></figure>
+<p><strong>示例 4：</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">输入：s = <span class="string">&quot;a&quot;</span></span><br><span class="line">输出：<span class="string">&quot;&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>提示：</strong></p>
+<ul>
+<li>1 &lt;= s.length &lt;= 10^5</li>
+<li>s 只含有小写英文字母</li>
+</ul>
+<p><strong>解法一</strong></p>
+<p>最近某次周赛的 T4，没参加，今天看见群里有人提到了，看了下发现是裸 KMP… 正好复习下，结果写出 bug 了。</p>
+<figure class="highlight golang"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">longestPrefix</span><span class="params">(s <span class="type">string</span>)</span></span> <span class="type">string</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(s) == <span class="number">1</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//裸 KMP</span></span><br><span class="line">    next := <span class="built_in">make</span>([]<span class="type">int</span>, <span class="built_in">len</span>(s)+<span class="number">1</span>)</span><br><span class="line">    next[<span class="number">0</span>] = <span class="number">-1</span></span><br><span class="line">    next[<span class="number">1</span>] = <span class="number">0</span></span><br><span class="line">    <span class="keyword">var</span> left = <span class="number">0</span></span><br><span class="line">    <span class="keyword">var</span> i = <span class="number">2</span></span><br><span class="line">    <span class="keyword">for</span> i &lt;= <span class="built_in">len</span>(s) &#123;</span><br><span class="line">        <span class="keyword">if</span> s[i<span class="number">-1</span>] == s[left] &#123;</span><br><span class="line">            left++</span><br><span class="line">            next[i] = left</span><br><span class="line">            i++</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> next[left] == <span class="number">-1</span> &#123;</span><br><span class="line">            i++</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            left = next[left]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> s[<span class="number">0</span>:next[<span class="built_in">len</span>(s)]]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>确实也长时间没有复习 kmp 了，kmp 的细节几乎都忘了，上面的都是凭借着一点理解和记忆写的</p>
+<blockquote>
+<p>检查了前面 kmp 的写法，稍微改进了一下，目前统一了写法</p>
+</blockquote>
+<h3 id="796-旋转字符串"><a href="#796-旋转字符串" class="headerlink" title="796. 旋转字符串"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/rotate-string/">796. 旋转字符串</a></h3><p>给定两个字符串，<code>A</code> 和 <code>B</code>。</p>
+<p><code>A</code> 的旋转操作就是将 <code>A</code> 最左边的字符移动到最右边。 例如，若 <code>A = &#39;abcde&#39;</code>，在移动一次之后结果就是<code>&#39;bcdea&#39;</code> 。如果在若干次旋转操作之后，<code>A</code> 能变成<code>B</code>，那么返回<code>True</code>。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">示例 <span class="number">1</span>:</span><br><span class="line">输入：A = <span class="string">&#x27;abcde&#x27;</span>, B = <span class="string">&#x27;cdeab&#x27;</span></span><br><span class="line">输出：<span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">示例 <span class="number">2</span>:</span><br><span class="line">输入：A = <span class="string">&#x27;abcde&#x27;</span>, B = <span class="string">&#x27;abced&#x27;</span></span><br><span class="line">输出：<span class="literal">false</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong></p>
+<ul>
+<li>  <code>A</code> 和 <code>B</code> 长度不超过 <code>100</code>。</li>
+</ul>
+<p><strong>解法一</strong></p>
+<p>经典 easy 题当 hard 做，这个题数据量很小，直接暴力就行了，但是我们还是要追求更好的解法</p>
+<p>一开始是在一篇文章中看到了这个题，里面说了这个题是 kmp，我看了下没想到什么好的思路，只想到了一个 NlogN 的做法，二分+kmp 找旋转点，然后 kmp 判断旋转点后时候也存在于 A 字符中（类似二分答案）</p>
+<figure class="highlight golang"><table><tr><td class="code"><pre><span class="line"><span class="comment">//不够聪明的做法：二分+KMP 时间复杂度 O(NlogN)</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">rotateString</span><span class="params">(A <span class="type">string</span>, B <span class="type">string</span>)</span></span> <span class="type">bool</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(A) != <span class="built_in">len</span>(B) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> A == B &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> left = <span class="number">0</span></span><br><span class="line">    <span class="keyword">var</span> right = <span class="built_in">len</span>(B) - <span class="number">1</span></span><br><span class="line">    <span class="keyword">var</span> rotate = <span class="number">-1</span></span><br><span class="line">    <span class="comment">//二分找旋转点</span></span><br><span class="line">    <span class="keyword">for</span> left &lt;= right &#123;</span><br><span class="line">        mid := left + (right-left)/<span class="number">2</span></span><br><span class="line">        <span class="keyword">if</span> kmp(A, B[:mid+<span class="number">1</span>]) != <span class="number">-1</span> &#123;</span><br><span class="line">            rotate = mid</span><br><span class="line">            left++</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            right--</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> rotate == <span class="number">-1</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> kmp(A, B[rotate+<span class="number">1</span>:]) != <span class="number">-1</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">kmp</span><span class="params">(A <span class="type">string</span>, t <span class="type">string</span>)</span></span> <span class="type">int</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> next = getNext(t)</span><br><span class="line">    <span class="keyword">var</span> Ai = <span class="number">0</span></span><br><span class="line">    <span class="keyword">var</span> ti = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> Ai &lt; <span class="built_in">len</span>(A) &amp;&amp; ti &lt; <span class="built_in">len</span>(t) &#123;</span><br><span class="line">        <span class="keyword">if</span> A[Ai] == t[ti] &#123;</span><br><span class="line">            Ai++</span><br><span class="line">            ti++</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> next[ti] == <span class="number">-1</span> &#123;</span><br><span class="line">            Ai++</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            ti = next[ti]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> ti == <span class="built_in">len</span>(t) &#123;</span><br><span class="line">        <span class="keyword">return</span> Ai - <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">getNext</span><span class="params">(t <span class="type">string</span>)</span></span> []<span class="type">int</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(t) &lt; <span class="number">2</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> []<span class="type">int</span>&#123;<span class="number">-1</span>&#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> next = <span class="built_in">make</span>([]<span class="type">int</span>, <span class="built_in">len</span>(t))</span><br><span class="line">    <span class="keyword">var</span> left = <span class="number">0</span></span><br><span class="line">    next[<span class="number">0</span>] = <span class="number">-1</span></span><br><span class="line">    next[<span class="number">1</span>] = <span class="number">0</span></span><br><span class="line">    <span class="keyword">var</span> i = <span class="number">2</span></span><br><span class="line">    <span class="keyword">for</span> i &lt; <span class="built_in">len</span>(t) &#123;</span><br><span class="line">        <span class="keyword">if</span> t[left] == t[i<span class="number">-1</span>] &#123;</span><br><span class="line">            left++</span><br><span class="line">            next[i] = left</span><br><span class="line">            i++</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> next[left] == <span class="number">-1</span> &#123;</span><br><span class="line">            i++</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            left = next[left]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> next</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>解法二</strong></p>
+<p>看了评论区的大佬的做法，实际上<code>A+A</code>就包含了所有的旋转<code>A</code>的结果子串，<code>A+A</code>就相当于首位相连，所以我们可以直接在<code>A+A</code>中 kmp 找<code>B</code>就可以了，时间复杂度<code>O(N)</code></p>
+<figure class="highlight golang"><table><tr><td class="code"><pre><span class="line"><span class="comment">//聪明的解法：A+A 包含了所有可能的旋转情况，直接对 A+A 和 B 做 kmp 就行了</span></span><br><span class="line"><span class="comment">//abcdeabcde</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">rotateString</span><span class="params">(A <span class="type">string</span>, B <span class="type">string</span>)</span></span> <span class="type">bool</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(A) != <span class="built_in">len</span>(B) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> A == B &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> kmp(A+A, B) != <span class="number">-1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        
+            <div class="donate-container">
+    <div class="donate-button">
+        <button id="donate-button">赞赏</button>
+    </div>
+    <div class="donate-img-container hide" id="donate-img-container">
+        <img id="donate-img" src="" data-src="">
+        <p> 感谢鼓励 </p>
+    </div>
+</div>
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+        <div id="lv-container"></div>
+        <div class="giscus"></div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/imlgw">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://imlgw.top">Tadow</a></span>
+        <span>/</span>
+        
+        <span><a target="_blank" rel="noopener" href="http://beian.miit.gov.cn/publish/query/indexFirst.action">鄂ICP备18011208号</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>  Theme <a target="_blank" rel="noopener" href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/live2d-widget@3.x/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"https://cdn.jsdelivr.net/npm/live2d-widget-model-hijiki@1.0.5/assets/hijiki.model.json"},"display":{"superSample":2,"width":160,"height":320,"position":"right","hOffset":0,"vOffset":-70},"mobile":{"show":false,"scale":0.2},"log":false});</script></body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://giscus.app/client.js"
+  data-repo="imlgw/imlgw.github.io"
+  data-repo-id="MDEwOlJlcG9zaXRvcnkxMzMyMDY4NDg="
+  data-category="Announcements"
+  data-category-id="DIC_kwDOB_CTQM4CQ7v8"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="top"
+  data-theme="light"
+  data-lang="zh-CN"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+
+
+</html>

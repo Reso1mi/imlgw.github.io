@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:description" content="Tadow 的博客">
+    <meta property="og:type" content="website">
+    <meta name="description" content="Tadow 的博客">
+    <meta name="keyword"  content="Tadow, Resolmi, imlgw, 半岛铁盒, 算法, Java, Golang">
+    <link rel="shortcut icon" href="https://fav.farm/💭">
+
+    <title>
+        
+        记两道并查集的题（lc947 &amp; lc803） - Tadow 碎碎念
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_28hi1hpxx24.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Tadow 碎碎念" type="application/atom+xml">
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> Keep It Simple, Stupid </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar radius">
+            <img src="https://static.imlgw.top/blog/20220821160037.png" />
+        </div>
+        <div class="name">
+            <i>Tadow</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <!-- <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li> -->
+            <li >
+                <a href="/categories">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>分类</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            
+            <li >
+                <a href="/selfhosted">
+                    <i class="iconfont icon-guidang1"></i>
+                    <span>自建</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/collect/">
+                    <i class="iconfont icon-shoucang1"></i>
+                    <span>收藏</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#947-%E7%A7%BB%E9%99%A4%E6%9C%80%E5%A4%9A%E7%9A%84%E5%90%8C%E8%A1%8C%E6%88%96%E5%90%8C%E5%88%97%E7%9F%B3%E5%A4%B4"><span class="toc-text">947. 移除最多的同行或同列石头</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E6%B3%95%E4%B8%80"><span class="toc-text">解法一</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#803-%E6%89%93%E7%A0%96%E5%9D%97"><span class="toc-text">803. 打砖块</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E6%B3%95%E4%B8%80-1"><span class="toc-text">解法一</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#721-%E8%B4%A6%E6%88%B7%E5%90%88%E5%B9%B6"><span class="toc-text">721. 账户合并</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E6%B3%95%E4%B8%80-2"><span class="toc-text">解法一</span></a></li></ol></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-bg" id="search-bg"></div>
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i> Keep It Simple, Stupid </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        记两道并查集的题（lc947 &amp; lc803）
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2021-01-18 00:00:00</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#算法" title="算法">算法</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <blockquote>
+<p>LeetCode 最近每日一题出了好几道并查集的题，有几道挺有意思的，记录一下</p>
+</blockquote>
+<h2 id="947-移除最多的同行或同列石头"><a href="#947-移除最多的同行或同列石头" class="headerlink" title="947. 移除最多的同行或同列石头"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/most-stones-removed-with-same-row-or-column/">947. 移除最多的同行或同列石头</a></h2><p>Difficulty: <strong>中等</strong></p>
+<p><code>n</code> 块石头放置在二维平面中的一些整数坐标点上。每个坐标点上最多只能有一块石头。</p>
+<p>如果一块石头的 <strong>同行或者同列</strong> 上有其他石头存在，那么就可以移除这块石头。</p>
+<p>给你一个长度为 <code>n</code> 的数组 <code>stones</code> ，其中 stones[i] = [x<sub style="display: inline;">i</sub>, y<sub style="display: inline;">i</sub>] 表示第 <code>i</code> 块石头的位置，返回 <strong>可以移除的石子</strong> 的最大数量。</p>
+<p><strong>示例 1：</strong></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">输入：stones = [[<span class="number">0</span>,<span class="number">0</span>],[<span class="number">0</span>,<span class="number">1</span>],[<span class="number">1</span>,<span class="number">0</span>],[<span class="number">1</span>,<span class="number">2</span>],[<span class="number">2</span>,<span class="number">1</span>],[<span class="number">2</span>,<span class="number">2</span>]]</span><br><span class="line">输出：<span class="number">5</span></span><br><span class="line">解释：一种移除 <span class="number">5</span> 块石头的方法如下所示：</span><br><span class="line"><span class="number">1.</span> 移除石头 [<span class="number">2</span>,<span class="number">2</span>] ，因为它和 [<span class="number">2</span>,<span class="number">1</span>] 同行。</span><br><span class="line"><span class="number">2.</span> 移除石头 [<span class="number">2</span>,<span class="number">1</span>] ，因为它和 [<span class="number">0</span>,<span class="number">1</span>] 同列。</span><br><span class="line"><span class="number">3.</span> 移除石头 [<span class="number">1</span>,<span class="number">2</span>] ，因为它和 [<span class="number">1</span>,<span class="number">0</span>] 同行。</span><br><span class="line"><span class="number">4.</span> 移除石头 [<span class="number">1</span>,<span class="number">0</span>] ，因为它和 [<span class="number">0</span>,<span class="number">0</span>] 同列。</span><br><span class="line"><span class="number">5.</span> 移除石头 [<span class="number">0</span>,<span class="number">1</span>] ，因为它和 [<span class="number">0</span>,<span class="number">0</span>] 同行。</span><br><span class="line">石头 [<span class="number">0</span>,<span class="number">0</span>] 不能移除，因为它没有与另一块石头同行/列。</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 2：</strong></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">输入：stones = [[<span class="number">0</span>,<span class="number">0</span>],[<span class="number">0</span>,<span class="number">2</span>],[<span class="number">1</span>,<span class="number">1</span>],[<span class="number">2</span>,<span class="number">0</span>],[<span class="number">2</span>,<span class="number">2</span>]]</span><br><span class="line">输出：<span class="number">3</span></span><br><span class="line">解释：一种移除 <span class="number">3</span> 块石头的方法如下所示：</span><br><span class="line"><span class="number">1.</span> 移除石头 [<span class="number">2</span>,<span class="number">2</span>] ，因为它和 [<span class="number">2</span>,<span class="number">0</span>] 同行。</span><br><span class="line"><span class="number">2.</span> 移除石头 [<span class="number">2</span>,<span class="number">0</span>] ，因为它和 [<span class="number">0</span>,<span class="number">0</span>] 同列。</span><br><span class="line"><span class="number">3.</span> 移除石头 [<span class="number">0</span>,<span class="number">2</span>] ，因为它和 [<span class="number">0</span>,<span class="number">0</span>] 同行。</span><br><span class="line">石头 [<span class="number">0</span>,<span class="number">0</span>] 和 [<span class="number">1</span>,<span class="number">1</span>] 不能移除，因为它们没有与另一块石头同行/列。</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 3：</strong></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">输入：stones = [[<span class="number">0</span>,<span class="number">0</span>]]</span><br><span class="line">输出：<span class="number">0</span></span><br><span class="line">解释：[<span class="number">0</span>,<span class="number">0</span>] 是平面上唯一一块石头，所以不可以移除它。</span><br></pre></td></tr></table></figure>
+
+<p><strong>提示：</strong></p>
+<ul>
+<li>1 &lt;= stones.length &lt;= 1000</li>
+<li>0 &lt;= x<sub style="display: inline;">i</sub>, y<sub style="display: inline;">i</sub> &lt;= 10<sup>4</sup></li>
+<li>不会有两块石头放在同一个坐标点上</li>
+</ul>
+<h3 id="解法一"><a href="#解法一" class="headerlink" title="解法一"></a>解法一</h3><p>简单的想法肯定是直接双重循环枚举所有的点对，如果两个点横纵坐标有一样的就合并，最后统计下就行了，但是这样时间复杂度就比较高了。</p>
+<p>这里我们换一个思路来合并，因为我们并不关心各个点是如何联通的，只要各个点在同一行或者同一列那么他们就是连通的，所以我们可以直接将每个点的行列坐标进行合并，也就相当于我们将 <strong>该行以及该列的所有元素</strong> 与 <strong>当前的元素</strong> 合并起来，最后用石头数量减去连通分量的个数就行了。需要注意的点就是我们需要区分横纵坐标，避免混淆。比如（1，2）和（2，4）不是同一行列，如果不加区分就会被合并成一个连通分量，这里题目给了行列的范围，我们直接加上一个 10001 就行了</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">removeStones</span>(<span class="params">self, stones: <span class="type">List</span>[<span class="type">List</span>[<span class="built_in">int</span>]]</span>) -&gt; <span class="built_in">int</span>:</span><br><span class="line">        n = <span class="built_in">len</span>(stones)</span><br><span class="line">        parent = &#123;&#125;</span><br><span class="line">        count = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">def</span> <span class="title function_">union</span>(<span class="params">a, b</span>):</span><br><span class="line">            <span class="keyword">nonlocal</span> count</span><br><span class="line">            pa = find(a)</span><br><span class="line">            pb = find(b)</span><br><span class="line">            <span class="keyword">if</span> pa == pb:</span><br><span class="line">                <span class="keyword">return</span></span><br><span class="line">            count -= <span class="number">1</span></span><br><span class="line">            parent[pa] = pb</span><br><span class="line"></span><br><span class="line">        <span class="keyword">def</span> <span class="title function_">find</span>(<span class="params">a</span>):</span><br><span class="line">            <span class="keyword">nonlocal</span> count</span><br><span class="line">            <span class="keyword">if</span> a <span class="keyword">not</span> <span class="keyword">in</span> parent:</span><br><span class="line">                count += <span class="number">1</span></span><br><span class="line">                parent[a] = a</span><br><span class="line">                <span class="keyword">return</span> a</span><br><span class="line">            <span class="keyword">if</span> a == parent[a]:</span><br><span class="line">                <span class="keyword">return</span> a</span><br><span class="line">            parent[a] = find(parent.get(a))</span><br><span class="line">            <span class="keyword">return</span> parent.get(a)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> s <span class="keyword">in</span> stones:</span><br><span class="line">            union(s[<span class="number">0</span>]+<span class="number">10001</span>, s[<span class="number">1</span>])</span><br><span class="line">        <span class="keyword">return</span> n - count</span><br></pre></td></tr></table></figure>
+
+<h2 id="803-打砖块"><a href="#803-打砖块" class="headerlink" title="803. 打砖块"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/bricks-falling-when-hit/">803. 打砖块</a></h2><p>Difficulty: <strong>困难</strong></p>
+<p>有一个 <code>m x n</code> 的二元网格，其中 <code>1</code> 表示砖块，<code>0</code> 表示空白。砖块 <strong>稳定</strong>（不会掉落）的前提是：</p>
+<ul>
+<li>一块砖直接连接到网格的顶部，或者</li>
+<li>至少有一块相邻（4 个方向之一）砖块 <strong>稳定</strong> 不会掉落时</li>
+</ul>
+<p>给你一个数组 <code>hits</code> ，这是需要依次消除砖块的位置。每当消除 <code>hits[i] = (rowi, coli)</code> 位置上的砖块时，对应位置的砖块（若存在）会消失，然后其他的砖块可能因为这一消除操作而掉落。一旦砖块掉落，它会立即从网格中消失（即，它不会落在其他稳定的砖块上）。</p>
+<p>返回一个数组 <code>result</code> ，其中 <code>result[i]</code> 表示第 <code>i</code> 次消除操作对应掉落的砖块数目。</p>
+<p><strong>注意</strong>，消除可能指向是没有砖块的空白位置，如果发生这种情况，则没有砖块掉落。</p>
+<p><strong>示例 1：</strong></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">输入：grid = [[<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>],[<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">0</span>]], hits = [[<span class="number">1</span>,<span class="number">0</span>]]</span><br><span class="line">输出：[<span class="number">2</span>]</span><br><span class="line">解释：</span><br><span class="line">网格开始为：</span><br><span class="line">[[<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>]，</span><br><span class="line"> [<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">0</span>]]</span><br><span class="line">消除 (<span class="number">1</span>,<span class="number">0</span>) 处加粗的砖块，得到网格：</span><br><span class="line">[[<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>]</span><br><span class="line"> [<span class="number">0</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">0</span>]]</span><br><span class="line">两个加粗的砖不再稳定，因为它们不再与顶部相连，也不再与另一个稳定的砖相邻，因此它们将掉落。得到网格：</span><br><span class="line">[[<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>],</span><br><span class="line"> [<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>]]</span><br><span class="line">因此，结果为 [<span class="number">2</span>] 。</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 2：</strong></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">输入：grid = [[<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>],[<span class="number">1</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>]], hits = [[<span class="number">1</span>,<span class="number">1</span>],[<span class="number">1</span>,<span class="number">0</span>]]</span><br><span class="line">输出：[<span class="number">0</span>,<span class="number">0</span>]</span><br><span class="line">解释：</span><br><span class="line">网格开始为：</span><br><span class="line">[[<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>],</span><br><span class="line"> [<span class="number">1</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>]]</span><br><span class="line">消除 (<span class="number">1</span>,<span class="number">1</span>) 处加粗的砖块，得到网格：</span><br><span class="line">[[<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>],</span><br><span class="line"> [<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>]]</span><br><span class="line">剩下的砖都很稳定，所以不会掉落。网格保持不变：</span><br><span class="line">[[<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>], </span><br><span class="line"> [<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>]]</span><br><span class="line">接下来消除 (<span class="number">1</span>,<span class="number">0</span>) 处加粗的砖块，得到网格：</span><br><span class="line">[[<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>],</span><br><span class="line"> [<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>]]</span><br><span class="line">剩下的砖块仍然是稳定的，所以不会有砖块掉落。</span><br><span class="line">因此，结果为 [<span class="number">0</span>,<span class="number">0</span>] 。</span><br></pre></td></tr></table></figure>
+
+<p><strong>提示：</strong></p>
+<ul>
+<li>m == grid.length</li>
+<li>n == grid[i].length</li>
+<li>1 &lt;= m, n &lt;= 200</li>
+<li>grid[i][j] 为 <code>0</code> 或 <code>1</code></li>
+<li>1 &lt;= hits.length &lt;= 4 * 10<sup>4</sup></li>
+<li>hits[i].length == 2</li>
+<li>0 &lt;= x<sub style="display: inline;">i </sub>&lt;= m - 1</li>
+<li>0 &lt;= y<sub style="display: inline;">i</sub> &lt;= n - 1</li>
+<li>所有 (x<sub style="display: inline;">i</sub>, y<sub style="display: inline;">i</sub>) 互不相同</li>
+</ul>
+<h3 id="解法一-1"><a href="#解法一-1" class="headerlink" title="解法一"></a>解法一</h3><p>也是一道很有意思的并查集的题。常规意义上的并查集只能处理连通块的合并，而这题打掉一个砖块意味着连通分量的拆分，那我们应该如何利用并查集呢？</p>
+<p>这里的解法很巧妙的采用了 <strong>逆向思维</strong>，既然打掉砖块无法操作，那么我们可以反过来补砖块，先将原本待打击的地方置为 0，然后逆向的的补上去，而补的操作就代表着连通块的合并，我们就可以通过连通块数量的变化统计掉落的砖块，整体的思路非常巧妙。</p>
+<p>具体的算法实现还是有一些细节需要注意，都注释在代码中了</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.*;</span><br><span class="line"><span class="keyword">import</span> java.io.*;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span>[] parent;</span><br><span class="line">    <span class="type">int</span>[] size;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">find</span><span class="params">(<span class="type">int</span> a)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (parent[a] == a) <span class="keyword">return</span> a;</span><br><span class="line">        <span class="keyword">return</span> parent[a] = find(parent[a]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">union</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">pa</span> <span class="operator">=</span> find(a);</span><br><span class="line">        <span class="type">int</span> <span class="variable">pb</span> <span class="operator">=</span> find(b);</span><br><span class="line">        <span class="keyword">if</span> (pa == pb) <span class="keyword">return</span>;</span><br><span class="line">        <span class="keyword">if</span> (size[pa] &gt; size[pb]) &#123;</span><br><span class="line">            parent[pb] = pa;</span><br><span class="line">            size[pa] += size[pb]; </span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            parent[pa] = pb;</span><br><span class="line">            size[pb] += size[pa];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span>[] hitBricks(<span class="type">int</span>[][] grid, <span class="type">int</span>[][] hits) &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> grid.length, m = grid[<span class="number">0</span>].length;</span><br><span class="line">        <span class="type">int</span> <span class="variable">hlen</span> <span class="operator">=</span> hits.length;</span><br><span class="line">        <span class="comment">//记录当前 hits 对应的位置有没有砖块</span></span><br><span class="line">        <span class="type">int</span>[] exist = <span class="keyword">new</span> <span class="title class_">int</span>[hlen];</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; hlen; i++) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> hits[i][<span class="number">0</span>], y = hits[i][<span class="number">1</span>];</span><br><span class="line">            exist[i] = grid[x][y]&amp;<span class="number">1</span>;</span><br><span class="line">            grid[x][y] = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        parent = <span class="keyword">new</span> <span class="title class_">int</span>[m*n+<span class="number">1</span>];</span><br><span class="line">        size = <span class="keyword">new</span> <span class="title class_">int</span>[m*n+<span class="number">1</span>];</span><br><span class="line">        <span class="comment">//抽象的屋顶节点</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">ROOT</span> <span class="operator">=</span> m*n;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt;= m*n; i++) &#123;</span><br><span class="line">            parent[i] = i;</span><br><span class="line">            size[i] = <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//和屋顶有关联的先合并下</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; m; j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (grid[<span class="number">0</span>][j] == <span class="number">1</span>) &#123;</span><br><span class="line">                union(ROOT, j);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt; n; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; m; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (grid[i][j]==<span class="number">1</span>) &#123;</span><br><span class="line">                    <span class="comment">//与左边和上边方块合并</span></span><br><span class="line">                    <span class="keyword">if</span> (j-<span class="number">1</span> &gt;= <span class="number">0</span> &amp;&amp; grid[i][j-<span class="number">1</span>] == <span class="number">1</span>) &#123;</span><br><span class="line">                        union(m*i+j, m*i+j-<span class="number">1</span>);</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">if</span> (<span class="comment">/*i-1 &gt;= 0 &amp;&amp;*/</span> grid[i-<span class="number">1</span>][j] == <span class="number">1</span>) &#123;</span><br><span class="line">                        union(m*i+j, m*(i-<span class="number">1</span>)+j);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">int</span>[] res = <span class="keyword">new</span> <span class="title class_">int</span>[hlen];</span><br><span class="line">        <span class="type">int</span>[] dir = &#123;<span class="number">1</span>, <span class="number">0</span>, -<span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>&#125;;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> hlen-<span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">last</span> <span class="operator">=</span> size[find(ROOT)];</span><br><span class="line">            <span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> hits[i][<span class="number">0</span>], y = hits[i][<span class="number">1</span>];</span><br><span class="line">            <span class="comment">//WA_2: 还原错误，hit 原本可能没有砖块，一开始直接还原成 1 了</span></span><br><span class="line">            grid[x][y] = exist[i]&amp;<span class="number">1</span>;</span><br><span class="line">            <span class="keyword">if</span> (grid[x][y] == <span class="number">0</span>) <span class="keyword">continue</span>;</span><br><span class="line">            <span class="comment">//WA_1: 还原后和 ROOT 连接的别忘了合并</span></span><br><span class="line">            <span class="keyword">if</span> (x == <span class="number">0</span>) union(ROOT, x*m+y);</span><br><span class="line">            <span class="comment">//与周围 4 个方向的方块合并</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">k</span> <span class="operator">=</span> <span class="number">0</span>; k &lt; <span class="number">4</span>; k++) &#123;</span><br><span class="line">                <span class="type">int</span> <span class="variable">nx</span> <span class="operator">=</span> x + dir[k], ny = y + dir[k+<span class="number">1</span>];</span><br><span class="line">                <span class="keyword">if</span> (nx &lt; <span class="number">0</span> || ny &lt; <span class="number">0</span> || nx &gt;= n || ny &gt;= m || grid[nx][ny] != <span class="number">1</span>) &#123;</span><br><span class="line">                    <span class="keyword">continue</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                union(x*m+y, nx*m+ny);</span><br><span class="line">            &#125;</span><br><span class="line">            res[i] = Math.max(<span class="number">0</span>, size[find(ROOT)]-last-<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="721-账户合并"><a href="#721-账户合并" class="headerlink" title="721. 账户合并"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/accounts-merge/">721. 账户合并</a></h2><p>Difficulty: <strong>中等</strong></p>
+<p>给定一个列表 <code>accounts</code>，每个元素 <code>accounts[i]</code> 是一个字符串列表，其中第一个元素 <code>accounts[i][0]</code> 是 名称 (name)，其余元素是 emails 表示该账户的邮箱地址。</p>
+<p>现在，我们想合并这些账户。如果两个账户都有一些共同的邮箱地址，则两个账户必定属于同一个人。请注意，即使两个账户具有相同的名称，它们也可能属于不同的人，因为人们可能具有相同的名称。一个人最初可以拥有任意数量的账户，但其所有账户都具有相同的名称。</p>
+<p>合并账户后，按以下格式返回账户：每个账户的第一个元素是名称，其余元素是按字符 ASCII 顺序排列的邮箱地址。账户本身可以以任意顺序返回。</p>
+<p><strong>示例 1：</strong></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">输入：</span><br><span class="line">accounts = [[<span class="string">&quot;John&quot;</span>, <span class="string">&quot;johnsmith@mail.com&quot;</span>, <span class="string">&quot;john00@mail.com&quot;</span>], [<span class="string">&quot;John&quot;</span>, <span class="string">&quot;johnnybravo@mail.com&quot;</span>], [<span class="string">&quot;John&quot;</span>, <span class="string">&quot;johnsmith@mail.com&quot;</span>, <span class="string">&quot;john_newyork@mail.com&quot;</span>], [<span class="string">&quot;Mary&quot;</span>, <span class="string">&quot;mary@mail.com&quot;</span>]]</span><br><span class="line">输出：</span><br><span class="line">[[<span class="string">&quot;John&quot;</span>, <span class="string">&#x27;john00@mail.com&#x27;</span>, <span class="string">&#x27;john_newyork@mail.com&#x27;</span>, <span class="string">&#x27;johnsmith@mail.com&#x27;</span>],  [<span class="string">&quot;John&quot;</span>, <span class="string">&quot;johnnybravo@mail.com&quot;</span>], [<span class="string">&quot;Mary&quot;</span>, <span class="string">&quot;mary@mail.com&quot;</span>]]</span><br><span class="line">解释：</span><br><span class="line">第一个和第三个 John 是同一个人，因为他们有共同的邮箱地址 <span class="string">&quot;johnsmith@mail.com&quot;</span>。 </span><br><span class="line">第二个 John 和 Mary 是不同的人，因为他们的邮箱地址没有被其他帐户使用。</span><br><span class="line">可以以任何顺序返回这些列表，例如答案 [[<span class="string">&#x27;Mary&#x27;</span>，<span class="string">&#x27;mary@mail.com&#x27;</span>]，[<span class="string">&#x27;John&#x27;</span>，<span class="string">&#x27;johnnybravo@mail.com&#x27;</span>]，</span><br><span class="line">[<span class="string">&#x27;John&#x27;</span>，<span class="string">&#x27;john00@mail.com&#x27;</span>，<span class="string">&#x27;john_newyork@mail.com&#x27;</span>，<span class="string">&#x27;johnsmith@mail.com&#x27;</span>]] 也是正确的。</span><br></pre></td></tr></table></figure>
+
+<p><strong>提示：</strong></p>
+<ul>
+<li>  <code>accounts</code>的长度将在<code>[1，1000]</code>的范围内。</li>
+<li>  <code>accounts[i]</code>的长度将在<code>[1，10]</code>的范围内。</li>
+<li>  <code>accounts[i][j]</code>的长度将在<code>[1，30]</code>的范围内。</li>
+</ul>
+<h3 id="解法一-2"><a href="#解法一-2" class="headerlink" title="解法一"></a>解法一</h3><blockquote>
+<p>没错，这是第二道，上面的是第 0 道和第 1 道😁</p>
+</blockquote>
+<p>本来不想记这道题的，没啥意思，业务题，但是写都写了，还是记一下，难倒是不难，就是要理清楚思路，我感觉很麻烦直接看了题解😂，不过题解也有点小瑕疵，邮件映射姓名的时候可以用邮件的编号直接映射的，题解依然用的字符串。这种题其实只想理清楚先干嘛后干嘛就好做了，别老想着一步都求出来，先分步，后面能合并再合并。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">​<span class="keyword">import</span> java.util.*;</span><br><span class="line"><span class="keyword">import</span> java.io.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="type">int</span>[] parent;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">union</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span> &#123;</span><br><span class="line">        parent[find(a)] = find(b);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">find</span><span class="params">(<span class="type">int</span> a)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (parent[a] == a) <span class="keyword">return</span> a;</span><br><span class="line">        <span class="keyword">return</span> parent[a] = find(parent[a]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 比较繁琐，想清楚了写就很简单，没啥意思</span></span><br><span class="line">    <span class="keyword">public</span> List&lt;List&lt;String&gt;&gt; <span class="title function_">accountsMerge</span><span class="params">(List&lt;List&lt;String&gt;&gt; acc)</span> &#123;</span><br><span class="line">        <span class="comment">//email : idx</span></span><br><span class="line">        HashMap&lt;String, Integer&gt; e2i = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">        <span class="comment">//idx : name</span></span><br><span class="line">        HashMap&lt;Integer, String&gt; i2n = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">        <span class="type">int</span> <span class="variable">cnt</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; acc.size(); i++) &#123;</span><br><span class="line">            <span class="type">String</span> <span class="variable">name</span> <span class="operator">=</span> acc.get(i).get(<span class="number">0</span>);</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">1</span>; j &lt; acc.get(i).size(); j++) &#123;</span><br><span class="line">                <span class="type">String</span> <span class="variable">email</span> <span class="operator">=</span> acc.get(i).get(j);</span><br><span class="line">                <span class="keyword">if</span> (!e2i.containsKey(email)) &#123;</span><br><span class="line">                    e2i.put(email, cnt);</span><br><span class="line">                    i2n.put(cnt++, name);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        parent = <span class="keyword">new</span> <span class="title class_">int</span>[cnt];</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; cnt; i++) &#123;</span><br><span class="line">            parent[i] = i;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; acc.size(); i++) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">first</span> <span class="operator">=</span> e2i.get(acc.get(i).get(<span class="number">1</span>));</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">2</span>; j &lt; acc.get(i).size(); j++) &#123;</span><br><span class="line">                union(first, e2i.get(acc.get(i).get(j)));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// idx : emails</span></span><br><span class="line">        HashMap&lt;Integer, List&lt;String&gt;&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (String email : e2i.keySet()) &#123;</span><br><span class="line">            map.computeIfAbsent(find(e2i.get(email)), k-&gt;<span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;&gt;()).add(email);</span><br><span class="line">        &#125;</span><br><span class="line">        List&lt;List&lt;String&gt;&gt; res = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (Integer idx : map.keySet()) &#123;</span><br><span class="line">            <span class="type">String</span> <span class="variable">name</span> <span class="operator">=</span> i2n.get(idx);</span><br><span class="line">            List&lt;String&gt; emails = map.get(idx);</span><br><span class="line">            Collections.sort(emails);</span><br><span class="line">            emails.add(<span class="number">0</span>, name);</span><br><span class="line">            res.add(emails);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        
+            <div class="donate-container">
+    <div class="donate-button">
+        <button id="donate-button">赞赏</button>
+    </div>
+    <div class="donate-img-container hide" id="donate-img-container">
+        <img id="donate-img" src="" data-src="">
+        <p> 感谢鼓励 </p>
+    </div>
+</div>
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+        <div id="lv-container"></div>
+        <div class="giscus"></div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/imlgw">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://imlgw.top">Tadow</a></span>
+        <span>/</span>
+        
+        <span><a target="_blank" rel="noopener" href="http://beian.miit.gov.cn/publish/query/indexFirst.action">鄂ICP备18011208号</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>  Theme <a target="_blank" rel="noopener" href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/live2d-widget@3.x/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"https://cdn.jsdelivr.net/npm/live2d-widget-model-hijiki@1.0.5/assets/hijiki.model.json"},"display":{"superSample":2,"width":160,"height":320,"position":"right","hOffset":0,"vOffset":-70},"mobile":{"show":false,"scale":0.2},"log":false});</script></body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://giscus.app/client.js"
+  data-repo="imlgw/imlgw.github.io"
+  data-repo-id="MDEwOlJlcG9zaXRvcnkxMzMyMDY4NDg="
+  data-category="Announcements"
+  data-category-id="DIC_kwDOB_CTQM4CQ7v8"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="top"
+  data-theme="light"
+  data-lang="zh-CN"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+
+
+</html>

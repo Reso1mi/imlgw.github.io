@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:description" content="Tadow 的博客">
+    <meta property="og:type" content="website">
+    <meta name="description" content="Tadow 的博客">
+    <meta name="keyword"  content="Tadow, Resolmi, imlgw, 半岛铁盒, 算法, Java, Golang">
+    <link rel="shortcut icon" href="https://fav.farm/💭">
+
+    <title>
+        
+        你有 FreeBug 么？---&gt;Spring-solr - Tadow 碎碎念
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_28hi1hpxx24.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Tadow 碎碎念" type="application/atom+xml">
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> Keep It Simple, Stupid </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar radius">
+            <img src="https://static.imlgw.top/blog/20220821160037.png" />
+        </div>
+        <div class="name">
+            <i>Tadow</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <!-- <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li> -->
+            <li >
+                <a href="/categories">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>分类</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            
+            <li >
+                <a href="/selfhosted">
+                    <i class="iconfont icon-guidang1"></i>
+                    <span>自建</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/collect/">
+                    <i class="iconfont icon-shoucang1"></i>
+                    <span>收藏</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#FreeBug-%E5%93%8E%E5%91%A6%EF%BC%8C%E4%B8%8D%E9%94%99%E5%96%94%E3%80%82"><span class="toc-text">FreeBug ? 哎呦，不错喔。</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Bug1"><span class="toc-text">Bug1:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Bug2"><span class="toc-text">Bug2:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Bug3"><span class="toc-text">Bug3:</span></a></li></ol></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-bg" id="search-bg"></div>
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i> Keep It Simple, Stupid </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        你有 FreeBug 么？---&gt;Spring-solr
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2018-10-05 00:00:00</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#Bug" title="Bug">Bug</a>
+        <span>/</span>
+        
+        <a class="tag" href="/tags/#Solr" title="Solr">Solr</a>
+        <span>/</span>
+        
+        <a class="tag" href="/tags/#Spring" title="Spring">Spring</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <h2 id="FreeBug-哎呦，不错喔。"><a href="#FreeBug-哎呦，不错喔。" class="headerlink" title="FreeBug ? 哎呦，不错喔。"></a>FreeBug ? 哎呦，不错喔。</h2><p> 昨天从上午 10 点开始一直到晚上 11：58 才把那几个 Bug 给解决了，前两个 Bug 确实蛮奇怪的，特别是第一个 Bug , 最后一个 Bug…. 纯属智障。把这几个 Bug 记录下┗|｀O′|┛ </p>
+<h3 id="Bug1"><a href="#Bug1" class="headerlink" title="Bug1:"></a><strong><em>Bug1</em></strong>:</h3><p><img src="https://imlgwpicture.oss-cn-qingdao.aliyuncs.com/blogImage/9642SBM2%60QFX4AMO1C%5D~A%5BM.png" alt="oss"><br>意思是没找到 TbItemMapper 的 select 方法还有这个类的其他方法。<br>估计是 xml 文件没有加载到 classes 路径下，之前一直好好的然后昨天突然抽风了，百度了下叫我把 xml 文件随便的改动下在里面加个空格换行之类的，然后就好了。</p>
+<h3 id="Bug2"><a href="#Bug2" class="headerlink" title="Bug2:"></a><strong><em>Bug2</em></strong>:</h3><p><img src="https://p4.cdn.img9.top/ipfs/Qmcg5dscbhYgod9vdN2SHaxywdaCPVgY28jX4imd53TH6J?4.png" alt="img9"><br>看着这些个 Bug 真的是一脸懵，写 main 方法执行就一点问题没有，首先是一波百度，说是 jar 包冲突了主要是 HttpClient 的冲突，然后我就尝试了下 idea 的 maven 依赖视图<br><img src="https://imlgwpicture.oss-cn-qingdao.aliyuncs.com/blogImage/DJQYP%604SGOCL_VP%28LGN%7B_TN.png" alt="img9"><br>然后发现 dubbo 和 spring-data-solr 都有 httpclient 包和 httpcore 而且版本不一致，然后果断的把 dubbo 里面的 httpclient 和 httpcore 给 exclusion 了，不看不知道，整个项目的 maven 依赖好乱，有好多依赖冲突，不过没影响使用我就没有去改，怕再改出什么问题。你以为改完之后 bug 就结束了？</p>
+<h3 id="Bug3"><a href="#Bug3" class="headerlink" title="Bug3:"></a><strong><em>Bug3</em></strong>:</h3><p><img src="https://imlgwpicture.oss-cn-qingdao.aliyuncs.com/blogImage/%60Z3GBQ~K%29%7D%60DX%60P%60Q%257%25%7B%25S.png" alt="oss"> 在 controller 层疯狂报错，service 层一点问题没有！<a target="_blank" rel="noopener" href="https://imlgwpicture.oss-cn-qingdao.aliyuncs.com/blogImage/NLKUXAM~LPOZ7K%60%28%29D52%40VD.png">oss</a> 可以，又一个 FreeBug，在纠结了几个小时后看了一眼代码发现<br><img src="https://imlgwpicture.oss-cn-qingdao.aliyuncs.com/blogImage/L20FMBQ%28XNRQV6Y6%24ITFEYA.png" alt="oss"> 原来这里写掉了东西，返回了一个 solr 的结果集也没有实现序列化返回出去了前台也根本就解析不了难怪会再前台报错。</p>
+<p>ps: 之前一直用的 img9.top 的无限图床，前几天突然崩溃了博客的图片都失效了，之前也有一个送的阿里云的 oss 的包所以就想拿那个当图床，这篇文章里面的图片也都是在 oss 上的，img9 虽然也还可以但是是个去中心化的图床不好管理确实难搞，等有时间就用 java 写一个自动化的图床工具玩玩。</p>
+
+        
+            <div class="donate-container">
+    <div class="donate-button">
+        <button id="donate-button">赞赏</button>
+    </div>
+    <div class="donate-img-container hide" id="donate-img-container">
+        <img id="donate-img" src="" data-src="">
+        <p> 感谢鼓励 </p>
+    </div>
+</div>
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+        <div id="lv-container"></div>
+        <div class="giscus"></div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/imlgw">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://imlgw.top">Tadow</a></span>
+        <span>/</span>
+        
+        <span><a target="_blank" rel="noopener" href="http://beian.miit.gov.cn/publish/query/indexFirst.action">鄂ICP备18011208号</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>  Theme <a target="_blank" rel="noopener" href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/live2d-widget@3.x/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"https://cdn.jsdelivr.net/npm/live2d-widget-model-hijiki@1.0.5/assets/hijiki.model.json"},"display":{"superSample":2,"width":160,"height":320,"position":"right","hOffset":0,"vOffset":-70},"mobile":{"show":false,"scale":0.2},"log":false});</script></body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://giscus.app/client.js"
+  data-repo="imlgw/imlgw.github.io"
+  data-repo-id="MDEwOlJlcG9zaXRvcnkxMzMyMDY4NDg="
+  data-category="Announcements"
+  data-category-id="DIC_kwDOB_CTQM4CQ7v8"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="top"
+  data-theme="light"
+  data-lang="zh-CN"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+
+
+</html>

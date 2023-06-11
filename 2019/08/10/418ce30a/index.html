@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:description" content="Tadow 的博客">
+    <meta property="og:type" content="website">
+    <meta name="description" content="Tadow 的博客">
+    <meta name="keyword"  content="Tadow, Resolmi, imlgw, 半岛铁盒, 算法, Java, Golang">
+    <link rel="shortcut icon" href="https://fav.farm/💭">
+
+    <title>
+        
+        自旋锁，CLH 锁，MCS 锁 - Tadow 碎碎念
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_28hi1hpxx24.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Tadow 碎碎念" type="application/atom+xml">
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> Keep It Simple, Stupid </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar radius">
+            <img src="https://static.imlgw.top/blog/20220821160037.png" />
+        </div>
+        <div class="name">
+            <i>Tadow</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <!-- <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li> -->
+            <li >
+                <a href="/categories">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>分类</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            
+            <li >
+                <a href="/selfhosted">
+                    <i class="iconfont icon-guidang1"></i>
+                    <span>自建</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/collect/">
+                    <i class="iconfont icon-shoucang1"></i>
+                    <span>收藏</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E6%97%8B%E9%94%81"><span class="toc-text">自旋锁</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E8%87%AA%E6%97%8B%E9%94%81"><span class="toc-text">简单自旋锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ticket-Lock"><span class="toc-text">Ticket Lock</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CLH-%E9%94%81"><span class="toc-text">CLH 锁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MCS-%E9%94%81"><span class="toc-text">MCS 锁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-text">参考</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-bg" id="search-bg"></div>
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i> Keep It Simple, Stupid </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        自旋锁，CLH 锁，MCS 锁
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2019-08-10 00:00:00</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#多线程" title="多线程">多线程</a>
+        <span>/</span>
+        
+        <a class="tag" href="/tags/#并发编程" title="并发编程">并发编程</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <ul>
+<li><a href="#%E8%87%AA%E6%97%8B%E9%94%81">自旋锁</a><ul>
+<li><a href="#%E7%AE%80%E5%8D%95%E8%87%AA%E6%97%8B%E9%94%81">简单自旋锁</a></li>
+<li><a href="#ticket-lock">Ticket Lock</a></li>
+</ul>
+</li>
+<li><a href="#clh-%E9%94%81">CLH 锁</a></li>
+<li><a href="#mcs-%E9%94%81">MCS 锁</a></li>
+<li><a href="#%E6%80%BB%E7%BB%93">总结</a></li>
+<li><a href="#%E5%8F%82%E8%80%83">参考</a></li>
+</ul>
+<h2 id="自旋锁"><a href="#自旋锁" class="headerlink" title="自旋锁"></a>自旋锁</h2><p>自旋锁 (spin lock) 是一个典型的对临界资源的互斥手段，自旋锁是基于 CAS 原语的，所以它是轻量级的同步操作，它的名称来源于它的特性。自旋锁是指当一个线程尝试获取某个锁时，如果该锁已被其他线程占用，就一直循环检测锁是否被释放，而不是进入线程挂起或睡眠状态。由于自旋锁只不进行线程状态的改变（挂起线程），所以当线程竞争不激烈时，它的响应速度极快（因为<code>避免了线程调度的上下文切换</code>）。自旋锁适用于锁保护的临界区很小的情况，线程竞争不激烈的场景下。如果线程之间竞争激烈或者临界区的操作特别耗时，那么线程的自旋操作就会耗费大量的 cpu 资源，所以这种情况下性能就会下降明显。</p>
+<h3 id="简单自旋锁"><a href="#简单自旋锁" class="headerlink" title="简单自旋锁"></a>简单自旋锁</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SimpleSpinLock</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> AtomicReference&lt;Thread&gt; owner = <span class="keyword">new</span> <span class="title class_">AtomicReference</span>&lt;Thread&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">lock</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">Thread</span> <span class="variable">currentThread</span> <span class="operator">=</span> Thread.currentThread();</span><br><span class="line">        <span class="comment">// 如果锁未被占用，则设置当前线程为锁的拥有者</span></span><br><span class="line">        <span class="comment">// 后面解锁的就只能是当前线程</span></span><br><span class="line">        <span class="keyword">while</span> (!owner.compareAndSet(<span class="literal">null</span>, currentThread)) &#123;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">unlock</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">Thread</span> <span class="variable">currentThread</span> <span class="operator">=</span> Thread.currentThread();</span><br><span class="line">        <span class="comment">// 只有锁的拥有者才能释放锁</span></span><br><span class="line">        owner.compareAndSet(currentThread, <span class="literal">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缺点</strong></p>
+<ul>
+<li><p>CAS 操作需要硬件的配合（现代处理器大多都支持）</p>
+</li>
+<li><p>保证各个 CPU 的缓存（L1、L2、L3、跨 CPU Socket、主存）的数据一致性，通讯开销很大，在多处理器系统上更严重（这是由于 Atomic 的 volatile 变量导致的，同时这也是必须的）</p>
+</li>
+<li><p>没法保证公平性，不保证等待进程/线程按照 FIFO 顺序获得锁。</p>
+</li>
+</ul>
+<h3 id="Ticket-Lock"><a href="#Ticket-Lock" class="headerlink" title="Ticket Lock"></a>Ticket Lock</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TicketLock</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">AtomicInteger</span> <span class="variable">serviceNum</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AtomicInteger</span>(); <span class="comment">// 服务号</span></span><br><span class="line">    <span class="keyword">private</span> <span class="type">AtomicInteger</span> <span class="variable">ticketNum</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AtomicInteger</span>(); <span class="comment">// 排队号</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">lock</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">// 首先原子性地获得一个排队号</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">myTicketNum</span> <span class="operator">=</span> ticketNum.getAndIncrement();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 只要当前服务号不是自己的就不断轮询</span></span><br><span class="line">        <span class="keyword">while</span> (serviceNum.get() != myTicketNum) &#123;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> myTicketNum;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">unlock</span><span class="params">(<span class="type">int</span> myTicket)</span> &#123;</span><br><span class="line">        <span class="comment">// 解锁后只有拥有该线程的下一个排队号线程才能加锁，保证了公平性，不会有插队的情况</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">next</span> <span class="operator">=</span> myTicket + <span class="number">1</span>;</span><br><span class="line">        <span class="comment">// 只有当前线程拥有者才能释放锁</span></span><br><span class="line">        serviceNum.compareAndSet(myTicket, next);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>缺点</strong></p>
+<p>Ticket Lock 虽然解决了公平性的问题，但是多处理器系统上，每个进程/线程占用的处理器都在读写同一个变量 serviceNum ，每次读写操作都必须在多个处理器缓存之间进行缓存同步，这会导致繁重的系统总线和内存的流量，大大降低系统整体的性能。</p>
+<h2 id="CLH-锁"><a href="#CLH-锁" class="headerlink" title="CLH 锁"></a>CLH 锁</h2><p>CLH 的发明人是：Craig，Landin and Hagersten，三个人的名字合称</p>
+<p>CLH 锁是一种基于隐式链表（节点里面没有 next 指针）的可扩展、高性能、公平的自旋锁，申请线程只在本地变量上自旋，它不断轮询前驱的状态，如果发现前驱释放了锁就结束自旋。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CLHLock</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">CLHNode</span> &#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="type">boolean</span> <span class="variable">isLocked</span> <span class="operator">=</span> <span class="literal">true</span>; <span class="comment">// 默认是在等待锁</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">volatile</span> CLHNode tail ;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> AtomicReferenceFieldUpdater&lt;CLHLock, CLHNode&gt; UPDATER = AtomicReferenceFieldUpdater</span><br><span class="line">            . newUpdater(CLHLock.class, CLHNode .class , <span class="string">&quot;tail&quot;</span> );</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">lock</span><span class="params">(CLHNode currentThreadNode)</span> &#123;</span><br><span class="line">        <span class="comment">//获取之前的尾结点，然后将自己设置为尾节点</span></span><br><span class="line">        <span class="type">CLHNode</span> <span class="variable">preNode</span> <span class="operator">=</span> UPDATER.getAndSet( <span class="built_in">this</span>, currentThreadNode);</span><br><span class="line">        <span class="keyword">if</span>(preNode != <span class="literal">null</span>) &#123;<span class="comment">//已有线程占用了锁，进入自旋</span></span><br><span class="line">            <span class="keyword">while</span>(preNode.isLocked ) &#123;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">unlock</span><span class="params">(CLHNode currentThreadNode)</span> &#123;</span><br><span class="line">        <span class="comment">// 如果队列里只有当前线程，则释放对当前线程的引用（for GC）。</span></span><br><span class="line">        <span class="comment">// 尝试设置尾节点为自己，传入的期望值是自己，成功就代表队列中只有它一个</span></span><br><span class="line">        <span class="keyword">if</span> (!UPDATER.compareAndSet(<span class="built_in">this</span>, currentThreadNode, <span class="literal">null</span>)) &#123;</span><br><span class="line">            <span class="comment">// 还有后续线程</span></span><br><span class="line">            currentThreadNode.isLocked = <span class="literal">false</span> ;<span class="comment">// 改变状态，让后续线程结束自旋</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里用到了<code>原子字段更新器</code>，让 tail 变量可以具有 CAS 的功能，具体可以参考之前的文章 <a href="http://imlgw.top/2019/04/22/cas-yu-yuan-zi-bian-liang/#%E5%AD%97%E6%AE%B5%E6%9B%B4%E6%96%B0%E5%99%A8">CAS 与原子变量</a></p>
+<p><strong>缺点</strong></p>
+<p>先说一下<code>NUMA</code>和<code>SMP</code>两种处理器结构<br>SMP(Symmetric Multi-Processor)，即对称多处理器结构，指服务器中多个 CPU 对称工作，每个 CPU 访问内存地址所需时间相同。其主要特征是共享，包含对 CPU，内存，I/O 等进行共享。SMP 的优点是<code>能够保证内存一致性</code>，缺点是这些共享的资源很可能成为性能瓶颈，随着 CPU 数量的增加，每个 CPU 都要访问相同的内存资源，可能导致内存访问冲突，可能会导致 CPU 资源的浪费。常用的 PC 机就属于这种。</p>
+<p>NUMA(Non-Uniform Memory Access) 非一致存储访问，将 CPU 分为 CPU 模块，每个 CPU 模块由多个 CPU 组成，并且具有独立的本地内存、I/O 槽口等，模块之间可以通过互联模块相互访问，<code>访问本地内存的速度将远远高于访问远地内存（系统内其它节点的内存）的速度</code>，这也是非一致存储访问 NUMA 的由来。NUMA 优点是可以较好地解决原来 SMP 系统的扩展问题，缺点是由于访问远地内存的延时远远超过本地内存，因此当 CPU 数量增加时，系统性能无法线性增加。</p>
+<p><strong>CLH 锁的缺点是在 NUMA 系统结构下性能很差，在这种系统结构下，每个线程有自己的内存，如果前趋结点的内存位置比较远，自旋判断前趋结点的 locked 域，性能将大打折扣，在 SMP 架构下能够保证内存一致性所以自旋判断较快</strong></p>
+<h2 id="MCS-锁"><a href="#MCS-锁" class="headerlink" title="MCS 锁"></a>MCS 锁</h2><p>MCS Spinlock 是一种基于显式链表（节点里面拥有 next 指针）的可扩展、高性能、公平的自旋锁，申请线程只在本地变量上自旋，由直接前驱负责通知其结束自旋（与 CLH 自旋锁不同的地方，不在轮询前驱的状态，而是由前驱主动通知），从而极大地减少了不必要的处理器缓存同步的次数，降低了总线和内存的开销。而 MCS 是在自己的结点的 locked 域上自旋等待。正因为如此，它解决了 CLH 在 NUMA 系统架构中获取 locked 域状态内存过远的问题。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> imlgw.top</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2019/8/10 21:49</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MCSLock</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">MCSNode</span> &#123;</span><br><span class="line">        <span class="comment">//持有后继者的引用</span></span><br><span class="line">        <span class="keyword">volatile</span> MCSNode next;</span><br><span class="line">        <span class="comment">// 默认是在等待锁</span></span><br><span class="line">        <span class="keyword">volatile</span> <span class="type">boolean</span> <span class="variable">block</span> <span class="operator">=</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">volatile</span> MCSNode tail;<span class="comment">// 指向最后一个申请锁的 MCSNode</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> AtomicReferenceFieldUpdater&lt;MCSLock, MCSNode&gt; UPDATER = AtomicReferenceFieldUpdater</span><br><span class="line">            .newUpdater(MCSLock.class, MCSNode.class, <span class="string">&quot;tail&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">lock</span><span class="params">(MCSNode currentThreadMcsNode)</span> &#123;</span><br><span class="line">        <span class="comment">//更新 tail 为最新加入的线程节点，并取出之前的节点（也就是当前节点的前驱）</span></span><br><span class="line">        <span class="type">MCSNode</span> <span class="variable">predecessor</span> <span class="operator">=</span> UPDATER.getAndSet(<span class="built_in">this</span>, currentThreadMcsNode);</span><br><span class="line">        <span class="keyword">if</span> (predecessor != <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="comment">//连接在 tail 的尾部</span></span><br><span class="line">            predecessor.next = currentThreadMcsNode;</span><br><span class="line">            <span class="comment">//轮询自己的 isLocked 属性</span></span><br><span class="line">            <span class="keyword">while</span> (currentThreadMcsNode.block) &#123;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">//前驱节点为空直接获取锁，自己是第一个</span></span><br><span class="line">            currentThreadMcsNode.block = <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">unlock</span><span class="params">(MCSNode currentThreadMcsNode)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (currentThreadMcsNode.block) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//判断是不是只有一个线程</span></span><br><span class="line">        <span class="keyword">if</span> (currentThreadMcsNode.next == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="comment">//CAS 将 tail 设置为空</span></span><br><span class="line">            <span class="keyword">if</span> (UPDATER.compareAndSet(<span class="built_in">this</span>, currentThreadMcsNode, <span class="literal">null</span>)) &#123;</span><br><span class="line">                <span class="comment">// 设置成功返回，没有其他线程等待锁</span></span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="comment">//CAS 更新 tail 失败，有线程抢先一步执行 lock 更新了 tail</span></span><br><span class="line">                <span class="comment">//但是可能还没有连接在 之前的 tail（当前节点）后</span></span><br><span class="line">                <span class="keyword">while</span> (currentThreadMcsNode.next == <span class="literal">null</span>) &#123;</span><br><span class="line">                    <span class="comment">//等待 predecessor.next = currentThreadMcsNode 执行</span></span><br><span class="line">                    <span class="comment">//否则后面会报 NPE</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//修改后继者的 isLocked, 通知后继者结束自旋</span></span><br><span class="line">        currentThreadMcsNode.next.block = <span class="literal">false</span>;</span><br><span class="line">        currentThreadMcsNode.next = <span class="literal">null</span>;<span class="comment">// for GC</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>传统的<code>Spin lock</code> 和 <code>Ticket Lock</code>都在同一个共享变量上竞争（例如 SimpleSpinLock 中的 owner、Ticket Lock 中的 serviceNum），这样对给 CPU 保证缓存一致性带来的压力比较大，每次读写都需要同步到所有的线程，而 MCS 和 CLH 最大的优化点在于把上述同一个点上的竞争分散到队列的每个节点中去了。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://coderbee.net/index.php/concurrent/20131115/577">自旋锁、排队自旋锁、MCS 锁、CLH 锁</a></p>
+
+        
+            <div class="donate-container">
+    <div class="donate-button">
+        <button id="donate-button">赞赏</button>
+    </div>
+    <div class="donate-img-container hide" id="donate-img-container">
+        <img id="donate-img" src="" data-src="">
+        <p> 感谢鼓励 </p>
+    </div>
+</div>
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+        <div id="lv-container"></div>
+        <div class="giscus"></div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/imlgw">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://imlgw.top">Tadow</a></span>
+        <span>/</span>
+        
+        <span><a target="_blank" rel="noopener" href="http://beian.miit.gov.cn/publish/query/indexFirst.action">鄂ICP备18011208号</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>  Theme <a target="_blank" rel="noopener" href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/live2d-widget@3.x/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"https://cdn.jsdelivr.net/npm/live2d-widget-model-hijiki@1.0.5/assets/hijiki.model.json"},"display":{"superSample":2,"width":160,"height":320,"position":"right","hOffset":0,"vOffset":-70},"mobile":{"show":false,"scale":0.2},"log":false});</script></body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://giscus.app/client.js"
+  data-repo="imlgw/imlgw.github.io"
+  data-repo-id="MDEwOlJlcG9zaXRvcnkxMzMyMDY4NDg="
+  data-category="Announcements"
+  data-category-id="DIC_kwDOB_CTQM4CQ7v8"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="top"
+  data-theme="light"
+  data-lang="zh-CN"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+
+
+</html>

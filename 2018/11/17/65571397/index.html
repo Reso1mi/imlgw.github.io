@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:description" content="Tadow 的博客">
+    <meta property="og:type" content="website">
+    <meta name="description" content="Tadow 的博客">
+    <meta name="keyword"  content="Tadow, Resolmi, imlgw, 半岛铁盒, 算法, Java, Golang">
+    <link rel="shortcut icon" href="https://fav.farm/💭">
+
+    <title>
+        
+        CAS 单点登陆系统 Demo - Tadow 碎碎念
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_28hi1hpxx24.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Tadow 碎碎念" type="application/atom+xml">
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> Keep It Simple, Stupid </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar radius">
+            <img src="https://static.imlgw.top/blog/20220821160037.png" />
+        </div>
+        <div class="name">
+            <i>Tadow</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <!-- <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li> -->
+            <li >
+                <a href="/categories">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>分类</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            
+            <li >
+                <a href="/selfhosted">
+                    <i class="iconfont icon-guidang1"></i>
+                    <span>自建</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/collect/">
+                    <i class="iconfont icon-shoucang1"></i>
+                    <span>收藏</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%95%E7%82%B9%E7%99%BB%E9%99%86%E7%B3%BB%E7%BB%9F-%E2%80%93CAS"><span class="toc-text">单点登陆系统 –CAS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E9%85%8D%E7%BD%AE-CAS-%E6%9C%8D%E5%8A%A1%E7%AB%AF"><span class="toc-text">1. 配置 CAS 服务端</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%99%AE%E9%80%9A%E7%9A%84-web-%E9%A1%B9%E7%9B%AE%E9%9B%86%E6%88%90-CAS"><span class="toc-text">2. 普通的 web 项目集成 CAS</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text"></span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Spring-%E9%A1%B9%E7%9B%AE%E9%9B%86%E6%88%90-CAS-%E5%92%8C-Spring-security"><span class="toc-text">3. Spring 项目集成 CAS 和 Spring-security</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E6%B5%8B%E8%AF%95"><span class="toc-text">4. 测试</span></a></li></ol></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-bg" id="search-bg"></div>
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i> Keep It Simple, Stupid </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        CAS 单点登陆系统 Demo
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2018-11-17 00:00:00</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#CAS" title="CAS">CAS</a>
+        <span>/</span>
+        
+        <a class="tag" href="/tags/#SSO" title="SSO">SSO</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <h2 id="单点登陆系统-–CAS"><a href="#单点登陆系统-–CAS" class="headerlink" title="单点登陆系统 –CAS"></a>单点登陆系统 –CAS</h2><ul>
+<li>关于 CAS 的介绍网上都有。这里主要记录如何使用，如何配置和集成一些框架。</li>
+<li>CAS 架构图<br><img src="https://imlgwpicture.oss-cn-qingdao.aliyuncs.com/blogImage/CAS.PNG" alt="OSS"><br>CAS 的 SSO 实现方式可简化理解为： 1 个 Cookie 和 N 个 Session 。 CAS Server 创建 cookie，在所有应用认证时使用，各应用通过创建各自的 Session 来标识用户是否已登录。<br>用 户在一个应用验证通过后，以后用户在同一浏览器里访问此应用时，客户端应用中的过滤器会在 session 里读取到用户信息，所以就不会去 CAS Server 认证。如果在此浏览器里访问别的 web 应用时，客户端应用中的过滤器在 session 里读取不到用户信息，就会去 CAS Server 的 login 接口认证，但这时 CAS Server 会读取到浏览器传来的 cookie （ TGC ），所以 CAS Server 不会要求用户去登录页面登录，只是会根据 service 参数生成一个 Ticket ，然后再和 web 应用做一个验 证 ticket 的交互而已。</li>
+</ul>
+<h3 id="1-配置-CAS-服务端"><a href="#1-配置-CAS-服务端" class="headerlink" title="1. 配置 CAS 服务端"></a>1. 配置 CAS 服务端</h3><p>从上面的架构图也可以大概知道 CAS 运作的方式，首先配置好 CAS 的 Server 端，直接将 CAS 的 war 包拷到 tomcat 的 webapp 目录下然后启动 tomcat 自动解压就可以了，这里我设置的 tomcat 的端口是 8888，地址栏输入 localhost:8888/cas 能看到 CAS 的登陆界面说明部署成功</p>
+<ul>
+<li><p>去除 https<br>  CAS 默认使用的是 HTTPS 协议，如果使用 HTTPS 协议需要 SSL 安全证书（需向特定的机构申请和购买） 。如果对安全要求不高或是在开发测试阶段，可使用 HTTP 协议。我们这里讲解通过修改配置，让 CAS 使用 HTTP 协议。</p>
+<ul>
+<li><p>修改 cas 的 WEB-INF/deployerConfigContext.xml 找到下面的配置<br><bean class="org.jasig.cas.authentication.handler.support.HttpBasedServiceCredentialsAuthenticationHandler"
+p:httpClient-ref="httpClient"/><br>这里需要增加参数 p:requireSecure=”false”，requireSecure 属性意思为是否需要安全验证，即 HTTPS，false 为不采用</p>
+</li>
+<li><p>修改 cas 的/WEB-INF/spring-configuration/ticketGrantingTicketCookieGenerator.xml<br>找到下面配置<br><bean id="ticketGrantingTicketCookieGenerator" class="org.jasig.cas.web.support.CookieRetrievingCookieGenerator"
+ p:cookieSecure="true"
+ p:cookieMaxAge="-1"
+ p:cookieName="CASTGC"
+ p:cookiePath="/cas" /></p>
+</li>
+<li><p>参数 p:cookieSecure=”true”，同理为 HTTPS 验证相关，TRUE 为采用 HTTPS 验证，FALSE 为不采用 https 验证。<br>参数 p:cookieMaxAge=”-1”，是 COOKIE 的最大生命周期，-1 为无生命周期，即只在当前打开的窗口有效，关闭或重新打开其它窗口，仍会要求验证。可以根据需要修改为大于 0 的数字，比如 3600 等，意思是在 3600 秒内，打开任意窗口，都不需要验证。</p>
+<p>   我们这里将 cookieSecure 改为 false , cookieMaxAge 改为 3600</p>
+</li>
+<li><p>修改 cas 的 WEB-INF/spring-configuration/warnCookieGenerator.xml<br>   <bean id="warnCookieGenerator" class="org.jasig.cas.web.support.CookieRetrievingCookieGenerator"
+   p:cookieSecure="true"
+   p:cookieMaxAge="-1"
+   p:cookieName="CASPRIVACY"
+   p:cookiePath="/cas" /><br>我们这里将 cookieSecure 改为 false , cookieMaxAge 改为 3600</p>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>配置数据源<ul>
+<li><p>cas 有默认的密码但是实际中肯定是要从数据库中查的，所以我们需要配置下数据源</p>
+</li>
+<li><p>修改 cas 服务端中 web-inf 下 deployerConfigContext.xml ，添加如下配置</p>
+   <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">&lt;bean id=<span class="string">&quot;dataSource&quot;</span> class=<span class="string">&quot;com.mchange.v2.c3p0.ComboPooledDataSource&quot;</span> </span><br><span class="line"> p:driverClass=<span class="string">&quot;com.mysql.jdbc.Driver&quot;</span></span><br><span class="line"> p:jdbcUrl=<span class="string">&quot;jdbc:mysql://127.0.0.1:3306/pinyougoudb?characterEncoding=utf8&quot;</span></span><br><span class="line"> p:user=<span class="string">&quot;root&quot;</span></span><br><span class="line"> p:password=<span class="string">&quot;123456&quot;</span> /&gt;</span><br><span class="line">&lt;bean id=<span class="string">&quot;passwordEncoder&quot;</span></span><br><span class="line">class=<span class="string">&quot;org.jasig.cas.authentication.handler.DefaultPasswordEncoder&quot;</span> </span><br><span class="line"> c:encodingAlgorithm=<span class="string">&quot;MD5&quot;</span></span><br><span class="line"> p:characterEncoding=<span class="string">&quot;UTF-8&quot;</span> /&gt;</span><br><span class="line">&lt;bean id=<span class="string">&quot;dbAuthHandler&quot;</span> </span><br><span class="line"> class=<span class="string">&quot;org.jasig.cas.adaptors.jdbc.QueryDatabaseAuthenticationHandler&quot;</span></span><br><span class="line"> p:dataSource-ref=<span class="string">&quot;dataSource&quot;</span></span><br><span class="line"> p:sql=<span class="string">&quot;select password from tb_user where username = ?&quot;</span></span><br><span class="line"> p:passwordEncoder-ref=<span class="string">&quot;passwordEncoder&quot;</span>/&gt;</span><br></pre></td></tr></table></figure></li>
+<li><p>然后在配置文件开始部分找到如下配置</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"> &lt;bean id=<span class="string">&quot;authenticationManager&quot;</span> class=<span class="string">&quot;org.jasig.cas.authentication.PolicyBasedAuthenticationManager&quot;</span>&gt;</span><br><span class="line">        &lt;constructor-arg&gt;</span><br><span class="line">            &lt;map&gt;               </span><br><span class="line">                &lt;entry key-ref=<span class="string">&quot;proxyAuthenticationHandler&quot;</span> value-ref=<span class="string">&quot;proxyPrincipalResolver&quot;</span> /&gt;</span><br><span class="line">                &lt;entry key-ref=<span class="string">&quot;primaryAuthenticationHandler&quot;</span> value-ref=<span class="string">&quot;primaryPrincipalResolver&quot;</span> /&gt;</span><br><span class="line">            &lt;/map&gt;</span><br><span class="line">        &lt;/constructor-arg&gt;      </span><br><span class="line">        &lt;property name=<span class="string">&quot;authenticationPolicy&quot;</span>&gt;</span><br><span class="line">            &lt;bean class=<span class="string">&quot;org.jasig.cas.authentication.AnyAuthenticationPolicy&quot;</span> /&gt;</span><br><span class="line">        &lt;/property&gt;</span><br><span class="line">&lt;/bean&gt;</span><br></pre></td></tr></table></figure>
+<p>其中 <entry key-ref="primaryAuthenticationHandler" value-ref="primaryPrincipalResolver" />一句是使用固定的用户名和密码，我们在下面可以看到这两个 bean , 如果我们使用数据库认证用户名和密码，需要将这句注释掉。<br>添加下面这一句配置</p>
+<entry key-ref="dbAuthHandler" value-ref="primaryPrincipalResolver"/></li>
+<li><p>将三个 jar 包加入到 cas 的 lib 目录下<br><img src="https://imlgwpicture.oss-cn-qingdao.aliyuncs.com/blogImage/casjar.PNG" alt="oss"><br>第一个和第三个大家应该很熟悉了，中间的那个是 cas 对 jdbc 的支持包</p>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="2-普通的-web-项目集成-CAS"><a href="#2-普通的-web-项目集成-CAS" class="headerlink" title="2. 普通的 web 项目集成 CAS"></a>2. 普通的 web 项目集成 CAS</h3><p> 普通的 web 项目也就是没有使用 Spring 之类的框架而采用 web.xml 配置的普通项目</p>
+<ul>
+<li><p>2.1 为了方便我这里采用 maven 配置，先添加相应的依赖</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">&lt;!-- cas --&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.jasig.cas.client&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;cas-client-core&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;<span class="number">3.3</span><span class="number">.3</span>&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;javax.servlet&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;servlet-api&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;<span class="number">2.5</span>&lt;/version&gt;</span><br><span class="line">    &lt;scope&gt;provided&lt;/scope&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+<p>一个是 cas 客户端的核心包，一个是 servlet 的包，因为后面会写一些 jsp<br>然后添加 tomcat 插件我设置的端口为 9002</p>
+</li>
+<li><p>2.2 因为是普通的 web 项目所以配置的方式主要是通过 web.xml 来配置，直接上配置</p>
+  <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span><br><span class="line">&lt;web-app xmlns:xsi=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span><br><span class="line">         xmlns=<span class="string">&quot;http://java.sun.com/xml/ns/javaee&quot;</span></span><br><span class="line">         xsi:schemaLocation=<span class="string">&quot;http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd&quot;</span></span><br><span class="line">         version=<span class="string">&quot;2.5&quot;</span>&gt;</span><br><span class="line">    &lt;!-- 用于单点退出，该过滤器用于实现单点登出功能，可选配置 --&gt;</span><br><span class="line">    &lt;listener&gt;</span><br><span class="line">        &lt;listener-class&gt;org.jasig.cas.client.session.SingleSignOutHttpSessionListener&lt;/listener-class&gt;</span><br><span class="line">    &lt;/listener&gt;</span><br><span class="line">    &lt;!-- 该过滤器用于实现单点登出功能，可选配置。 --&gt;</span><br><span class="line">    &lt;filter&gt;</span><br><span class="line">        &lt;filter-name&gt;CAS Single Sign Out Filter&lt;/filter-name&gt;</span><br><span class="line">        &lt;filter-class&gt;org.jasig.cas.client.session.SingleSignOutFilter&lt;/filter-class&gt;</span><br><span class="line">    &lt;/filter&gt;</span><br><span class="line">    &lt;filter-mapping&gt;</span><br><span class="line">        &lt;filter-name&gt;CAS Single Sign Out Filter&lt;/filter-name&gt;</span><br><span class="line">        &lt;url-pattern&gt;<span class="comment">/* &lt;/url-pattern&gt;</span></span><br><span class="line"><span class="comment">    &lt;/filter-mapping&gt;</span></span><br><span class="line"><span class="comment">    &lt;!-- 该过滤器负责用户的认证工作，必须启用它 --&gt;</span></span><br><span class="line"><span class="comment">    &lt;filter&gt;</span></span><br><span class="line"><span class="comment">        &lt;filter-name&gt;CASFilter&lt;/filter-name&gt;</span></span><br><span class="line"><span class="comment">        &lt;filter-class&gt;org.jasig.cas.client.authentication.AuthenticationFilter&lt;/filter-class&gt;</span></span><br><span class="line"><span class="comment">        &lt;init-param&gt;</span></span><br><span class="line"><span class="comment">            &lt;param-name&gt;casServerLoginUrl&lt;/param-name&gt;</span></span><br><span class="line"><span class="comment">            &lt;param-value&gt;http://localhost:8888/cas/login&lt;/param-value&gt;</span></span><br><span class="line"><span class="comment">            &lt;!--这里的 server 是服务端的 IP --&gt;</span></span><br><span class="line"><span class="comment">        &lt;/init-param&gt;</span></span><br><span class="line"><span class="comment">        &lt;init-param&gt;</span></span><br><span class="line"><span class="comment">            &lt;param-name&gt;serverName&lt;/param-name&gt;</span></span><br><span class="line"><span class="comment">            &lt;param-value&gt;http://localhost:9002&lt;/param-value&gt;</span></span><br><span class="line"><span class="comment">        &lt;/init-param&gt;</span></span><br><span class="line"><span class="comment">    &lt;/filter&gt;</span></span><br><span class="line"><span class="comment">    &lt;filter-mapping&gt;</span></span><br><span class="line"><span class="comment">        &lt;filter-name&gt;CASFilter&lt;/filter-name&gt;</span></span><br><span class="line"><span class="comment">        &lt;url-pattern&gt;/*&lt;/url-pattern&gt;</span></span><br><span class="line"><span class="comment">    &lt;/filter-mapping&gt;</span></span><br><span class="line"><span class="comment">    &lt;!-- 该过滤器负责对 Ticket 的校验工作，必须启用它 --&gt;</span></span><br><span class="line"><span class="comment">    &lt;filter&gt;</span></span><br><span class="line"><span class="comment">        &lt;filter-name&gt;CAS Validation Filter&lt;/filter-name&gt;</span></span><br><span class="line"><span class="comment">        &lt;filter-class&gt;org.jasig.cas.client.validation.Cas20ProxyReceivingTicketValidationFilter&lt;/filter-class&gt;</span></span><br><span class="line"><span class="comment">        &lt;init-param&gt;</span></span><br><span class="line"><span class="comment">            &lt;param-name&gt;casServerUrlPrefix&lt;/param-name&gt;</span></span><br><span class="line"><span class="comment">            &lt;param-value&gt;http://localhost:8888/cas&lt;/param-value&gt;</span></span><br><span class="line"><span class="comment">        &lt;/init-param&gt;</span></span><br><span class="line"><span class="comment">        &lt;init-param&gt;</span></span><br><span class="line"><span class="comment">            &lt;param-name&gt;serverName&lt;/param-name&gt;</span></span><br><span class="line"><span class="comment">            &lt;param-value&gt;http://localhost:9002&lt;/param-value&gt;</span></span><br><span class="line"><span class="comment">        &lt;/init-param&gt;</span></span><br><span class="line"><span class="comment">    &lt;/filter&gt;</span></span><br><span class="line"><span class="comment">    &lt;filter-mapping&gt;</span></span><br><span class="line"><span class="comment">        &lt;filter-name&gt;CAS Validation Filter&lt;/filter-name&gt;</span></span><br><span class="line"><span class="comment">        &lt;url-pattern&gt;/*&lt;/url-pattern&gt;</span></span><br><span class="line"><span class="comment">    &lt;/filter-mapping&gt;</span></span><br><span class="line"><span class="comment">    &lt;!-- 该过滤器负责实现 HttpServletRequest 请求的包裹， 比如允许开发者通过 HttpServletRequest 的 getRemoteUser() 方法获得 SSO 登录用户的登录名，可选配置。 --&gt;</span></span><br><span class="line"><span class="comment">    &lt;filter&gt;</span></span><br><span class="line"><span class="comment">        &lt;filter-name&gt;CAS HttpServletRequest Wrapper Filter&lt;/filter-name&gt;</span></span><br><span class="line"><span class="comment">        &lt;filter-class&gt;</span></span><br><span class="line"><span class="comment">            org.jasig.cas.client.util.*</span></span><br><span class="line"><span class="comment">        &lt;/filter-class&gt;</span></span><br><span class="line"><span class="comment">    &lt;/filter&gt;</span></span><br><span class="line"><span class="comment">    &lt;filter-mapping&gt;</span></span><br><span class="line"><span class="comment">        &lt;filter-name&gt;CAS HttpServletRequest Wrapper Filter&lt;/filter-name&gt;</span></span><br><span class="line"><span class="comment">        &lt;url-pattern&gt;/*&lt;/url-pattern&gt;</span></span><br><span class="line"><span class="comment">    &lt;/filter-mapping&gt;</span></span><br><span class="line"><span class="comment">    &lt;!-- 该过滤器使得开发者可以通过 org.jasig.cas.client.util.AssertionHolder 来获取用户的登录名。 比如 AssertionHolder.getAssertion().getPrincipal().getName()。 --&gt;</span></span><br><span class="line"><span class="comment">    &lt;filter&gt;</span></span><br><span class="line"><span class="comment">        &lt;filter-name&gt;CAS Assertion Thread Local Filter&lt;/filter-name&gt;</span></span><br><span class="line"><span class="comment">        &lt;filter-class&gt;org.jasig.cas.client.util.AssertionThreadLocalFilter&lt;/filter-class&gt;</span></span><br><span class="line"><span class="comment">    &lt;/filter&gt;</span></span><br><span class="line"><span class="comment">    &lt;filter-mapping&gt;</span></span><br><span class="line"><span class="comment">        &lt;filter-name&gt;CAS Assertion Thread Local Filter&lt;/filter-name&gt;</span></span><br><span class="line"><span class="comment">        &lt;url-pattern&gt;/*&lt;/url-pattern&gt;</span></span><br><span class="line"><span class="comment">    &lt;/filter-mapping&gt;</span></span><br><span class="line"><span class="comment">&lt;/web-app&gt;</span></span><br><span class="line"><span class="comment"></span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>用户认证过滤器（必选）<strong>AuthenticationFilter **在上面的配置中需要两个参数一个是 casServerLoginUrl 顾名思义就是 CASserver 登陆的地址，比如我的是 <a target="_blank" rel="noopener" href="http://localhost:8888/cas/login">http://localhost:8888/cas/login</a> ，第二个参数是</strong> serverName** , 因为登陆成功后还是要返回你当前的应用所以需要将你当前的应用的地址传递给 CASserver 比如我的当前应用 <a target="_blank" rel="noopener" href="http://localhost:9002/">http://localhost:9002/</a></li>
+<li>Ticket 的校验过滤器（必选）<strong>Cas20ProxyReceivingTicketValidationFilter</strong> 与上面的过滤器类似也需要那两个参数，                              配置了这两个过滤器 CAS 就能正常运行了</li>
+<li>单点登出过滤器 <strong>SingleSignOutFilter</strong>，顾名思义就是用于单点登出  </li>
+<li>另外还有两个过滤器都是为了获取登陆名配置的过滤器，配置一个就行。    <h1 id=""><a href="#" class="headerlink" title=""></a></h1></li>
+</ul>
+</li>
+<li><p>2.3 编写 index.jsp(tomcat 默认打开的页面）</p>
+  <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">&lt;%@ page language=<span class="string">&quot;java&quot;</span> contentType=<span class="string">&quot;text/html; charset=utf-8&quot;</span></span><br><span class="line">         pageEncoding=<span class="string">&quot;utf-8&quot;</span>%&gt;</span><br><span class="line">&lt;!DOCTYPE html PUBLIC <span class="string">&quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;</span> <span class="string">&quot;http://www.w3.org/TR/html4/loose.dtd&quot;</span>&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta http-equiv=<span class="string">&quot;Content-Type&quot;</span> content=<span class="string">&quot;text/html; charset=utf-8&quot;</span>&gt;</span><br><span class="line">    &lt;title&gt;一品优购&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line"> 采用 web.xml 配置的普通的 web 模块</span><br><span class="line">&lt;%=request.getRemoteUser()%&gt;</span><br><span class="line"> &lt;a href=<span class="string">&quot;http://localhost:8888/cas/logout?service=http://www.imlgw.top&quot;</span>&gt;退出登录&lt;/a&gt;&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>   如果想让 cas 退出后跳转到指定的页面而不是 CAS 默认的页面也需要修改配置<br>   修改 cas 系统的配置文件 cas-servlet.xml<br>   <bean id="logoutAction" class="org.jasig.cas.web.flow.LogoutAction"
+   p:servicesManager-ref="servicesManager"
+   p:followServiceRedirects="${cas.logout.followServiceRedirects:true}"/><br>  将 cas.logout.followServiceRedirects 改为 true 后，可以在退出时跳转页面到目标页面<br> 然后就可以启动 cas 和你的应用来测试了。</p>
+</li>
+<li><p>2.4 服务端界面改造<br> 上面测试成功，但是真实的情况肯定不会用 cas 默认的那个页面做登陆需要改成你自己的登陆界面，然后你当前应用的登陆页面就没用了。</p>
+  <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">&lt;!DOCTYPE &gt;</span><br><span class="line">&lt;%@ page pageEncoding=<span class="string">&quot;UTF-8&quot;</span> %&gt;</span><br><span class="line">&lt;%@ page contentType=<span class="string">&quot;text/html; charset=UTF-8&quot;</span> %&gt;</span><br><span class="line">&lt;%@ taglib prefix=<span class="string">&quot;c&quot;</span> uri=<span class="string">&quot;http://java.sun.com/jsp/jstl/core&quot;</span> %&gt;</span><br><span class="line">&lt;%@ taglib prefix=<span class="string">&quot;spring&quot;</span> uri=<span class="string">&quot;http://www.springframework.org/tags&quot;</span> %&gt;</span><br><span class="line">&lt;%@ taglib prefix=<span class="string">&quot;form&quot;</span> uri=<span class="string">&quot;http://www.springframework.org/tags/form&quot;</span> %&gt;</span><br><span class="line">&lt;%@ taglib prefix=<span class="string">&quot;fn&quot;</span> uri=<span class="string">&quot;http://java.sun.com/jsp/jstl/functions&quot;</span> %&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">	&lt;head&gt;</span><br><span class="line">		&lt;meta charset=<span class="string">&quot;UTF-8&quot;</span> /&gt;</span><br><span class="line">		&lt;title&gt;Login&lt;/title&gt;</span><br><span class="line">		&lt;link rel=<span class="string">&quot;stylesheet&quot;</span> type=<span class="string">&quot;text/css&quot;</span> href=<span class="string">&#x27;bs/css/bootstrap.min.css&#x27;</span> /&gt;</span><br><span class="line">		&lt;script type=<span class="string">&quot;text/javascript&quot;</span> src=<span class="string">&quot;js/jquery.min.js&quot;</span>&gt;&lt;/script&gt;</span><br><span class="line">		&lt;script type=<span class="string">&quot;text/javascript&quot;</span> src=<span class="string">&quot;bs/js/bootstrap.min.js&quot;</span>&gt;&lt;/script&gt;</span><br><span class="line">		&lt;style&gt;</span><br><span class="line">			img &#123;</span><br><span class="line">				height: 200px;</span><br><span class="line">				border-radius: 200px;</span><br><span class="line">			&#125;</span><br><span class="line">			.panel-title&#123;</span><br><span class="line">				text-align: center;</span><br><span class="line">			&#125;</span><br><span class="line">			.login &#123;</span><br><span class="line">				width: 500px;</span><br><span class="line">				height: 400px;</span><br><span class="line">				position: absolute;</span><br><span class="line">				top: <span class="number">20</span>%;</span><br><span class="line">				left: <span class="number">50</span>%;</span><br><span class="line">				margin-left: -250px;</span><br><span class="line">			&#125;</span><br><span class="line">			.sub&#123;</span><br><span class="line">				text-align: center;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">		&lt;/style&gt;</span><br><span class="line">	&lt;/head&gt;</span><br><span class="line"></span><br><span class="line">	&lt;body&gt;</span><br><span class="line">		&lt;div class=<span class="string">&quot;panel panel-primary login&quot;</span>&gt;</span><br><span class="line">			&lt;div class=<span class="string">&quot;panel-heading&quot;</span>&gt;</span><br><span class="line">				&lt;div class=<span class="string">&quot;panel-title&quot;</span>&gt;</span><br><span class="line">					&lt;img src=<span class="string">&quot;images/login.jpg&quot;</span> /&gt;</span><br><span class="line">				&lt;/div&gt;</span><br><span class="line">			&lt;/div&gt;</span><br><span class="line">			&lt;div class=<span class="string">&quot;panel-body&quot;</span>&gt;</span><br><span class="line">				&lt;!--自定义的登陆界面修改 <span class="number">1</span> --&gt;</span><br><span class="line">				&lt;form:form method=<span class="string">&quot;post&quot;</span> id=<span class="string">&quot;fm1&quot;</span> commandName=<span class="string">&quot;$&#123;commandName&#125;&quot;</span> htmlEscape=<span class="string">&quot;true&quot;</span> class=<span class="string">&quot;sui-form&quot;</span>&gt;</span><br><span class="line">				</span><br><span class="line">					&lt;div class=<span class="string">&quot;form-group&quot;</span>&gt;</span><br><span class="line">						&lt;div class=<span class="string">&quot;input-group&quot;</span>&gt;</span><br><span class="line">							&lt;span class=<span class="string">&quot;input-group-addon&quot;</span> id=<span class="string">&quot;basic-addon1&quot;</span>&gt;&lt;span class=<span class="string">&quot;glyphicon glyphicon-user&quot;</span>&gt;&lt;/span&gt;&lt;/span&gt;</span><br><span class="line">							&lt;!--自定义的登陆界面修改 <span class="number">2</span> --&gt;</span><br><span class="line">							&lt;form:input  class=<span class="string">&quot;form-control&quot;</span> aria-describedby=<span class="string">&quot;basic-addon1&quot;</span> placeholder=<span class="string">&quot;Username&quot;</span>  id=<span class="string">&quot;username&quot;</span> size=<span class="string">&quot;25&quot;</span> tabindex=<span class="string">&quot;1&quot;</span> accesskey=<span class="string">&quot;$&#123;userNameAccessKey&#125;&quot;</span> path=<span class="string">&quot;username&quot;</span> autocomplete=<span class="string">&quot;off&quot;</span> htmlEscape=<span class="string">&quot;true&quot;</span> /&gt;</span><br><span class="line">						&lt;/div&gt;</span><br><span class="line">					&lt;/div&gt;</span><br><span class="line">					&lt;div class=<span class="string">&quot;form-group&quot;</span>&gt;</span><br><span class="line">						&lt;div class=<span class="string">&quot;input-group&quot;</span>&gt;</span><br><span class="line">							&lt;span class=<span class="string">&quot;input-group-addon&quot;</span> id=<span class="string">&quot;basic-addon1&quot;</span>&gt;&lt;span class=<span class="string">&quot;glyphicon glyphicon-lock&quot;</span>&gt;&lt;/span&gt;&lt;/span&gt;</span><br><span class="line">							&lt;!--自定义的登陆界面修改 <span class="number">3</span> --&gt;</span><br><span class="line">							&lt;form:password class=<span class="string">&quot;form-control&quot;</span> placeholder=<span class="string">&quot;password&quot;</span> aria-describedby=<span class="string">&quot;basic-addon1&quot;</span> id=<span class="string">&quot;password&quot;</span> size=<span class="string">&quot;25&quot;</span> tabindex=<span class="string">&quot;2&quot;</span> path=<span class="string">&quot;password&quot;</span>  accesskey=<span class="string">&quot;$&#123;passwordAccessKey&#125;&quot;</span> htmlEscape=<span class="string">&quot;true&quot;</span> autocomplete=<span class="string">&quot;off&quot;</span> /&gt;</span><br><span class="line">						&lt;/div&gt;</span><br><span class="line">					&lt;/div&gt;</span><br><span class="line">					&lt;div class=<span class="string">&quot;form-group sub&quot;</span>&gt;</span><br><span class="line">						&lt;!--自定义的登陆界面修改 <span class="number">4</span> 登陆框 --&gt;</span><br><span class="line">						&lt;input type=<span class="string">&quot;hidden&quot;</span> name=<span class="string">&quot;lt&quot;</span> value=<span class="string">&quot;$&#123;loginTicket&#125;&quot;</span> /&gt;</span><br><span class="line">     	 				&lt;input type=<span class="string">&quot;hidden&quot;</span> name=<span class="string">&quot;execution&quot;</span> value=<span class="string">&quot;$&#123;flowExecutionKey&#125;&quot;</span> /&gt;</span><br><span class="line">      					&lt;input type=<span class="string">&quot;hidden&quot;</span> name=<span class="string">&quot;_eventId&quot;</span> value=<span class="string">&quot;submit&quot;</span> /&gt;</span><br><span class="line">      					&lt;input class=<span class="string">&quot;btn btn-primary btn-lg&quot;</span> name=<span class="string">&quot;submit&quot;</span> accesskey=<span class="string">&quot;l&quot;</span> value=<span class="string">&quot;登陆&quot;</span> type=<span class="string">&quot;submit&quot;</span> /&gt;</span><br><span class="line">      					&lt;!--自定义的登陆界面修改 <span class="number">4</span> 错误提示框 --&gt;</span><br><span class="line">      					&lt;form:errors path=<span class="string">&quot;*&quot;</span> id=<span class="string">&quot;msg&quot;</span> cssClass=<span class="string">&quot;errors&quot;</span> element=<span class="string">&quot;div&quot;</span> htmlEscape=<span class="string">&quot;false&quot;</span> /&gt;</span><br><span class="line">					&lt;/div&gt;</span><br><span class="line">				&lt;/form:form&gt;</span><br><span class="line">			&lt;/div&gt;</span><br><span class="line">		&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">	&lt;/body&gt;</span><br><span class="line"></span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<p>  可以直接将登陆的页面拷过来然后加上指令再根据 cas 的登陆页面稍加修改就可以了</p>
+</li>
+</ul>
+<hr>
+<h3 id="3-Spring-项目集成-CAS-和-Spring-security"><a href="#3-Spring-项目集成-CAS-和-Spring-security" class="headerlink" title="3. Spring 项目集成 CAS 和 Spring-security"></a>3. Spring 项目集成 CAS 和 Spring-security</h3><ul>
+<li>pom 依赖  <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">&lt;properties&gt;</span><br><span class="line">        &lt;spring.version&gt;<span class="number">4.2</span><span class="number">.0</span>.RELEASE&lt;/spring.version&gt;</span><br><span class="line">    &lt;/properties&gt;</span><br><span class="line">    &lt;dependencies&gt;</span><br><span class="line">        &lt;!-- Spring --&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-context&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;$&#123;spring.version&#125;&lt;/version&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-beans&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;$&#123;spring.version&#125;&lt;/version&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-webmvc&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;$&#123;spring.version&#125;&lt;/version&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-jdbc&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;$&#123;spring.version&#125;&lt;/version&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-aspects&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;$&#123;spring.version&#125;&lt;/version&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-jms&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;$&#123;spring.version&#125;&lt;/version&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-context-support&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;$&#123;spring.version&#125;&lt;/version&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;!--spring-security--&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.security&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-security-web&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;$&#123;spring.version&#125;&lt;/version&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.security&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-security-config&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;$&#123;spring.version&#125;&lt;/version&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;javax.servlet&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;javax.servlet-api&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;<span class="number">3.1</span><span class="number">.0</span>&lt;/version&gt;</span><br><span class="line">            &lt;scope&gt;provided&lt;/scope&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;!--集成包--&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.security&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-security-cas&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;$&#123;spring.version&#125;&lt;/version&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;!--cas--&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.jasig.cas.client&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;cas-client-core&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;<span class="number">3.3</span><span class="number">.3</span>&lt;/version&gt;</span><br><span class="line">            &lt;exclusions&gt;</span><br><span class="line">                &lt;exclusion&gt;</span><br><span class="line">                    &lt;groupId&gt;org.slf4j&lt;/groupId&gt;</span><br><span class="line">                    &lt;artifactId&gt;log4j-over-slf4j&lt;/artifactId&gt;</span><br><span class="line">                &lt;/exclusion&gt;</span><br><span class="line">            &lt;/exclusions&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">    &lt;/dependencies&gt;</span><br></pre></td></tr></table></figure>
+  添加 tomcat 插件指定端口为 9001</li>
+<li>web.xml 配置<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span><br><span class="line">&lt;web-app xmlns:xsi=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span><br><span class="line">         xmlns=<span class="string">&quot;http://java.sun.com/xml/ns/javaee&quot;</span></span><br><span class="line">         xsi:schemaLocation=<span class="string">&quot;http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd&quot;</span></span><br><span class="line">         version=<span class="string">&quot;2.5&quot;</span>&gt;</span><br><span class="line"></span><br><span class="line">    &lt;context-param&gt;</span><br><span class="line">        &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;</span><br><span class="line">        &lt;param-value&gt;classpath:spring/spring-*.xml&lt;/param-value&gt;</span><br><span class="line">    &lt;/context-param&gt;</span><br><span class="line">    &lt;listener&gt;</span><br><span class="line">        &lt;listener-class&gt;</span><br><span class="line">            org.springframework.web.context.ContextLoaderListener</span><br><span class="line">        &lt;/listener-class&gt;</span><br><span class="line">    &lt;/listener&gt;</span><br><span class="line"></span><br><span class="line">    &lt;filter&gt;</span><br><span class="line">        &lt;filter-name&gt;springSecurityFilterChain&lt;/filter-name&gt;</span><br><span class="line">        &lt;filter-class&gt;org.springframework.web.filter.DelegatingFilterProxy&lt;/filter-class&gt;</span><br><span class="line">    &lt;/filter&gt;</span><br><span class="line">    &lt;filter-mapping&gt;</span><br><span class="line">        &lt;filter-name&gt;springSecurityFilterChain&lt;/filter-name&gt;</span><br><span class="line">        &lt;url-pattern&gt;<span class="comment">/*&lt;/url-pattern&gt;</span></span><br><span class="line"><span class="comment">    &lt;/filter-mapping&gt;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">&lt;/web-app&gt;</span></span><br></pre></td></tr></table></figure>
+主要配置 Spring 容器和 Spring-security 的过滤器</li>
+</ul>
+<ul>
+<li>spring-security.xml 配置<br>其实就是把之前配置在 web.xml 里面的过滤器采用 Spring 的方式配置出来</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span><br><span class="line">&lt;beans:beans xmlns=<span class="string">&quot;http://www.springframework.org/schema/security&quot;</span></span><br><span class="line">             xmlns:beans=<span class="string">&quot;http://www.springframework.org/schema/beans&quot;</span> xmlns:xsi=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span><br><span class="line">             xsi:schemaLocation=<span class="string">&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd</span></span><br><span class="line"><span class="string">						http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd&quot;</span>&gt;</span><br><span class="line"></span><br><span class="line">    &lt;http pattern=<span class="string">&quot;/out.html&quot;</span> security=<span class="string">&quot;none&quot;</span>&gt;&lt;/http&gt;</span><br><span class="line">    &lt;!--   entry-point-ref  入口点引用 因为登陆交给 cas 或者其他的登陆系统，就不会在本系统做登陆需要指定登陆点--&gt;</span><br><span class="line">    &lt;http use-expressions=<span class="string">&quot;false&quot;</span> entry-point-ref=<span class="string">&quot;casProcessingFilterEntryPoint&quot;</span>&gt;</span><br><span class="line">        &lt;intercept-url pattern=<span class="string">&quot;/**&quot;</span> access=<span class="string">&quot;ROLE_USER&quot;</span>/&gt;</span><br><span class="line">        &lt;csrf disabled=<span class="string">&quot;true&quot;</span>/&gt;</span><br><span class="line">        &lt;!-- custom-filter 为过滤器， position 表示将过滤器放在指定的位置上，before 表示放在指定位置之前  ，after 表示放在指定的位置之后  --&gt;</span><br><span class="line">        &lt;custom-filter ref=<span class="string">&quot;casAuthenticationFilter&quot;</span>  position=<span class="string">&quot;CAS_FILTER&quot;</span> /&gt;</span><br><span class="line">        &lt;custom-filter ref=<span class="string">&quot;requestSingleLogoutFilter&quot;</span> before=<span class="string">&quot;LOGOUT_FILTER&quot;</span>/&gt;</span><br><span class="line">        &lt;custom-filter ref=<span class="string">&quot;singleLogoutFilter&quot;</span> before=<span class="string">&quot;CAS_FILTER&quot;</span>/&gt;</span><br><span class="line">    &lt;/http&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- CAS 入口点 开始 --&gt;</span><br><span class="line">    &lt;beans:bean id=<span class="string">&quot;casProcessingFilterEntryPoint&quot;</span> class=<span class="string">&quot;org.springframework.security.cas.web.CasAuthenticationEntryPoint&quot;</span>&gt;</span><br><span class="line">        &lt;!-- 单点登录服务器登录 URL --&gt;</span><br><span class="line">        &lt;beans:property name=<span class="string">&quot;loginUrl&quot;</span> value=<span class="string">&quot;http://localhost:8888/cas/login&quot;</span>/&gt;</span><br><span class="line">        &lt;beans:property name=<span class="string">&quot;serviceProperties&quot;</span> ref=<span class="string">&quot;serviceProperties&quot;</span>/&gt;</span><br><span class="line">    &lt;/beans:bean&gt;</span><br><span class="line"></span><br><span class="line">    &lt;beans:bean id=<span class="string">&quot;serviceProperties&quot;</span> class=<span class="string">&quot;org.springframework.security.cas.ServiceProperties&quot;</span>&gt;</span><br><span class="line">        &lt;!--service 配置自身工程的根地址+/login/cas   --&gt;</span><br><span class="line">        &lt;beans:property name=<span class="string">&quot;service&quot;</span> value=<span class="string">&quot;http://localhost:9001/login/cas&quot;</span>/&gt;</span><br><span class="line">    &lt;/beans:bean&gt;</span><br><span class="line">    &lt;!-- CAS 入口点 结束 --&gt;</span><br><span class="line">    &lt;!-- 认证过滤器 开始 --&gt;</span><br><span class="line">    &lt;beans:bean id=<span class="string">&quot;casAuthenticationFilter&quot;</span> class=<span class="string">&quot;org.springframework.security.cas.web.CasAuthenticationFilter&quot;</span>&gt;</span><br><span class="line">        &lt;beans:property name=<span class="string">&quot;authenticationManager&quot;</span> ref=<span class="string">&quot;authenticationManager&quot;</span>/&gt;</span><br><span class="line">    &lt;/beans:bean&gt;</span><br><span class="line">    &lt;!-- 认证管理器 --&gt;</span><br><span class="line">    &lt;authentication-manager alias=<span class="string">&quot;authenticationManager&quot;</span>&gt;</span><br><span class="line">        &lt;authentication-provider  ref=<span class="string">&quot;casAuthenticationProvider&quot;</span>&gt;</span><br><span class="line">        &lt;/authentication-provider&gt;</span><br><span class="line">    &lt;/authentication-manager&gt;</span><br><span class="line">    &lt;!-- 认证提供者 --&gt;</span><br><span class="line">    &lt;beans:bean id=<span class="string">&quot;casAuthenticationProvider&quot;</span>     class=<span class="string">&quot;org.springframework.security.cas.authentication.CasAuthenticationProvider&quot;</span>&gt;</span><br><span class="line">        &lt;beans:property name=<span class="string">&quot;authenticationUserDetailsService&quot;</span>&gt;</span><br><span class="line">            &lt;beans:bean class=<span class="string">&quot;org.springframework.security.core.userdetails.UserDetailsByNameServiceWrapper&quot;</span>&gt;</span><br><span class="line">                &lt;beans:constructor-arg ref=<span class="string">&quot;userDetailsService&quot;</span> /&gt;</span><br><span class="line">            &lt;/beans:bean&gt;</span><br><span class="line">        &lt;/beans:property&gt;</span><br><span class="line">        &lt;beans:property name=<span class="string">&quot;serviceProperties&quot;</span> ref=<span class="string">&quot;serviceProperties&quot;</span>/&gt;</span><br><span class="line">        &lt;!-- ticketValidator 为票据验证器 --&gt;</span><br><span class="line">        &lt;beans:property name=<span class="string">&quot;ticketValidator&quot;</span>&gt;</span><br><span class="line">            &lt;beans:bean class=<span class="string">&quot;org.jasig.cas.client.validation.Cas20ServiceTicketValidator&quot;</span>&gt;</span><br><span class="line">                &lt;beans:constructor-arg index=<span class="string">&quot;0&quot;</span> value=<span class="string">&quot;http://localhost:8888/cas&quot;</span>/&gt;</span><br><span class="line">            &lt;/beans:bean&gt;</span><br><span class="line">        &lt;/beans:property&gt;</span><br><span class="line">        &lt;beans:property name=<span class="string">&quot;key&quot;</span> value=<span class="string">&quot;an_id_for_this_auth_provider_only&quot;</span>/&gt;</span><br><span class="line">    &lt;/beans:bean&gt;</span><br><span class="line">    &lt;!-- 认证类 --&gt;</span><br><span class="line">    &lt;beans:bean id=<span class="string">&quot;userDetailsService&quot;</span> class=<span class="string">&quot;top.imlgw.demo.UserDetailServiceImpl&quot;</span>/&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- 认证过滤器 结束 --&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- 单点登出  开始  --&gt;</span><br><span class="line">    &lt;beans:bean id=<span class="string">&quot;singleLogoutFilter&quot;</span> class=<span class="string">&quot;org.jasig.cas.client.session.SingleSignOutFilter&quot;</span>/&gt;</span><br><span class="line">    &lt;!--关联两个地址，相当于封装了前面的地址--&gt;</span><br><span class="line">    &lt;beans:bean id=<span class="string">&quot;requestSingleLogoutFilter&quot;</span> class=<span class="string">&quot;org.springframework.security.web.authentication.logout.LogoutFilter&quot;</span>&gt;</span><br><span class="line">        &lt;beans:constructor-arg value=<span class="string">&quot;http://localhost:8888/cas/logout?service=http://localhost:9001/out.html&quot;</span>/&gt;</span><br><span class="line">        &lt;beans:constructor-arg&gt;</span><br><span class="line">            &lt;beans:bean class=<span class="string">&quot;org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler&quot;</span>/&gt;</span><br><span class="line">        &lt;/beans:constructor-arg&gt;</span><br><span class="line">        &lt;beans:property name=<span class="string">&quot;filterProcessesUrl&quot;</span> value=<span class="string">&quot;/logout/cas&quot;</span>/&gt;</span><br><span class="line">    &lt;/beans:bean&gt;</span><br><span class="line">    &lt;!-- 单点登出  结束 --&gt;</span><br><span class="line"></span><br><span class="line">&lt;/beans:beans&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>userDetailsService 编写<br>这是一个认证类是属于 Spring-security 的，如果不使用 CAS 那么这个类就是用来验证密码是否正确是否放行的。但是整合了 CAS 后就不用在里面做认证了，只是为了返回后面的角色集合。</p>
+  <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> top.imlgw.demo;</span><br><span class="line"><span class="keyword">import</span> org.springframework.security.core.GrantedAuthority;</span><br><span class="line"><span class="keyword">import</span> org.springframework.security.core.authority.SimpleGrantedAuthority;</span><br><span class="line"><span class="keyword">import</span> org.springframework.security.core.userdetails.User;</span><br><span class="line"><span class="keyword">import</span> org.springframework.security.core.userdetails.UserDetails;</span><br><span class="line"><span class="keyword">import</span> org.springframework.security.core.userdetails.UserDetailsService;</span><br><span class="line"><span class="keyword">import</span> org.springframework.security.core.userdetails.UsernameNotFoundException;</span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserDetailServiceImpl</span> <span class="keyword">implements</span> <span class="title class_">UserDetailsService</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> UserDetails <span class="title function_">loadUserByUsername</span><span class="params">(String username)</span> <span class="keyword">throws</span> UsernameNotFoundException &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;经过认证类&quot;</span>);</span><br><span class="line">        List&lt;GrantedAuthority&gt; authorities=<span class="keyword">new</span> <span class="title class_">ArrayList</span>();</span><br><span class="line">        <span class="comment">//最开始把这里的 role 写错了，然后 cas 登陆成功后也一直被 403 forbid，因为 SpringSecurity 认证没通过，一直没放行</span></span><br><span class="line">        authorities.add(<span class="keyword">new</span> <span class="title class_">SimpleGrantedAuthority</span>(<span class="string">&quot;ROLE_USER&quot;</span>));</span><br><span class="line">        <span class="comment">//不通过本项目做登陆 所以密码无所谓，在执行这个方法的时候就已经登陆成功了</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">User</span>(username,<span class="string">&quot;&quot;</span>,authorities);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<hr>
+<h3 id="4-测试"><a href="#4-测试" class="headerlink" title="4. 测试"></a>4. 测试</h3><p>启动搭建好的两个服务器，和 casServer，然后测试在一个应用登陆后另一个能否进入 index 页面 …..</p>
+<hr>
+<p>SpringBoot 集成 CAS 和 Spring-security 的后面再补充，因为 SpringBoot 还不太熟悉。</p>
+
+        
+            <div class="donate-container">
+    <div class="donate-button">
+        <button id="donate-button">赞赏</button>
+    </div>
+    <div class="donate-img-container hide" id="donate-img-container">
+        <img id="donate-img" src="" data-src="">
+        <p> 感谢鼓励 </p>
+    </div>
+</div>
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+        <div id="lv-container"></div>
+        <div class="giscus"></div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/imlgw">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://imlgw.top">Tadow</a></span>
+        <span>/</span>
+        
+        <span><a target="_blank" rel="noopener" href="http://beian.miit.gov.cn/publish/query/indexFirst.action">鄂ICP备18011208号</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>  Theme <a target="_blank" rel="noopener" href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/live2d-widget@3.x/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"https://cdn.jsdelivr.net/npm/live2d-widget-model-hijiki@1.0.5/assets/hijiki.model.json"},"display":{"superSample":2,"width":160,"height":320,"position":"right","hOffset":0,"vOffset":-70},"mobile":{"show":false,"scale":0.2},"log":false});</script></body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://giscus.app/client.js"
+  data-repo="imlgw/imlgw.github.io"
+  data-repo-id="MDEwOlJlcG9zaXRvcnkxMzMyMDY4NDg="
+  data-category="Announcements"
+  data-category-id="DIC_kwDOB_CTQM4CQ7v8"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="top"
+  data-theme="light"
+  data-lang="zh-CN"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+
+
+</html>

@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:description" content="Tadow 的博客">
+    <meta property="og:type" content="website">
+    <meta name="description" content="Tadow 的博客">
+    <meta name="keyword"  content="Tadow, Resolmi, imlgw, 半岛铁盒, 算法, Java, Golang">
+    <link rel="shortcut icon" href="https://fav.farm/💭">
+
+    <title>
+        
+        Golang 踩坑：exec 取消后不退出 - Tadow 碎碎念
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_28hi1hpxx24.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Tadow 碎碎念" type="application/atom+xml">
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> Keep It Simple, Stupid </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar radius">
+            <img src="https://static.imlgw.top/blog/20220821160037.png" />
+        </div>
+        <div class="name">
+            <i>Tadow</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <!-- <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li> -->
+            <li >
+                <a href="/categories">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>分类</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            
+            <li >
+                <a href="/selfhosted">
+                    <i class="iconfont icon-guidang1"></i>
+                    <span>自建</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/collect/">
+                    <i class="iconfont icon-shoucang1"></i>
+                    <span>收藏</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-text">背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E6%9E%90"><span class="toc-text">分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E5%9B%A0%E6%80%BB%E7%BB%93"><span class="toc-text">原因总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-text">解决方案</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-bg" id="search-bg"></div>
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i> Keep It Simple, Stupid </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        Golang 踩坑：exec 取消后不退出
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2020-08-25 00:00:00</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#开源项目" title="开源项目">开源项目</a>
+        <span>/</span>
+        
+        <a class="tag" href="/tags/#Golang" title="Golang">Golang</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在做 <a target="_blank" rel="noopener" href="https://github.com/imlgw/scheduler">Scheduler 项目</a> 的过程中利用 os/exec 包执行一些 shell 脚本，调试过程中发现我取消了 context 后 go 进程仍然阻塞不退出</p>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><blockquote>
+<p>go version go1.13.6 linux/amd64</p>
+</blockquote>
+<p>在实现 kill 强杀功能时候发现的问题，无法杀死任务，即使 kill 了还是会等到任务执行完才会返回，在查资料的过程中发现这应该也算是 golang 本身的一个坑了，参考 <a target="_blank" rel="noopener" href="https://github.com/golang/go/issues/23019">issue23019</a></p>
+<p>一开始是在 Windows 平台上运行测试的，以为是平台的原因但是在切换了 Linux 后问题依然存在，如下 poc 既可复现</p>
+<figure class="highlight golang"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">&quot;context&quot;</span></span><br><span class="line">    <span class="string">&quot;fmt&quot;</span></span><br><span class="line">    <span class="string">&quot;os/exec&quot;</span></span><br><span class="line">    <span class="string">&quot;time&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    ctx, cancelFn := context.WithTimeout(context.Background(), time.Second*<span class="number">5</span>)</span><br><span class="line">    <span class="keyword">defer</span> cancelFn()</span><br><span class="line">    cmd := exec.CommandContext(ctx, <span class="string">&quot;/bin/bash&quot;</span>, <span class="string">&quot;-c&quot;</span>, <span class="string">&quot;sleep 120; echo hello&quot;</span>)</span><br><span class="line">    output, err := cmd.CombinedOutput()</span><br><span class="line">    fmt.Printf(<span class="string">&quot;output：【%s】err:【%s】&quot;</span>, <span class="type">string</span>(output), err)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在 linux 平台上通过 go run 执行上面的代码，然后<code>pstree -p</code>查看进程树</p>
+<figure class="highlight golang"><table><tr><td class="code"><pre><span class="line"><span class="comment">//由于进程树比较庞大，所以省略了一些无关的部分</span></span><br><span class="line">systemd(<span class="number">1</span>)─┬─...</span><br><span class="line">           ├─sshd(<span class="number">17395</span>)─┬─sshd(<span class="number">18450</span>)───sftp-server(<span class="number">18453</span>)</span><br><span class="line">           │             ├─sshd(<span class="number">28684</span>)───zsh(<span class="number">28687</span>)───<span class="keyword">go</span>(<span class="number">2661</span>)─┬─demo3_cmdPit(<span class="number">2680</span>)─┬─bash(<span class="number">2683</span>)───sleep(<span class="number">2684</span>)</span><br><span class="line">           │             │                                     │                    ├─&#123;demo3_cmdPit&#125;(<span class="number">2681</span>)</span><br><span class="line">           │             │                                     │                    ├─&#123;demo3_cmdPit&#125;(<span class="number">2682</span>)</span><br><span class="line">           │             │                                     │                    └─&#123;demo3_cmdPit&#125;(<span class="number">2686</span>)</span><br><span class="line">           │             │                                     ├─&#123;<span class="keyword">go</span>&#125;(<span class="number">2662</span>)</span><br><span class="line">           │             │                                     ├─&#123;<span class="keyword">go</span>&#125;(<span class="number">2663</span>)</span><br><span class="line">           │             │                                     ├─&#123;<span class="keyword">go</span>&#125;(<span class="number">2664</span>)</span><br><span class="line">           │             │                                     ├─&#123;<span class="keyword">go</span>&#125;(<span class="number">2665</span>)</span><br><span class="line">           │             │                                     ├─&#123;<span class="keyword">go</span>&#125;(<span class="number">2672</span>)</span><br><span class="line">           │             │                                     ├─&#123;<span class="keyword">go</span>&#125;(<span class="number">2679</span>)</span><br><span class="line">           │             │                                     └─&#123;<span class="keyword">go</span>&#125;(<span class="number">2685</span>)</span><br><span class="line">           │             └─sshd(<span class="number">29042</span>)───zsh(<span class="number">29044</span>)───pstree(<span class="number">2688</span>)</span><br></pre></td></tr></table></figure>
+<p>可以看到这里我们的 go 进程<code>demo3_cmdPit(2680)</code>创建了<code>bash(2683)</code>进程去执行具体的 shell 指令，但是这里由于我们执行的命令是【<code>sleep 50; echo hello</code>】属于一组多条命令，所以这里 shell 会 fork 出子进程去执行这些命令，所以上面显示<code>sleep(2684)</code>是<code>bash(2683)</code>的子进程</p>
+<blockquote>
+<p>补充：除了多条命令会产生子进程外，还有一些情况会产生子进程，比如<code>&amp;</code>后台运行，<code>pipe</code>管道，外部 shell 脚本等等，具体可以参考这篇文章 <a target="_blank" rel="noopener" href="https://www.cnblogs.com/f-ck-need-u/p/7446194.html">子 shell 以及什么时候进入子 shell</a></p>
+</blockquote>
+<p>然后再 5s 后 ctx 到期 cancel 后我们再次查看进程树</p>
+<figure class="highlight golang"><table><tr><td class="code"><pre><span class="line">systemd(<span class="number">1</span>)─┬─...</span><br><span class="line">           ├─sleep(<span class="number">2684</span>)</span><br><span class="line">           ├─sshd(<span class="number">17395</span>)─┬─sshd(<span class="number">18450</span>)───sftp-server(<span class="number">18453</span>)</span><br><span class="line">           │             ├─sshd(<span class="number">28684</span>)───zsh(<span class="number">28687</span>)───<span class="keyword">go</span>(<span class="number">2661</span>)─┬─demo3_cmdPit(<span class="number">2680</span>)─┬─&#123;demo3_cmdPit&#125;(<span class="number">2681</span>)</span><br><span class="line">           │             │                                     │                    ├─&#123;demo3_cmdPit&#125;(<span class="number">2682</span>)</span><br><span class="line">           │             │                                     │                    └─&#123;demo3_cmdPit&#125;(<span class="number">2686</span>)</span><br><span class="line">           │             │                                     ├─&#123;<span class="keyword">go</span>&#125;(<span class="number">2662</span>)</span><br><span class="line">           │             │                                     ├─&#123;<span class="keyword">go</span>&#125;(<span class="number">2663</span>)</span><br><span class="line">           │             │                                     ├─&#123;<span class="keyword">go</span>&#125;(<span class="number">2664</span>)</span><br><span class="line">           │             │                                     ├─&#123;<span class="keyword">go</span>&#125;(<span class="number">2665</span>)</span><br><span class="line">           │             │                                     ├─&#123;<span class="keyword">go</span>&#125;(<span class="number">2672</span>)</span><br><span class="line">           │             │                                     ├─&#123;<span class="keyword">go</span>&#125;(<span class="number">2679</span>)</span><br><span class="line">           │             │                                     └─&#123;<span class="keyword">go</span>&#125;(<span class="number">2685</span>)</span><br><span class="line">           │             └─sshd(<span class="number">29042</span>)───zsh(<span class="number">29044</span>)───pstree(<span class="number">2708</span>)</span><br></pre></td></tr></table></figure>
+<p>可以看到<code>bash(2683)</code>进程确实被 kill 了，但是它的子进程确并没有结束，而是变成了<strong>孤儿进程</strong>，被<code>init 1(systemd)</code>收养，但是我们看到这时进程<code>demo3_cmdPit(2680)</code>还没有退出，符合之前的预测，这里该进程仍然还有 3 条线程（协程）没有退出，直到 sleep 命令执行完才会返回，这里通过 pstack 是无法查看这几条线程的堆栈的，因为操作系统并不认识协程，而且 G 会在 P 上切换，所以我们暂时也不知道这几条线程在干嘛</p>
+<blockquote>
+<p>孤儿进程：父进程退出，而它的一个或多个子进程还在运行，那么那些子进程将成为孤儿进程。孤儿进程将被 init 进程（进程号为 1) 所收养，并由 init 进程对它们完成状态收集工作。</p>
+<p>僵尸进程：父进程使用 fork 创建子进程，如果子进程退出，而父进程并没有调用<code>wait</code>或<code>waitpid</code>获取子进程的状态信息，那么子进程的进程描述符仍然保存在系统中。这种进程称之为僵死进程。</p>
+</blockquote>
+<p>当 sleep 执行完成后，程序会正常返回如下信息</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">output：【】err:【signal: killed】#</span><br></pre></td></tr></table></figure>
+<p>因为是在 Linux 环境下没有 IDE 而且不太熟悉<code>gdb</code>所以这里我们用<code>pprof</code>查看了一下堆栈</p>
+<figure class="highlight golang"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">&quot;context&quot;</span></span><br><span class="line">    <span class="string">&quot;fmt&quot;</span></span><br><span class="line">    <span class="string">&quot;net/http&quot;</span></span><br><span class="line">    _ <span class="string">&quot;net/http/pprof&quot;</span></span><br><span class="line">    <span class="string">&quot;os/exec&quot;</span></span><br><span class="line">    <span class="string">&quot;time&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">        err := http.ListenAndServe(<span class="string">&quot;:6060&quot;</span>, <span class="literal">nil</span>)</span><br><span class="line">        <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">            fmt.Printf(<span class="string">&quot;failed to start pprof monitor:%s&quot;</span>, err)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;()</span><br><span class="line">    ctx, cancelFn := context.WithTimeout(context.Background(), time.Second*<span class="number">5</span>)</span><br><span class="line">    <span class="keyword">defer</span> cancelFn()</span><br><span class="line">    cmd := exec.CommandContext(ctx, <span class="string">&quot;/bin/bash&quot;</span>, <span class="string">&quot;-c&quot;</span>, <span class="string">&quot;sleep 50; echo hello&quot;</span>)</span><br><span class="line">    output, err := cmd.CombinedOutput()</span><br><span class="line">    fmt.Printf(<span class="string">&quot;output：【%s】err:【%s】&quot;</span>, <span class="type">string</span>(output), err)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>后面了解到其实直接发送<code>SIGQUIT</code>信号也可以看到堆栈，如 <code>kill -SIGQUIT &lt;pid&gt;</code>，go 的工具链还是非常完善的，除了这些还有很多方法看堆栈</p>
+</blockquote>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">curl http:<span class="comment">//127.0.0.1:6060/debug/pprof/goroutine\?debug\=2</span></span><br><span class="line">...</span><br><span class="line">goroutine <span class="number">1</span> [<span class="keyword">chan</span> receive]:</span><br><span class="line">os/exec.(*Cmd).Wait(<span class="number">0xc000098580</span>, <span class="number">0x0</span>, <span class="number">0x0</span>)</span><br><span class="line">        /usr/lib/golang/src/os/exec/exec.<span class="keyword">go</span>:<span class="number">509</span> +<span class="number">0x125</span></span><br><span class="line">os/exec.(*Cmd).Run(<span class="number">0xc000098580</span>, <span class="number">0xc00006d710</span>, <span class="number">0xc000098580</span>)</span><br><span class="line">        /usr/lib/golang/src/os/exec/exec.<span class="keyword">go</span>:<span class="number">341</span> +<span class="number">0x5c</span></span><br><span class="line">os/exec.(*Cmd).CombinedOutput(<span class="number">0xc000098580</span>, <span class="number">0x9</span>, <span class="number">0xc0000bff30</span>, <span class="number">0x2</span>, <span class="number">0x2</span>, <span class="number">0xc000098580</span>)</span><br><span class="line">        /usr/lib/golang/src/os/exec/exec.<span class="keyword">go</span>:<span class="number">561</span> +<span class="number">0x91</span></span><br><span class="line">main.main()</span><br><span class="line">		/usr/local/gotest/cmd/demo3_cmdPit/main.<span class="keyword">go</span>:<span class="number">22</span> +<span class="number">0x176</span></span><br><span class="line">...</span><br><span class="line">goroutine <span class="number">9</span> [IO wait]:</span><br><span class="line">internal/poll.runtime_pollWait(<span class="number">0x7fa96a0f5f08</span>, <span class="number">0x72</span>, <span class="number">0xffffffffffffffff</span>)</span><br><span class="line">        /usr/lib/golang/src/runtime/netpoll.<span class="keyword">go</span>:<span class="number">184</span> +<span class="number">0x55</span></span><br><span class="line">internal/poll.(*pollDesc).wait(<span class="number">0xc000058678</span>, <span class="number">0x72</span>, <span class="number">0x201</span>, <span class="number">0x200</span>, <span class="number">0xffffffffffffffff</span>)</span><br><span class="line">        /usr/lib/golang/src/internal/poll/fd_poll_runtime.<span class="keyword">go</span>:<span class="number">87</span> +<span class="number">0x45</span></span><br><span class="line">internal/poll.(*pollDesc).waitRead(...)</span><br><span class="line">        /usr/lib/golang/src/internal/poll/fd_poll_runtime.<span class="keyword">go</span>:<span class="number">92</span></span><br><span class="line">internal/poll.(*FD).Read(<span class="number">0xc000058660</span>, <span class="number">0xc0000e2000</span>, <span class="number">0x200</span>, <span class="number">0x200</span>, <span class="number">0x0</span>, <span class="number">0x0</span>, <span class="number">0x0</span>)</span><br><span class="line">        /usr/lib/golang/src/internal/poll/fd_unix.<span class="keyword">go</span>:<span class="number">169</span> +<span class="number">0x1cf</span></span><br><span class="line">os.(*File).read(...)</span><br><span class="line">        /usr/lib/golang/src/os/file_unix.<span class="keyword">go</span>:<span class="number">259</span></span><br><span class="line">os.(*File).Read(<span class="number">0xc000010088</span>, <span class="number">0xc0000e2000</span>, <span class="number">0x200</span>, <span class="number">0x200</span>, <span class="number">0x7fa96a0f5ff8</span>, <span class="number">0x0</span>, <span class="number">0xc000039ea0</span>)</span><br><span class="line">        /usr/lib/golang/src/os/file.<span class="keyword">go</span>:<span class="number">116</span> +<span class="number">0x71</span></span><br><span class="line">bytes.(*Buffer).ReadFrom(<span class="number">0xc00006d710</span>, <span class="number">0x8b6120</span>, <span class="number">0xc000010088</span>, <span class="number">0x7fa96a0f5ff8</span>, <span class="number">0xc00006d710</span>, <span class="number">0x1</span>)</span><br><span class="line">        /usr/lib/golang/src/bytes/buffer.<span class="keyword">go</span>:<span class="number">204</span> +<span class="number">0xb4</span></span><br><span class="line">io.copyBuffer(<span class="number">0x8b5a20</span>, <span class="number">0xc00006d710</span>, <span class="number">0x8b6120</span>, <span class="number">0xc000010088</span>, <span class="number">0x0</span>, <span class="number">0x0</span>, <span class="number">0x0</span>, <span class="number">0x0</span>, <span class="number">0x0</span>, <span class="number">0x0</span>)</span><br><span class="line">        /usr/lib/golang/src/io/io.<span class="keyword">go</span>:<span class="number">388</span> +<span class="number">0x2ed</span></span><br><span class="line">io.Copy(...)</span><br><span class="line">        /usr/lib/golang/src/io/io.<span class="keyword">go</span>:<span class="number">364</span></span><br><span class="line">os/exec.(*Cmd).writerDescriptor.func1(<span class="number">0x0</span>, <span class="number">0x0</span>)</span><br><span class="line">        /usr/lib/golang/src/os/exec/exec.<span class="keyword">go</span>:<span class="number">311</span> +<span class="number">0x63</span></span><br><span class="line">os/exec.(*Cmd).Start.func1(<span class="number">0xc000098580</span>, <span class="number">0xc00000e3a0</span>)</span><br><span class="line">        /usr/lib/golang/src/os/exec/exec.<span class="keyword">go</span>:<span class="number">435</span> +<span class="number">0x27</span></span><br><span class="line">created by os/exec.(*Cmd).Start</span><br><span class="line">        /usr/lib/golang/src/os/exec/exec.<span class="keyword">go</span>:<span class="number">434</span> +<span class="number">0x608</span></span><br></pre></td></tr></table></figure>
+<p>这里我忽略了一些无关的协程，留下了这两条的堆栈信息</p>
+<p>首先我们看一下第一条的堆栈信息，很明显这条就是我们的主<code>goroutine</code>，可以看到它正处于<code>[chan receive]</code>状态，也就是在等待某个 chan 传递信息，根据堆栈信息可以看到问题出在</p>
+<p> <code>/usr/lib/golang/src/os/exec/exec.go:509</code></p>
+<p>我们去看一下这里发生了什么</p>
+<p><img src="http://static.imlgw.top/blog/20200821/l2wEHHBXyTTh.png?imageslim" alt="mark"><br>果然这里在等待<code>c.errch</code>，那么这个 errch 是谁负责推送的呢？</p>
+<p>我们再来看看另一条<code>goroutine</code>，这条<code>goroutine</code>处于<code>【IO wait】</code>状态，说明 IO 发生阻塞了，我们从下往上看堆栈，首先看一下是在哪里启动了这个协程</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">created by os/exec.(*Cmd).Start</span><br><span class="line">        /usr/lib/golang/src/os/exec/exec.<span class="keyword">go</span>:<span class="number">434</span> +<span class="number">0x608</span></span><br></pre></td></tr></table></figure>
+<p><img src="http://static.imlgw.top/blog/20200822/sh8qmlcDeD64.png?imageslim" alt="mark"><br>可以看到这个协程的作用就是向我们上面的主<code>goroutine</code>在等待的<code>c.errch</code>推送消息，那么这里<code>fn()</code>为什么没有返回呢？这个 fn 是在干嘛？继续翻一翻源码，发现这些函数<code>fn()</code>是在 cmd.Start 的时候创建的，用于处理 shell 的标准输入，输出和错误输出，而我们的程序就是卡在了这里，继续跟进上面的堆栈信息</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">os/exec.(*Cmd).writerDescriptor.func1(<span class="number">0x0</span>, <span class="number">0x0</span>)</span><br><span class="line">        /usr/lib/golang/src/os/exec/exec.<span class="keyword">go</span>:<span class="number">311</span> +<span class="number">0x63</span></span><br></pre></td></tr></table></figure>
+<p><img src="http://static.imlgw.top/blog/20200826/Boqz6oWej6HA.png?imageslim" alt="mark"><br>可以看到这里就是具体协程执行的任务，这里有一个 IO 操作，可想而知程序就是阻塞在了这里，再往下分析就是内部 epoll 的代码了，就不往下了，我们分析下这段代码的意义，首先创建了管道<code>Pipe</code>，然后在协程中将读端<code>pr</code>的数据 copy 到<code>w</code>中，很明显这里就是<code>goroutine</code>通过 pipe 读取子进程的输出，但是由于某些原因<code>Pipe</code>阻塞了，无法从读端获取数据</p>
+<p>我们用<code>lsof -p</code>看一下该进程打开的资源</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">$ lsof -p <span class="number">27301</span></span><br><span class="line">COMMAND   PID USER   FD      TYPE    DEVICE SIZE/OFF      NODE NAME</span><br><span class="line">main    <span class="number">27301</span> root  cwd       DIR     <span class="number">253</span>,<span class="number">1</span>     <span class="number">4096</span>   <span class="number">1323417</span> /usr/local/gotest/cmd/demo3_cmdPit</span><br><span class="line">main    <span class="number">27301</span> root  rtd       DIR     <span class="number">253</span>,<span class="number">1</span>     <span class="number">4096</span>         <span class="number">2</span> /</span><br><span class="line">main    <span class="number">27301</span> root  txt       REG     <span class="number">253</span>,<span class="number">1</span>  <span class="number">7647232</span>    <span class="number">401334</span> /tmp/<span class="keyword">go</span>-build043247660/b001/exe/main</span><br><span class="line">main    <span class="number">27301</span> root  mem       REG     <span class="number">253</span>,<span class="number">1</span>  <span class="number">2151672</span>   <span class="number">1050229</span> /usr/lib64/libc<span class="number">-2.17</span>.so</span><br><span class="line">main    <span class="number">27301</span> root  mem       REG     <span class="number">253</span>,<span class="number">1</span>   <span class="number">141968</span>   <span class="number">1050255</span> /usr/lib64/libpthread<span class="number">-2.17</span>.so</span><br><span class="line">main    <span class="number">27301</span> root  mem       REG     <span class="number">253</span>,<span class="number">1</span>   <span class="number">163400</span>   <span class="number">1050214</span> /usr/lib64/ld<span class="number">-2.17</span>.so</span><br><span class="line">main    <span class="number">27301</span> root    <span class="number">0</span>u      CHR     <span class="number">136</span>,<span class="number">0</span>      <span class="number">0</span>t0         <span class="number">3</span> /dev/pts/<span class="number">0</span></span><br><span class="line">main    <span class="number">27301</span> root    <span class="number">1</span>u      CHR     <span class="number">136</span>,<span class="number">0</span>      <span class="number">0</span>t0         <span class="number">3</span> /dev/pts/<span class="number">0</span></span><br><span class="line">main    <span class="number">27301</span> root    <span class="number">2</span>u      CHR     <span class="number">136</span>,<span class="number">0</span>      <span class="number">0</span>t0         <span class="number">3</span> /dev/pts/<span class="number">0</span></span><br><span class="line">main    <span class="number">27301</span> root    <span class="number">3</span>u     IPv6 <span class="number">170355813</span>      <span class="number">0</span>t0       TCP *:<span class="number">6060</span> (LISTEN)</span><br><span class="line">main    <span class="number">27301</span> root    <span class="number">4</span>u  a_inode      <span class="number">0</span>,<span class="number">10</span>        <span class="number">0</span>      <span class="number">5074</span> [eventpoll]</span><br><span class="line">main    <span class="number">27301</span> root    <span class="number">5</span>r     FIFO       <span class="number">0</span>,<span class="number">9</span>      <span class="number">0</span>t0 <span class="number">170355794</span> pipe</span><br></pre></td></tr></table></figure>
+<p>可以看到确实打开了一个 inode 为 170355794 的管道，结合前面的分析，我们的 shell 在执行的时候<code>fork()</code>创建了子进程，但是 kill 的时候只 kill 了 shell 进程，而在<code>fork()</code>的时候会同时将当前进程的<code>pipe</code>的<code>fd[2]</code>描述符也复制过去，这就造成了<code>pipe</code>的写入端<code>fd[1]</code>被子进程继续持有（文件表引用计数不为 0），而<code>goroutine</code>也会继续等待 pipe 写入端写入或者关闭，直到<code>sleep 50</code>执行完后才返回</p>
+<h2 id="原因总结"><a href="#原因总结" class="headerlink" title="原因总结"></a>原因总结</h2><p><code>golang</code>的<code>os/exec</code>包在和 shell 做交互的时候会和 shell 之间建立 pipe，用于输入输出，获取 shell 返回值，但是在某些情况下，我们的 shell 会 fork 出子进程去执行命令，比如多条语句，&amp;后台执行，sh 脚本等，然而这里 ctx 过期后，仅仅 kill 了 shell 进程，并没有 kill 它所创建的子进程，这就导致了 pipe 的 fd 仍然被子进程持有无法关闭，而在<code>os/exec</code>的实现中<code>goroutine</code>会一直等待 pipe 关闭后才返回，进而导致了该问题的产生</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>问题搞清楚了，就好解决了。在 go 的实现中只 kill 了 shell 进程，并不会 kill 子进程，进而引发了上面的问题</p>
+<figure class="highlight golang"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Kill causes the Process to exit immediately. Kill does not wait until</span></span><br><span class="line"><span class="comment">// the Process has actually exited. This only kills the Process itself,</span></span><br><span class="line"><span class="comment">// not any other processes it may have started.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(p *Process)</span></span> Kill() <span class="type">error</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> p.kill()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里我们可以通过 kill<code>进程组</code>的方式来解决，所谓进程组也就是父进程和其创建的子进程的集合，<code>PGID</code>就是进程组的 ID，每个进程组都有进程组 ID，这里我们可以通过<code>ps -axjf</code>命令查看一下</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">PPID   PID  PGID   SID TTY      TPGID STAT   UID   TIME COMMAND</span><br><span class="line"><span class="number">17395</span> <span class="number">20937</span> <span class="number">20937</span> <span class="number">20937</span> ?           <span class="number">-1</span> Ss       <span class="number">0</span>   <span class="number">0</span>:<span class="number">00</span>  \_ sshd: root@pts/<span class="number">0</span></span><br><span class="line"><span class="number">20937</span> <span class="number">20939</span> <span class="number">20939</span> <span class="number">20939</span> pts/<span class="number">0</span>    <span class="number">25879</span> Ss       <span class="number">0</span>   <span class="number">0</span>:<span class="number">00</span>  |   \_ -zsh</span><br><span class="line"><span class="number">20939</span> <span class="number">25879</span> <span class="number">25879</span> <span class="number">20939</span> pts/<span class="number">0</span>    <span class="number">25879</span> Sl+      <span class="number">0</span>   <span class="number">0</span>:<span class="number">00</span>  |       \_ <span class="keyword">go</span> run main.<span class="keyword">go</span></span><br><span class="line"><span class="number">25879</span> <span class="number">25902</span> <span class="number">25879</span> <span class="number">20939</span> pts/<span class="number">0</span>    <span class="number">25879</span> Sl+      <span class="number">0</span>   <span class="number">0</span>:<span class="number">00</span>  |           \_ /tmp/<span class="keyword">go</span>-build486839449/b001/exe/main</span><br><span class="line"><span class="number">25902</span> <span class="number">25906</span> <span class="number">25879</span> <span class="number">20939</span> pts/<span class="number">0</span>    <span class="number">25879</span> S+       <span class="number">0</span>   <span class="number">0</span>:<span class="number">00</span>  |               \_ /bin/bash -c sleep <span class="number">50</span>; echo hello</span><br><span class="line"><span class="number">25906</span> <span class="number">25907</span> <span class="number">25879</span> <span class="number">20939</span> pts/<span class="number">0</span>    <span class="number">25879</span> S+       <span class="number">0</span>   <span class="number">0</span>:<span class="number">00</span>  |                   \_ sleep <span class="number">50</span></span><br></pre></td></tr></table></figure>
+<p>在知道<code>PGID</code>后可以根据这个 ID 直接 Kill 掉所有相关的进程，但是这里注意看上面，我们的<code>Shell</code>进程和它的子进程，以及我们<code>go 进程</code>都是在一个进程组内的，直接 kill 会把我们的 go 进程也杀死，所以这里我们要让<code>Shell</code>进程和它的子进程额外开辟一个新的进程组，然后再 kill</p>
+<blockquote>
+<p>下面的代码中使用到了一些<code>syscall</code>包的方法，这个包的实现平台之间是有差异的，下面的代码只适用于 Linux 环境下</p>
+</blockquote>
+<figure class="highlight golang"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">RunCmd</span><span class="params">(ctx context.Context, cmd *exec.Cmd)</span></span> ([]<span class="type">byte</span>, <span class="type">error</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> (</span><br><span class="line">        b   bytes.Buffer</span><br><span class="line">        err <span class="type">error</span></span><br><span class="line">    )</span><br><span class="line">    <span class="comment">//开辟新的线程组（Linux 平台特有的属性）</span></span><br><span class="line">    cmd.SysProcAttr = &amp;syscall.SysProcAttr&#123;</span><br><span class="line">        Setpgid: <span class="literal">true</span>, <span class="comment">//使得 Shell 进程开辟新的 PGID, 即 Shell 进程的 PID, 它后面创建的所有子进程都属于该进程组</span></span><br><span class="line">    &#125;</span><br><span class="line">    cmd.Stdout = &amp;b</span><br><span class="line">    cmd.Stderr = &amp;b</span><br><span class="line">    <span class="keyword">if</span> err = cmd.Start(); err != <span class="literal">nil</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nil</span>, err</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> finish = <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">struct</span>&#123;&#125;)</span><br><span class="line">    <span class="keyword">defer</span> <span class="built_in">close</span>(finish)</span><br><span class="line">    <span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">select</span> &#123;</span><br><span class="line">        <span class="keyword">case</span> &lt;-ctx.Done(): <span class="comment">//超时/被 cancel 结束</span></span><br><span class="line">            <span class="comment">//kill -(-PGID) 杀死整个进程组</span></span><br><span class="line">            syscall.Kill(-cmd.Process.Pid, syscall.SIGKILL)</span><br><span class="line">        <span class="keyword">case</span> &lt;-finish: <span class="comment">//正常结束</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;()</span><br><span class="line">    <span class="comment">//wait 等待 goroutine 执行完，然后释放 FD 资源</span></span><br><span class="line">    <span class="comment">//这个时候再 kill 掉 shell 进程就不会再等待了，会直接返回</span></span><br><span class="line">    <span class="keyword">if</span> err = cmd.Wait(); err != <span class="literal">nil</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nil</span>, err</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> b.Bytes(), err</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>效果演示</strong><br><img src="http://static.imlgw.top/blog/20200825/gfz2xQ7nnKKg.gif" alt="mark"></p>
+
+        
+            <div class="donate-container">
+    <div class="donate-button">
+        <button id="donate-button">赞赏</button>
+    </div>
+    <div class="donate-img-container hide" id="donate-img-container">
+        <img id="donate-img" src="" data-src="">
+        <p> 感谢鼓励 </p>
+    </div>
+</div>
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+        <div id="lv-container"></div>
+        <div class="giscus"></div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/imlgw">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://imlgw.top">Tadow</a></span>
+        <span>/</span>
+        
+        <span><a target="_blank" rel="noopener" href="http://beian.miit.gov.cn/publish/query/indexFirst.action">鄂ICP备18011208号</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>  Theme <a target="_blank" rel="noopener" href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/live2d-widget@3.x/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"https://cdn.jsdelivr.net/npm/live2d-widget-model-hijiki@1.0.5/assets/hijiki.model.json"},"display":{"superSample":2,"width":160,"height":320,"position":"right","hOffset":0,"vOffset":-70},"mobile":{"show":false,"scale":0.2},"log":false});</script></body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://giscus.app/client.js"
+  data-repo="imlgw/imlgw.github.io"
+  data-repo-id="MDEwOlJlcG9zaXRvcnkxMzMyMDY4NDg="
+  data-category="Announcements"
+  data-category-id="DIC_kwDOB_CTQM4CQ7v8"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="top"
+  data-theme="light"
+  data-lang="zh-CN"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+
+
+</html>

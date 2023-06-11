@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:description" content="Tadow 的博客">
+    <meta property="og:type" content="website">
+    <meta name="description" content="Tadow 的博客">
+    <meta name="keyword"  content="Tadow, Resolmi, imlgw, 半岛铁盒, 算法, Java, Golang">
+    <link rel="shortcut icon" href="https://fav.farm/💭">
+
+    <title>
+        
+        DP：最长上升子序列模型 - Tadow 碎碎念
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_28hi1hpxx24.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.2"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style><link rel="alternate" href="/atom.xml" title="Tadow 碎碎念" type="application/atom+xml">
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> Keep It Simple, Stupid </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar radius">
+            <img src="https://static.imlgw.top/blog/20220821160037.png" />
+        </div>
+        <div class="name">
+            <i>Tadow</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <!-- <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li> -->
+            <li >
+                <a href="/categories">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>分类</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            
+            <li >
+                <a href="/selfhosted">
+                    <i class="iconfont icon-guidang1"></i>
+                    <span>自建</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/collect/">
+                    <i class="iconfont icon-shoucang1"></i>
+                    <span>收藏</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E9%95%BF%E4%B8%8A%E5%8D%87%E5%AD%90%E5%BA%8F%E5%88%97%E6%A8%A1%E5%9E%8B"><span class="toc-text">最长上升子序列模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1017-%E6%80%AA%E7%9B%97%E5%9F%BA%E5%BE%B7%E7%9A%84%E6%BB%91%E7%BF%94%E7%BF%BC"><span class="toc-text">1017. 怪盗基德的滑翔翼</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E6%B3%95%E4%B8%80"><span class="toc-text">解法一</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1014-%E7%99%BB%E5%B1%B1"><span class="toc-text">1014. 登山</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E6%B3%95%E4%B8%80-1"><span class="toc-text">解法一</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1012-%E5%8F%8B%E5%A5%BD%E5%9F%8E%E5%B8%82"><span class="toc-text">1012. 友好城市</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E6%B3%95%E4%B8%80-2"><span class="toc-text">解法一</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1016-%E6%9C%80%E5%A4%A7%E4%B8%8A%E5%8D%87%E5%AD%90%E5%BA%8F%E5%88%97%E5%92%8C"><span class="toc-text">1016. 最大上升子序列和</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E6%B3%95%E4%B8%80-3"><span class="toc-text">解法一</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1010-%E6%8B%A6%E6%88%AA%E5%AF%BC%E5%BC%B9"><span class="toc-text">1010. 拦截导弹</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E6%B3%95%E4%B8%80-4"><span class="toc-text">解法一</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E6%B3%95%E4%BA%8C"><span class="toc-text">解法二</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#187-%E5%AF%BC%E5%BC%B9%E9%98%B2%E5%BE%A1%E7%B3%BB%E7%BB%9F"><span class="toc-text">187. 导弹防御系统</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E6%B3%95%E4%B8%80-5"><span class="toc-text">解法一</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E6%B3%95%E4%BA%8C-1"><span class="toc-text">解法二</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#272-%E6%9C%80%E9%95%BF%E5%85%AC%E5%85%B1%E4%B8%8A%E5%8D%87%E5%AD%90%E5%BA%8F%E5%88%97"><span class="toc-text">272. 最长公共上升子序列</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E6%B3%95%E4%B8%80-6"><span class="toc-text">解法一</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E6%B3%95%E4%BA%8C-2"><span class="toc-text">解法二</span></a></li></ol></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-bg" id="search-bg"></div>
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i> Keep It Simple, Stupid </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        DP：最长上升子序列模型
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2020-11-14 00:00:00</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#算法" title="算法">算法</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <blockquote>
+<p>现在打算写一些短点的文章了，LeetCode 系列不会再 append 了，如果写 lc 题会单独开一篇文章，然后写题解</p>
+</blockquote>
+<h2 id="最长上升子序列模型"><a href="#最长上升子序列模型" class="headerlink" title="最长上升子序列模型"></a>最长上升子序列模型</h2><p><a href="http://imlgw.top/2019/09/01/leetcode-dong-tai-gui-hua/#300-%E6%9C%80%E9%95%BF%E4%B8%8A%E5%8D%87%E5%AD%90%E5%BA%8F%E5%88%97">300. 最长上升子序列</a></p>
+<p><a href="http://imlgw.top/2019/09/01/leetcode-dong-tai-gui-hua/#673-%E6%9C%80%E9%95%BF%E9%80%92%E5%A2%9E%E5%AD%90%E5%BA%8F%E5%88%97%E7%9A%84%E4%B8%AA%E6%95%B0">673. 最长递增子序列的个数</a></p>
+<p><a href="http://imlgw.top/2019/09/01/leetcode-dong-tai-gui-hua/#1016-%E4%BD%BF%E5%BA%8F%E5%88%97%E9%80%92%E5%A2%9E%E7%9A%84%E6%9C%80%E5%B0%8F%E4%BA%A4%E6%8D%A2%E6%AC%A1%E6%95%B0%EF%BC%88LintCode%EF%BC%89">1016. 使序列递增的最小交换次数（LintCode）</a></p>
+<p><a href="http://imlgw.top/2019/09/01/leetcode-dong-tai-gui-hua/#354-%E4%BF%84%E7%BD%97%E6%96%AF%E5%A5%97%E5%A8%83%E4%BF%A1%E5%B0%81%E9%97%AE%E9%A2%98">354. 俄罗斯套娃信封问题</a></p>
+<p>LIS 有 N^2 的 DP 解法，也有 NlogN 的贪心的解法，具体用那种取决于数据范围</p>
+<h2 id="1017-怪盗基德的滑翔翼"><a href="#1017-怪盗基德的滑翔翼" class="headerlink" title="1017. 怪盗基德的滑翔翼"></a><a target="_blank" rel="noopener" href="https://www.acwing.com/problem/content/1019/">1017. 怪盗基德的滑翔翼</a></h2><p>怪盗基德是一个充满传奇色彩的怪盗，专门以珠宝为目标的超级盗窃犯。</p>
+<p>而他最为突出的地方，就是他每次都能逃脱中村警部的重重围堵，而这也很大程度上是多亏了他随身携带的便于操作的滑翔翼。</p>
+<p>有一天，怪盗基德像往常一样偷走了一颗珍贵的钻石，不料却被柯南小朋友识破了伪装，而他的滑翔翼的动力装置也被柯南踢出的足球破坏了。</p>
+<p>不得已，怪盗基德只能操作受损的滑翔翼逃脱。</p>
+<p>假设城市中一共有 N 幢建筑排成一条线，每幢建筑的高度各不相同。</p>
+<p>初始时，怪盗基德可以在任何一幢建筑的顶端。</p>
+<p>他可以选择一个方向逃跑，但是不能中途改变方向（因为中森警部会在后面追击）。</p>
+<p>因为滑翔翼动力装置受损，他只能往下滑行（即：只能从较高的建筑滑翔到较低的建筑）。</p>
+<p>他希望尽可能多地经过不同建筑的顶部，这样可以减缓下降时的冲击力，减少受伤的可能性。</p>
+<p>请问，他最多可以经过多少幢不同建筑的顶部（包含初始时的建筑）？</p>
+<p><strong>输入格式</strong></p>
+<p>输入数据第一行是一个整数 K，代表有 K 组测试数据。</p>
+<p>每组测试数据包含两行：第一行是一个整数 N，代表有 N 幢建筑。第二行包含 N 个不同的整数，每一个对应一幢建筑的高度 h，按照建筑的排列顺序给出。</p>
+<p><strong>输出格式</strong></p>
+<p>对于每一组测试数据，输出一行，包含一个整数，代表怪盗基德最多可以经过的建筑数量。</p>
+<p><strong>数据范围</strong></p>
+<p>1≤K≤100, 1≤N≤100, 0&lt;h&lt;10000</p>
+<p><strong>输入样例：</strong></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="number">3</span></span><br><span class="line"><span class="number">8</span></span><br><span class="line"><span class="number">300</span> <span class="number">207</span> <span class="number">155</span> <span class="number">299</span> <span class="number">298</span> <span class="number">170</span> <span class="number">158</span> <span class="number">65</span></span><br><span class="line"><span class="number">8</span></span><br><span class="line"><span class="number">65</span> <span class="number">158</span> <span class="number">170</span> <span class="number">298</span> <span class="number">299</span> <span class="number">155</span> <span class="number">207</span> <span class="number">300</span></span><br><span class="line"><span class="number">10</span></span><br><span class="line"><span class="number">2</span> <span class="number">1</span> <span class="number">3</span> <span class="number">4</span> <span class="number">5</span> <span class="number">6</span> <span class="number">7</span> <span class="number">8</span> <span class="number">9</span> <span class="number">10</span></span><br></pre></td></tr></table></figure>
+<p><strong>输出样例：</strong></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="number">6</span></span><br><span class="line"><span class="number">9</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="解法一"><a href="#解法一" class="headerlink" title="解法一"></a>解法一</h3><p>常规 N^2 动态规划的方式 &amp; NlogN 贪心解法（NlogN 的解法回忆了一会儿才推出来，如果数据范围不是很大还是 N^2 的 dp 好写）</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.*;</span><br><span class="line"><span class="keyword">import</span> java.util.*;</span><br><span class="line"><span class="comment">//AcWing 1017. 怪盗基德的滑翔翼 https://www.acwing.com/problem/content/1019/</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Main</span> {</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> {</span><br><span class="line">        <span class="type">Scanner</span> <span class="variable">sc</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Scanner</span>(System.in);</span><br><span class="line">        <span class="type">int</span> <span class="variable">T</span> <span class="operator">=</span> sc.nextInt();</span><br><span class="line">        <span class="keyword">while</span> (T-- &gt; <span class="number">0</span>) {</span><br><span class="line">            <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> sc.nextInt();</span><br><span class="line">            <span class="type">int</span>[] w = <span class="keyword">new</span> <span class="title class_">int</span>[n];</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; n; i++) {</span><br><span class="line">                w[i] = sc.nextInt(); </span><br><span class="line">            }</span><br><span class="line">            System.out.println(Math.max(solve(w, n), solve(reverse(w), n))); </span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="comment">//DP(N^2) 的解法</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">solve</span><span class="params">(<span class="type">int</span>[] w, <span class="type">int</span> n)</span> {</span><br><span class="line">        <span class="type">int</span>[] dp = <span class="keyword">new</span> <span class="title class_">int</span>[n];</span><br><span class="line">        Arrays.fill(dp, <span class="number">1</span>);</span><br><span class="line">        <span class="type">int</span> <span class="variable">res</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; n; i++) {</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; i; j++) {</span><br><span class="line">                <span class="keyword">if</span> (w[j] &gt; w[i]) {</span><br><span class="line">                    dp[i] = Math.max(dp[j]+<span class="number">1</span>, dp[i]);  </span><br><span class="line">                }</span><br><span class="line">            }</span><br><span class="line">            res = Math.max(res, dp[i]);</span><br><span class="line">        }</span><br><span class="line">        <span class="keyword">return</span> res; </span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="comment">//tail[i]: 长度为 i 的递减子序列最大结尾</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">solve2</span><span class="params">(<span class="type">int</span>[] w, <span class="type">int</span> n)</span> {</span><br><span class="line">        <span class="type">int</span>[] tail = <span class="keyword">new</span> <span class="title class_">int</span>[n];</span><br><span class="line">        <span class="type">int</span> <span class="variable">len</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; n; i++) {</span><br><span class="line">            <span class="type">int</span> <span class="variable">idx</span> <span class="operator">=</span> search(tail, len, w[i]);</span><br><span class="line">            <span class="keyword">if</span> (idx == -<span class="number">1</span>) {</span><br><span class="line">                tail[len++] = w[i];</span><br><span class="line">            } <span class="keyword">else</span> {</span><br><span class="line">                tail[idx] = w[i];</span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">        <span class="keyword">return</span> len;</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="comment">//从左到右找第一个小于 target 的元素下标，替换它，使得结尾更大，长度更长</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">search</span><span class="params">(<span class="type">int</span>[] tail, <span class="type">int</span> len, <span class="type">int</span> target)</span>{</span><br><span class="line">        <span class="type">int</span> <span class="variable">left</span> <span class="operator">=</span> <span class="number">0</span>, right = len-<span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">res</span> <span class="operator">=</span> -<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (left &lt;= right) {</span><br><span class="line">            <span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> left + (right - left)/<span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span> (tail[mid] &lt;= target) {</span><br><span class="line">                res = mid;</span><br><span class="line">                right = mid - <span class="number">1</span>;</span><br><span class="line">            } <span class="keyword">else</span> {</span><br><span class="line">                left = mid + <span class="number">1</span>;</span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span>[] reverse(<span class="type">int</span>[] w) {</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>, j = w.length-<span class="number">1</span>; i &lt; j; i++, j--) {</span><br><span class="line">            <span class="type">int</span> <span class="variable">temp</span> <span class="operator">=</span> w[i];</span><br><span class="line">            w[i] = w[j];</span><br><span class="line">            w[j] = temp;</span><br><span class="line">        }</span><br><span class="line">        <span class="keyword">return</span> w;</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+
+<h2 id="1014-登山"><a href="#1014-登山" class="headerlink" title="1014. 登山"></a><a target="_blank" rel="noopener" href="https://www.acwing.com/problem/content/1016/">1014. 登山</a></h2><p>五一到了，ACM 队组织大家去登山观光，队员们发现山上一个有 N 个景点，并且决定按照顺序来浏览这些景点，即每次所浏览景点的编号都要大于前一个浏览景点的编号。</p>
+<p>同时队员们还有另一个登山习惯，就是不连续浏览海拔相同的两个景点，并且一旦开始下山，就不再向上走了。</p>
+<p>队员们希望在满足上面条件的同时，尽可能多的浏览景点，你能帮他们找出最多可能浏览的景点数么？</p>
+<p><strong>输入格式</strong></p>
+<p>第一行包含整数 N，表示景点数量。</p>
+<p>第二行包含 N 个整数，表示每个景点的海拔。</p>
+<p><strong>输出格式</strong></p>
+<p>输出一个整数，表示最多能浏览的景点数。</p>
+<p><strong>数据范围</strong><br>2≤N≤1000<br><strong>输入样例：</strong></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="number">8</span></span><br><span class="line"><span class="number">186</span> <span class="number">186</span> <span class="number">150</span> <span class="number">200</span> <span class="number">160</span> <span class="number">130</span> <span class="number">197</span> <span class="number">220</span></span><br></pre></td></tr></table></figure>
+<p><strong>输出样例：</strong></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="number">4</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="解法一-1"><a href="#解法一-1" class="headerlink" title="解法一"></a>解法一</h3><p>LIS 转换了一下而已，求每个点从<strong>左到右</strong> 和 从<strong>右到左</strong>的最长上升子序列最大和就 ok 了</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.*;</span><br><span class="line"><span class="keyword">import</span> java.io.*;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Main</span> {</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> {</span><br><span class="line">        <span class="type">Scanner</span> <span class="variable">sc</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Scanner</span>(System.in);</span><br><span class="line">        <span class="type">int</span> <span class="variable">N</span> <span class="operator">=</span> sc.nextInt();</span><br><span class="line">        <span class="type">int</span>[] w = <span class="keyword">new</span> <span class="title class_">int</span>[N];</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; N; i++) {</span><br><span class="line">            w[i] = sc.nextInt();</span><br><span class="line">        }</span><br><span class="line">        System.out.println(solve(w, N));</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="comment">//186 186 150 200 160 130 197 220  := 4</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">solve</span><span class="params">(<span class="type">int</span>[] w, <span class="type">int</span> N)</span> {</span><br><span class="line">        <span class="type">int</span>[] dp1 = <span class="keyword">new</span> <span class="title class_">int</span>[N];</span><br><span class="line">        <span class="type">int</span>[] dp2 = <span class="keyword">new</span> <span class="title class_">int</span>[N];</span><br><span class="line">        Arrays.fill(dp1, <span class="number">1</span>);</span><br><span class="line">        Arrays.fill(dp2, <span class="number">1</span>);</span><br><span class="line">        <span class="type">int</span> <span class="variable">res</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; N; i++) {</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; i; j++) {</span><br><span class="line">                <span class="keyword">if</span> (w[j] &lt; w[i]) {</span><br><span class="line">                    dp1[i] = Math.max(dp1[j]+<span class="number">1</span>, dp1[i]);          </span><br><span class="line">                }</span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> N-<span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) {</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> N-<span class="number">1</span>; j &gt; i; j--) {</span><br><span class="line">                <span class="keyword">if</span> (w[j] &lt; w[i]) {</span><br><span class="line">                    dp2[i] = Math.max(dp2[j]+<span class="number">1</span>, dp2[i]);          </span><br><span class="line">                }</span><br><span class="line">            }</span><br><span class="line">            res = Math.max(res, dp1[i]+dp2[i]-<span class="number">1</span>);</span><br><span class="line">        }</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.acwing.com/problem/content/484/">482. 合唱队形</a> 和这一题一样，不重复写了</p>
+</blockquote>
+<h2 id="1012-友好城市"><a href="#1012-友好城市" class="headerlink" title="1012. 友好城市"></a><a target="_blank" rel="noopener" href="https://www.acwing.com/problem/content/1014/">1012. 友好城市</a></h2><p>Palmia 国有一条横贯东西的大河，河有笔直的南北两岸，岸上各有位置各不相同的 N 个城市。</p>
+<p>北岸的每个城市有且仅有一个友好城市在南岸，而且不同城市的友好城市不相同。</p>
+<p>每对友好城市都向政府申请在河上开辟一条直线航道连接两个城市，但是由于河上雾太大，政府决定避免任意两条航道交叉，以避免事故。</p>
+<p>编程帮助政府做出一些批准和拒绝申请的决定，使得在保证任意两条航线不相交的情况下，被批准的申请尽量多。</p>
+<p><strong>输入格式</strong></p>
+<p>第 1 行，一个整数 N，表示城市数。</p>
+<p>第 2 行到第 n+1 行，每行两个整数，中间用 1 个空格隔开，分别表示南岸和北岸的一对友好城市的坐标。</p>
+<p><strong>输出格式</strong></p>
+<p>仅一行，输出一个整数，表示政府所能批准的最多申请数。</p>
+<p><strong>数据范围</strong></p>
+<p>1≤N≤5000,<br>0≤xi≤10000</p>
+<p><strong>输入样例：</strong></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="number">7</span></span><br><span class="line"><span class="number">22</span> <span class="number">4</span></span><br><span class="line"><span class="number">2</span> <span class="number">6</span></span><br><span class="line"><span class="number">10</span> <span class="number">3</span></span><br><span class="line"><span class="number">15</span> <span class="number">12</span></span><br><span class="line"><span class="number">9</span> <span class="number">8</span></span><br><span class="line"><span class="number">17</span> <span class="number">17</span></span><br><span class="line"><span class="number">4</span> <span class="number">2</span></span><br></pre></td></tr></table></figure>
+<p><strong>输出样例：</strong></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="number">4</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="解法一-2"><a href="#解法一-2" class="headerlink" title="解法一"></a>解法一</h3><p>和之前的 <a href="http://imlgw.top/2019/09/01/leetcode-dong-tai-gui-hua/#354-%E4%BF%84%E7%BD%97%E6%96%AF%E5%A5%97%E5%A8%83%E4%BF%A1%E5%B0%81%E9%97%AE%E9%A2%98">354. 俄罗斯套娃信封问题</a> 一样，还简单一点，坐标都是唯一的，不需要考虑坐标重合的问题，具体可以去看看俄罗斯套娃的这个题</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.*;</span><br><span class="line"><span class="keyword">import</span> java.io.*;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Main</span> {</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> {</span><br><span class="line">        <span class="type">Scanner</span> <span class="variable">sc</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Scanner</span>(System.in);</span><br><span class="line">        <span class="type">int</span> <span class="variable">N</span> <span class="operator">=</span> sc.nextInt();</span><br><span class="line">        <span class="type">int</span>[][] w = <span class="keyword">new</span> <span class="title class_">int</span>[N][<span class="number">2</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; N; i++) {</span><br><span class="line">            w[i][<span class="number">0</span>] = sc.nextInt();</span><br><span class="line">            w[i][<span class="number">1</span>] = sc.nextInt();</span><br><span class="line">        }</span><br><span class="line">        System.out.println(solve2(w, N));</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="comment">//5000 * 5000 = 2500 0000，能过但是有点慢</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">solve</span><span class="params">(<span class="type">int</span>[][] w, <span class="type">int</span> N)</span> {</span><br><span class="line">        Arrays.sort(w, (w1, w2)-&gt;w1[<span class="number">0</span>]-w2[<span class="number">0</span>]);</span><br><span class="line">        <span class="type">int</span> <span class="variable">res</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span>[] dp = <span class="keyword">new</span> <span class="title class_">int</span>[N];</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; N; i++) {</span><br><span class="line">            dp[i] = <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; i; j++) {</span><br><span class="line">                <span class="keyword">if</span> (w[j][<span class="number">0</span>] &lt; w[i][<span class="number">0</span>] &amp;&amp; w[j][<span class="number">1</span>] &lt; w[i][<span class="number">1</span>]) {</span><br><span class="line">                    dp[i] = Math.max(dp[j]+<span class="number">1</span>, dp[i]);</span><br><span class="line">                }</span><br><span class="line">            }</span><br><span class="line">            res = Math.max(res, dp[i]);</span><br><span class="line">        }</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="comment">//NlogN 贪心二分的做法</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">solve2</span><span class="params">(<span class="type">int</span>[][] w, <span class="type">int</span> N)</span> {</span><br><span class="line">        Arrays.sort(w, (w1, w2)-&gt;w1[<span class="number">0</span>]-w2[<span class="number">0</span>]);</span><br><span class="line">        <span class="type">int</span>[] tail = <span class="keyword">new</span> <span class="title class_">int</span>[N];</span><br><span class="line">        <span class="type">int</span> <span class="variable">len</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; N; i++) {</span><br><span class="line">            <span class="type">int</span> <span class="variable">idx</span> <span class="operator">=</span> search(tail, len, w[i][<span class="number">1</span>]);</span><br><span class="line">            <span class="keyword">if</span> (idx == -<span class="number">1</span>) {</span><br><span class="line">                tail[len++] = w[i][<span class="number">1</span>];</span><br><span class="line">            } <span class="keyword">else</span> {</span><br><span class="line">                tail[idx] = w[i][<span class="number">1</span>];</span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">        <span class="keyword">return</span> len;</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="comment">//从左到右找第一个大于 target 的，后面替换它，使得结尾更小</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">search</span><span class="params">(<span class="type">int</span>[] tail, <span class="type">int</span> len, <span class="type">int</span> target)</span> {</span><br><span class="line">        <span class="type">int</span> <span class="variable">left</span> <span class="operator">=</span> <span class="number">0</span>, right = len-<span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">res</span> <span class="operator">=</span> -<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (left &lt;= right) {</span><br><span class="line">            <span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> left + (right - left)/<span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span> (tail[mid] &gt; target) {</span><br><span class="line">                res = mid;</span><br><span class="line">                right = mid - <span class="number">1</span>;</span><br><span class="line">            } <span class="keyword">else</span> {</span><br><span class="line">                left = mid + <span class="number">1</span>;</span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+
+<h2 id="1016-最大上升子序列和"><a href="#1016-最大上升子序列和" class="headerlink" title="1016. 最大上升子序列和"></a><a target="_blank" rel="noopener" href="https://www.acwing.com/problem/content/1018/">1016. 最大上升子序列和</a></h2><p>一个数的序列 bi，当 b1&lt;b2&lt;…&lt;bS 的时候，我们称这个序列是上升的。</p>
+<p>对于给定的一个序列 (a1,a2,…,aN)，我们可以得到一些上升的子序列 (ai1,ai2,…,aiK)，这里 1≤i1&lt;i2&lt;…&lt;iK≤N。</p>
+<p>比如，对于序列 (1,7,3,5,9,4,8)，有它的一些上升子序列，如 (1,7),(3,4,8) 等等。</p>
+<p>这些子序列中和最大为 18，为子序列 (1,3,5,9) 的和。</p>
+<p>你的任务，就是对于给定的序列，求出最大上升子序列和。</p>
+<p>注意，最长的上升子序列的和不一定是最大的，比如序列 (100,1,2,3) 的最大上升子序列和为 100，而最长上升子序列为 (1,2,3)。</p>
+<p><strong>输入格式</strong></p>
+<p>输入的第一行是序列的长度 N。</p>
+<p>第二行给出序列中的 N 个整数，这些整数的取值范围都在 0 到 10000（可能重复）。</p>
+<p><strong>输出格式</strong></p>
+<p>输出一个整数，表示最大上升子序列和。</p>
+<p><strong>数据范围</strong></p>
+<p>1≤N≤1000</p>
+<p><strong>输入样例：</strong></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="number">7</span></span><br><span class="line"><span class="number">1</span> <span class="number">7</span> <span class="number">3</span> <span class="number">5</span> <span class="number">9</span> <span class="number">4</span> <span class="number">8</span></span><br></pre></td></tr></table></figure>
+<p><strong>输出样例：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">18</span><br></pre></td></tr></table></figure>
+
+<h3 id="解法一-3"><a href="#解法一-3" class="headerlink" title="解法一"></a>解法一</h3><p>没啥好说的，比较简单</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.*;</span><br><span class="line"><span class="keyword">import</span> java.io.*;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Main</span> {</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> {</span><br><span class="line">        <span class="type">Scanner</span> <span class="variable">sc</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Scanner</span>(System.in);</span><br><span class="line">        <span class="type">int</span> <span class="variable">N</span> <span class="operator">=</span> sc.nextInt();</span><br><span class="line">        <span class="type">int</span>[] w = <span class="keyword">new</span> <span class="title class_">int</span>[N];</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; N; i++) {</span><br><span class="line">            w[i] = sc.nextInt();</span><br><span class="line">        }</span><br><span class="line">        System.out.println(solve(w, N));</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">solve</span><span class="params">(<span class="type">int</span>[] w, <span class="type">int</span> N)</span> {</span><br><span class="line">        <span class="type">int</span>[] dp = <span class="keyword">new</span> <span class="title class_">int</span>[N];</span><br><span class="line">        <span class="type">int</span> <span class="variable">res</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; N; i++) {</span><br><span class="line">            dp[i] = w[i];</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; i; j++) {</span><br><span class="line">                <span class="keyword">if</span> (w[j] &lt; w[i]) {</span><br><span class="line">                    dp[i] = Math.max(dp[i], dp[j]+w[i]);</span><br><span class="line">                }</span><br><span class="line">            }</span><br><span class="line">            res = Math.max(res, dp[i]);</span><br><span class="line">        }</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<h2 id="1010-拦截导弹"><a href="#1010-拦截导弹" class="headerlink" title="1010. 拦截导弹"></a><a target="_blank" rel="noopener" href="https://www.acwing.com/problem/content/description/1012/">1010. 拦截导弹</a></h2><p>某国为了防御敌国的导弹袭击，发展出一种导弹拦截系统。</p>
+<p>但是这种导弹拦截系统有一个缺陷：虽然它的第一发炮弹能够到达任意的高度，但是以后每一发炮弹都不能高于前一发的高度。</p>
+<p>某天，雷达捕捉到敌国的导弹来袭。</p>
+<p>由于该系统还在试用阶段，所以只有一套系统，因此有可能不能拦截所有的导弹。</p>
+<p>输入导弹依次飞来的高度（雷达给出的高度数据是不大于 30000 的正整数，导弹数不超过 1000），计算这套系统最多能拦截多少导弹，如果要拦截所有导弹最少要配备多少套这种导弹拦截系统。</p>
+<p><strong>输入格式</strong>: </p>
+<p>共一行，输入导弹依次飞来的高度。</p>
+<p><strong>输出格式</strong>: </p>
+<p>第一行包含一个整数，表示最多能拦截的导弹数。</p>
+<p>第二行包含一个整数，表示要拦截所有导弹最少要配备的系统数。</p>
+<p><strong>输入样例：</strong></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="number">389</span> <span class="number">207</span> <span class="number">155</span> <span class="number">300</span> <span class="number">299</span> <span class="number">170</span> <span class="number">158</span> <span class="number">65</span></span><br></pre></td></tr></table></figure>
+<p><strong>输出样例：</strong></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="number">6</span></span><br><span class="line"><span class="number">2</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="解法一-4"><a href="#解法一-4" class="headerlink" title="解法一"></a>解法一</h3><p>Dilworth 定理，双 DP 解法</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//300 250 275 252 200 138 245 := 5,2</span></span><br><span class="line"><span class="comment">//最多击落多少就不多说了</span></span><br><span class="line"><span class="comment">//最少需要的系统数量实际上就是最长上升子序列的个数，这里涉及到 Dilworth 定理</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span>[] solve(<span class="type">int</span>[] w, <span class="type">int</span> N){</span><br><span class="line">    <span class="type">int</span>[] down = <span class="keyword">new</span> <span class="title class_">int</span>[N];</span><br><span class="line">    <span class="type">int</span>[] up = <span class="keyword">new</span> <span class="title class_">int</span>[N];</span><br><span class="line">    <span class="type">int</span> <span class="variable">max</span> <span class="operator">=</span> <span class="number">0</span>, count = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; N; i++) {</span><br><span class="line">        up[i] = down[i] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; i; j++) {</span><br><span class="line">            <span class="keyword">if</span> (w[j] &gt;= w[i]) {</span><br><span class="line">                down[i] = Math.max(down[j]+<span class="number">1</span>, down[i]);</span><br><span class="line">            } <span class="keyword">else</span> {</span><br><span class="line">                up[i] = Math.max(up[j]+<span class="number">1</span>, up[i]);</span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">        max = Math.max(max, down[i]);</span><br><span class="line">        count = Math.max(count, up[i]);</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">int</span>[]{max, count};</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+
+<p>最多击落多少就不多说了，<del>最少需要的系统数其实就是最长上升子序列，因为这个子序列是<strong>必不可能在同一套系统中被击落</strong>，当遇到这个子序列中的元素的时候，就需要增加一套系统，所以最少就是这个子序列的长度</del></p>
+<p>最少需要的系统数量（最少的覆盖整个序列的不上升序列个数）就是最长的上升子序列长度，涉及到 Dilworth 定理（<a target="_blank" rel="noopener" href="https://www.cnblogs.com/flipped/p/5009943.html">导弹拦截问题与 Dilworth 定理</a>），感兴趣可以去了解下，定理的定义为：<em>对于任意有限偏序集，其最大反链中元素的数目必等于最小链划分中链的数目</em> </p>
+<p>本题中，最少需要的导弹系统数量就是<strong>最小链划分中链的数量</strong>，其最大反链就是<strong>最长上升子序列长度</strong>，所以直接求最长上升子序列的长度就 ok 了</p>
+<h3 id="解法二"><a href="#解法二" class="headerlink" title="解法二"></a>解法二</h3><p>双贪心解法。</p>
+<p>①求 LIS 的贪心做法，<code>tail[j]</code>表示长度为<code>j</code>的下降序列，每个<code>w[i]</code>作为结尾的时候优先选择大于<code>w[i]</code>的最小的<code>tail[j]</code>（也就是从左到右最第一个大于 w[i] 的），然后接在它后面，这样让长度为 j 的下降序列结尾变小，后面可以接上更多的元素，使得序列可以更长，并且这样不会影响之前已有的序列关系，最终 tail 的长度就是最长上升子序列的长度</p>
+<p>②求最少的覆盖全序列的下降子序列个数，<code>tail[j]</code>表示目前为止第<code>j</code>个系统的最大结尾元素，每个<code>w[i]</code>被遍历到的时候都是作为某一个系统的结尾，那么此时就会面临选择，这个时候我们就可以贪心的将其放置到<strong>大于<code>w[i]</code>的最小的 tail 后面</strong>，这样避免浪费其他较大的结尾（结尾越大，后面可以接的导弹越多），选择消耗一个最小的结尾，可能有点抽象，举个例子就明白了<br><img src="https://i.loli.net/2020/11/23/VY6nU9oFuaB3GkO.png"></p>
+<p>这里 1 就面临两个选择，要么接在 2 后面，要么接在 4 后面，很明显这里应该接在 2 后面，如果接在 3 后面那么后面的 3 就只能新建一个系统，会增加系统数量</p>
+<p>具体的证明可以采用微调法，证明贪心解是小于等于最优解的，这里不再展开</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//9 8 7 9 8 7 9 8 7 55 66 99 88 77 88 963 365 4561</span></span><br><span class="line"><span class="comment">//双贪心写法</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span>[] solve2(<span class="type">int</span>[] w, <span class="type">int</span> N){</span><br><span class="line">    <span class="type">int</span>[] res = <span class="keyword">new</span> <span class="title class_">int</span>[<span class="number">2</span>];</span><br><span class="line">    <span class="comment">//长度为 i 的最长下降子序列的最小结尾</span></span><br><span class="line">    <span class="type">int</span>[] tail = <span class="keyword">new</span> <span class="title class_">int</span>[N];</span><br><span class="line">    <span class="type">int</span> <span class="variable">len</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="comment">//最长下降子序列（不严格）</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; w.length; i++) {</span><br><span class="line">        <span class="comment">//找 tail 中第一个小于 w[i] 的替换掉，这样后面可以接更多的数</span></span><br><span class="line">        <span class="comment">//可以二分优化下，这里就不写了</span></span><br><span class="line">        <span class="type">int</span> idx;</span><br><span class="line">        <span class="keyword">for</span> (idx = <span class="number">0</span>; idx &lt; len; idx++) {</span><br><span class="line">            <span class="keyword">if</span> (tail[idx] &lt; w[i]) {</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">        tail[idx] = w[i];</span><br><span class="line">        len += (idx == len) ? <span class="number">1</span> : <span class="number">0</span>;</span><br><span class="line">    }</span><br><span class="line">    res[<span class="number">0</span>] = len;</span><br><span class="line">    tail = <span class="keyword">new</span> <span class="title class_">int</span>[N];</span><br><span class="line">    len = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">//最少覆盖全序列的下降子序列个数</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; w.length; i++) {</span><br><span class="line">        <span class="comment">//找 tail 中第一个大于等于 w[i] 的替换掉</span></span><br><span class="line">        <span class="comment">//可以二分优化下，这里就不写了</span></span><br><span class="line">        <span class="type">int</span> idx;</span><br><span class="line">        <span class="keyword">for</span> (idx = <span class="number">0</span>; idx &lt; len; idx++) {</span><br><span class="line">            <span class="keyword">if</span> (tail[idx] &gt;= w[i]) {</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">        tail[idx] = w[i];</span><br><span class="line">        len += (idx == len) ? <span class="number">1</span> : <span class="number">0</span>;</span><br><span class="line">    }</span><br><span class="line">    res[<span class="number">1</span>] = len;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+
+<h2 id="187-导弹防御系统"><a href="#187-导弹防御系统" class="headerlink" title="187. 导弹防御系统"></a><a target="_blank" rel="noopener" href="https://www.acwing.com/problem/content/189/">187. 导弹防御系统</a></h2><p>为了对抗附近恶意国家的威胁，R 国更新了他们的导弹防御系统。</p>
+<p>一套防御系统的导弹拦截高度要么一直 严格单调 上升要么一直 严格单调 下降。</p>
+<p>例如，一套系统先后拦截了高度为 3 和高度为 4 的两发导弹，那么接下来该系统就只能拦截高度大于 4 的导弹。</p>
+<p>给定即将袭来的一系列导弹的高度，请你求出至少需要多少套防御系统，就可以将它们全部击落。</p>
+<p><strong>输入格式</strong></p>
+<p>输入包含多组测试用例。</p>
+<p>对于每个测试用例，第一行包含整数 n，表示来袭导弹数量。</p>
+<p>第二行包含 n 个不同的整数，表示每个导弹的高度。</p>
+<p>当输入测试用例 n=0 时，表示输入终止，且该用例无需处理。</p>
+<p><strong>输出格式</strong></p>
+<p>对于每个测试用例，输出一个占据一行的整数，表示所需的防御系统数量。</p>
+<p><strong>数据范围</strong>： 1≤n≤50</p>
+<p><strong>输入样例：</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="number">5</span></span><br><span class="line"><span class="number">3</span> <span class="number">5</span> <span class="number">2</span> <span class="number">4</span> <span class="number">1</span></span><br><span class="line"><span class="number">0</span> </span><br></pre></td></tr></table></figure>
+<p><strong>输出样例：</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="number">2</span></span><br><span class="line">样例解释</span><br><span class="line">对于给出样例，最少需要两套防御系统。</span><br><span class="line"></span><br><span class="line">一套击落高度为 <span class="number">3</span>,<span class="number">4</span> 的导弹，另一套击落高度为 <span class="number">5</span>,<span class="number">2</span>,<span class="number">1</span> 的导弹。</span><br></pre></td></tr></table></figure>
+
+<h3 id="解法一-5"><a href="#解法一-5" class="headerlink" title="解法一"></a>解法一</h3><p>搜索 + 贪心剪枝，搜索的复杂度是 O(N*2^N)，每个位置有两种选择，每次选择都需要遍历 up 或者 down，虽然时间复杂度很高，但是整体的结果比较小，所以很多情况都被剪掉了，整体速度还不错</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.*;</span><br><span class="line"><span class="keyword">import</span> java.io.*;</span><br><span class="line"><span class="comment">//1. 考虑每个点是在上升序列中还是下降序列中</span></span><br><span class="line"><span class="comment">//2. 考虑是否需要新建一个单独的序列</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Main</span> {</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> {</span><br><span class="line">        <span class="type">Scanner</span> <span class="variable">sc</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Scanner</span>(System.in);</span><br><span class="line">        <span class="keyword">while</span> (sc.hasNext()) {</span><br><span class="line">            <span class="type">int</span> <span class="variable">N</span> <span class="operator">=</span> sc.nextInt();</span><br><span class="line">            <span class="keyword">if</span> (N == <span class="number">0</span>) <span class="keyword">return</span>;</span><br><span class="line">            <span class="type">int</span>[] w = <span class="keyword">new</span> <span class="title class_">int</span>[N];</span><br><span class="line">            up = <span class="keyword">new</span> <span class="title class_">int</span>[N];</span><br><span class="line">            down = <span class="keyword">new</span> <span class="title class_">int</span>[N];</span><br><span class="line">            res = Integer.MAX_VALUE;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; N; i++) {</span><br><span class="line">                w[i] = sc.nextInt();</span><br><span class="line">            }</span><br><span class="line">            dfs(w, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">            System.out.println(res);</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="type">int</span>[] up = <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">static</span> <span class="type">int</span>[] down = <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">static</span> <span class="type">int</span> res;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">dfs</span><span class="params">(<span class="type">int</span>[] w, <span class="type">int</span> c, <span class="type">int</span> ul, <span class="type">int</span> dl)</span> {</span><br><span class="line">        <span class="comment">//关键的剪枝</span></span><br><span class="line">        <span class="keyword">if</span> (ul+dl &gt;= res) <span class="keyword">return</span>;</span><br><span class="line">        <span class="keyword">if</span> (c == w.length) {</span><br><span class="line">            res = Math.min(ul+dl, res);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        }</span><br><span class="line">        <span class="comment">//将 c 放在上升序列中</span></span><br><span class="line">        <span class="type">boolean</span> <span class="variable">flag</span> <span class="operator">=</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; ul; i++) {</span><br><span class="line">            <span class="keyword">if</span> (up[i] &gt; w[c]) {</span><br><span class="line">                flag = <span class="literal">true</span>;</span><br><span class="line">                <span class="type">int</span> <span class="variable">temp</span> <span class="operator">=</span> up[i];</span><br><span class="line">                up[i] = w[c];</span><br><span class="line">                dfs(w, c+<span class="number">1</span>, ul, dl);</span><br><span class="line">                up[i] = temp;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">        <span class="keyword">if</span> (!flag) {</span><br><span class="line">            up[ul] = w[c];</span><br><span class="line">            dfs(w, c+<span class="number">1</span>, ul+<span class="number">1</span>, dl);</span><br><span class="line">            up[ul] = <span class="number">0</span>;</span><br><span class="line">        }</span><br><span class="line">        flag = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; dl; i++) {</span><br><span class="line">            <span class="keyword">if</span> (down[i] &lt; w[c]) {</span><br><span class="line">                flag = <span class="literal">true</span>;</span><br><span class="line">                <span class="type">int</span> <span class="variable">temp</span> <span class="operator">=</span> down[i];</span><br><span class="line">                down[i] = w[c];</span><br><span class="line">                dfs(w, c+<span class="number">1</span>, ul, dl);</span><br><span class="line">                down[i] = temp;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">        <span class="keyword">if</span> (!flag) {</span><br><span class="line">            down[dl] = w[c];</span><br><span class="line">            dfs(w, c+<span class="number">1</span>, ul, dl+<span class="number">1</span>);</span><br><span class="line">            down[dl] = <span class="number">0</span>;</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+
+<h3 id="解法二-1"><a href="#解法二-1" class="headerlink" title="解法二"></a>解法二</h3><p>迭代加深搜索，代码简化，在解比较小的时候可以使用这种搜索方式找最小值，结合了 DFS 和 BFS 的优点</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> {</span><br><span class="line">    <span class="type">Scanner</span> <span class="variable">sc</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Scanner</span>(System.in);</span><br><span class="line">    <span class="keyword">while</span> (sc.hasNext()) {</span><br><span class="line">        <span class="type">int</span> <span class="variable">N</span> <span class="operator">=</span> sc.nextInt();</span><br><span class="line">        <span class="keyword">if</span> (N == <span class="number">0</span>) <span class="keyword">return</span>;</span><br><span class="line">        <span class="type">int</span>[] w = <span class="keyword">new</span> <span class="title class_">int</span>[N];</span><br><span class="line">        up = <span class="keyword">new</span> <span class="title class_">int</span>[N];</span><br><span class="line">        down = <span class="keyword">new</span> <span class="title class_">int</span>[N];</span><br><span class="line">        res = Integer.MAX_VALUE;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; N; i++) {</span><br><span class="line">            w[i] = sc.nextInt();</span><br><span class="line">        }</span><br><span class="line">        <span class="comment">//dfs(w, 0, 0, 0);</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">depth</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (!dfs(w, depth, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>)) {</span><br><span class="line">            depth++;</span><br><span class="line">        }</span><br><span class="line">        System.out.println(depth);</span><br><span class="line">    }</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="type">int</span>[] up = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">static</span> <span class="type">int</span>[] down = <span class="literal">null</span>;</span><br><span class="line"><span class="comment">//迭代加深，BFS 版的 DFS</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">dfs</span><span class="params">(<span class="type">int</span>[] w, <span class="type">int</span> depth, <span class="type">int</span> c, <span class="type">int</span> ul, <span class="type">int</span> dl)</span> {</span><br><span class="line">    <span class="keyword">if</span> (ul+dl &gt; depth) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">if</span> (c == w.length) {</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    }</span><br><span class="line">    <span class="comment">//将 c 放在上升序列中，那么我们应该找到小于 w[i] 的最大的 tail</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; ul; i++) {</span><br><span class="line">        <span class="keyword">if</span> (up[i] &lt; w[c]) <span class="keyword">break</span>;</span><br><span class="line">    }</span><br><span class="line">    <span class="type">int</span> <span class="variable">temp</span> <span class="operator">=</span> up[i];</span><br><span class="line">    up[i] = w[c];</span><br><span class="line">    <span class="keyword">if</span> (i == ul) {</span><br><span class="line">        <span class="keyword">if</span> (dfs(w, depth, c+<span class="number">1</span>, ul+<span class="number">1</span>, dl)) {</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;      </span><br><span class="line">        }</span><br><span class="line">    } <span class="keyword">else</span> <span class="keyword">if</span> (dfs(w, depth, c+<span class="number">1</span>, ul, dl)) {</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    }</span><br><span class="line">    up[i] = temp;</span><br><span class="line">    <span class="comment">//将 c 放在下降序列中，那么我们应该找到大于 w[i] 的最小的 tail</span></span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; dl; i++) {</span><br><span class="line">        <span class="keyword">if</span> (down[i] &gt; w[c]) <span class="keyword">break</span>;</span><br><span class="line">    }</span><br><span class="line">    temp = down[i];</span><br><span class="line">    down[i] = w[c];</span><br><span class="line">    <span class="keyword">if</span> (i == dl) {</span><br><span class="line">        <span class="keyword">if</span> (dfs(w, depth, c+<span class="number">1</span>, ul, dl+<span class="number">1</span>)) {</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        }</span><br><span class="line">    } <span class="keyword">else</span> {</span><br><span class="line">        <span class="keyword">if</span> (dfs(w, depth, c+<span class="number">1</span>, ul, dl)) {</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">    down[i] = temp;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+
+<h2 id="272-最长公共上升子序列"><a href="#272-最长公共上升子序列" class="headerlink" title="272. 最长公共上升子序列"></a><a target="_blank" rel="noopener" href="https://www.acwing.com/problem/content/description/274/">272. 最长公共上升子序列</a></h2><p>熊大妈的奶牛在小沐沐的熏陶下开始研究信息题目。</p>
+<p>小沐沐先让奶牛研究了最长上升子序列，再让他们研究了最长公共子序列，现在又让他们研究最长公共上升子序列了。</p>
+<p>小沐沐说，对于两个数列 A 和 B，如果它们都包含一段位置不一定连续的数，且数值是严格递增的，那么称这一段数是两个数列的公共上升子序列，而所有的公共上升子序列中最长的就是最长公共上升子序列了。</p>
+<p>奶牛半懂不懂，小沐沐要你来告诉奶牛什么是最长公共上升子序列。</p>
+<p>不过，只要告诉奶牛它的长度就可以了。</p>
+<p>数列 A 和 B 的长度均不超过 3000。</p>
+<p><strong>输入格式</strong></p>
+<p>第一行包含一个整数 N，表示数列 A，B 的长度。</p>
+<p>第二行包含 N 个整数，表示数列 A。</p>
+<p>第三行包含 N 个整数，表示数列 B。</p>
+<p><strong>输出格式</strong></p>
+<p>输出一个整数，表示最长公共上升子序列的长度。</p>
+<p><strong>数据范围</strong></p>
+<p>1≤N≤3000, 序列中的数字均不超过 2^31−1</p>
+<p><strong>输入样例：</strong></p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="number">4</span></span><br><span class="line"><span class="number">2</span> <span class="number">2</span> <span class="number">1</span> <span class="number">3</span></span><br><span class="line"><span class="number">2</span> <span class="number">1</span> <span class="number">2</span> <span class="number">3</span></span><br></pre></td></tr></table></figure>
+<p><strong>输出样例：</strong></p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="number">2</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="解法一-6"><a href="#解法一-6" class="headerlink" title="解法一"></a>解法一</h3><p>朴素的解法应该自己想出来的，可惜，没想出来，看了解答才理解，这里<code>dp[i][j]</code> 是指** A 序列的前 i 个字符和 B 的前 j 个字符组成的，以<code>B[j]</code>结尾的最长公共上升子序列长度**，实际上是 lcs 个 lis 的完美结合，因为状态定义指定了<code>B[j]</code>是一定要包含的，所以相比 LCS 的四种情况，这里只有两种情况，包含或者不包含<code>A[i]</code></p>
+<ul>
+<li>不包含 A[i] 那么状态就是<code>dp[i-1][j]</code>; </li>
+<li>如果要包含 A[i]，那么<code>A[i]</code>必须等于<code>B[j]</code>，否则就没有考虑的意义，然后我们按照 LIS 的方法去找一个最大值就 ok 了</li>
+</ul>
+<p>时间复杂度 N^3，这里按道理是会被卡掉的，但是并没有。..</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.*;</span><br><span class="line"><span class="keyword">import</span> java.io.*;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Main</span> {</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> {</span><br><span class="line">        <span class="type">Scanner</span> <span class="variable">sc</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Scanner</span>(System.in);</span><br><span class="line">        <span class="type">int</span> <span class="variable">N</span> <span class="operator">=</span> sc.nextInt();</span><br><span class="line">        <span class="type">int</span>[] A = <span class="keyword">new</span> <span class="title class_">int</span>[N];</span><br><span class="line">        <span class="type">int</span>[] B = <span class="keyword">new</span> <span class="title class_">int</span>[N];</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; N; i++) {</span><br><span class="line">            A[i] = sc.nextInt();</span><br><span class="line">        }</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; N; i++) {</span><br><span class="line">            B[i] = sc.nextInt();</span><br><span class="line">        }</span><br><span class="line">        System.out.println(solve(A, B, N));</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">solve</span><span class="params">(<span class="type">int</span>[] A, <span class="type">int</span>[] B, <span class="type">int</span> N)</span>{</span><br><span class="line">        <span class="comment">//A 前 i 个字符和 B 前 j 个字符并且以 B[j] 结尾的最长 LCIS</span></span><br><span class="line">        <span class="type">int</span>[][] dp = <span class="keyword">new</span> <span class="title class_">int</span>[N+<span class="number">1</span>][N+<span class="number">1</span>];</span><br><span class="line">        <span class="type">int</span> <span class="variable">res</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt;= N; i++) {</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">1</span>; j &lt;= N; j++) {</span><br><span class="line">                dp[i][j] = dp[i-<span class="number">1</span>][j];</span><br><span class="line">                <span class="keyword">if</span> (A[i-<span class="number">1</span>] == B[j-<span class="number">1</span>]) {</span><br><span class="line">                    dp[i][j] = Math.max(dp[i][j], <span class="number">1</span>);</span><br><span class="line">                    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">k</span> <span class="operator">=</span> <span class="number">1</span>; k &lt; j; k++) {</span><br><span class="line">                        <span class="keyword">if</span> (B[j-<span class="number">1</span>] &gt; B[k-<span class="number">1</span>]) {</span><br><span class="line">                            dp[i][j] = Math.max(dp[i][k]+<span class="number">1</span>, dp[i][j]);</span><br><span class="line">                        }</span><br><span class="line">                    }</span><br><span class="line">                }</span><br><span class="line">                res = Math.max(res, dp[i][j]);</span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+
+<h3 id="解法二-2"><a href="#解法二-2" class="headerlink" title="解法二"></a>解法二</h3><p>对上面的解法做了等价变形，首先上面解法内循环是找<code>[1,j-1]</code>区间内<code>B[k]&lt;B[j]</code>的最大值，同时此时的<code>B[j]==A[i]</code>，所以我们可以进行一波等价变形，动态的计算这个最大值，从而优化掉一层循环，还是很巧妙的</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//代码等价变形，时间复杂度 N^2</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">solveOpt</span><span class="params">(<span class="type">int</span>[] A, <span class="type">int</span>[] B, <span class="type">int</span> N)</span>{</span><br><span class="line">    <span class="comment">//A 前 i 个字符和 B 前 j 个字符并且以 B[j] 结尾的最长 LCIS</span></span><br><span class="line">    <span class="type">int</span>[][] dp = <span class="keyword">new</span> <span class="title class_">int</span>[N+<span class="number">1</span>][N+<span class="number">1</span>];</span><br><span class="line">    <span class="type">int</span> <span class="variable">res</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt;= N; i++) {</span><br><span class="line">        <span class="type">int</span> <span class="variable">maxv</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">1</span>; j &lt;= N; j++) {</span><br><span class="line">            dp[i][j] = dp[i-<span class="number">1</span>][j];</span><br><span class="line">            <span class="keyword">if</span> (A[i-<span class="number">1</span>] == B[j-<span class="number">1</span>]) {</span><br><span class="line">                dp[i][j] = Math.max(dp[i][j], maxv);</span><br><span class="line">            }</span><br><span class="line">            <span class="keyword">if</span> (B[j-<span class="number">1</span>] &lt; A[i-<span class="number">1</span>]) {</span><br><span class="line">                maxv = Math.max(maxv, dp[i][j]+<span class="number">1</span>);</span><br><span class="line">            }</span><br><span class="line">            res = Math.max(res, dp[i][j]);</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+        
+            <div class="donate-container">
+    <div class="donate-button">
+        <button id="donate-button">赞赏</button>
+    </div>
+    <div class="donate-img-container hide" id="donate-img-container">
+        <img id="donate-img" src="" data-src="">
+        <p> 感谢鼓励 </p>
+    </div>
+</div>
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+        <div id="lv-container"></div>
+        <div class="giscus"></div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/imlgw">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://imlgw.top">Tadow</a></span>
+        <span>/</span>
+        
+        <span><a target="_blank" rel="noopener" href="http://beian.miit.gov.cn/publish/query/indexFirst.action">鄂ICP备18011208号</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>  Theme <a target="_blank" rel="noopener" href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/live2d-widget@3.x/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"https://cdn.jsdelivr.net/npm/live2d-widget-model-hijiki@1.0.5/assets/hijiki.model.json"},"display":{"superSample":2,"width":160,"height":320,"position":"right","hOffset":0,"vOffset":-70},"mobile":{"show":false,"scale":0.2},"log":false});</script></body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://giscus.app/client.js"
+  data-repo="imlgw/imlgw.github.io"
+  data-repo-id="MDEwOlJlcG9zaXRvcnkxMzMyMDY4NDg="
+  data-category="Announcements"
+  data-category-id="DIC_kwDOB_CTQM4CQ7v8"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="top"
+  data-theme="light"
+  data-lang="zh-CN"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+
+
+</html>

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:description" content="Tadow 的博客">
+    <meta property="og:type" content="website">
+    <meta name="description" content="Tadow 的博客">
+    <meta name="keyword"  content="Tadow, Resolmi, imlgw, 半岛铁盒, 算法, Java, Golang">
+    <link rel="shortcut icon" href="https://fav.farm/💭">
+
+    <title>
+        
+        Java 爬虫实战（一） ：爬取斗图社所有 gif - Tadow 碎碎念
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_28hi1hpxx24.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Tadow 碎碎念" type="application/atom+xml">
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> Keep It Simple, Stupid </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar radius">
+            <img src="https://static.imlgw.top/blog/20220821160037.png" />
+        </div>
+        <div class="name">
+            <i>Tadow</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <!-- <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li> -->
+            <li >
+                <a href="/categories">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>分类</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            
+            <li >
+                <a href="/selfhosted">
+                    <i class="iconfont icon-guidang1"></i>
+                    <span>自建</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/collect/">
+                    <i class="iconfont icon-shoucang1"></i>
+                    <span>收藏</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Java-%E7%88%AC%E8%99%AB%E5%AE%9E%E6%88%98%EF%BC%88%E4%B8%80%EF%BC%89-%EF%BC%9A%E7%88%AC%E5%8F%96%E6%96%97%E5%9B%BE%E7%A4%BE%E6%89%80%E6%9C%89-gif"><span class="toc-text">Java 爬虫实战（一） ：爬取斗图社所有 gif</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-bg" id="search-bg"></div>
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i> Keep It Simple, Stupid </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        Java 爬虫实战（一） ：爬取斗图社所有 gif
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2018-11-30 00:00:00</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#爬虫" title="爬虫">爬虫</a>
+        <span>/</span>
+        
+        <a class="tag" href="/tags/#Java" title="Java">Java</a>
+        <span>/</span>
+        
+        <a class="tag" href="/tags/#misc" title="misc">misc</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <h2 id="Java-爬虫实战（一）-：爬取斗图社所有-gif"><a href="#Java-爬虫实战（一）-：爬取斗图社所有-gif" class="headerlink" title="Java 爬虫实战（一） ：爬取斗图社所有 gif"></a>Java 爬虫实战（一） ：爬取斗图社所有 gif</h2><p>最近开始玩爬虫 , 还是挺有意思的 , 虽然写爬虫一般都是用 Python 比较方便，但是也没有必要为了写爬虫再学一门语言 , 虽然也挺简单，但是还是对 Java 比较习惯，后面可能会学 Python 但是目前还是先用 java 写着玩玩。</p>
+<p><strong>目标</strong><br><a target="_blank" rel="noopener" href="https://doutushe.com/">斗图社 </a>  上所有的图片。<br><img src="https://imlgwpicture.oss-cn-qingdao.aliyuncs.com/blogImage/%408Q0%601FQB2A2E4D%5D9M8%40VW8.png" alt="oss"></p>
+<p><strong>技术选择</strong><br>Jsoup，最开始看见这个我看成了 Jsonp。我寻思着不是解决跨域的那个么？还能搞爬虫？这么牛掰的么😄<br>关于 Jsoup 网上也有很多文档 <a target="_blank" rel="noopener" href="http://www.open-open.com/jsoup/">参考资料</a><br>还有一些其他的技术比如 httpclient+Xpath 还有 htmlunit 还有 selenium 等等，等以后学了后再来秀一秀 😁</p>
+<hr>
+<p>其实我写的第一个爬虫是 copy 的别人的博客上的，不过它爬取的是京东的，我爬的是淘宝的<br>我也只是想参考下他的结构，但是我感觉他的有些类没什么实际意义。然后我就直接自己写了。<br>结构如下：</p>
+<ul>
+<li>boot ：爬虫的入口</li>
+<li>dao  ：dao</li>
+<li>handle ：封装的处理查询结果集的类（这里没用）</li>
+<li>model ：爬取的数据的模型</li>
+<li>parse  ： 解析 html 的类</li>
+<li>util     ： Jsoup 工具类和 dao 的工具类和 DB 模板类</li>
+</ul>
+<p>首先建立数据模型 DoutuModel</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">DoutuModel</span> &#123;</span><br><span class="line">	    <span class="keyword">private</span> Long id;</span><br><span class="line">	    <span class="keyword">private</span> String topic;</span><br><span class="line">	    <span class="keyword">private</span> String imgUrl;</span><br><span class="line">	    <span class="keyword">private</span> String title;</span><br><span class="line">	</span><br><span class="line">	    <span class="comment">//数据库 id 自增</span></span><br><span class="line">	    <span class="keyword">public</span> <span class="title function_">DoutuModel</span><span class="params">(String topic, String imgUrl, String title)</span> &#123;</span><br><span class="line">	        <span class="built_in">this</span>.topic = topic;</span><br><span class="line">	        <span class="built_in">this</span>.imgUrl = imgUrl;</span><br><span class="line">	        <span class="built_in">this</span>.title = title;</span><br><span class="line">	    &#125;</span><br><span class="line">	</span><br><span class="line">	    <span class="keyword">public</span> String <span class="title function_">getTopic</span><span class="params">()</span> &#123;</span><br><span class="line">	        <span class="keyword">return</span> topic;</span><br><span class="line">	    &#125;</span><br><span class="line">	</span><br><span class="line">	    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setTopic</span><span class="params">(String topic)</span> &#123;</span><br><span class="line">	        <span class="built_in">this</span>.topic = topic;</span><br><span class="line">	    &#125;</span><br><span class="line">	</span><br><span class="line">	    <span class="keyword">public</span> String <span class="title function_">getTitle</span><span class="params">()</span> &#123;</span><br><span class="line">	        <span class="keyword">return</span> title;</span><br><span class="line">	    &#125;</span><br><span class="line">	</span><br><span class="line">	    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setTitle</span><span class="params">(String title)</span> &#123;</span><br><span class="line">	        <span class="built_in">this</span>.title = title;</span><br><span class="line">	    &#125;</span><br><span class="line">	</span><br><span class="line">	    <span class="keyword">public</span> String <span class="title function_">getImgUrl</span><span class="params">()</span> &#123;</span><br><span class="line">	        <span class="keyword">return</span> imgUrl;</span><br><span class="line">	    &#125;</span><br><span class="line">	</span><br><span class="line">	    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setImgUrl</span><span class="params">(String imgUrl)</span> &#123;</span><br><span class="line">	        <span class="built_in">this</span>.imgUrl = imgUrl;</span><br><span class="line">	    &#125;</span><br><span class="line">	</span><br><span class="line">	    <span class="keyword">public</span> Long <span class="title function_">getId</span><span class="params">()</span> &#123;</span><br><span class="line">	        <span class="keyword">return</span> id;</span><br><span class="line">	    &#125;</span><br><span class="line">	</span><br><span class="line">	    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setId</span><span class="params">(Long id)</span> &#123;</span><br><span class="line">	        <span class="built_in">this</span>.id = id;</span><br><span class="line">	    &#125;</span><br><span class="line">&#125;	</span><br></pre></td></tr></table></figure>
+
+<p><strong>主要记录下 parse 类</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> List&lt;DoutuModel&gt; <span class="title function_">getData2</span><span class="params">(String url)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">	        <span class="comment">//获取的数据，存放在集合中</span></span><br><span class="line">	        List&lt;DoutuModel&gt; data = <span class="keyword">new</span> <span class="title class_">ArrayList</span>();</span><br><span class="line">	        <span class="comment">//采用 Jsoup 解析</span></span><br><span class="line">	        <span class="comment">//String url=&quot;https://doutushe.com/portal/article/index/id/5gK&quot;;</span></span><br><span class="line">	        <span class="type">String</span> <span class="variable">preurl</span> <span class="operator">=</span> <span class="string">&quot;https://doutushe.com&quot;</span>;</span><br><span class="line">	        <span class="comment">//取到当前页的 document</span></span><br><span class="line">	        <span class="comment">//取到内容页的所有图片</span></span><br><span class="line">	        <span class="type">int</span> <span class="variable">page</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">	        <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">	            <span class="type">Document</span> <span class="variable">doc</span> <span class="operator">=</span> JsoupUtils.getHtmlDocument(url);</span><br><span class="line">	            <span class="type">Elements</span> <span class="variable">imgList</span> <span class="operator">=</span> doc.select(<span class="string">&quot;div[class=col-xs-12 col-sm-8 col-lg-9]&quot;</span>).select(<span class="string">&quot;img.lazy&quot;</span>);</span><br><span class="line">	            <span class="type">String</span> <span class="variable">topic</span> <span class="operator">=</span> doc.select(<span class="string">&quot;blockquote&gt;p&quot;</span>).text();</span><br><span class="line">	            <span class="keyword">for</span> (Element imgelement : imgList) &#123;</span><br><span class="line">	                <span class="comment">//异步的坏处体现出来了，这个明显是懒加载，要找就找数据源，直接获取 src 获取不到</span></span><br><span class="line">	                <span class="comment">//String imgUrl= imgelement.attr(&quot;src&quot;);</span></span><br><span class="line">	                <span class="type">String</span> <span class="variable">imgUrl</span> <span class="operator">=</span> imgelement.attr(<span class="string">&quot;data-original&quot;</span>);</span><br><span class="line">	                <span class="type">String</span> <span class="variable">title</span> <span class="operator">=</span> imgelement.attr(<span class="string">&quot;title&quot;</span>);</span><br><span class="line">	                data.add(<span class="keyword">new</span> <span class="title class_">DoutuModel</span>(topic, imgUrl, title));</span><br><span class="line">	                <span class="comment">//System.out.println(topic + &quot;:&quot; + imgUrl + &quot;:&quot; + title);</span></span><br><span class="line">	            &#125;</span><br><span class="line">	            <span class="type">Elements</span> <span class="variable">pageUrls</span> <span class="operator">=</span> doc.select(<span class="string">&quot;ul.pager&quot;</span>).select(<span class="string">&quot;a&quot;</span>);</span><br><span class="line">	            <span class="comment">//爬一页休息 1 秒</span></span><br><span class="line">	            <span class="keyword">if</span> (page % <span class="number">10</span> == <span class="number">0</span>) &#123;</span><br><span class="line">	                Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">	                System.out.println(<span class="string">&quot;第&quot;</span> + (page/<span class="number">10</span>) + <span class="string">&quot;页采集完 , 暂停-------&quot;</span>);</span><br><span class="line">	            &#125;</span><br><span class="line">	            <span class="comment">//最后一页也有两个按钮。看来要多观察页面</span></span><br><span class="line">	            <span class="comment">/*if (pageUrls.size() &lt; 2) &#123;</span></span><br><span class="line"><span class="comment">	                //说明到最后一页了</span></span><br><span class="line"><span class="comment">	                break;</span></span><br><span class="line"><span class="comment">	            &#125;*/</span></span><br><span class="line">	            url = preurl + pageUrls.get(<span class="number">1</span>).attr(<span class="string">&quot;href&quot;</span>);</span><br><span class="line">	            <span class="keyword">if</span> (!url.matches(preurl + <span class="string">&quot;/portal/article/index/id/[a-zA-Z0-9_]*&quot;</span>)) &#123;</span><br><span class="line">	                <span class="keyword">break</span>;</span><br><span class="line">	            &#125;</span><br><span class="line">	            page++;</span><br><span class="line">	        &#125;</span><br><span class="line">	        <span class="comment">//返回数据</span></span><br><span class="line">	        <span class="keyword">return</span> data;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其实一开始写的一个版本是从主页面爬的先获取每一页的链接，再获取每一页的主题的链接，再获取每个主题下的图片链接，一个三重 for 循环，速度确实比较慢。</p>
+<p>后来发现每一页都有下一页的链接。然后就可以直接从页面上爬，两个循环就可以了，但是一开始我判断边界的时候用的是在下面的链接的数量小于 2 但是一开始爬了好长时间结果报错了。  然后我去看了下最后一页发现也有两个链接后面一个是全部的链接。 。</p>
+<p> <img src="https://imlgwpicture.oss-cn-qingdao.aliyuncs.com/blogImage/AT5%7BUKZN%24M%5B59V%5B1OU0S%5B7N.png" alt="oss"><br>而且和上面的 css 是一样的但是和前面的每一页的链接的后缀不一样，所以就直接用正则表达式匹配 url 的后缀是否匹配<br>Regex ：<a target="_blank" rel="noopener" href="https://doutushe.com/portal/article/index/id/[a-zA-Z0-9_]">https://doutushe.com/portal/article/index/id/[a-zA-Z0-9_]</a>*  后面的就是直接匹配任意视频<br>而最后一页的全部链接是 ： <a target="_blank" rel="noopener" href="https://doutushe.com/portal/index/index">https://doutushe.com/portal/index/index</a> 所以就匹配不上直接 break</p>
+<p><strong>爬图片的小细节</strong> , 一开始没注意，他这个图片是懒加载的，也就是随着页面用 js 加载的， 直接 src 获取肯定获取不到的，因为 jsoup 是不支持异步的，用 js 操作的东西肯定爬不到。所以只能通过 data-orginal 获取。</p>
+<p>github  <a target="_blank" rel="noopener" href="https://github.com/imlgw/javaSpiders">仓库地址</a></p>
+<hr>
+<p><strong>结果</strong><br><img src="https://imlgwpicture.oss-cn-qingdao.aliyuncs.com/blogImage/X%28%7B%60H6YKH2LIW%24%25F2K4U53M.jpg" alt="oss"><br>4243 张图片，后面可以自己写个脚本把图片全部下载到本地或者用迅雷之类的下载工具。</p>
+<hr>
+<p>后面会尝试下更多爬虫技术像 htmlunit 这种支持异步的或者 selenium 这种直接操作浏览器的工具</p>
+
+        
+            <div class="donate-container">
+    <div class="donate-button">
+        <button id="donate-button">赞赏</button>
+    </div>
+    <div class="donate-img-container hide" id="donate-img-container">
+        <img id="donate-img" src="" data-src="">
+        <p> 感谢鼓励 </p>
+    </div>
+</div>
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+        <div id="lv-container"></div>
+        <div class="giscus"></div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/imlgw">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://imlgw.top">Tadow</a></span>
+        <span>/</span>
+        
+        <span><a target="_blank" rel="noopener" href="http://beian.miit.gov.cn/publish/query/indexFirst.action">鄂ICP备18011208号</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>  Theme <a target="_blank" rel="noopener" href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/live2d-widget@3.x/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"https://cdn.jsdelivr.net/npm/live2d-widget-model-hijiki@1.0.5/assets/hijiki.model.json"},"display":{"superSample":2,"width":160,"height":320,"position":"right","hOffset":0,"vOffset":-70},"mobile":{"show":false,"scale":0.2},"log":false});</script></body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://giscus.app/client.js"
+  data-repo="imlgw/imlgw.github.io"
+  data-repo-id="MDEwOlJlcG9zaXRvcnkxMzMyMDY4NDg="
+  data-category="Announcements"
+  data-category-id="DIC_kwDOB_CTQM4CQ7v8"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="top"
+  data-theme="light"
+  data-lang="zh-CN"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+
+
+</html>

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:description" content="Tadow 的博客">
+    <meta property="og:type" content="website">
+    <meta name="description" content="Tadow 的博客">
+    <meta name="keyword"  content="Tadow, Resolmi, imlgw, 半岛铁盒, 算法, Java, Golang">
+    <link rel="shortcut icon" href="https://fav.farm/💭">
+
+    <title>
+        
+        LRU 队列实现 - Tadow 碎碎念
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_28hi1hpxx24.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Tadow 碎碎念" type="application/atom+xml">
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> Keep It Simple, Stupid </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar radius">
+            <img src="https://static.imlgw.top/blog/20220821160037.png" />
+        </div>
+        <div class="name">
+            <i>Tadow</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <!-- <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li> -->
+            <li >
+                <a href="/categories">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>分类</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            
+            <li >
+                <a href="/selfhosted">
+                    <i class="iconfont icon-guidang1"></i>
+                    <span>自建</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/collect/">
+                    <i class="iconfont icon-shoucang1"></i>
+                    <span>收藏</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#146-LRU-%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6"><span class="toc-text">146. LRU 缓存机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#UPDATE"><span class="toc-text">UPDATE</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-bg" id="search-bg"></div>
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i> Keep It Simple, Stupid </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        LRU 队列实现
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2019-11-16 00:00:00</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#LeetCode" title="LeetCode">LeetCode</a>
+        <span>/</span>
+        
+        <a class="tag" href="/tags/#LRU" title="LRU">LRU</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <h2 id="146-LRU-缓存机制"><a href="#146-LRU-缓存机制" class="headerlink" title="146. LRU 缓存机制"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/lru-cache/">146. LRU 缓存机制</a></h2><p>运用你所掌握的数据结构，设计和实现一个  LRU （最近最少使用） 缓存机制。它应该支持以下操作： 获取数据 get 和 写入数据 put 。</p>
+<p>获取数据 <code>get(key)</code> - 如果密钥 (key) 存在于缓存中，则获取密钥的值（总是正数），否则返回 -1。<br>写入数据 <code>put(key, value)</code> - 如果密钥不存在，则写入其数据值。当缓存容量达到上限时，它应该在写入新数据之前删除最近最少使用的数据值，从而为新的数据值留出空间。</p>
+<p><strong>进阶：</strong></p>
+<p>你是否可以在 <code>O(1)</code> 时间复杂度内完成这两种操作？</p>
+<p><strong>示例：</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">LRUCache</span> <span class="variable">cache</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">LRUCache</span>( <span class="number">2</span> <span class="comment">/* 缓存容量 */</span> );</span><br><span class="line"></span><br><span class="line">cache.put(<span class="number">1</span>, <span class="number">1</span>);</span><br><span class="line">cache.put(<span class="number">2</span>, <span class="number">2</span>);</span><br><span class="line">cache.get(<span class="number">1</span>);       <span class="comment">// 返回  1</span></span><br><span class="line">cache.put(<span class="number">3</span>, <span class="number">3</span>);    <span class="comment">// 该操作会使得密钥 2 作废</span></span><br><span class="line">cache.get(<span class="number">2</span>);       <span class="comment">// 返回 -1 （未找到）</span></span><br><span class="line">cache.put(<span class="number">4</span>, <span class="number">4</span>);    <span class="comment">// 该操作会使得密钥 1 作废</span></span><br><span class="line">cache.get(<span class="number">1</span>);       <span class="comment">// 返回 -1 （未找到）</span></span><br><span class="line">cache.get(<span class="number">3</span>);       <span class="comment">// 返回  3</span></span><br><span class="line">cache.get(<span class="number">4</span>);       <span class="comment">// 返回  4</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>解法一</strong></p>
+<p>改了好几次才改对，核心思路就是利用 HashMap+双向链表</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LRUCache</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">Node</span>&#123;</span><br><span class="line">        <span class="type">int</span> key;</span><br><span class="line">        <span class="type">int</span> value;</span><br><span class="line">        Node pre;</span><br><span class="line">        Node next;</span><br><span class="line">        <span class="keyword">public</span> <span class="title function_">Node</span><span class="params">(<span class="type">int</span> key,<span class="type">int</span> value)</span>&#123;</span><br><span class="line">            <span class="built_in">this</span>.value=value;</span><br><span class="line">            <span class="built_in">this</span>.key=key;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    HashMap&lt;Integer,Node&gt; map=<span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    Node head=<span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">    Node tail=<span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> capacity=<span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">LRUCache</span><span class="params">(<span class="type">int</span> capacity)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.capacity=capacity;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">get</span><span class="params">(<span class="type">int</span> key)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (map.containsKey(key)) &#123;</span><br><span class="line">            Node node=map.get(key);</span><br><span class="line">            <span class="comment">//移动到链表头</span></span><br><span class="line">            move2Head(node);</span><br><span class="line">            <span class="keyword">return</span> node.value;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">put</span><span class="params">(<span class="type">int</span> key, <span class="type">int</span> value)</span> &#123;</span><br><span class="line">        Node newHead=<span class="keyword">new</span> <span class="title class_">Node</span>(key,value);</span><br><span class="line">        <span class="keyword">if</span> (map.containsKey(key)) &#123;</span><br><span class="line">            Node node=map.get(key);</span><br><span class="line">            node.value=value;</span><br><span class="line">            <span class="comment">//移动到链表头</span></span><br><span class="line">            move2Head(node);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (map.size()==capacity) &#123;</span><br><span class="line">            map.remove(tail.key);</span><br><span class="line">            removeNode(tail);</span><br><span class="line">        &#125;</span><br><span class="line">        move2Head(newHead);</span><br><span class="line">        map.put(key,newHead);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">removeNode</span><span class="params">(Node node)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (node.key==tail.key) &#123;</span><br><span class="line">            tail=tail.pre;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (node.pre==<span class="literal">null</span> || node.next==<span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        node.pre.next=node.next;</span><br><span class="line">        node.next.pre=node.pre;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">move2Head</span><span class="params">(Node newHead)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (map.size()==<span class="number">0</span>) &#123;</span><br><span class="line">            head=tail=newHead;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (newHead.key==head.key) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        removeNode(newHead);</span><br><span class="line">        newHead.next=head;</span><br><span class="line">        newHead.pre=<span class="literal">null</span>;</span><br><span class="line">        head.pre=newHead;</span><br><span class="line">        head=newHead;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Your LRUCache object will be instantiated and called as such:</span></span><br><span class="line"><span class="comment"> * LRUCache obj = new LRUCache(capacity);</span></span><br><span class="line"><span class="comment"> * int param_1 = obj.get(key);</span></span><br><span class="line"><span class="comment"> * obj.put(key,value);</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
+
+<p>既然已经实现了，我们就来考虑下为啥要这样实现</p>
+<p>其实我一开始也不知道咋实现，查了下才知道，这里有几个点需要注意：</p>
+<ol>
+<li><p>首先是题目要求 get/put 时间复杂度是<code>O(1)</code> 的，而我们在 get/put 的时候肯定会频繁的移动元素的位置，那我们肯定是不能用数组，队列之类的结构了</p>
+</li>
+<li><p>那我们能用单链表么？我们可以将最近访问的节点放在头部，然后每次满的时候剔除尾节点的元素，由于是链表，移动节点的位置都是很容易的，但是我们如果要 get 一个元素的时候就麻烦了，需要遍历整个链表才能取到元素，也就是说单链表定位某个元素比较耗时，所以我们考虑用 HashMap 来辅助单链表，这样我们以 key 为 map 的 key，Node 节点为 map 的 value 就可以迅速定位到某个元素</p>
+</li>
+<li><p>单链表+HashMap 就可以了么？其实还差点儿，如果现在满了，需要删除最后一个节点，那我们就需要将 tail 的前一个作为新的 tail，但是由于是单链表，没有前置指针，不方便定位前一个节点，所以我们最后的方案就是采用**双向链表+HashMap **来实现 LRU</p>
+<p><img src="https://pic4.zhimg.com/80/v2-09f037608b1b2de70b52d1312ef3b307_hd.jpg" alt="img"></p>
+</li>
+</ol>
+<p>其实 LRU 思想并不复杂，按照规则来移动节点，删除节点就 OK，操作系统教程上也有类似的过程图，理解了下面的图代码就好写了</p>
+<p><img src="http://static.imlgw.top/blog/20191116/BISfMVdI96FT.png?imageslim" alt="mark"></p>
+<p>但是如果实现的方式不太好的话，就会写很多 if-else 判断一些边界，比如我上面自己的实现就是。</p>
+<p>其实还有一个原因就是我上面的方式 head 和 tail 是真实的节点，不是虚节点，所以会有很多边界的逻辑判断，面试的时候不建议那样写，很容易出问题！！！</p>
+<p><strong>解法二</strong></p>
+<p>面试中比较推荐像这样写</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LRUCache</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">Node</span>&#123;</span><br><span class="line">        <span class="type">int</span> key;</span><br><span class="line">        <span class="type">int</span> value;</span><br><span class="line">        Node pre;</span><br><span class="line">        Node next;</span><br><span class="line">        <span class="keyword">public</span> <span class="title function_">Node</span><span class="params">(<span class="type">int</span> key,<span class="type">int</span> value)</span>&#123;</span><br><span class="line">            <span class="built_in">this</span>.value=value;</span><br><span class="line">            <span class="built_in">this</span>.key=key;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">	</span><br><span class="line">    HashMap&lt;Integer,Node&gt; map=<span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    Node head=<span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">    Node tail=<span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> capacity=<span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">LRUCache</span><span class="params">(<span class="type">int</span> capacity)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.capacity=capacity;</span><br><span class="line">        <span class="comment">//初始化头尾节点，注意这两个节点只是个哨兵节点，并不会存入 map 中</span></span><br><span class="line">        head=<span class="keyword">new</span> <span class="title class_">Node</span>(-<span class="number">1</span>,-<span class="number">1</span>);</span><br><span class="line">        tail=<span class="keyword">new</span> <span class="title class_">Node</span>(-<span class="number">1</span>,-<span class="number">1</span>);</span><br><span class="line">        head.next=tail;</span><br><span class="line">        tail.pre=head;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">get</span><span class="params">(<span class="type">int</span> key)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (map.containsKey(key)) &#123;</span><br><span class="line">            Node node=map.get(key);</span><br><span class="line">            <span class="comment">//移动到链表头</span></span><br><span class="line">            move2Head(node);</span><br><span class="line">            <span class="keyword">return</span> node.value;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">put</span><span class="params">(<span class="type">int</span> key, <span class="type">int</span> value)</span> &#123;</span><br><span class="line">        Node newHead=<span class="keyword">new</span> <span class="title class_">Node</span>(key,value);</span><br><span class="line">        <span class="keyword">if</span> (map.containsKey(key)) &#123;</span><br><span class="line">            Node node=map.get(key);</span><br><span class="line">            <span class="comment">//设置节点值为新 value</span></span><br><span class="line">            node.value=value;</span><br><span class="line">            <span class="comment">//移动到链表头</span></span><br><span class="line">            move2Head(node);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//满了，先剔除 tail 再插入</span></span><br><span class="line">        <span class="keyword">if</span> (map.size()==capacity) &#123;</span><br><span class="line">            map.remove(popTail().key);</span><br><span class="line">        &#125;</span><br><span class="line">        addFirst(newHead);</span><br><span class="line">        map.put(key,newHead);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//弹出 tail</span></span><br><span class="line">    <span class="keyword">private</span> Node <span class="title function_">popTail</span><span class="params">()</span>&#123;</span><br><span class="line">        Node newTail=tail.pre;</span><br><span class="line">        removeNode(newTail);</span><br><span class="line">        <span class="keyword">return</span> newTail;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//移除节点</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">removeNode</span><span class="params">(Node node)</span>&#123;</span><br><span class="line">        node.pre.next=node.next;</span><br><span class="line">        node.next.pre=node.pre;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//从头添加</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">addFirst</span><span class="params">(Node node)</span>&#123;</span><br><span class="line">        node.next=head.next;</span><br><span class="line">        head.next.pre=node;</span><br><span class="line">        head.next=node;</span><br><span class="line">        node.pre=head;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//移动节点到 head</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">move2Head</span><span class="params">(Node node)</span>&#123;</span><br><span class="line">        <span class="comment">//删除原链表中对应位置的 node</span></span><br><span class="line">        removeNode(node);</span><br><span class="line">        <span class="comment">//从头再添加一遍</span></span><br><span class="line">        addFirst(node);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>像这样写，就不用考虑那么多边界，写那么多的 if 和 else，预先开辟两个节点的作为哨兵节点，这样代码就显得清晰简洁，也不容易出问题</p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/34133067">参考</a></p>
+<h2 id="UPDATE"><a href="#UPDATE" class="headerlink" title="UPDATE"></a>UPDATE</h2><p>随便重写了下</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">LRUCache</span> &#123;</span><br><span class="line">    </span><br><span class="line">    HashMap&lt;Integer, Node&gt; map = <span class="literal">null</span>;</span><br><span class="line">        </span><br><span class="line">    <span class="type">int</span> <span class="variable">capacity</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="type">Node</span> <span class="variable">head</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="type">Node</span> <span class="variable">tail</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">LRUCache</span><span class="params">(<span class="type">int</span> capacity)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.capacity = capacity;</span><br><span class="line">        map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">        head = <span class="keyword">new</span> <span class="title class_">Node</span>(-<span class="number">1</span>, -<span class="number">1</span>);</span><br><span class="line">        tail = <span class="keyword">new</span> <span class="title class_">Node</span>(-<span class="number">1</span>, -<span class="number">1</span>);</span><br><span class="line">        head.next = tail;</span><br><span class="line">        tail.prev = head;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">get</span><span class="params">(<span class="type">int</span> key)</span> &#123;</span><br><span class="line">        <span class="type">Node</span> <span class="variable">node</span> <span class="operator">=</span> map.get(key);</span><br><span class="line">        <span class="keyword">if</span> (node == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        removeNode(node);</span><br><span class="line">        insert2head(node);</span><br><span class="line">        <span class="keyword">return</span> node.val;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">put</span><span class="params">(<span class="type">int</span> key, <span class="type">int</span> value)</span> &#123;</span><br><span class="line">        <span class="type">Node</span> <span class="variable">node</span> <span class="operator">=</span> map.get(key);</span><br><span class="line">        <span class="keyword">if</span> (node == <span class="literal">null</span>) &#123;</span><br><span class="line">            node = <span class="keyword">new</span> <span class="title class_">Node</span>(key, value);</span><br><span class="line">            insert2head(node);</span><br><span class="line">            map.put(key, node);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            removeNode(node);</span><br><span class="line">            node.val = value;</span><br><span class="line">            insert2head(node);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (map.size() &gt; capacity) &#123;</span><br><span class="line">            map.remove(tail.prev.key);</span><br><span class="line">            removeNode(tail.prev);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">insert2head</span><span class="params">(Node node)</span> &#123;</span><br><span class="line">        node.next = head.next;</span><br><span class="line">        node.prev = head;</span><br><span class="line">        head.next.prev = node;</span><br><span class="line">        head.next = node;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//移除 Node 节点</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">removeNode</span><span class="params">(Node node)</span> &#123;</span><br><span class="line">        node.prev.next = node.next;</span><br><span class="line">        node.next.prev = node.prev;</span><br><span class="line">        node.next = <span class="literal">null</span>;</span><br><span class="line">        node.prev = <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">Node</span> &#123;</span><br><span class="line">        Node prev, next;</span><br><span class="line">        <span class="type">int</span> key, val;</span><br><span class="line">        <span class="keyword">public</span> <span class="title function_">Node</span> <span class="params">(<span class="type">int</span> key, <span class="type">int</span> val)</span> &#123;</span><br><span class="line">            <span class="built_in">this</span>.key = key;</span><br><span class="line">            <span class="built_in">this</span>.val = val;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Your LRUCache object will be instantiated and called as such:</span></span><br><span class="line"><span class="comment"> * LRUCache obj = new LRUCache(capacity);</span></span><br><span class="line"><span class="comment"> * int param_1 = obj.get(key);</span></span><br><span class="line"><span class="comment"> * obj.put(key,value);</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
+
+<p>Golang</p>
+<figure class="highlight golang"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> LRUCache <span class="keyword">struct</span> &#123;</span><br><span class="line">    capacity <span class="type">int</span></span><br><span class="line">    cache <span class="keyword">map</span>[<span class="type">int</span>]*Node</span><br><span class="line">    head *Node</span><br><span class="line">    tail *Node</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Node <span class="keyword">struct</span> &#123;</span><br><span class="line">    prev *Node</span><br><span class="line">    next *Node</span><br><span class="line">    key <span class="type">int</span></span><br><span class="line">    val <span class="type">int</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Constructor</span><span class="params">(capacity <span class="type">int</span>)</span></span> LRUCache &#123;</span><br><span class="line">    head := &amp;Node&#123;key : <span class="number">-1</span>, val : <span class="number">-1</span>&#125;</span><br><span class="line">    tail := &amp;Node&#123;key : <span class="number">-1</span>, val : <span class="number">-1</span>&#125;</span><br><span class="line">    head.next = tail</span><br><span class="line">    tail.next = head</span><br><span class="line">    <span class="keyword">return</span> LRUCache&#123;</span><br><span class="line">        capacity : capacity,</span><br><span class="line">        cache : <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="type">int</span>]*Node),</span><br><span class="line">        head : head,</span><br><span class="line">        tail : tail,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(this *LRUCache)</span></span> Get(key <span class="type">int</span>) <span class="type">int</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> v, ok := this.cache[key]; ok &#123;</span><br><span class="line">        this.removeNode(v)</span><br><span class="line">        this.insert2Head(v)</span><br><span class="line">        <span class="keyword">return</span> v.val</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(this *LRUCache)</span></span> Put(key <span class="type">int</span>, value <span class="type">int</span>)  &#123;</span><br><span class="line">    <span class="keyword">if</span> v, ok := this.cache[key]; ok &#123;</span><br><span class="line">        this.removeNode(v)</span><br><span class="line">        v.val = value</span><br><span class="line">        this.insert2Head(v)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        newNode := &amp;Node&#123;key : key, val : value&#125;</span><br><span class="line">        this.cache[key] = newNode</span><br><span class="line">        this.insert2Head(newNode)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(this.cache) &gt; this.capacity &#123;</span><br><span class="line">        <span class="built_in">delete</span>(this.cache, this.tail.prev.key)</span><br><span class="line">        this.removeNode(this.tail.prev)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(this *LRUCache)</span></span> removeNode (node *Node) &#123;</span><br><span class="line">    node.next.prev = node.prev</span><br><span class="line">    node.prev.next = node.next</span><br><span class="line">    node.prev = <span class="literal">nil</span></span><br><span class="line">    node.next = <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(this *LRUCache)</span></span> insert2Head (node *Node) &#123;</span><br><span class="line">    node.prev = this.head</span><br><span class="line">    node.next = this.head.next</span><br><span class="line">    this.head.next.prev = node</span><br><span class="line">    this.head.next = node</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Your LRUCache object will be instantiated and called as such:</span></span><br><span class="line"><span class="comment"> * obj := Constructor(capacity);</span></span><br><span class="line"><span class="comment"> * param_1 := obj.Get(key);</span></span><br><span class="line"><span class="comment"> * obj.Put(key,value);</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
+        
+            <div class="donate-container">
+    <div class="donate-button">
+        <button id="donate-button">赞赏</button>
+    </div>
+    <div class="donate-img-container hide" id="donate-img-container">
+        <img id="donate-img" src="" data-src="">
+        <p> 感谢鼓励 </p>
+    </div>
+</div>
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+        <div id="lv-container"></div>
+        <div class="giscus"></div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/imlgw">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://imlgw.top">Tadow</a></span>
+        <span>/</span>
+        
+        <span><a target="_blank" rel="noopener" href="http://beian.miit.gov.cn/publish/query/indexFirst.action">鄂ICP备18011208号</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>  Theme <a target="_blank" rel="noopener" href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/live2d-widget@3.x/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"https://cdn.jsdelivr.net/npm/live2d-widget-model-hijiki@1.0.5/assets/hijiki.model.json"},"display":{"superSample":2,"width":160,"height":320,"position":"right","hOffset":0,"vOffset":-70},"mobile":{"show":false,"scale":0.2},"log":false});</script></body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://giscus.app/client.js"
+  data-repo="imlgw/imlgw.github.io"
+  data-repo-id="MDEwOlJlcG9zaXRvcnkxMzMyMDY4NDg="
+  data-category="Announcements"
+  data-category-id="DIC_kwDOB_CTQM4CQ7v8"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="top"
+  data-theme="light"
+  data-lang="zh-CN"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+
+
+</html>

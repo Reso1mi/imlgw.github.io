@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang=zh-CN>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:description" content="Tadow 的博客">
+    <meta property="og:type" content="website">
+    <meta name="description" content="Tadow 的博客">
+    <meta name="keyword"  content="Tadow, Resolmi, imlgw, 半岛铁盒, 算法, Java, Golang">
+    <link rel="shortcut icon" href="https://fav.farm/💭">
+
+    <title>
+        
+        一道 LeetCode 引发的惨案 - Tadow 碎碎念
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_28hi1hpxx24.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="Tadow 碎碎念" type="application/atom+xml">
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> Keep It Simple, Stupid </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar radius">
+            <img src="https://static.imlgw.top/blog/20220821160037.png" />
+        </div>
+        <div class="name">
+            <i>Tadow</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <!-- <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li> -->
+            <li >
+                <a href="/categories">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>分类</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            
+            <li >
+                <a href="/selfhosted">
+                    <i class="iconfont icon-guidang1"></i>
+                    <span>自建</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/collect/">
+                    <i class="iconfont icon-shoucang1"></i>
+                    <span>收藏</span>
+                </a>
+            </li>
+
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E9%81%93-LeetCode-%E6%90%9C%E7%B4%A2%E9%A2%98%E5%BC%95%E5%8F%91%E7%9A%84%E6%83%A8%E6%A1%88"><span class="toc-text">一道 LeetCode 搜索题引发的惨案</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%85%88%E4%B8%8A-%E9%A2%98%E7%9B%AE"><span class="toc-text">1. 先上 题目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%8A%A0%E5%BC%BA%E7%89%88-%E5%8D%95%E8%AF%8D%E6%8E%A5%E9%BE%99-2"><span class="toc-text">2. 加强版 单词接龙 2</span></a></li></ol></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-bg" id="search-bg"></div>
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i> Keep It Simple, Stupid </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        一道 LeetCode 引发的惨案
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2018-10-31 00:00:00</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#算法" title="算法">算法</a>
+        <span>/</span>
+        
+        <a class="tag" href="/tags/#数据结构" title="数据结构">数据结构</a>
+        <span>/</span>
+        
+        <a class="tag" href="/tags/#搜索" title="搜索">搜索</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content no-indent">
+        <h2 id="一道-LeetCode-搜索题引发的惨案"><a href="#一道-LeetCode-搜索题引发的惨案" class="headerlink" title="一道 LeetCode 搜索题引发的惨案"></a>一道 LeetCode 搜索题引发的惨案</h2><h3 id="1-先上-题目"><a href="#1-先上-题目" class="headerlink" title="1. 先上 题目"></a>1. 先上 <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/word-ladder/">题目</a></h3><p>给定两个单词（<em>beginWord _和 _endWord_）和一个字典，找到从 _beginWord</em> 到 <em>endWord</em> 的最短转换序列的长度。转换需遵循如下规则：</p>
+<ol>
+<li> 每次转换只能改变一个字母。</li>
+<li>转换过程中的中间单词必须是字典中的单词。<br><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/word-ladder/">原题链接</a></li>
+</ol>
+<p><img src="https://imlgwpicture.oss-cn-qingdao.aliyuncs.com/blogImage/3V6EQ77R_%28%292SCR%248R%5B%245F7.png" alt="oss"> </p>
+<p>其实这题明显是 BFS（广搜） 题目类型也说了是广搜，但是我不信邪写了 DFS（毕竟代码比较好写），然后惨案就发生了。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">  <span class="comment">// 标记数组</span></span><br><span class="line"><span class="comment">// 默认都是 0</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="type">int</span>[] mark;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">ladderLength</span><span class="params">(String beginWord, String endWord, List&lt;String&gt; wordList)</span> &#123;</span><br><span class="line">	<span class="comment">// 不存在</span></span><br><span class="line">	mark = <span class="keyword">new</span> <span class="title class_">int</span>[wordList.size() + <span class="number">1</span>];</span><br><span class="line">	<span class="keyword">if</span> (!wordList.contains(endWord)) &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// dfs 开始</span></span><br><span class="line">	dfs(beginWord, endWord, wordList);</span><br><span class="line">	<span class="comment">// 无法转换</span></span><br><span class="line">	<span class="keyword">if</span> (min == Integer.MAX_VALUE) &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> min + <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="variable">min</span> <span class="operator">=</span> Integer.MAX_VALUE;</span><br><span class="line"></span><br><span class="line"><span class="comment">// dfs</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">dfs</span><span class="params">(String beginWord, String endWord, List&lt;String&gt; wordList)</span> &#123;</span><br><span class="line">	<span class="comment">//当相等的时候</span></span><br><span class="line">	<span class="keyword">if</span> (beginWord.equals(endWord)) &#123;</span><br><span class="line">		<span class="type">int</span> <span class="variable">step</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; mark.length; i++) &#123;</span><br><span class="line">			<span class="keyword">if</span> (mark[i] == <span class="number">1</span>) &#123;</span><br><span class="line">				step++;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//更新最小值</span></span><br><span class="line">		min = step &lt; min ? step : min;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; wordList.size(); i++) &#123;</span><br><span class="line">		<span class="keyword">if</span> (mark[i] == <span class="number">0</span> &amp;&amp; cmp(beginWord, wordList.get(i))) &#123;</span><br><span class="line">			mark[i] = <span class="number">1</span>;</span><br><span class="line">			dfs(wordList.get(i), endWord, wordList);</span><br><span class="line">			mark[i] = <span class="number">0</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 写一个函数判段是否只变化了一个字母</span></span><br><span class="line"><span class="keyword">private</span> <span class="type">boolean</span> <span class="title function_">cmp</span><span class="params">(String s1, String s2)</span> &#123;</span><br><span class="line">	<span class="type">int</span> <span class="variable">count</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; s1.length(); i++) &#123;</span><br><span class="line">		<span class="keyword">if</span> (s1.charAt(i) != s2.charAt(i)) &#123;</span><br><span class="line">			count++;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> count == <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果直接 TLE 了，后来想了想 DFS 每次都会<strong>尝试</strong>所有情况，而给的例子后面的数据量也比较大，而且这题是要统计最短路径，要全部递归完才能确定最小值，我把数据拿来自己测试跑了好长时间都没跑出来，而 BFS 没有递归只是会耗费的空间会比较大。从这里也可以总结出来 DFS 跟适合判断是否存在是否可达之类的问题，BFS 更适合做找最短最小之类的问题。上 BFS 代码</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 标记数组</span></span><br><span class="line">	<span class="comment">// 默认都是 0</span></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="type">int</span>[] mark;</span><br><span class="line">	<span class="comment">// 模拟队列</span></span><br><span class="line">	<span class="keyword">class</span> <span class="title class_">Que</span> &#123;</span><br><span class="line">		String word;</span><br><span class="line">		<span class="type">int</span> step;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//BFS</span></span><br><span class="line">	<span class="keyword">public</span> <span class="type">int</span> <span class="title function_">ladderLengthBFS</span><span class="params">(String beginWord, String endWord, List&lt;String&gt; wordList)</span>&#123;</span><br><span class="line">        <span class="comment">// 不存在</span></span><br><span class="line">		mark = <span class="keyword">new</span> <span class="title class_">int</span>[wordList.size() + <span class="number">1</span>];</span><br><span class="line">		<span class="keyword">if</span> (!wordList.contains(endWord)) &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">// BFS</span></span><br><span class="line">		<span class="type">int</span> <span class="variable">head</span> <span class="operator">=</span> <span class="number">0</span>, tail = <span class="number">0</span>;</span><br><span class="line">		<span class="comment">// 初始化队列</span></span><br><span class="line">		Que[] que = <span class="keyword">new</span> <span class="title class_">Que</span>[wordList.size() + <span class="number">1</span>];</span><br><span class="line">		<span class="comment">// 循环促使话述祖</span></span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; que.length; i++) &#123;</span><br><span class="line">			que[i] = <span class="keyword">new</span> <span class="title class_">Que</span>();</span><br><span class="line">		&#125;</span><br><span class="line">		que[tail].word = beginWord;</span><br><span class="line">		que[tail].step = <span class="number">1</span>;</span><br><span class="line">		tail++;</span><br><span class="line">		<span class="type">int</span> flag=<span class="number">0</span>;</span><br><span class="line">		<span class="keyword">while</span> (head &lt; tail) &#123;</span><br><span class="line">			<span class="comment">// 遍历字典</span></span><br><span class="line">			<span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; wordList.size(); i++) &#123;</span><br><span class="line">				<span class="keyword">if</span> (mark[i] == <span class="number">0</span> &amp;&amp; cmp(wordList.get(i), que[head].word)) &#123;</span><br><span class="line">					que[tail].word = wordList.get(i);</span><br><span class="line">					<span class="comment">//这里是从 head 开始的，所以应该是 head 的步数+1</span></span><br><span class="line">					que[tail].step=que[head].step+<span class="number">1</span>;</span><br><span class="line">					<span class="comment">// 标记为已经走过</span></span><br><span class="line">					mark[i] = <span class="number">1</span>;</span><br><span class="line">				   <span class="keyword">if</span> (que[tail].word.equals(endWord)) &#123;</span><br><span class="line">					<span class="comment">//到这里说明已经到终点了，而且是最短的，之后的最多就是相等</span></span><br><span class="line">					<span class="comment">//跳出循环</span></span><br><span class="line">                       flag=<span class="number">1</span>;</span><br><span class="line">                       <span class="keyword">break</span>;</span><br><span class="line">			    	&#125;</span><br><span class="line">                    tail++;</span><br><span class="line">				&#125;</span><br><span class="line">				</span><br><span class="line">			&#125;</span><br><span class="line">            <span class="keyword">if</span>(flag==<span class="number">1</span>)&#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">			<span class="comment">// 每次检查完一个单词就将其出队列</span></span><br><span class="line">			head++;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> que[tail].step;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 写一个函数判段没吃是否只变化了一个字母</span></span><br><span class="line">	<span class="keyword">private</span> <span class="type">boolean</span> <span class="title function_">cmp</span><span class="params">(String s1, String s2)</span> &#123;</span><br><span class="line">		<span class="type">int</span> <span class="variable">count</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; s1.length(); i++) &#123;</span><br><span class="line">			<span class="keyword">if</span> (s1.charAt(i) != s2.charAt(i)) &#123;</span><br><span class="line">				count++;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> count == <span class="number">1</span>;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<p>PS：刚刚修改了下代码，我也佩服自己 BFS 都还没搞清楚就直接上了代码，然后结果居然还是对的，之前在 if 判断队尾元素是不是和 endWord 相等后还维护了一个最小值 min，后来想了想不对，最后一个和 endWord 相等的元素已经进栈了，已经是最短的了，后面的即使可以转换到也最多只能和当前的相等了。 如果只是为了统计最小值就可以直接 break 了。那如果不仅仅要统计最小值还要记录路径要怎么搞？</p>
+<h3 id="2-加强版-单词接龙-2"><a href="#2-加强版-单词接龙-2" class="headerlink" title="2. 加强版 单词接龙 2"></a>2. <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/word-ladder-ii/">加强版</a> 单词接龙 2</h3><p>是一道困难等级的题，需要在上面的基础上找出所有的最短的路径。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 内部类</span></span><br><span class="line">	<span class="keyword">class</span> <span class="title class_">Que</span> &#123;</span><br><span class="line">		String word;</span><br><span class="line">		<span class="type">int</span> step;</span><br><span class="line">		Que prev;</span><br><span class="line">		<span class="keyword">public</span> String <span class="title function_">toString</span><span class="params">()</span>&#123;</span><br><span class="line">			<span class="keyword">return</span> (word + <span class="string">&quot;:&quot;</span> + step);</span><br><span class="line">		&#125;		 </span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//返回值</span></span><br><span class="line">	<span class="keyword">private</span>  List&lt;List&lt;String&gt;&gt; res=<span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line"></span><br><span class="line">	</span><br><span class="line">	<span class="comment">//BFS</span></span><br><span class="line">	<span class="keyword">public</span> List&lt;List&lt;String&gt;&gt; <span class="title function_">ladderLengthBFS</span><span class="params">(String beginWord, String endWord, List&lt;String&gt; wordList)</span>&#123;</span><br><span class="line">        <span class="comment">//返回值</span></span><br><span class="line">		<span class="comment">//List&lt;List&lt;String&gt;&gt; res=new ArrayList&lt;&gt;();</span></span><br><span class="line">		</span><br><span class="line">        <span class="comment">// 不存在</span></span><br><span class="line">		mark = <span class="keyword">new</span> <span class="title class_">int</span>[wordList.size() + <span class="number">1</span>];</span><br><span class="line">		<span class="keyword">if</span> (!wordList.contains(endWord)) &#123;</span><br><span class="line">			<span class="keyword">return</span> res;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">// BFS</span></span><br><span class="line">		<span class="type">int</span> <span class="variable">head</span> <span class="operator">=</span> <span class="number">0</span>, tail = <span class="number">0</span>;</span><br><span class="line">		<span class="comment">// 初始化队列</span></span><br><span class="line">		Que[] que = <span class="keyword">new</span> <span class="title class_">Que</span>[wordList.size() + <span class="number">1</span>];</span><br><span class="line">		<span class="comment">// 循环促使话述祖</span></span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; que.length; i++) &#123;</span><br><span class="line">			que[i] = <span class="keyword">new</span> <span class="title class_">Que</span>();</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//先把第一个单词放进去</span></span><br><span class="line">		que[tail].word = beginWord;</span><br><span class="line">		que[tail].step = <span class="number">1</span>;</span><br><span class="line">		tail++;</span><br><span class="line">		List&lt;Que&gt; quelist=<span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">		<span class="keyword">while</span> (head &lt; tail) &#123;</span><br><span class="line">			<span class="comment">// 遍历字典</span></span><br><span class="line">			<span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; wordList.size(); i++) &#123;</span><br><span class="line">				<span class="keyword">if</span> (mark[i] == <span class="number">0</span> &amp;&amp; cmp(wordList.get(i), que[head].word)) &#123;</span><br><span class="line">					que[tail].word = wordList.get(i);</span><br><span class="line">					<span class="comment">//这里是从 head 开始的，所以应该是 head 的步数+1</span></span><br><span class="line">					que[tail].step=que[head].step+<span class="number">1</span>;</span><br><span class="line">					<span class="comment">//que[head].next=que[tail];</span></span><br><span class="line">					<span class="comment">// 标记为已经走过</span></span><br><span class="line">					mark[i] = <span class="number">1</span>;</span><br><span class="line">				   <span class="keyword">if</span> (que[tail].word.equals(endWord)) &#123;	</span><br><span class="line">				   		<span class="comment">//记录最小值</span></span><br><span class="line">				   		min=que[tail].step;</span><br><span class="line">				   		<span class="comment">//到这里队列后面就不用再插入元素了</span></span><br><span class="line"></span><br><span class="line">				   		<span class="comment">//2. 把之前走过的路在下一个 head</span></span><br><span class="line"></span><br><span class="line">				   		<span class="comment">//将队列变成 list</span></span><br><span class="line">				   		<span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;=tail;j++)&#123;</span><br><span class="line">				   			quelist.add(que[j]);</span><br><span class="line">				   		&#125;</span><br><span class="line">				   		markDfs= <span class="keyword">new</span> <span class="title class_">int</span>[wordList.size() + <span class="number">1</span>]; </span><br><span class="line">				   		<span class="comment">// 1. 用 DFS 试一下</span></span><br><span class="line">				   		dfsBfs(que[<span class="number">0</span>],endWord,quelist);</span><br><span class="line">			    	&#125;</span><br><span class="line">                    tail++;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="comment">// 每次检查完一个单词就将其出队列</span></span><br><span class="line">			head++;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">dfsBfs</span><span class="params">(Que beginWord,String endWord,List&lt;Que&gt; ques)</span>&#123;</span><br><span class="line">    	<span class="type">int</span> <span class="variable">step</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; markDfs.length; i++) &#123;</span><br><span class="line">				<span class="keyword">if</span> (markDfs[i] == <span class="number">1</span>) &#123;</span><br><span class="line">					step++;</span><br><span class="line">				&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span>(step&gt;=min) <span class="keyword">return</span>;</span><br><span class="line">		<span class="keyword">if</span>(step+<span class="number">1</span>==min&amp;&amp;endWord.equals(beginWord.word))&#123;</span><br><span class="line">			List&lt;String&gt; list=<span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">			Stack&lt;String&gt; stack=<span class="keyword">new</span> <span class="title class_">Stack</span>&lt;&gt;();</span><br><span class="line">			System.out.println(beginWord.word+<span class="string">&quot;:&quot;</span>+step);</span><br><span class="line">			Que temp=beginWord;</span><br><span class="line">				<span class="comment">//找到一条</span></span><br><span class="line">				<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;min;i++)&#123;</span><br><span class="line">					stack.push(temp.word);</span><br><span class="line">					System.out.print(temp.word+<span class="string">&quot;&lt;--&quot;</span>);</span><br><span class="line">					temp=temp.prev;</span><br><span class="line">				&#125;</span><br><span class="line">				System.out.println();</span><br><span class="line">				<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;min;i++)&#123;</span><br><span class="line">					list.add(stack.pop());</span><br><span class="line">				&#125;</span><br><span class="line">				res.add(list);</span><br><span class="line">				System.out.println(res);</span><br><span class="line">			<span class="keyword">return</span>;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		</span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; ques.size(); i++) &#123;</span><br><span class="line">			<span class="keyword">if</span> (markDfs[i] == <span class="number">0</span> &amp;&amp; cmp(beginWord.word,ques.get(i).word))&#123;</span><br><span class="line">				markDfs[i] = <span class="number">1</span>;</span><br><span class="line">				<span class="comment">//连接两个节点</span></span><br><span class="line">				<span class="comment">//beginWord.next=ques.get(i);</span></span><br><span class="line">				ques.get(i).prev=beginWord;</span><br><span class="line">				dfsBfs(ques.get(i), endWord, ques);</span><br><span class="line">				markDfs[i] = <span class="number">0</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// private int step = 0;</span></span><br><span class="line">	<span class="type">int</span> <span class="variable">min</span> <span class="operator">=</span> Integer.MAX_VALUE;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 写一个函数判段没吃是否只变化了一个字母</span></span><br><span class="line">	<span class="keyword">private</span> <span class="type">boolean</span> <span class="title function_">cmp</span><span class="params">(String s1, String s2)</span> &#123;</span><br><span class="line">		<span class="type">int</span> <span class="variable">count</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; s1.length(); i++) &#123;</span><br><span class="line">			<span class="keyword">if</span> (s1.charAt(i) != s2.charAt(i)) &#123;</span><br><span class="line">				count++;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> count == <span class="number">1</span>;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<p>整体上在 Que 上增加了一个 prev 的指针，遍历路径，一开始是用的 BFS 不过我想的太简单了，我只是把最后一个节点出队列然后再 BFS，后来发现不行（居然还跑过了 24 个测试案例），实际上这题我还是没有做出来，但是上面的方法应该是没问题的就是会 TLE😭，大概思路就是先 BFS 缩短 DFS 需要遍历的字典然后控制每次递归的身体不能超过 BFS 的到的最短路径<br><img src="https://imlgwpicture.oss-cn-qingdao.aliyuncs.com/blogImage/blog.PNG" alt="img9"> 一开始只能跑几个数据的，优化下能跑几十个的，但是还是太慢了，毕竟是一道难题等以后学了相关的东西再来试试看能不能做出来吧。</p>
+<hr>
+<p>算法，学着挺有意思，就是头有点凉。</p>
+
+        
+            <div class="donate-container">
+    <div class="donate-button">
+        <button id="donate-button">赞赏</button>
+    </div>
+    <div class="donate-img-container hide" id="donate-img-container">
+        <img id="donate-img" src="" data-src="">
+        <p> 感谢鼓励 </p>
+    </div>
+</div>
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+        <div id="lv-container"></div>
+        <div class="giscus"></div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank"  href="https://github.com/imlgw">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="https://imlgw.top">Tadow</a></span>
+        <span>/</span>
+        
+        <span><a target="_blank" rel="noopener" href="http://beian.miit.gov.cn/publish/query/indexFirst.action">鄂ICP备18011208号</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>  Theme <a target="_blank" rel="noopener" href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/live2d-widget@3.x/lib/L2Dwidget.min.js"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"https://cdn.jsdelivr.net/npm/live2d-widget-model-hijiki@1.0.5/assets/hijiki.model.json"},"display":{"superSample":2,"width":160,"height":320,"position":"right","hOffset":0,"vOffset":-70},"mobile":{"show":false,"scale":0.2},"log":false});</script></body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+    <script src="https://giscus.app/client.js"
+  data-repo="imlgw/imlgw.github.io"
+  data-repo-id="MDEwOlJlcG9zaXRvcnkxMzMyMDY4NDg="
+  data-category="Announcements"
+  data-category-id="DIC_kwDOB_CTQM4CQ7v8"
+  data-mapping="pathname"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="top"
+  data-theme="light"
+  data-lang="zh-CN"
+  data-loading="lazy"
+  crossorigin="anonymous"
+  async>
+</script>
+
+
+
+</html>
